@@ -1,0 +1,287 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <link rel="stylesheet" type="text/css" href="css/friendly.css" />
+
+    
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="" />
+
+    
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+
+    
+    <meta name="author" content="" />
+    <meta name="description" content="" />
+    
+    <title>Alexandre Quemy</title>
+
+</head>
+
+<body id="index" class="home">
+    
+
+<div class="wrapper">
+
+    <!-- Use icons from fontawesome when you are adding new item in the contact list  -->             
+ 
+<div class="sidebar-wrapper">
+    <div class="profile-container">
+        <img class="profile-img" src="images/profile.jpeg" alt="profile picture" />
+        <h1 class="name">Alexandre Quemy</h1>
+        <h3 class="tagline">PhD student in AI & Senior Engineer at IBM</h3>
+    </div><!--//profile-container-->
+    
+    <div class="contact-container container-block">
+        <ul class="list-unstyled contact-list">
+           
+           
+            <li class="email"><i class="fa fa-envelope"></i><a href="mailto: alexandre.quemy@gmail.com">alexandre.quemy@gmail.com</a></li>
+            
+            
+            
+            <li class="linkedin"><i class="fab fa-linkedin"></i><a href="https://in.linkedin.com/in/aquemy" target="_blank">linkedin.com/in/aquemy</a></li>
+            
+            
+            
+            <li class="github"><i class="fab fa-github"></i><a href="http://github.com/aquemy" target="_blank">github.com/aquemy</a></li>
+            
+            
+            
+
+            <li class="acclaim"><i class="fa fa-certificate"></i><a href="https://www.youracclaim.com/user/alexandre-quemy" target="_blank">alexandre-quemy</a></li>
+            
+            <div itemscope itemtype="https://schema.org/Person"><a itemprop="sameAs" content="https://orcid.org/0000-0002-5865-6403" href="https://orcid.org/0000-0002-5865-6403" target="orcid.widget" rel="me noopener noreferrer" style="vertical-align:top;"><img src="https://orcid.org/sites/default/files/images/orcid_16x16.png" style="width:1em;margin-right:.5em;" alt="ORCID iD icon">0000-0002-5865-6403</a></div>
+        </ul>
+    </div>
+    
+</div><!--//sidebar-wrapper-->
+     	<div class="top-menu">
+ 	    <ul>
+            <li id="selected"><a href="./index.html">Home</a></li>
+            <li><a href="./research.html">Research</a></li>
+            <li><a href="./cv.html">CV & Skills</a></li>
+            <li><a href="./portfolio.html">Portfolio</a></li>
+            <li><a href="./passions.html">Passions</a></li>
+            <li><a href="./blog.html">Blog</a></li>
+        </ul>
+    </div>
+    <div class="main-wrapper">
+        <div class="recent-post-header" id="top-menu-entry">
+        <p><a href="./blog.html">Back to entries</a></p>
+        </div>
+        <div class="blog_entry">
+        <h1 class="section-title">Island Model with ParadisEO: advanced island model manipulations</h1>
+        <div class="item">
+                            <div class="meta">
+                                <div class="upper-row">
+                                    <h3 class="job-title"><cite>2013-11-23</cite></h3>
+                                    <div class="time">#Mathématiques</div>
+
+                                </div><!--//upper-row-->
+
+                            </div><!--//meta-->
+                        <div class="details">
+
+                        </div>
+                    </div>
+
+        <div class="toc">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#custom-and-stochastic-topology">Custom and stochastic topology</a></li>
+<li><a href="#advanced-management-of-policy">Advanced management of policy</a></li>
+<li><a href="#creating-events-by-callback-method">Creating events by callback method</a></li>
+</ul>
+</div>
+<h3 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h3>
+<p>This article presents how to manage advanced mecanisms supplied by the island model. In the first part we will present the custom topology and stochastic topology. In a second part, we will see a fine-grained management of the island policies. Last but not least, we will demonstrate how to make the island performs any function each generation (in order to change topology with some conditions on a specific island for instance).</p>
+<h3 id="custom-and-stochastic-topology">Custom and stochastic topology<a class="headerlink" href="#custom-and-stochastic-topology" title="Permanent link">&para;</a></h3>
+<p>There are two types of custom topologies: boolean and stochastic. Both are built from a file containing the matrix. The file is parsed and each line must have the same number of values, equals to the number of lines (square matrix). The <code>CustomBooleanTopology</code>, contains integers (basically 0 and 1). Each zero value is considered to be false, and every other value is true. The <code>CustomStochasticTopology</code> contains double values between 0 and 1. The value at line <span class="arithmatex">\(i\)</span>, column <span class="arithmatex">\(j\)</span> is the probability to have a communication from island <span class="arithmatex">\(i\)</span> to island <span class="arithmatex">\(j\)</span>. Therefore, negative values are considered to be 0, and values above 1 are considered to be 1.</p>
+<p>Example for boolean topology:
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span>    0    1    0
+    1    0    1
+    0    1    0
+</pre></div>
+</td></tr></table></p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span>    <span class="n">CustomBooleanTopology</span> <span class="nf">topo_bool</span><span class="p">(</span><span class="s">&quot;data_boolean&quot;</span><span class="p">);</span>
+    <span class="c1">//getting the neighbors of island 1</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">unsigned</span><span class="o">&gt;</span> <span class="n">neighbors</span> <span class="o">=</span> <span class="n">topo_bool</span><span class="p">.</span><span class="n">getIdNeighbors</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> <span class="c1">//return a vector containing 0 and 2</span>
+</pre></div>
+</td></tr></table>
+
+<p>Example for stochastic topology:
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span>    0    1    0
+    1    0    .75
+    0    1    0
+</pre></div>
+</td></tr></table></p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span>    <span class="n">CustomBooleanTopology</span> <span class="nf">topo_stoch</span><span class="p">(</span><span class="s">&quot;data_stochastic&quot;</span><span class="p">);</span>
+    <span class="c1">//getting the neighbors of island 1:</span>
+    <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">unsigned</span><span class="o">&gt;</span> <span class="n">neighbors</span> <span class="o">=</span> <span class="n">topo_bool</span><span class="p">.</span><span class="n">getIdNeighbors</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
+    <span class="c1">//return a vector containing 0, and the probability 0.75 to contain the value 2.</span>
+</pre></div>
+</td></tr></table>
+
+<h3 id="advanced-management-of-policy">Advanced management of policy<a class="headerlink" href="#advanced-management-of-policy" title="Permanent link">&para;</a></h3>
+<p>In this part, we will present a list of common cases that use the combination of <code>eoContinue</code> to build fine-grained policy rules.
+As explained in the previous article about components, a policy rule is compound of a temporal criteria - an <code>eoContinue</code> -, and a spatial criteria - an <code>eoSelect</code> -.</p>
+<p>To perform an OR condition, it is possible to use an <code>eoCheckPoint</code> as criteria. For instance:
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">eoSelect</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span> <span class="n">who</span><span class="p">;</span>
+<span class="n">eoPeriodicGenContinue</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span> <span class="n">criteria_1</span><span class="p">(</span><span class="mi">50</span><span class="p">);</span>
+<span class="n">eoFitContinue</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span> <span class="n">criteria_2</span><span class="p">(</span><span class="mi">5000</span><span class="p">);</span>
+<span class="n">eoCheckPoint</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span> <span class="n">criterion</span><span class="p">(</span><span class="n">criteria_1</span><span class="p">);</span>
+<span class="n">criterion</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">criteria_2</span><span class="p">);</span>
+
+<span class="n">PolicyElement</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span> <span class="n">rule_1</span><span class="p">(</span><span class="n">criterions</span><span class="p">,</span> <span class="n">who</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></p>
+<p>A migration will be performed if the algorithm reaches one of the criterion: a generation number 0 mod 50 <strong>or</strong> a fitness of 5000 for an individual.</p>
+<p>Obviously, you can have more than 2 criteria.</p>
+<p>To perform an AND condition, one can use an <code>eoCombinedContinue</code>. For instance:
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">eoSelect</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span> <span class="n">who</span><span class="p">;</span>
+<span class="n">eoPeriodicGenContinue</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span> <span class="n">criteria_1</span><span class="p">(</span><span class="mi">50</span><span class="p">);</span>
+<span class="n">eoFitContinue</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span> <span class="n">criteria_2</span><span class="p">(</span><span class="mi">5000</span><span class="p">);</span>
+<span class="n">eoCombinedContinue</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span> <span class="n">criterion</span><span class="p">(</span><span class="n">criteria_1</span><span class="p">);</span>
+<span class="n">criterion</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">criteria_2</span><span class="p">);</span>
+
+<span class="n">PolicyElement</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span> <span class="n">rule_1</span><span class="p">(</span><span class="n">criterions</span><span class="p">,</span> <span class="n">who</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></p>
+<p>A migration will be performed only if a generation is number 0 mod 50 <strong>and</strong> if there is an individual with a fitness at least of 5000.</p>
+<p>This is particulary useful to create dynamic policy that selects between diversification or intensification. Here is an example of a policy that changes from diversification to intensification after 30 minutes.</p>
+<p>First, we need to define the diversification step:
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3
+4
+5
+6
+7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">eoSelect</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span> <span class="n">who</span><span class="p">;</span> <span class="c1">// Selection without condition on the fitness, for instance</span>
+<span class="n">eoPeriodicGenContinue</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span> <span class="n">criteria_1</span><span class="p">(</span><span class="mi">50</span><span class="p">);</span>
+<span class="n">eoSecondsElapsedContinue</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span> <span class="n">criteria_2</span><span class="p">(</span><span class="mi">60</span><span class="o">*</span><span class="mi">30</span><span class="p">);</span>
+<span class="n">eoCombinedContinue</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span> <span class="n">criterion</span><span class="p">(</span><span class="n">criteria_1</span><span class="p">);</span>
+<span class="n">criterion</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">criteria_2</span><span class="p">);</span>
+
+<span class="n">PolicyElement</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span> <span class="n">diversification_step</span><span class="p">(</span><span class="n">criterions</span><span class="p">,</span> <span class="n">who</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></p>
+<p>For the intensification step, we need to use a new <code>eoContinue</code>:
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3
+4
+5
+6
+7
+8</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">eoInvertedContinue</span> <span class="n">which</span> <span class="n">is</span> <span class="n">a</span> <span class="n">functor</span> <span class="n">that</span> <span class="n">returns</span> <span class="n">the</span> <span class="n">oposite</span> <span class="n">of</span> <span class="n">an</span> <span class="n">eoContinue</span><span class="p">.</span>
+<span class="n">eoSelect</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span> <span class="n">who</span><span class="p">;</span> <span class="c1">// Elitist selection</span>
+<span class="n">eoPeriodicGenContinue</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span> <span class="n">criteria_1</span><span class="p">(</span><span class="mi">50</span><span class="p">);</span>
+<span class="n">eoInvertedContinue</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span><span class="n">criteria_2</span><span class="p">((</span><span class="n">eoSecondsElapsedContinue</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">60</span><span class="o">*</span><span class="mi">30</span><span class="p">));</span>
+<span class="n">eoCombinedContinue</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span> <span class="n">criterion</span><span class="p">(</span><span class="n">criteria_1</span><span class="p">);</span>
+<span class="n">criterion</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">criteria_2</span><span class="p">);</span>
+
+<span class="n">PolicyElement</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span> <span class="n">intensification_step</span><span class="p">(</span><span class="n">criterions</span><span class="p">,</span> <span class="n">who</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></p>
+<h3 id="creating-events-by-callback-method">Creating events by callback method<a class="headerlink" href="#creating-events-by-callback-method" title="Permanent link">&para;</a></h3>
+<p>When starting an island model it is possible to perform an action such as changing the topology at a precise moment.</p>
+<p>In that purpose SMP proposes a callback mecanism using the class <code>smp::Notifier</code> which inherites from <code>eoUpdater</code>.</p>
+<p>The notifier has to be added to the <code>eoContinue</code> of an island and you should not forget that the binded action will be performed each generation. Hence, you have to provide mecanism to check if you really would like to perform an action.</p>
+<p>Let is see this mecanism on an example. In our case, we would like to change the topology after 10 minutes of computation.</p>
+<p>First, we need to write a function to change the topology after 10 minutes:
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">changeTopo</span><span class="p">(</span><span class="n">IslandModel</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;*</span> <span class="n">_model</span><span class="p">,</span> <span class="n">AbstractTopology</span><span class="o">&amp;</span> <span class="n">_topo</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="k">static</span> <span class="k">auto</span> <span class="n">start</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">system_clock</span><span class="o">::</span><span class="n">now</span><span class="p">();</span>
+    <span class="k">auto</span> <span class="n">now</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">system_clock</span><span class="o">::</span><span class="n">now</span><span class="p">();</span>
+    <span class="k">auto</span> <span class="n">elapsed</span> <span class="o">=</span> <span class="n">now</span> <span class="o">-</span> <span class="n">start</span><span class="p">;</span>
+    <span class="k">static</span> <span class="kt">bool</span> <span class="n">first</span> <span class="o">=</span> <span class="nb">false</span><span class="p">;</span> <span class="c1">// We would like to change only one time !</span>
+    <span class="k">if</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">duration_cast</span><span class="o">&lt;</span><span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">minutes</span><span class="o">&gt;</span><span class="p">(</span><span class="n">elapsed</span><span class="p">).</span><span class="n">count</span><span class="p">()</span> <span class="o">&gt;</span> <span class="mi">10</span> <span class="o">&amp;&amp;</span> <span class="o">!</span><span class="n">first</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">_model</span><span class="o">-&gt;</span><span class="n">setTopology</span><span class="p">(</span><span class="n">_topo</span><span class="p">);</span>
+        <span class="n">first</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
+    <span class="p">}</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table></p>
+<p>Then, when creating the island, we need to bind our function with our model and the topology we would like to have after 10 minutes:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">Topology</span><span class="o">&lt;</span><span class="n">Ring</span><span class="o">&gt;</span> <span class="n">topo2</span><span class="p">;</span> <span class="c1">// New topology</span>
+<span class="n">std</span><span class="o">::</span><span class="n">function</span><span class="o">&lt;</span><span class="kt">void</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="o">&gt;</span> <span class="n">task</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="n">changeTopo</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">model</span><span class="p">,</span> <span class="n">topo2</span><span class="p">);</span> <span class="c1">// We bind our function with our new topology</span>
+<span class="n">Notifier</span> <span class="nf">topoChanger</span><span class="p">(</span><span class="n">task</span><span class="p">);</span> <span class="c1">// We create the notifier</span>
+<span class="n">checkPoint</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">topoChanger</span><span class="p">);</span> <span class="c1">// We add the notifier, assuming that checkPoint is the eoCheckPoint used by an island as continuators</span>
+</pre></div>
+</td></tr></table>
+
+<p>Finaly, we instanciate the island:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">Island</span><span class="o">&lt;</span><span class="n">eoEasyEA</span><span class="p">,</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">test</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">intPolicy</span><span class="p">,</span> <span class="n">migPolicy</span><span class="p">,</span> <span class="n">checkPoint</span><span class="p">,</span> <span class="n">plainEval</span><span class="p">,</span> <span class="n">select</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">replace</span><span class="p">);</span>
+</pre></div>
+</td></tr></table>
+
+<p>In this example, we bind a function but it is possible to bind a lambda or class method which will be performed by a specific instance, etc.</p>
+<p>Another example of the use of the <code>Notifier</code> could be the modification of probabilities in stochastic topology in order to refine migration and integration policies during the computation.</p>
+        </div>
+    </div><!--//main-body-->
+</div>
+
+
+    <footer class="footer">
+        
+    </footer><!--//footer-->
+    <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+
+</body>
+</html>

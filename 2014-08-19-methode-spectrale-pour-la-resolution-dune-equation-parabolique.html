@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <link rel="stylesheet" type="text/css" href="css/friendly.css" />
+
+    
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="" />
+
+    
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+
+    
+    <meta name="author" content="" />
+    <meta name="description" content="" />
+    
+    <title>Alexandre Quemy</title>
+
+</head>
+
+<body id="index" class="home">
+    
+
+<div class="wrapper">
+
+    <!-- Use icons from fontawesome when you are adding new item in the contact list  -->             
+ 
+<div class="sidebar-wrapper">
+    <div class="profile-container">
+        <img class="profile-img" src="images/profile.jpeg" alt="profile picture" />
+        <h1 class="name">Alexandre Quemy</h1>
+        <h3 class="tagline">PhD student in AI & Senior Engineer at IBM</h3>
+    </div><!--//profile-container-->
+    
+    <div class="contact-container container-block">
+        <ul class="list-unstyled contact-list">
+           
+           
+            <li class="email"><i class="fa fa-envelope"></i><a href="mailto: alexandre.quemy@gmail.com">alexandre.quemy@gmail.com</a></li>
+            
+            
+            
+            <li class="linkedin"><i class="fab fa-linkedin"></i><a href="https://in.linkedin.com/in/aquemy" target="_blank">linkedin.com/in/aquemy</a></li>
+            
+            
+            
+            <li class="github"><i class="fab fa-github"></i><a href="http://github.com/aquemy" target="_blank">github.com/aquemy</a></li>
+            
+            
+            
+
+            <li class="acclaim"><i class="fa fa-certificate"></i><a href="https://www.youracclaim.com/user/alexandre-quemy" target="_blank">alexandre-quemy</a></li>
+            
+            <div itemscope itemtype="https://schema.org/Person"><a itemprop="sameAs" content="https://orcid.org/0000-0002-5865-6403" href="https://orcid.org/0000-0002-5865-6403" target="orcid.widget" rel="me noopener noreferrer" style="vertical-align:top;"><img src="https://orcid.org/sites/default/files/images/orcid_16x16.png" style="width:1em;margin-right:.5em;" alt="ORCID iD icon">0000-0002-5865-6403</a></div>
+        </ul>
+    </div>
+    
+</div><!--//sidebar-wrapper-->
+     	<div class="top-menu">
+ 	    <ul>
+            <li id="selected"><a href="./index.html">Home</a></li>
+            <li><a href="./research.html">Research</a></li>
+            <li><a href="./cv.html">CV & Skills</a></li>
+            <li><a href="./portfolio.html">Portfolio</a></li>
+            <li><a href="./passions.html">Passions</a></li>
+            <li><a href="./blog.html">Blog</a></li>
+        </ul>
+    </div>
+    <div class="main-wrapper">
+        <div class="recent-post-header" id="top-menu-entry">
+        <p><a href="./blog.html">Back to entries</a></p>
+        </div>
+        <div class="blog_entry">
+        <h1 class="section-title">Méthode spectrale pour la résolution d'une équation parabolique</h1>
+        <div class="item">
+                            <div class="meta">
+                                <div class="upper-row">
+                                    <h3 class="job-title"><cite>2014-08-19</cite></h3>
+                                    <div class="time">#Mathématiques</div>
+
+                                </div><!--//upper-row-->
+
+                            </div><!--//meta-->
+                        <div class="details">
+
+                        </div>
+                    </div>
+
+        <div class="toc">
+<ul>
+<li><a href="#introduction-et-definition-du-probleme">Introduction et définition du problème</a></li>
+<li><a href="#operation-de-relevement">Opération de relèvement</a><ul>
+<li><a href="#recherche-de-la-surface-reglee">Recherche de la surface réglée</a></li>
+<li><a href="#reecriture-du-probleme-homogene">Réécriture du problème homogène</a></li>
+</ul>
+</li>
+<li><a href="#resolution-probleme-spectral-associe-a-p_h">Résolution problème spectral associé à \((P_h)\)</a><ul>
+<li><a href="#resolution-de">Résolution de \((**)\)</a></li>
+</ul>
+</li>
+<li><a href="#reecriture-du-probleme-dans-la-base-propre">Réecriture du problème dans la base propre</a><ul>
+<li><a href="#normalisation-des-vecteurs-de-base">Normalisation des vecteurs de base</a></li>
+<li><a href="#reecriture-du-probleme-dans-la-base-propre_1">Réécriture du problème dans la base propre</a></li>
+</ul>
+</li>
+<li><a href="#resolution-de-lequation-differentielle-ordinaire">Résolution de l&rsquo;équation différentielle ordinaire</a></li>
+<li><a href="#solution-finale">Solution finale</a></li>
+</ul>
+</div>
+<h3 id="introduction-et-definition-du-probleme">Introduction et définition du problème<a class="headerlink" href="#introduction-et-definition-du-probleme" title="Permanent link">&para;</a></h3>
+<p>L&rsquo;objectif de cet article est de présenter l&rsquo;application d&rsquo;une approche spectrale pour la résolution d&rsquo;équation d&rsquo;évolution de type parabolique. L&rsquo;étude théorique sera mêlée et guidée par la résolution pratique d&rsquo;un problème type.</p>
+<p>Soit <span class="arithmatex">\(a\frac{\partial^2 u}{\partial x^2} + b\frac{\partial^2 u}{\partial xy} + c\frac{\partial^2 u}{\partial y^2} + d\frac{\partial u}{\partial x} + e\frac{\partial u}{\partial y} + fu = g\)</span> une équation aux dérivées partielles linéaire du second ordre avec <span class="arithmatex">\(a,b,c,d,e,f\)</span> des constantes. Une telle équation est dite parabolique lorsque <span class="arithmatex">\(b^2-4ac=0\)</span> et respectivement elliptique et hyperbolique pour des quantités strictement inférieures ou supérieures à 0.</p>
+<p>Un problème est dit d&rsquo;évolution s&rsquo;il dépend du temps. Un problème qui n&rsquo;est pas d&rsquo;évolution est dit stationnaire et peut être dans une certaine mesure vu comme la limite à l&rsquo;infini d&rsquo;un problème d&rsquo;évolution. Ainsi, si l&rsquo;étude du Laplacien peut être vu comme la limite de l&rsquo;équation de la chaleur pour un temps tendant vers l&rsquo;infini.</p>
+<p>Le problème étudié est le suivant :</p>
+<div class="arithmatex">\[
+(P)\begin{cases}
+\frac{\partial u}{\partial t} - \Delta u = f(x,y,t)\in L^2(\Omega ), \Omega= ]0,1[\times]0,1[\times ]0,T[\cr
+u(x,0,t)=\frac{x^2}{2}\cr
+u(x,1,t)=\frac{-(x-1)^2}{2}e^{-t}\cr
+\frac{\partial u}{\partial n}(0,y,t) = -ye^{-t}\cr
+\frac{\partial u}{\partial n}(1,y,t) = 1-y\cr
+u(x,y,0) = sin(2\pi y)-x^2y+xy-\frac{y}{2}+\frac{x^2}{2} \end{cases}
+\]</div>
+<p>Le problème modélise donc la diffusion de la chaleur au cours du temps sur une plaque carrée d&rsquo;un matériau homogène, chauffée selon une source <span class="arithmatex">\(f\)</span> quelconque, d&rsquo;énergie finie. La condition au bord de Dirichlet nous renseigne sur le comportement de la chaleur sur les bords verticaux, et la condition au bord de Neumann nous renseigne sur la direction de la chaleur sur les bords horizontaux.</p>
+<p>Enfin, la condition initiale nous renseigne sur la distribution initiale de la chaleur sur la plaque.</p>
+<h3 id="operation-de-relevement">Opération de relèvement<a class="headerlink" href="#operation-de-relevement" title="Permanent link">&para;</a></h3>
+<p>Les conditions au bord n&rsquo;étant pas homogènes, il nous faut tout d&rsquo;abord transformer le problème <span class="arithmatex">\((P)\)</span> en un problème homogène.</p>
+<p>Pour cela on pose <span class="arithmatex">\(w(x,y,t) = \phi(x,y) + u(x,y,t)\)</span>. À la vue des conditions au bord, on cherche donc une surface réglée <span class="arithmatex">\(\phi(x,y)\)</span> telle que <span class="arithmatex">\((P)\)</span> soit homogène en <span class="arithmatex">\(w\)</span>.</p>
+<h4 id="recherche-de-la-surface-reglee">Recherche de la surface réglée<a class="headerlink" href="#recherche-de-la-surface-reglee" title="Permanent link">&para;</a></h4>
+<p>Nous cherchons <span class="arithmatex">\(\phi(x,y) = g_1(x) + yg_2(y)\)</span>.</p>
+<p>À l&rsquo;aide des conditions au bords nous obtenons :</p>
+<div class="arithmatex">\[\begin{cases}w(x,0,t) = \phi(x,0) + u(x,0,t) = 0 \Rightarrow \boxed{g_1(x) = -\frac{x^2}{2}}\\
+w(x,1,t) = \phi(x,1) + u(x,1,t) = 0 \Rightarrow \boxed{g_2(x) = (x^2 - x + \frac{1}{2})e^{-t}}\end{cases}\]</div>
+<p>Ainsi la fonction <span class="arithmatex">\(\phi\)</span> cherchée est la suivante :</p>
+<div class="arithmatex">\[\boxed{\phi(x,y) = -\frac{x^2}{2} + y(x^2 - x + \frac{1}{2})e^{-t}}\]</div>
+<h4 id="reecriture-du-probleme-homogene">Réécriture du problème homogène<a class="headerlink" href="#reecriture-du-probleme-homogene" title="Permanent link">&para;</a></h4>
+<p>Nous avons <span class="arithmatex">\(w(x,y,t) = \phi(x,y) + u(x,y,t)\)</span>, donc par linéarité de l&rsquo;opérateur Laplacien, nous avons <span class="arithmatex">\(- \Delta u(x,y,t) = \Delta \phi(x,y) - \Delta w(x,y,t)\)</span>. De même, <span class="arithmatex">\(\frac{\delta u}{\delta t}(x,y,t) = \frac{\delta w}{\delta t}(x,y,t) - \frac{\delta \phi}{\delta t}(x,y,t)\)</span></p>
+<p>Ainsi <span class="arithmatex">\(\frac{\delta w}{\delta t}(x,y,t) - \Delta w(x,y,t) = f(x,y,t) + \Delta \phi(x,y,t) - \frac{\delta \phi}{\delta t}(x,y,t)\)</span>.</p>
+<p>Par définition de <span class="arithmatex">\(\phi\)</span> :</p>
+<div class="arithmatex">\[\frac{\delta u}{\delta t}(x,y,t) - \Delta \phi = 1-y(1+e^{-t}(x^2-x+\frac{3}{2}))\]</div>
+<p>Cela nous permet d&rsquo;écrire l&rsquo;équivalence suivante :</p>
+<div class="arithmatex">\[(P) \Leftrightarrow (P_h)\begin{cases}
+\frac{\partial w}{\partial t} - \Delta w = f(x,y,t) + 1-y(1+e^{-t}(x^2-x+\frac{3}{2})), f\in L^2(\Omega ), \Omega=  ]0,1[\times]0,1[\times ]0,T[\cr
+w(x,0,t)=0\cr
+w(x,1,t)=0\cr
+\frac{\partial w}{\partial n}(0,y,t) = 0\cr
+\frac{\partial w}{\partial n}(1,y,t) = 0\cr
+w(x,y,0) = sin(2\pi y)-x^2y+xy-\frac{y}{2}+\frac{x^2}{2} \end{cases}\]</div>
+<h3 id="resolution-probleme-spectral-associe-a-p_h">Résolution problème spectral associé à <span class="arithmatex">\((P_h)\)</span><a class="headerlink" href="#resolution-probleme-spectral-associe-a-p_h" title="Permanent link">&para;</a></h3>
+<p>Dans un premier temps nous nous intéressons uniquement à la partie spatiale du problème. Le Laplacien étant un opérateur linéaire et compact, cherchons ses valeurs <span class="arithmatex">\(\lambda_k\)</span> et les fonctions propres associées <span class="arithmatex">\(w_k\)</span>, solution de l&rsquo;équation : </p>
+<div class="arithmatex">\[-\Delta w = \lambda w~~(PS)\]</div>
+<p>Ces solutions existent presque partout dans <span class="arithmatex">\(L^2(\Omega)\)</span> grace au théorème de décomposition spectrale suivant:</p>
+<p>Soit <span class="arithmatex">\(V\)</span> et <span class="arithmatex">\(H\)</span> deux espaces de Hilbert réels de dimension infinie. On suppose que <span class="arithmatex">\(V \subset H\)</span> avec injection compacte (c&rsquo;est à dire que l&rsquo;opérateur d&rsquo;inclusion est continu et compact) et que <span class="arithmatex">\(V\)</span> est dense dans <span class="arithmatex">\(H\)</span>. Soit <span class="arithmatex">\(a(.,.)\)</span> une forme bilinéaire symétrique continue et <span class="arithmatex">\(V\)</span>-elliptique. Alors les valeurs propres du problème <span class="arithmatex">\(\forall v\in V,~~~ a(u,v) = \lambda&lt;u,v&gt;_H\)</span> forment une suite croissante <span class="arithmatex">\((\lambda_k)_{k \geq 1}\)</span> de réels positifs qui tend vers l&rsquo;infini, et il existe une basse hilbertienne de <span class="arithmatex">\(H\)</span>, <span class="arithmatex">\((u_k)_{k \geq 1}\)</span>, de vecteurs propres associées :</p>
+<div class="arithmatex">\[u_k \in V, {\text{ et }} a(u_k,v) = \lambda_k&lt;u_k,v_k&gt;_H, ~~~ \forall v \in V\]</div>
+<p>En outre, <span class="arithmatex">\((\frac{u_k}{\sqrt{\lambda_k}})_{k \geq 1}\)</span> est une base hilbertienne mais de l&rsquo;espace <span class="arithmatex">\(V\)</span> muni du produit scalaire <span class="arithmatex">\(a(.,.)\)</span> (et pas son produit scalaire canonique).</p>
+<p>La démonstration de ce théorème est assez longue et fait elle même appel au théorème de décomposition spectrale d&rsquo;un opérateur compact dans un Hilbert. C&rsquo;est par ailleurs la raison pour laquelle on a besoin de la compacité de l&rsquo;opérateur d&rsquo;inclusion et de sa continuité. Les détails peuvent se trouver dans <sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>.</p>
+<p>Pour tenir compte des conditions de Dirichlet sur un bord, on choisit <span class="arithmatex">\(V=H_0^1(\Omega)\)</span> et <span class="arithmatex">\(H=L^2(\Omega)\)</span>. Une approche variationnelle appliquée à <span class="arithmatex">\(-\Delta w = \lambda w\)</span>, conduit naturellement à trouver <span class="arithmatex">\(a(u,v) = \int_{\Omega} \nabla u . \nabla v dx = \lambda \int_{\Omega} uv dx= \lambda &lt;u,v&gt;_{L^2(\Omega)}\)</span>. D&rsquo;après le théorème de Rellich, <span class="arithmatex">\(H_0^1(\Omega)\)</span> est bien compactement inclus dans <span class="arithmatex">\(L^2(\Omega)\)</span>. Comme l&rsquo;espace des fonctions tests <span class="arithmatex">\(\cal{D}(\Omega)\)</span> est dense dans les deux espaces, on en déduit que <span class="arithmatex">\(H_0^1(\Omega)\)</span> est dense dans <span class="arithmatex">\(L^2(\Omega)\)</span> et l&rsquo;on peut appliquer le théorème spectral ci-dessus, démontrant l&rsquo;existence de solution du problème aux valeurs propres.</p>
+<p>Pour retourner au problème d&rsquo;origine, une formule de Green suffit, en tenant compte des conditions au bords et en utilisant le théorème de trace pour conclure. On peut plus simplement passer par les distributions, ayant déjà vérifiée l&rsquo;injection compacte et continue :</p>
+<div class="arithmatex">\[\begin{matrix}~  \int_{\Omega} \nabla u . \nabla v dx = \lambda \int_{\Omega} uv dx\cr
+\Leftrightarrow &lt; \nabla u , \nabla v &gt; = \lambda &lt; u, v&gt;\cr
+\Leftrightarrow -&lt; \Delta u , v &gt; = \lambda &lt; u, v&gt;\end{matrix}\]</div>
+<p>D&rsquo;où <span class="arithmatex">\(-\Delta u = \lambda u\)</span> au sens des distributions. De la densité de <span class="arithmatex">\(\cal D\)</span> dans <span class="arithmatex">\(H_0^1\)</span> et <span class="arithmatex">\(L^2\)</span> et par l&rsquo;injection canonique compacte, on en déduit l&rsquo;équivalence au sens de <span class="arithmatex">\(L^2\)</span>.</p>
+<p>Maintenant que l&rsquo;on s&rsquo;est convaincu de l&rsquo;existence des solutions de <span class="arithmatex">\((PS)\)</span>, il s&rsquo;agit d&rsquo;expliciter ces solutions. Pour cela, on va considérer une séparation des variables en posant : <span class="arithmatex">\(w(x,t)=X(x)Y(y)\)</span>.</p>
+<p>A partir des conditions au bord nous pouvons déduire que :</p>
+<div class="arithmatex">\[\begin{cases}w(x,0) = 0 = X(x)Y(0) \Rightarrow \boxed{Y(0)=0}\\
+w(x,1) = 0 = X(x)Y(1)\Rightarrow \boxed{Y(1)=0}\end{cases}\]</div>
+<div class="arithmatex">\[\frac{\delta w}{\delta x}(0,y) = X_(x)Y(y) \Rightarrow \boxed{\begin{cases} X'(0)=0\\X'(1)=0\end{cases}}\]</div>
+<p>Ainsi : </p>
+<div class="arithmatex">\[\begin{matrix}~ (PS) &amp; \Leftrightarrow &amp; -X"(x)Y(y) - X(x)Y"(y) = \lambda X(x)Y(y) \cr
+&amp; \Leftrightarrow &amp;-\frac{X"(x)}{X(x)} - \frac{Y"(y)}{Y(y)} = \lambda \cr
+&amp;\Rightarrow &amp;
+    \begin{cases}
+        - \frac{X"(x)}{X(x)}=\alpha~~~(*)\cr
+        - \frac{Y"(y)}{Y(y)}=\beta~~~(**)\cr
+        \alpha+\beta = \lambda
+    \end{cases}
+\end{matrix}\]</div>
+<p>La résolution ne pose aucun soucis puisque <span class="arithmatex">\((*)\)</span> et <span class="arithmatex">\((**)\)</span> sont des équations différentielles linéaire du second ordre à coefficients constants. Une simple analyse de l&rsquo;équation caractéristique nous donne la forme de la solution et les conditions sur <span class="arithmatex">\(X'\)</span> et <span class="arithmatex">\(Y\)</span> déduites des conditions au bord du problème homogène permettent d&rsquo;éliminer des solutions qui sont identiquement nulles et donc pas intéressante ni d&rsquo;un point de vue mathématique et encore moins d&rsquo;un point de vue physique.</p>
+<h5>Résolution de <span class="arithmatex">\((*)\)</span></h5>
+<div class="arithmatex">\[- \frac{X"(x)}{X(x)}=\alpha \Rightarrow -X"(x) - \alpha X(x) = 0\]</div>
+<p>De l&rsquo;équation caractéristique nous trouvons :</p>
+<div class="arithmatex">\[\Delta = -4\alpha\]</div>
+<p>On distingue alors 3 cas :</p>
+<h5><span class="arithmatex">\(\alpha &gt; 0\)</span></h5>
+<p>Ainsi <span class="arithmatex">\(\Delta &lt; 0\)</span> et <span class="arithmatex">\(X\)</span> est de la forme <span class="arithmatex">\(X(x) = A_x cos(\sqrt \alpha x) + B_x sin(\sqrt \alpha x)\)</span>.</p>
+<p>On en déduit que <span class="arithmatex">\(X'(x) = -\sqrt \alpha A_x sin(\sqrt \alpha x) + \sqrt \alpha B_x cos(\sqrt \alpha x)\)</span>.</p>
+<p>Des conditions aux limites on en déduit que :</p>
+<div class="arithmatex">\[\begin{cases}X'(0) = \sqrt \alpha B_x = 0 \Rightarrow B_x = 0\\
+X'(1) = -\sqrt \alpha A_x sin(\sqrt \alpha) = 0 \Rightarrow sin(\sqrt \alpha) = 0\end{cases}\]</div>
+<p>On en déduit que <span class="arithmatex">\(\alpha_k = k^2\pi^2, \forall k&gt;0\)</span> et donc <span class="arithmatex">\(X_k(x) = A_xcos(k\pi x), \forall k&gt;0\)</span>.</p>
+<h5><span class="arithmatex">\(\alpha = 0\)</span></h5>
+<p>Ainsi <span class="arithmatex">\(\Delta = 0\)</span> et <span class="arithmatex">\(X\)</span> est de la forme <span class="arithmatex">\(X(x) = A_xx + B_x\)</span>. On en déduit que <span class="arithmatex">\(X'(x) = -\sqrt \alpha A_x sin(\sqrt \alpha x) + \sqrt \alpha B_x cos(\sqrt \alpha x)\)</span>.</p>
+<p>Des conditions aux limites on en déduit que :</p>
+<div class="arithmatex">\[X'(0) = A_x = 0\]</div>
+<p>Donc <span class="arithmatex">\(X(x) = B_x\)</span>, solution constante.</p>
+<h5><span class="arithmatex">\(\alpha &lt; 0\)</span></h5>
+<p>Ainsi <span class="arithmatex">\(\Delta &lt; 0\)</span> et <span class="arithmatex">\(X\)</span> est de la forme <span class="arithmatex">\(X(x) = A_xe^{-\sqrt(-\alpha)x} + B_xe^{\sqrt(-\alpha)x}\)</span>. Des conditions aux limites on en déduit que <span class="arithmatex">\(A_x = B_x = 0\)</span>. Donc <span class="arithmatex">\(X \equiv 0\)</span>, ce qui n&rsquo;est pas intéressant.</p>
+<h5>Formulation finale</h5>
+<p>Finalement, nous pouvons regrouper les deux écritures en une seule, sous la forme suivante :</p>
+<div class="arithmatex">\[X_k(x) = C_xcos(k\pi x), \forall k \geq 0\]</div>
+<p>Avec : </p>
+<div class="arithmatex">\[C_x = \begin{cases}
+ B_x &amp; \text{ si } k=0 \cr
+ A_x &amp; \text{ si } k&gt;0
+\end{cases}\]</div>
+<h4 id="resolution-de">Résolution de <span class="arithmatex">\((**)\)</span><a class="headerlink" href="#resolution-de" title="Permanent link">&para;</a></h4>
+<p>De la même manière nous résolvons l&rsquo;équation <span class="arithmatex">\((**)\)</span>.
+De l&rsquo;équation caractéristique nous trouvons :</p>
+<div class="arithmatex">\[\Delta = -4\beta\]</div>
+<p>On distingue alors 3 cas :</p>
+<h5>Cas <span class="arithmatex">\(\beta &gt; 0\)</span></h5>
+<p>Ainsi <span class="arithmatex">\(\Delta &lt; 0\)</span> et <span class="arithmatex">\(Y\)</span> est de la forme <span class="arithmatex">\(Y(y) = A_y cos(\sqrt \beta x) + B_y sin(\sqrt \beta x)\)</span>.</p>
+<p>Des conditions aux limites on en déduit que :</p>
+<div class="arithmatex">\[\begin{cases}Y(0) = 0 \Rightarrow A_y = 0\\
+Y(1) = 0 \Rightarrow sin(\sqrt \beta) = 0\end{cases}\]</div>
+<p>On en déduit que <span class="arithmatex">\(\beta_k = k^2\pi^2, \forall k&gt;0\)</span> et donc <span class="arithmatex">\(Y_k(y) = A_ysin(k\pi y), \forall k&gt;0\)</span>.</p>
+<h5>Cas <span class="arithmatex">\(\beta = 0\)</span></h5>
+<p>Ainsi <span class="arithmatex">\(\Delta = 0\)</span> et <span class="arithmatex">\(Y\)</span> est de la forme <span class="arithmatex">\(Y(y) = A_yy + B_y\)</span>.</p>
+<p>Des conditions aux limites on en déduit que :</p>
+<div class="arithmatex">\[\begin{cases}Y(0) = B = 0\\
+Y(1) = A = 0\end{cases}\]</div>
+<p>Donc <span class="arithmatex">\(Y \equiv 0\)</span>, ce qui n&rsquo;est pas intéressant.</p>
+<h5>Cas <span class="arithmatex">\(\beta &gt; 0\)</span></h5>
+<p>Ainsi <span class="arithmatex">\(\Delta &lt; 0\)</span> et <span class="arithmatex">\(Y\)</span> est de la forme <span class="arithmatex">\(Y(y) = A_ye^{-\sqrt(-\beta)y} + B_ye^{\sqrt(-\beta)y}\)</span>.</p>
+<p>Des conditions aux limites on en déduit que <span class="arithmatex">\(A_y = B_y = 0\)</span>.</p>
+<p>Donc <span class="arithmatex">\(Y \equiv 0\)</span>, ce qui n&rsquo;est pas intéressant.</p>
+<h5>Formulation finale</h5>
+<p>La solution de <span class="arithmatex">\((**)\)</span> s&rsquo;écrit donc :</p>
+<div class="arithmatex">\[Y_k(y) = B_ysin(k\pi y), \forall k &gt; 0\]</div>
+<h3 id="reecriture-du-probleme-dans-la-base-propre">Réecriture du problème dans la base propre<a class="headerlink" href="#reecriture-du-probleme-dans-la-base-propre" title="Permanent link">&para;</a></h3>
+<p>Par la résolution de <span class="arithmatex">\((*)\)</span> et <span class="arithmatex">\((**)\)</span> nous en déduisant que les valeurs propres et vecteurs propres de l&rsquo;opérateur Laplacien sont :</p>
+<div class="arithmatex">\[\begin{cases}
+w_{k,l}(x,y) = Csin(l\pi y)cos(k\pi x)\\
+\lambda _k = \pi^2(l^2 + k^2)
+\end{cases}, \forall k \geq 0\]</div>
+<p>D&rsquo;après le théorème de Riesz-Fredholm cité plus haut, il existe une base hilbertienne (orthonormale par définition) de fonctions propres de <span class="arithmatex">\(L^2(\Omega)\)</span> appartenant à <span class="arithmatex">\(H^1_0(\Omega)\)</span> et une suite croissante de valeurs propres positives qui tendent vers l&rsquo;infini.</p>
+<h4 id="normalisation-des-vecteurs-de-base">Normalisation des vecteurs de base<a class="headerlink" href="#normalisation-des-vecteurs-de-base" title="Permanent link">&para;</a></h4>
+<p>Avant de réécrire le problème dans la base de fonctions propres ainsi trouvées, déterminons la constante <span class="arithmatex">\(C\)</span> telle que la base soit orthonormale dans <span class="arithmatex">\(L^2(\omega)\)</span>.</p>
+<p>Résolvons :</p>
+<div class="arithmatex">\[\begin{matrix}
+~ \vert \vert w_{l,k}\vert \vert_{L^2(\Omega)} = 1 &amp; \Leftrightarrow &amp; \int_0^1 \int_0^1 C^2sin^2(l \pi y) cos^2(k \pi x) dxdy \cr
+&amp; \Leftrightarrow &amp; C^2
+\underset{\frac{1}{2}}{\underbrace{\int_0^1 sin^2(l \pi y) dy}}
+\underset{\frac{1}{2}}{\underbrace{\int_0^1 cos^2(k \pi x) dx}}\cr
+&amp; \Leftrightarrow &amp;
+    \begin{cases}
+         C = \sqrt 2 &amp; \text{ si } k=0 \cr
+         C = 2 &amp; \text{ sinon }
+    \end{cases}
+\end{matrix}\]</div>
+<h4 id="reecriture-du-probleme-dans-la-base-propre_1">Réécriture du problème dans la base propre<a class="headerlink" href="#reecriture-du-probleme-dans-la-base-propre_1" title="Permanent link">&para;</a></h4>
+<p>On peut écrire notre solution dans la base orthonormée trouvée :</p>
+<div class="arithmatex">\[ w(x,y) = \sum_{l,k}\xi_{l,k}(t)w_{l,k}(x,y)~~~ (S)\]</div>
+<p>D&rsquo;après l&rsquo;énoncé du problème, <span class="arithmatex">\(f\in L^2(\omega)\)</span>, ce qui implique que l&rsquo;on peut également l&rsquo;exprimer dans la base trouvée :</p>
+<div class="arithmatex">\[f(x,y) =  \sum_{l,k}f_{l,k}(t)w_{l,k}(x,y)\]</div>
+<p>Avec <span class="arithmatex">\(f_{l,k}(t) = &lt;f(x,y,t), w_{l,k}(x,y)&gt;_{L^2(\omega)}\)</span>, soit la projection de <span class="arithmatex">\(f\)</span> sur les vecteurs de la base hilbertienne <span class="arithmatex">\({w}_{l,k}\)</span>.</p>
+<p>On peut donc réécrire le problème initial en <span class="arithmatex">\(w\)</span> de la manière suivante :</p>
+<div class="arithmatex">\[\begin{matrix}
+~ &amp; \frac{\partial w}{\partial t} - \Delta w = f(x,y,t) + 1-y(1+e^{-t}(x^2-x+\frac{3}{2})) &amp; \cr
+ \Leftrightarrow &amp; \frac{\partial }{\partial t}\sum_{l,k}\xi_{l,k}(t)w_{l,k}(x,y) - \Delta \sum_{l,k}\xi_{l,k}(t)w_{l,k}(x,y) &amp; \cr
+ &amp; = \sum_{l,k}f_{l,k}(t)w_{l,k}(x,y) + 1-y(1+e^{-t}(x^2-x+\frac{3}{2}))
+\end{matrix}\]</div>
+<p>En tant normal, il faudrait, pour une résolution complètement explicite, faire la projection de <span class="arithmatex">\(1-y(1+e^{-t}(x^2-x+\frac{3}{2})\)</span> sur la base de <span class="arithmatex">\({L^2(\omega)}\)</span> trouvée, mais cela représente assez peu d&rsquo;intérêt pour l&rsquo;exercice.</p>
+<p>On se contentera de poser <span class="arithmatex">\(\overset{\sim }{f}(x,y) = f(x,y) + 1-y(1+e^{-t}(x^2-x+\frac{3}{2})\)</span>.</p>
+<p>Cela permet de réécrire le problème de la manière suivante :</p>
+<div class="arithmatex">\[\frac{\partial }{\partial t}\sum_{l,k}\xi_{l,k}(t)w_{l,k}(x,y) - \Delta \sum_{l,k}\xi_{l,k}(t)w_{l,k}(x,y) = \sum_{l,k}\overset{\sim }{f}_{l,k}(t)w_{l,k}(x,y)\]</div>
+<p>Nous utilisons la linéarité des opérateurs de dérivation pour faire entrer le Laplacien et la dérivée temporelle dans la somme et nous utilisons la relation <span class="arithmatex">\(\Delta w = -\lambda w\)</span> pour factoriser de la sorte :</p>
+<div class="arithmatex">\[\sum_{l,k}[\xi'_{l,k}(t) - \lambda_{l,k} \xi_{l,k}(t)]w_{l,k}(x,y) = \sum_{l,k}\overset{\sim }{f}_{l,k}(t)w_{l,k}(x,y)\]</div>
+<p>Ce qui revient à résoudre une équation différentielle ordinaire :</p>
+<div class="arithmatex">\[\xi'_{l,k}(t) - \lambda_{l,k} \xi_{l,k}(t) = \overset{\sim }{f}_{l,k}(t)\]</div>
+<h3 id="resolution-de-lequation-differentielle-ordinaire">Résolution de l&rsquo;équation différentielle ordinaire<a class="headerlink" href="#resolution-de-lequation-differentielle-ordinaire" title="Permanent link">&para;</a></h3>
+<p>La résolution de l&rsquo;EDO se fait très simplement, en s&rsquo;aidant des conditions initiales pour obtenir les <span class="arithmatex">\(\xi_0\)</span> et l&rsquo;expression explicite des <span class="arithmatex">\(\overset{\sim }{f}_{l,k}(t)\)</span> en <span class="arithmatex">\(0\)</span>.</p>
+<p>La technique qui marche à tous les coups est évidemment la variation de la constante. Je laisse au lecteur le soin de faire ces calculs afin d&rsquo;obtenir les <span class="arithmatex">\(\xi_{l,k}(t)\)</span>.</p>
+<h3 id="solution-finale">Solution finale<a class="headerlink" href="#solution-finale" title="Permanent link">&para;</a></h3>
+<p>Une fois l&rsquo;EDO résolue, le travail est terminé. Si réellement une expression explicite est désirée, il suffit de remplacer les <span class="arithmatex">\(w_{l,k}\)</span>, les <span class="arithmatex">\(\xi_{l,k}\)</span>, qui dépendent explicitement des <span class="arithmatex">\(\overset{\sim }{f}_{l,k}\)</span> dans l&rsquo;expression de <span class="arithmatex">\((S)\)</span>.</p>
+<p>On pourrait éventuellement travailler un peu plus pour donner, dans un cadre plus général, le lien entre les <span class="arithmatex">\(\xi_{l,k}\)</span>, les <span class="arithmatex">\(\overset{\sim }{f}_{l,k}\)</span> et les valeurs propres. De même, si le terme source <span class="arithmatex">\(f\)</span> est donné explicitement, il faut calculer sa projection sur notre base afin d&rsquo;obtenir une solution complètement explicite.</p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p><em>Analyse Numérique et Optimisation</em>, G. Allaire, Chapitre 7.&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+        </div>
+    </div><!--//main-body-->
+</div>
+
+
+    <footer class="footer">
+        
+    </footer><!--//footer-->
+    <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+
+</body>
+</html>

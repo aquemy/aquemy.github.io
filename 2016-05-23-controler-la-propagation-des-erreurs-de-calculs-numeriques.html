@@ -1,0 +1,456 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <link rel="stylesheet" type="text/css" href="css/friendly.css" />
+
+    
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="" />
+
+    
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+
+    
+    <meta name="author" content="" />
+    <meta name="description" content="" />
+    
+    <title>Alexandre Quemy</title>
+
+</head>
+
+<body id="index" class="home">
+    
+
+<div class="wrapper">
+
+    <!-- Use icons from fontawesome when you are adding new item in the contact list  -->             
+ 
+<div class="sidebar-wrapper">
+    <div class="profile-container">
+        <img class="profile-img" src="images/profile.jpeg" alt="profile picture" />
+        <h1 class="name">Alexandre Quemy</h1>
+        <h3 class="tagline">PhD student in AI & Senior Engineer at IBM</h3>
+    </div><!--//profile-container-->
+    
+    <div class="contact-container container-block">
+        <ul class="list-unstyled contact-list">
+           
+           
+            <li class="email"><i class="fa fa-envelope"></i><a href="mailto: alexandre.quemy@gmail.com">alexandre.quemy@gmail.com</a></li>
+            
+            
+            
+            <li class="linkedin"><i class="fab fa-linkedin"></i><a href="https://in.linkedin.com/in/aquemy" target="_blank">linkedin.com/in/aquemy</a></li>
+            
+            
+            
+            <li class="github"><i class="fab fa-github"></i><a href="http://github.com/aquemy" target="_blank">github.com/aquemy</a></li>
+            
+            
+            
+
+            <li class="acclaim"><i class="fa fa-certificate"></i><a href="https://www.youracclaim.com/user/alexandre-quemy" target="_blank">alexandre-quemy</a></li>
+            
+            <div itemscope itemtype="https://schema.org/Person"><a itemprop="sameAs" content="https://orcid.org/0000-0002-5865-6403" href="https://orcid.org/0000-0002-5865-6403" target="orcid.widget" rel="me noopener noreferrer" style="vertical-align:top;"><img src="https://orcid.org/sites/default/files/images/orcid_16x16.png" style="width:1em;margin-right:.5em;" alt="ORCID iD icon">0000-0002-5865-6403</a></div>
+        </ul>
+    </div>
+    
+</div><!--//sidebar-wrapper-->
+     	<div class="top-menu">
+ 	    <ul>
+            <li id="selected"><a href="./index.html">Home</a></li>
+            <li><a href="./research.html">Research</a></li>
+            <li><a href="./cv.html">CV & Skills</a></li>
+            <li><a href="./portfolio.html">Portfolio</a></li>
+            <li><a href="./passions.html">Passions</a></li>
+            <li><a href="./blog.html">Blog</a></li>
+        </ul>
+    </div>
+    <div class="main-wrapper">
+        <div class="recent-post-header" id="top-menu-entry">
+        <p><a href="./blog.html">Back to entries</a></p>
+        </div>
+        <div class="blog_entry">
+        <h1 class="section-title">Contrôler la propagation des erreurs de calculs numériques</h1>
+        <div class="item">
+                            <div class="meta">
+                                <div class="upper-row">
+                                    <h3 class="job-title"><cite>2016-05-23</cite></h3>
+                                    <div class="time">#Informatique</div>
+
+                                </div><!--//upper-row-->
+
+                            </div><!--//meta-->
+                        <div class="details">
+
+                        </div>
+                    </div>
+
+        <div class="toc">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#rappels-darithmetique-flottante">Rappels d&rsquo;arithmétique flottante</a></li>
+<li><a href="#les-differents-problemes-du-numericien">Les différents problèmes du numéricien</a></li>
+<li><a href="#controle-et-estimation-stochastiques-des-arrondis-de-calculs">Contrôle et estimation stochastiques des arrondis de calculs</a><ul>
+<li><a href="#le-coeur-de-cestac-et-la-propagation-des-erreurs">Le coeur de CESTAC et la propagation des erreurs</a></li>
+<li><a href="#a-la-recherche-du-nombre-de-chiffres-significatifs">À la recherche du nombre de chiffres significatifs</a></li>
+<li><a href="#la-construction-de-lechantillon-r">La construction de l&rsquo;échantillon \(R\)</a></li>
+</ul>
+</li>
+<li><a href="#cestac-sur-un-algorithme-iteratif">CESTAC sur un algorithme itératif</a></li>
+<li><a href="#allez-plus-loin-discussions-sur-la-validite-de-cestac">Allez plus loin : discussions sur la validité de CESTAC</a><ul>
+<li><a href="#le-biais-de-lestimateur">Le biais de l&rsquo;estimateur</a></li>
+<li><a href="#la-validite-du-test-de-student">La validité du test de Student</a></li>
+</ul>
+</li>
+<li><a href="#conclusion-cestac-mais-pour-quoi-et-pour-qui">Conclusion : CESTAC, mais pour quoi et pour qui ?</a></li>
+<li><a href="#bibliographie">Bibliographie</a></li>
+</ul>
+</div>
+<h3 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h3>
+<p>Lorsque l&rsquo;on effectue des calculs numériques, ceux-ci sont toujours entachés d&rsquo;erreurs. C&rsquo;est le cas notamment lorsque des scientifiques simulent un système physique par des méthodes numériques où une étude mathématique permet de donner une indication sur la précision intrinsèque des méthodes. Par exemple, Aabu nous informe dans son tutoriel sur la <a href="https://zestedesavoir.com/tutoriels/528/simulez-des-systemes-physiques-avec-la-methode-deuler/#3-15241_precision-convergence-et-stabilite">méthode d&rsquo;Euler</a>, que l&rsquo;erreur par rapport à la solution réelle du problème diminue avec le pas de temps utilisé. Si l&rsquo;on faisait les calculs numériques à la main, faire tendre ce pas de temps vers <span class="arithmatex">\(0\)</span> nous permettrait de trouver la solution exacte. Évidemment, il est impossible, même pour une machine, d&rsquo;avoir un pas de temps de <span class="arithmatex">\(0\)</span>, mais l&rsquo;on pourrait penser que le réduire autant que notre temps ou puissance de calcul le permet est une bonne chose. <em>Que nenni !</em></p>
+<p><center><figure><img src="images/2016-05-23-controler-la-propagation-des-erreurs-de-calculs-numeriques/1.png" /><figcaption><span class="arithmatex">\(\frac 1 3\)</span> ne peut pas être représenté exactement par une calculatrice.</figcaption>
+</figure></center></p>
+<p>En effet, une deuxième catégorie d&rsquo;erreurs, qui n&rsquo;est pas cette fois liée à notre méthode mais bien plus générale, est l&rsquo;erreur de <a href="https://fr.wikipedia.org/wiki/Virgule_flottante">représentation</a>. Le problème est bien plus trivial, presque grossier dans la simplicité de son énoncé : il est impossible de représenter une quantité infinie dans un espace mémoire de taille finie.</p>
+<p>Cela amène à considérer le fait que, quelle que soit la représentation que l&rsquo;on se donne, c&rsquo;est-à-dire la manière de traduire un nombre réel pour la machine, alors il existera toujours des nombres pour lesquels la représentation ne sera pas possible. Le jeu des ingénieurs et des chercheurs a été de trouver et formaliser une représentation pratique et la plus intelligente possible, comme compromis entre précision et facilité de manipulation. Ce processus de standardisation a abouti à la norme <a href="https://fr.wikipedia.org/wiki/IEEE_754">IEEE-754</a> suivi par la plupart du matériel informatique mondial.</p>
+<div class="admonition warning">
+<p class="admonition-title">Attention</p>
+<p>Si un rappel général et abstrait sur la représentation des nombres réels en machine est faite par la suite, il est conseillé d&rsquo;avoir quelques notions sur la représentation des flottants. Des notions de probabilités, notamment sur la construction d&rsquo;intervalles de confiance, sont recommandées pour aborder la partie théorique.</p>
+</div>
+<p>Une question que l&rsquo;on se pose naturellement est la suivante : puis-je contrôler numériquement les erreurs qui sont induites par les erreurs de représentation et propagées au cours du calcul ? C&rsquo;est ce à quoi nous allons tâcher de répondre, par l&rsquo;affirmative, grâce à la méthode CESTAC, pour Contrôle et Estimation STochastique des Arrondis de Calculs.</p>
+<p><mark>Une implémentation de la méthode décrite dans cet article se trouve dans dépôt suivant:</mark>
+    <center>
+    <a href="https://github.com/aquemy/CESTAC"><img alt="" src="https://gh-card.dev/repos/aquemy/CESTAC.svg" /></a>
+    </center></p>
+<h3 id="rappels-darithmetique-flottante">Rappels d&rsquo;arithmétique flottante<a class="headerlink" href="#rappels-darithmetique-flottante" title="Permanent link">&para;</a></h3>
+<p>Voyons dans un premier temps comment représenter un nombre réel en <a href="https://fr.wikipedia.org/wiki/Notation_scientifique">notation scientifique</a> et dans une <a href="https://fr.wikipedia.org/wiki/Base_(arithmétique)">base</a> quelconque.</p>
+<p>On note <span class="arithmatex">\(b\)</span> la base de l&rsquo;arithmétique dans laquelle nous travaillerons, avec généralement <span class="arithmatex">\(b=2\)</span> ou <span class="arithmatex">\(b=16\)</span> pour les unités de calculs. Alors, tout nombre <span class="arithmatex">\(x\in \mathbb{R}\)</span> peut être écrit de la sorte:</p>
+<div class="arithmatex">\[x = \pm mb^E\]</div>
+<p>Avec <span class="arithmatex">\(\frac{1}{b} \leq m &lt; 1\)</span> et <span class="arithmatex">\(m\)</span> la <a href="https://fr.wikipedia.org/wiki/Mantisse">mantisse</a>, possédant possiblement un nombre <strong>infini</strong> de chiffres après la virgule, et <span class="arithmatex">\(e\)</span> un <a href="https://fr.wikipedia.org/wiki/Exposant_(mathématiques)">exposant</a> entier lui même exprimé dans la base <span class="arithmatex">\(b\)</span>.</p>
+<p>On peut réécrire la mantisse en base <span class="arithmatex">\(b\)</span> par <span class="arithmatex">\(\sum_{i}^n m_ib^{-i}, 0 \leq m_i &lt; b\)</span> avec <span class="arithmatex">\(n \in \mathbb{N} \cup +\infty\)</span>.</p>
+<div class="admonition example">
+<p class="admonition-title">Exemple:</p>
+<p>On considère <span class="arithmatex">\(x = 0,1_{10}\)</span> que l&rsquo;on voudrait exprimer via cette représentation. Il suffit d&rsquo;écrire <span class="arithmatex">\(x = 0,1 \times 10^0\)</span>. Si maintenant on souhaite exprimer <span class="arithmatex">\(x\)</span> via cette représentation mais en base <span class="arithmatex">\(2\)</span>, les choses se compliquent puisque cette fois la mantisse ne possède pas un nombre fini de chiffres ! En effet, par division successive, vous trouverez que <span class="arithmatex">\(0,1_{10} = 0,000110011001100..._2\)</span> !</p>
+</div>
+<p>Comme nous l&rsquo;avons mentionné dans l&rsquo;introduction, un ordinateur ne disposant que d&rsquo;une mémoire finie, il est pour lui impossible de stocker une quantité infinie d&rsquo;information. Or, quelle que soit la base <span class="arithmatex">\(b\)</span> choisie, il existe un nombre infini de nombres dont la représensation comporte une mantisse ayant un nombre infini de chiffres<sup id="fnref:normal"><a class="footnote-ref" href="#fn:normal">1</a></sup>. Autrement dit, il est impossible de représenter parfaitement l&rsquo;ensemble des réels avec un ordinateur. On approxime généralement ces derniers par des nombres appelés flottants.</p>
+<p>C&rsquo;est ainsi qu&rsquo;en machine, un nombre réel <span class="arithmatex">\(x\)</span> est représenté par un nombre flottant <span class="arithmatex">\(X\)</span> qui peut lui même s&rsquo;écrire de la sorte:</p>
+<div class="arithmatex">\[X = \pm Mb^E\]</div>
+<p>Avec <span class="arithmatex">\(\frac{1}{b} \leq M &lt; 1\)</span> et <span class="arithmatex">\(M\)</span> la mantisse codée sur un nombre <span class="arithmatex">\(n\)</span> <strong>fini</strong> de digits et <span class="arithmatex">\(E\)</span> l&rsquo;exposant codé également sur un nombre <strong>fixe</strong> de digits. On peut donc écrire <span class="arithmatex">\(M\)</span> en base <span class="arithmatex">\(b\)</span> par : <span class="arithmatex">\(\sum_{i=1}^n M_ib^{-i}, 0 \leq M_i &lt; b\)</span>, où cette fois le nombre d&rsquo;éléments à sommer est toujours fini.</p>
+<p><center><figure><img src="images/2016-05-23-controler-la-propagation-des-erreurs-de-calculs-numeriques/2.jpg" /><figcaption>Codage double précision d&rsquo;un réel dans la norme IEEE-754 : 52 bits de mantisse, 11 bits d&rsquo;exposant, 1 bit de signe.</figcaption>
+</figure></center></p>
+<p>Comme il ne s&rsquo;agit que de rappels, je n&rsquo;entre pas dans toutes subtilités de la norme IEEE-754, et nos explications sont suffisantes pour continuer.</p>
+<p>On considère l&rsquo;opération d&rsquo;affectation (<span class="arithmatex">\(:=\)</span>) : <span class="arithmatex">\(\mathbb{R} \to \mathcal{F}\)</span>, où <span class="arithmatex">\(\mathcal{F}\)</span> est l&rsquo;ensemble des nombres flottants. C&rsquo;est-à-dire l&rsquo;opération qui associe à un réel sa représentation machine.</p>
+<p>Pour illustrer concrètement la banalité de la chose via le C++:</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kt">double</span> <span class="n">x</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">;</span>
+</pre></div>
+</td></tr></table>
+
+<p>Pour un réel donné <span class="arithmatex">\(x\)</span>, il existe un flottant <span class="arithmatex">\(X^+\)</span> et un flottant <span class="arithmatex">\(X^-\)</span> tels que <span class="arithmatex">\(X^- \leq x \leq X^+\)</span> et tel qu&rsquo;il n&rsquo;existe pas de flottant <span class="arithmatex">\(Y\)</span> et <span class="arithmatex">\(Z\)</span> tel que <span class="arithmatex">\(X^- &lt; Y &lt; x &lt; Z &lt; X^+\)</span>. Autrement dit, <span class="arithmatex">\(X^+\)</span> et <span class="arithmatex">\(X^-\)</span> sont les flottants immédiatement supérieur et inférieur à <span class="arithmatex">\(x\)</span>.</p>
+<p>Si <span class="arithmatex">\(x\)</span> est représentable de manière exacte, alors on a égalité entre les trois termes et l&rsquo;opération d&rsquo;affectation <span class="arithmatex">\(X := x\)</span> est défini sans ambiguïté.</p>
+<p>Si ce n&rsquo;est pas le cas, comme par l&rsquo;exemple ci-dessus de <span class="arithmatex">\(0,1\)</span> en base 2, il faut choisir entre <span class="arithmatex">\(X^+\)</span> et <span class="arithmatex">\(X^-\)</span>, qui n&rsquo;ont pas plus de légitimité l&rsquo;un par rapport à l&rsquo;autre, à priori.</p>
+<p>C&rsquo;est ici qu&rsquo;intervient la norme IEEE-754 pour proposer quatre modes d&rsquo;arrondis permettant de lever l&rsquo;ambiguïté sur l&rsquo;opération d&rsquo;affectation. En voici une description succinte :</p>
+<ul>
+<li>Arrondi vers <span class="arithmatex">\(+\infty\)</span> (ou par excès) : on retourne <span class="arithmatex">\(X^+\)</span> sauf si <span class="arithmatex">\(x = X^-\)</span>.</li>
+<li>Arrondi vers <span class="arithmatex">\(-\infty\)</span> (ou par défaut) : on retourne <span class="arithmatex">\(X^-\)</span> sauf si <span class="arithmatex">\(x = X^+\)</span>.</li>
+<li>Arrondi vers <span class="arithmatex">\(0\)</span> : retourne <span class="arithmatex">\(X^-\)</span> pour les positifs et <span class="arithmatex">\(X^+\)</span> pour les négatifs.</li>
+<li>Arrondi au plus proche : retourne le nombre machine le plus proche de <span class="arithmatex">\(x\)</span>.</li>
+</ul>
+<p>Une propriété essentielle de la norme IEEE-754 c&rsquo;est qu&rsquo;elle garantit que le résultat d&rsquo;une opération en virgule flottante soit égal au résultat de l&rsquo;opération réelle correspondante auquel on applique le mode d&rsquo;arrondi à la suite. Autrement dit, si l&rsquo;on choisit un arrondi <span class="arithmatex">\(Arr\)</span>, <span class="arithmatex">\(a\)</span> et <span class="arithmatex">\(b\)</span> deux réels dont les représentations flottantes sont <span class="arithmatex">\(A\)</span> et <span class="arithmatex">\(B\)</span>, <span class="arithmatex">\(+\)</span> une opération réelle, et <span class="arithmatex">\(\oplus\)</span> son penchant machine, alors, la norme nous garantit que <span class="arithmatex">\(A \oplus B = Arr(a + b)\)</span>.</p>
+<p><mark>Cette propriété, dite d&rsquo;<strong>arrondi correct</strong>, est essentielle car elle permet de faire des preuves sur un algorithme numérique ou d&rsquo;obtenir des bornes prouvées pour des résultats numériques.</mark></p>
+<p>Pour terminer, on peut définir l&rsquo;erreur relative d&rsquo;affectation par la formule suivante : <span class="arithmatex">\(\alpha = \frac{X - x}{X}\)</span>. C&rsquo;est cette erreur initiale de représentation qui se propage au fur et à mesure des calculs.</p>
+<h3 id="les-differents-problemes-du-numericien">Les différents problèmes du numéricien<a class="headerlink" href="#les-differents-problemes-du-numericien" title="Permanent link">&para;</a></h3>
+<p>Comme mentionné précédemment, tout algorithme effectuant des calculs en virgule flottante donne un résultat entâché d&rsquo;erreurs. Lorsqu&rsquo;un algorithme est fini<sup id="fnref:fini"><a class="footnote-ref" href="#fn:fini">2</a></sup>, alors l&rsquo;erreur numérique est le résultat de la propagation des erreurs d&rsquo;arrondis ou de troncature lors des opérations en virgule flottante.</p>
+<p>Dans le cas d&rsquo;algorithmes itératifs, par exemple la méthode de Newton, présentée par Holosmos dans son cours sur les <a href="https://zestedesavoir.com/tutoriels/803/introduction-aux-developpements-limites/1353_application-la-methode-de-newton/5354_construction-et-analyse-de-la-methode-de-newton/">développements limités</a>, il est en plus nécessaire d&rsquo;arrêter l&rsquo;algorithme après un certain nombre, optimal si possible, d&rsquo;itérations, ce qui est un problème considerant que :</p>
+<ul>
+<li>Si l&rsquo;algorithme est arrêté trop tôt, la solution obtenue ne sera pas une bonne approximation de la solution cherchée. C&rsquo;est la <a href="https://fr.wikipedia.org/wiki/Vitesse_de_convergence_des_suites">vitesse de convergence</a> qui nous informe sur cela, c&rsquo;est-à-dire les mathématiques derrière une méthode spécifique ;</li>
+<li>Si l&rsquo;algorithme est arrêté trop tard, des étapes supplémentaires n&rsquo;apporteront pas plus de précision à la solution obtenue et pire, la propagation des erreurs peut dégrader la solution, jusque, pour les cas pathologiques, obtenir un résultat qui n&rsquo;a aucun sens.</li>
+</ul>
+<p>Ce qu&rsquo;il faut bien voir ici, c&rsquo;est qu&rsquo;étant donnée une méthode numérique itérative, les objectifs du mathématicien et du numéricien sont en quelque sorte opposés : le premier voudrait continuer à itérer autant que faire se peut (c&rsquo;est-à-dire tant que le matériel le permet) car il sait que cela conduit à une meilleure solution en théorie, tandis que le numéricien nous dit qu&rsquo;il faut s&rsquo;arrêter avant (c&rsquo;est-à-dire bien que le matériel n&rsquo;est pas contraint physiquement).</p>
+<p>En réalité, il y a au moins quatre problèmes intéressants et centraux :</p>
+<ol>
+<li>Pour le mathématicien : comment pour un matériel et un système de représentation des réels donnés puis-je obtenir une meilleure approximation de la solution à mon problème ?
+<strong>Réponse :</strong> trouver des algorithmes avec une vitesse de convergence plus grande ou des méthodes pour accélérer la convergence ! On citera à ce propos la méthode du <a href="https://fr.wikipedia.org/wiki/Delta-2">Delta-2 d&rsquo;Aitken</a> ou l&rsquo;<a href="https://fr.wikipedia.org/wiki/Epsilon_algorithme"><span class="arithmatex">\(\epsilon\)</span>-algorithme</a>.</li>
+<li>Pour le numéricien : comment pour un algorithme donné ET un matériel et système de représentation des réels donnés, obtenir une meilleure approximation de la solution ?
+<strong>Réponse :</strong> réorganiser les opérations de l&rsquo;algorithme pour limiter la propagation des erreurs de calculs tout en ne changeant pas la vitesse de convergence ! Une technique générique de réorganisation des termes d&rsquo;une somme pour limiter la propagation des erreurs s&rsquo;appelle <a href="https://en.wikipedia.org/wiki/Kahan_summation_algorithm">l&rsquo;algorithme de sommation de Kahan</a>.</li>
+<li>Pour tout le monde : comment pour un algorithme donné et son implémentation, tirer le meilleur de ce dernier ?
+<strong>Réponses :</strong> Choisir une représentation différente des réels, plus adaptée au problème (<a href="https://fr.wikipedia.org/wiki/Calcul_formel">système de calcul formel</a>, <a href="https://en.wikipedia.org/wiki/Decimal32_floating-point_format"><code>decimal32</code></a>, etc. ce qui demande généralement de meilleures performances matérielles) ou augmenter la taille de codage des réels (passage de la <a href="https://en.wikipedia.org/wiki/Single-precision_floating-point_format">simple</a> à la <a href="https://en.wikipedia.org/wiki/Double-precision_floating-point_format">double précision</a> ou <a href="https://en.wikipedia.org/wiki/Quadruple-precision_floating-point_format">quadruple précision</a>, etc. qui ne consiste qu&rsquo;à augmenter le nombre de bits pour coder la mantisse et l&rsquo;exposant pour représenter nos réels, ce qui là encore demande de meilleures performances matérielles).</li>
+<li>Pour le numéricien : comment déterminer le nombre optimal d&rsquo;itérations à effectuer pour un algorithme, quelles que soient les données en entrée ? À quelle distance ma solution numérique se trouve-elle de son équivalent réel ?
+<strong>Réponse :</strong> Trouver des méthodes d&rsquo;estimation de la précision numérique d&rsquo;un résultat, ce qui passe par l&rsquo;estimation de la propagation des erreurs d&rsquo;arrondis !</li>
+</ol>
+<p>C&rsquo;est ce dernier problème que s&rsquo;attache à résoudre la méthode CESTAC que l&rsquo;on présentera dans la section suivante. Cependant, comme nous le verrons ci-après, on ne peut faire l&rsquo;économie de quelques connaissances sur les autres problèmes.</p>
+<p><strong>Question :</strong> N&rsquo;exagères-tu pas un peu les erreurs de calculs et ne serait-ce pas finalement que des considérations pour chercheurs barbus ? Les erreurs sont-elles si courantes et si importantes ? De ce que j&rsquo;ai lu, la norme IEEE-754 permet une précision de l&rsquo;ordre de <span class="arithmatex">\(10^{-15}\)</span> en double précision donc mes résultats sont au moins aussi bons non ?</p>
+<p>Non, oui, et non. Prenons un cas pathologique extrêmement simple : <span class="arithmatex">\(x_n = ax_{n-1} - b\)</span>, soit un calcul extrêmement simple. En voici par ailleurs une implémentation en C++, avec une initialisation particulière :</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;iomanip&gt;</span><span class="cp"></span>
+<span class="cp">#include</span> <span class="cpf">&lt;limits&gt;</span><span class="cp"></span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
+     <span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+
+     <span class="kt">double</span>    <span class="n">b</span><span class="o">=</span><span class="mf">4095.1</span><span class="p">;</span>
+     <span class="kt">double</span>    <span class="n">a</span><span class="o">=</span><span class="n">b</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
+     <span class="kt">double</span>    <span class="n">x</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+
+     <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+          <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">b</span><span class="p">;</span>
+          <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;iter &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; - &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">setprecision</span><span class="p">(</span><span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;::</span><span class="n">max_digits10</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">x</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39;\n&#39;</span><span class="p">;</span>
+     <span class="p">}</span>
+     <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table>
+
+<p>Ce qui donne pour sortie (consultable directement <a href="http://ideone.com/ekKPml">ici</a>) :
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="go">iter 0 - 1.0000000000004547</span>
+<span class="go">iter 1 - 1.0000000018630999</span>
+<span class="go">iter 2 - 1.0000076314440776</span>
+<span class="go">iter 3 - 1.0312591580864137</span>
+<span class="go">iter 4 - 129.04063743775941</span>
+<span class="go">iter 5 - 524468.25500880636</span>
+<span class="go">iter 6 - 2148270324.2415719</span>
+<span class="go">iter 7 - 8799530071030.8047</span>
+<span class="go">...</span>
+<span class="go">iter 88 - 3.519444240677161e+305</span>
+<span class="go">iter 89 - inf</span>
+</pre></div>
+</td></tr></table></p>
+<p>Autrement dit, alors que le résultat mathématique attendu est <span class="arithmatex">\(1\)</span>, constant pour chaque itération, après quelques itérations sur machine il y a une divergence très rapide vers l&rsquo;infini. Après 4 itérations seulement, le nombre de chiffres significatifs entre le résultat réel exact et son penchant flottant est de 0 !</p>
+<h3 id="controle-et-estimation-stochastiques-des-arrondis-de-calculs">Contrôle et estimation stochastiques des arrondis de calculs<a class="headerlink" href="#controle-et-estimation-stochastiques-des-arrondis-de-calculs" title="Permanent link">&para;</a></h3>
+<h4 id="le-coeur-de-cestac-et-la-propagation-des-erreurs">Le coeur de CESTAC et la propagation des erreurs<a class="headerlink" href="#le-coeur-de-cestac-et-la-propagation-des-erreurs" title="Permanent link">&para;</a></h4>
+<p>L&rsquo;<a href="https://fr.wikipedia.org/wiki/Algèbre_sur_un_corps">algèbre</a> <span class="arithmatex">\(\mathcal{F}\)</span> sur le corps des nombres flottants n&rsquo;est pas <a href="https://fr.wikipedia.org/wiki/Associativité">associative</a> ni distributive. Autrement dit, l&rsquo;ordre dans lequel on effectue nos opérations arithmétiques a un impact sur le résultat.</p>
+<p><mark>La propriété d&rsquo;arrondi correct permet de garantir la commutativité<a href="https://i.imgur.com/E2HbSVF.jpg">.</a></mark></p>
+<p>À partir de maintenant, considérons <span class="arithmatex">\(f\)</span>, une procédure qui travaille sur <span class="arithmatex">\(\mathbb{R}\)</span>, et son image <span class="arithmatex">\(F\)</span>, une procédure travaillant sur <span class="arithmatex">\(\mathcal{F}\)</span>. À cause de la non-associativité, l&rsquo;image de <span class="arithmatex">\(f\)</span> n&rsquo;est en réalité pas unique et il existe plusieurs procédures qui transcrivent exactement <span class="arithmatex">\(f\)</span> du point de vue mathématique. Et évidemment, ces procédures, de par les arrondis de calculs, ne vont pas retourner le même flottant.</p>
+<div class="admonition example">
+<p class="admonition-title">Exemple:</p>
+<p>Soit la fonction suivante <span class="arithmatex">\(f(x) = x^2 + x + 1\)</span>. La fonction sur <span class="arithmatex">\(\mathcal{F}\)</span> la plus naïve serait <span class="arithmatex">\(F_1(X) = (X^2 + X) + 1\)</span> mais l&rsquo;on pourrait également avoir <span class="arithmatex">\(F_2(X) = X^2 + (X + 1)\)</span> ou encore <span class="arithmatex">\(F_3(X) = X(X+1) + 1\)</span>. Il est évident que sur <span class="arithmatex">\(\mathbb{R}\)</span> toutes ces procédures sont exactement les mêmes car elles renvoient exactement le même résultat de par les propriétés d&rsquo;associativité et de distributivité.</p>
+</div>
+<p>Par contre, ce n&rsquo;est pas le cas si l&rsquo;on travaille sur les flottants car tous les résultats intermédiaires seront arrondis. Ainsi, pour un <span class="arithmatex">\(X\)</span> fixé, il est tout à fait possible que <span class="arithmatex">\(F_1(X) \neq F_2(X) \neq F_3(X)\)</span>.</p>
+<div class="admonition example">
+<p class="admonition-title">Exemple numérique:</p>
+<p>Considérons des nombres flottants avec 6 chiffres de précision. Prenons <span class="arithmatex">\(x=1.23456\times 10^{-3}\)</span>, <span class="arithmatex">\(y=1.00000\times 10^{0}\)</span> et <span class="arithmatex">\(z = -y\)</span>. Si l&rsquo;on effectue le calcul <span class="arithmatex">\((x + y) + z\)</span>, on trouve <span class="arithmatex">\(1.23000\times 10^{-3}\)</span>, cependant, le calcul <span class="arithmatex">\(x + (y + z)\)</span> donnera <span class="arithmatex">\(1.23456\times 10^{-3}\)</span>. On voit donc que l&rsquo;ordre des opérations importe.</p>
+</div>
+<p>Comme dans la réalité, les algorithmes sont une succession de petites opérations de calculs, comme celle de l&rsquo;exemple ci-dessus sur l&rsquo;évaluation d&rsquo;un polynôme, le résultat calculé va propager les erreurs opération après opération. Dans les scénarios optimistes, les erreurs se compensent ou sont trop faibles et le résultat est remarquablement proche de ce que permet la précision de la représentation (quoiqu&rsquo;il en soit, il est impossible de dépasser 16 chiffres significatifs en double précision, par définition !), mais dans le pire des scénarios, le résultat peut être totalement aberrant.</p>
+<div class="admonition example">
+<p class="admonition-title">Exemple:</p>
+<p>Propagation de l&rsquo;erreur de l&rsquo;addition. Considérons <span class="arithmatex">\(x\)</span> et <span class="arithmatex">\(y\)</span> deux réels et leurs représentations machines <span class="arithmatex">\(X\)</span> et <span class="arithmatex">\(Y\)</span> entâchées respectivement d&rsquo;une erreur <span class="arithmatex">\(\epsilon_x\)</span> et <span class="arithmatex">\(\epsilon_y\)</span>.</p>
+</div>
+<p>Que se passe-t-il lorsque nous les ajoutons ?</p>
+<div class="arithmatex">\[X + Y = x + \epsilon_x + y + \epsilon_y = (x+y) + \epsilon_x + \epsilon_y\]</div>
+<p>Celles-ci s&rsquo;ajoutent entre elles et surtout, s&rsquo;ajoutent au résultat exact qu&rsquo;est <span class="arithmatex">\(x+y\)</span>. Si nous additions à ce résultat un troisième flottant, nous obtiendrons un nouveau terme d&rsquo;erreur, etc. Le résultat obtenu en machine sera d&rsquo;autant plus loin du résultat exact que la somme des erreurs ne sera pas négligeable devant les termes exacts (ici <span class="arithmatex">\(x\)</span> et <span class="arithmatex">\(y\)</span>).</p>
+<p>En résumé, à partir d&rsquo;une procédure <span class="arithmatex">\(f\)</span> sur le corps des réels, il existe plusieurs procédures <span class="arithmatex">\((F_i)_{0 \leq i &lt; K}\)</span> que l&rsquo;on obtient en permutant les opérations élémentaires et qui offrent théoriquement, et dans le pire des cas, <span class="arithmatex">\(K\)</span> différents résultats. S&rsquo;ajoute à cela une perturbation du résultat par le mode d&rsquo;arrondi choisi qui vient encore grossir le pire des cas <sup id="fnref:pire"><a class="footnote-ref" href="#fn:pire">3</a></sup>.</p>
+<p>Le coeur de CESTAC est de tirer parti de la grande variabilité des résultats obtenus par <strong>perturbations</strong> des résultats d&rsquo;une opération et <strong>permutations</strong> des opérandes afin d&rsquo;estimer le nombre de <strong><a href="https://fr.wikipedia.org/wiki/Chiffre_significatif">chiffres significatifs</a></strong> d&rsquo;un résultat numérique. En propageant les erreurs de calculs de manières différentes, et aléatoires, on sera capable d&rsquo;estimer la partie variable parmi les résultats obtenus - la partie entâchée d&rsquo;erreurs, ou non représentative -, de la partie fixe - la partie exacte -.</p>
+<h4 id="a-la-recherche-du-nombre-de-chiffres-significatifs">À la recherche du nombre de chiffres significatifs<a class="headerlink" href="#a-la-recherche-du-nombre-de-chiffres-significatifs" title="Permanent link">&para;</a></h4>
+<p>Si l&rsquo;on dispose d&rsquo;une procédure <span class="arithmatex">\(F\)</span> que l&rsquo;on exécute <span class="arithmatex">\(N\)</span> fois avec une perturbation et permutation <strong>aléatoires</strong> à chaque fois, on obtient un <a href="https://fr.wikipedia.org/wiki/Échantillon_(statistiques)">échantillon</a> <span class="arithmatex">\(R = (R_0, R_1, ... , R_{N-1})\)</span> de résultats. On peut donc considérer <span class="arithmatex">\(F\)</span> comme une <a href="https://fr.wikipedia.org/wiki/Variable_aléatoire">variable aléatoire</a> à valeurs dans <span class="arithmatex">\(\mathcal{F}\)</span>, avec une <a href="https://fr.wikipedia.org/wiki/Espérance_mathématique">espérance</a> <span class="arithmatex">\(\mu\)</span> et un <a href="https://fr.wikipedia.org/wiki/Écart_type">écart-type</a> <span class="arithmatex">\(\sigma\)</span>. L&rsquo;espérance <span class="arithmatex">\(\mu\)</span> peut être interprétée comme le résultat attendu de l&rsquo;algorithme, c&rsquo;est-à-dire le nombre à virgule flottante qui code notre solution réelle <span class="arithmatex">\(r\)</span>. L&rsquo;erreur par rapport à cette espérance, c&rsquo;est-à-dire <span class="arithmatex">\(\alpha = |r - \mu|\)</span> est la perte de précision que l&rsquo;on est en droit d&rsquo;attendre du fait d&rsquo;effectuer des calculs en virgule flottante. Le problème est que <span class="arithmatex">\(\mu\)</span> n&rsquo;est pas connue, et donc, on va l&rsquo;estimer.</p>
+<p>Dans ce cadre, avec pour hypothèse que les éléments de <span class="arithmatex">\(R\)</span> sont issus d&rsquo;une <a href="https://fr.wikipedia.org/wiki/Loi_normale">distribution gaussienne</a> (ce qui est vérifié en pratique), le meilleur <a href="https://fr.wikipedia.org/wiki/Estimateur_(statistique)">estimateur</a> de <span class="arithmatex">\(\mu\)</span> est la moyenne de l&rsquo;échantillon <span class="arithmatex">\(R\)</span> :
+<span class="arithmatex">\(<span class="arithmatex">\(\bar R = \frac 1 N \sum^N_i R_i\)</span>\)</span></p>
+<p>De la même manière, le meilleur estimateur de <span class="arithmatex">\(\sigma^2\)</span> est donné par:
+<span class="arithmatex">\(<span class="arithmatex">\(S^2 = \frac 1 {N-1} \sum^N_i (R_i - R)^2\)</span>\)</span></p>
+<p>Un usage classique du <a href="https://fr.wikipedia.org/wiki/Théorème_central_limite">théoreme central limite</a> nous permet de construire un <a href="https://fr.wikipedia.org/wiki/Intervalle_de_confiance">intervalle de confiance</a> pour la valeur exacte <span class="arithmatex">\(r\)</span> pour un seuil <span class="arithmatex">\(p\)</span> :</p>
+<div class="arithmatex">\[\mathbb{P}\,(r \in [\bar R - t_{N-1}(p) \frac{S}{\sqrt{N}}; \bar R + t_{N-1}(p) \frac{S}{\sqrt{N}}]) = 1 - p\]</div>
+<p>Où <span class="arithmatex">\(t_{N-1}(p)\)</span> est la valeur de la <a href="https://fr.wikipedia.org/wiki/Fonction_de_répartition">fonction de répartition</a> de <a href="https://fr.wikipedia.org/wiki/Loi_de_Student">Student</a> pour <span class="arithmatex">\((N-1)\)</span> degrès de libertés et un seuil de <span class="arithmatex">\(p\)</span>.</p>
+<p>À partir de cet intervalle, il est possible de calculer le nombre de chiffres significatifs décimaux <span class="arithmatex">\(C\)</span> de notre estimateur <span class="arithmatex">\(\bar R\)</span> :</p>
+<div class="arithmatex">\[C_{\bar R} = \log_{10}(\frac {|\bar R|} {S}) - K(N, p)\]</div>
+<p>où <span class="arithmatex">\(K\)</span> ne dépend que de <span class="arithmatex">\(N\)</span> et <span class="arithmatex">\(p\)</span>, et qui tend vers <span class="arithmatex">\(0\)</span> avec <span class="arithmatex">\(N\)</span> qui augmente. La valeur de <span class="arithmatex">\(p\)</span> est fixée en pratique à <span class="arithmatex">\(0.05\)</span>, ce qui permet d&rsquo;obtenir un intervalle de confiance à <span class="arithmatex">\(95\%\)</span>. Voici maintenant la valeur de <span class="arithmatex">\(K\)</span> obtenue en fonction de <span class="arithmatex">\(N\)</span>, pour <span class="arithmatex">\(p = 0.05\)</span> :</p>
+<table>
+<thead>
+<tr>
+<th>N</th>
+<th>K</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>2</td>
+<td>1.25</td>
+</tr>
+<tr>
+<td>3</td>
+<td>0.396</td>
+</tr>
+</tbody>
+</table>
+<p>Cela peut paraître peu mais comme pour <span class="arithmatex">\(N=3\)</span>, <span class="arithmatex">\(K\)</span> est déjà inférieur à <span class="arithmatex">\(1\)</span>, en moyenne, il n&rsquo;y a pas de perte de chiffre significatif à utiliser cette valeur comme taille pour l&rsquo;échantillon <span class="arithmatex">\(R\)</span>. En fait, augmenter ce nombre est inutile car la longueur de l&rsquo;intervalle évoluant en <span class="arithmatex">\(\frac 1 N\)</span>, pour obtenir un chiffre significatif supplémentaire, il faudrait multiplier <span class="arithmatex">\(N\)</span> par 100 (à cause du <span class="arithmatex">\(\log_{10}\)</span>) !</p>
+<h4 id="la-construction-de-lechantillon-r">La construction de l&rsquo;échantillon <span class="arithmatex">\(R\)</span><a class="headerlink" href="#la-construction-de-lechantillon-r" title="Permanent link">&para;</a></h4>
+<p>Maintenant que nous avons la théorie, il nous faut savoir comment construire un échantillon <span class="arithmatex">\(R\)</span> de résultats qui soit le plus représentatif possible de la multitude des résultats obtenables à partir de notre procédure <span class="arithmatex">\(F\)</span>.</p>
+<p>Pour cela, on dispose d&rsquo;une fonction de <strong>perturbation</strong>, <code>pert</code>, qui pour un flottant <span class="arithmatex">\(X\)</span> particulier, renvoie un flottant perturbé <span class="arithmatex">\(X'\)</span> tel que <span class="arithmatex">\(X'\)</span> soit <span class="arithmatex">\(X\)</span> auquel on a modifié le dernier bit de mantisse de manière aléatoire et uniforme. Il s&rsquo;agit d&rsquo;ajouter au dernier bit de mantisse <span class="arithmatex">\(-1\)</span>, <span class="arithmatex">\(0\)</span> ou <span class="arithmatex">\(1\)</span> en mode arrondi avec une probabilité de <span class="arithmatex">\(\frac 1 3\)</span>.</p>
+<p>Cette perturbation consiste à choisir aléatoirement parmi <span class="arithmatex">\(X^+\)</span> et <span class="arithmatex">\(X^-\)</span>, que nous évoquions dans la première partie, et ce, afin de simuler la propagation des erreurs d&rsquo;arrondis.</p>
+<p>On utilise <code>pert</code> à chaque fois qu&rsquo;une affectation est effectuée, qu&rsquo;il s&rsquo;agit d&rsquo;une affectation initiale comme déclaration de variable flottante, ou le résultat de multiples calculs.</p>
+<p>On dispose également d&rsquo;un opérateur de <strong>permutation</strong>, <code>perm</code>, qui à chaque opérateur d&rsquo;affectation va modifier aléatoirement le terme de droite en effectuant l&rsquo;une des permutations autorisées par l&rsquo;associativité et la distributivité. Autrement dit, il s&rsquo;agit de choisir entre <span class="arithmatex">\(F_1\)</span>, <span class="arithmatex">\(F_2\)</span> ou <span class="arithmatex">\(F_3\)</span> dans l&rsquo;exemple ci-dessus.</p>
+<div class="admonition note">
+<p class="admonition-title">Remarque:</p>
+<p>En fait, en théorie, on pourrait aller plus loin en permutant toutes les opérations indépendantes entre elles, c&rsquo;est-à-dire en réorganisant purement et simplement l&rsquo;algorithme autant que faire se peut.
+En pratique on ne le fait pas, notamment car c&rsquo;est très compliqué pour un gain pas très intéressant.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Attention</p>
+<p>Dans la vraie vie, nous sommes au courant des différents pièges posés par la stabilité des calculs numériques et comment les déjouer, notamment en organisant correctement nos calculs (par exemple, sommer des nombres par ordre croissant limite la propagation d&rsquo;erreurs), ou en utilisant des mécanismes de compensation d&rsquo;erreurs (citons par exemple l&rsquo;<a href="https://en.wikipedia.org/wiki/Kahan_summation_algorithm">algorithme de sommation de Kahan</a>). C&rsquo;est d&rsquo;ailleurs l&rsquo;objectif du problème 2. évoqué plus haut. De fait, à partir du moment où l&rsquo;on optimise sciemment l&rsquo;ordre des opérations, l&rsquo;utilisation de <code>perm</code> devient inutile car menant à un intervalle de confiance élargi à tort, et donc une surestimation des erreurs (en plus d&rsquo;un surcoût non negligeable de calcul).</p>
+</div>
+<p>Ainsi, on ne considerera <strong>pas</strong> les permutations dans la suite.</p>
+<p>À partir de là, il existe deux manières d&rsquo;utiliser <code>pert</code> pour créer un échantillon <span class="arithmatex">\(R\)</span> et estimer le nombre de chiffres significatifs d&rsquo;un résultat numérique.</p>
+<h5>Utilisation asynchrone</h5>
+<p>L&rsquo;utilisation asynchrone consiste à effectuer nos perturbations à chaque affectation, et à construire notre échantillon <span class="arithmatex">\(R\)</span> comme le resultat de <span class="arithmatex">\(N\)</span> appels à notre procedure <span class="arithmatex">\(F\)</span>. Autrement dit, les <span class="arithmatex">\(N\)</span> appels sont indépendants, d&rsquo;où le nom asynchrone. Une fois l&rsquo;échantillon à notre disposition, on calcule le nombre de chiffres significatifs <em>a posteriori</em>.</p>
+<p>Illustration de la méthode asynchrone avec une suite itérative définit par <span class="arithmatex">\(X_n = F(X_{n-1})\)</span> et pour terme initial <span class="arithmatex">\(X_0\)</span> avec <span class="arithmatex">\(N=3\)</span>:</p>
+<div class="arithmatex">\[
+\begin{matrix}
+&amp; \nearrow X^0_1 = \text{pert}(F(X_0)) &amp; \to X^0_2 = \text{pert}(F(X^0_1)) &amp; \to \dots \to &amp; X^0_n = \text{pert}(F(X^0_{n-1})) &amp; \searrow &amp; \\
+X_0 &amp; \to X^1_1 = \text{pert}(F(X_0)) &amp;\to X^1_2 = \text{pert}(F(X^1_1)) &amp; \to \dots \to &amp; X^1_n = \text{pert}(F(X^1_{n-1})) &amp; \to &amp; C((X_n^i)) \\
+ &amp; \searrow X^2_1 = \text{pert}(F(X_0)) &amp; \to X^2_2 = \text{pert}(F(X^2_1)) &amp; \to \dots \to &amp; X^2_n = \text{pert}(F(X^2_{n-1})) &amp; \nearrow &amp; \\
+\end{matrix}
+\]</div>
+<p>D&rsquo;apparence logique, cette méthode se heurte à deux problemes majeurs.</p>
+<ul>
+<li>La propagation des erreurs ne se faisant pas nécessairement de la même manière, il est possible que les exécutions de la procédure converge vers des réels différents, auquel cas l&rsquo;échantillon est incohérent. Cela peut être le cas si le problème à résoudre admet plusieurs solutions par exemple.</li>
+<li>D&rsquo;une exécution à l&rsquo;autre, comme il y a certainement des embranchements conditionnels, deux résultats peuvent provenir d&rsquo;une suite d&rsquo;embranchements différents à cause des erreurs d&rsquo;arrondis. Dès lors il n&rsquo;est pas pertinent de comparer ces résultats.</li>
+</ul>
+<p>Pour ces deux raisons, la version asynchrone est inapplicable en général.</p>
+<h5>Utilisation synchrone</h5>
+<p>La version synchrone consiste cette fois à faire évoluer l&rsquo;échantillon à chaque opération d&rsquo;affectation et utiliser la moyenne empirique de celui-ci pour les embranchements<sup id="fnref:pratique"><a class="footnote-ref" href="#fn:pratique">4</a></sup>. Il est possible de donner une estimation du nombre de chiffres significatifs à tout moment car on dispose de l&rsquo;échantillon à tout moment durant l&rsquo;exécution. De fait, cela répond aux deux problématiques de la version asynchrone :</p>
+<ul>
+<li>À chaque étape, le résultat est consistant avec lui même, il ne peut s&rsquo;agir de différentes solutions puisqu&rsquo;il n&rsquo;y a jamais qu&rsquo;une seule valeur qui est utilisée pour les structures conditionnelles.</li>
+<li>La série d&rsquo;embranchements sera nécessairement unique par construction, ce qui rend le résultat final cohérent.</li>
+</ul>
+<p>Illustration de la méthode synchrone sur le même exemple que précédemment :</p>
+<div class="arithmatex">\[
+\begin{matrix}
+&amp; \nearrow X^0_1 = \text{pert}(F(X_0)) &amp; \searrow &amp; &amp; \nearrow X^0_2 = \text{pert}(F({X^1_1})) \searrow &amp; &amp; \nearrow &amp; X^0_n = \text{pert}(F(X^1_{n-1})) &amp; \searrow &amp; \\
+X_0 &amp; \to X^1_1 = \text{pert}(F(X_0))&amp; \to &amp; \bar{X_1} &amp;\to X^1_2 = \text{pert}(F(X^1_1)) \to &amp; \dots &amp;\to &amp; X^1_n = \text{pert}(F(X^1_{n-1})) &amp; \to &amp; C((X^i_n))\\
+ &amp; \searrow X^2_1 = \text{pert}(F(X_0))&amp; \nearrow &amp; &amp; \searrow X^2_2 = \text{pert}(F(X^2_1)) \nearrow &amp; &amp; \searrow &amp; X^2_n = \text{pert}(F(X^2_{n-1})) &amp; \nearrow &amp;\\
+\end{matrix}
+\]</div>
+<p>Remarquez les points de synchronisation après chaque étape, d&rsquo;où le nom de méthode <em>synchrone</em>, là où dans la méthode asynchrone les <span class="arithmatex">\((X^i_j) ~ \forall 0 \leq i &lt; N\)</span> sont indépendants.</p>
+<h3 id="cestac-sur-un-algorithme-iteratif">CESTAC sur un algorithme itératif<a class="headerlink" href="#cestac-sur-un-algorithme-iteratif" title="Permanent link">&para;</a></h3>
+<p>Maintenant que nous savons comment déterminer le nombre de chiffres significatifs d&rsquo;un résultat numérique, on va s&rsquo;intéresser au problème d&rsquo;arrêt optimal. La solution exacte à un problème que l&rsquo;on se propose de résoudre est notée <span class="arithmatex">\(x^*\)</span>. On dispose d&rsquo;un algorithme itératif, qui donne à l&rsquo;itération <span class="arithmatex">\(k\)</span>, la solution approchée <span class="arithmatex">\(x_k\)</span> et l&rsquo;on sait que cet algorithme converge après un nombre fini ou non d&rsquo;étapes, c&rsquo;est-à-dire que <span class="arithmatex">\(x_k \to x^*\)</span>.</p>
+<p>Enfin, on dispose d&rsquo;une implémentation de notre algorithme qui à chaque itération fournit une solution approchée <span class="arithmatex">\(X_k\)</span> entâchée des erreurs numériques.</p>
+<p>Un critère classique pour arrêter un algorithme itératif à une précision donnée est le test <span class="arithmatex">\(||x_k - x_{k-1}|| &lt; \epsilon\)</span>, où <span class="arithmatex">\(\epsilon\)</span> fixé, contrôle la précision. Une variante est donnée par <span class="arithmatex">\(||x_k - x_{k-1}|| &lt; ||x_k||\epsilon\)</span>. Ce test est extrêmement robuste en arithmétique usuelle possédant une précision infinie puisqu&rsquo;il permet de détecter lorsqu&rsquo;une itération n&rsquo;apporte plus de gain significatif à la précision de la solution. À contrario, en arithmétique flottante, comme tous les <span class="arithmatex">\(X_k\)</span> sont entâchés d&rsquo;erreurs, la soustraction de termes très proches conduit à des petites valeurs qui peuvent ne plus être significatives du tout.</p>
+<p>Le pire scénario possible est le suivant : <span class="arithmatex">\(\epsilon\)</span> est choisi trop petit, et les erreurs de calculs qui se sont accumulées sont trop grandes en comparaison de <span class="arithmatex">\(\epsilon\)</span>, ce qui fait que l&rsquo;algorithme ne convergera jamais, sa solution se dégradera pour soit converger vers une valeur incohérente, soit diverger purement et simplement !</p>
+<div class="admonition def">
+<p class="admonition-title">Définition (zéro machine):</p>
+<p>Une valeur <span class="arithmatex">\(X \in \mathcal{F}\)</span>, résultat d&rsquo;un calcul numérique, avec un nombre <span class="arithmatex">\(C\)</span> de chiffres significatifs, est un <strong>zéro machine</strong> si <span class="arithmatex">\(X=0\)</span> et <span class="arithmatex">\(C &gt; 1\)</span> ou <span class="arithmatex">\(X\)</span> est quelconque mais <span class="arithmatex">\(C = 0\)</span>. On note un zéro machine <span class="arithmatex">\(\bar 0\)</span>.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Attention</p>
+<p>La notion de <strong>zéro machine</strong> ne doit pas être confondue avec la notion d&rsquo;<a href="https://en.wikipedia.org/wiki/Machine_epsilon">epsilon machine</a> ni avec le <a href="https://en.wikipedia.org/wiki/IEEE_754-1985#Zero">zéro</a> tel qu&rsquo;il est représenté dans la norme IEE754.</p>
+</div>
+<p>Comme CESTAC a très exactement pour rôle de déterminer le nombre de chiffres significatifs d&rsquo;un résultat, on peut donc l&rsquo;utiliser pour trouver les zéros machines et modifier notre test d&rsquo;arrêt en conséquence, qui devient le suivant à l&rsquo;itération <span class="arithmatex">\(k\)</span> :</p>
+<ol>
+<li>Si <span class="arithmatex">\(C(X_k) = 0\)</span> et <span class="arithmatex">\(X_k \neq 0\)</span>, alors le résultat est entâché d&rsquo;une erreur plus grande que sa propre valeur et il ne sert à rien de continuer : on arrête l&rsquo;algorithme.</li>
+<li>Si <span class="arithmatex">\(||X_n - X_{n-1}|| = \bar 0\)</span>, on arrête l&rsquo;algorithme puisque la différence entre deux itérations ne représente que des erreurs de calculs.</li>
+<li>Si le nombre d&rsquo;itérations dépasse une certaine limite <span class="arithmatex">\(K\)</span>, la suite est considérée comme non convergente et l&rsquo;on arrête l&rsquo;algorithme.</li>
+</ol>
+<h3 id="allez-plus-loin-discussions-sur-la-validite-de-cestac">Allez plus loin : discussions sur la validité de CESTAC<a class="headerlink" href="#allez-plus-loin-discussions-sur-la-validite-de-cestac" title="Permanent link">&para;</a></h3>
+<p><strong>Information :</strong> Cette section est destinée à discuter de manière plus avancée les hypothèses de validité de la méthode CESTAC et peut donc être mise de côté pour une première lecture, d&rsquo;autant qu&rsquo;elle peut s&rsquo;avérer un peu plus technique.</p>
+<p>Il y a plusieurs hypothèses qui ont été formulées afin d&rsquo;aboutir à la formule du nombre de chiffres significatifs et qui amènent à se poser la question suivante : peut-on raisonnablement utiliser un test de Student afin d&rsquo;obtenir l&rsquo;intervalle de confiance ? Cela revient à se demander si l&rsquo;estimateur <span class="arithmatex">\(\bar X\)</span> utilisé est biaisé ou non.</p>
+<h4 id="le-biais-de-lestimateur">Le biais de l&rsquo;estimateur<a class="headerlink" href="#le-biais-de-lestimateur" title="Permanent link">&para;</a></h4>
+<p>Sans faire de démonstration et en référant à des résultats d&rsquo;études des créateurs de la méthode CESTAC, tentons de donner les grandes lignes justifiant le biais nul de l&rsquo;estimateur de la moyenne empirique.</p>
+<div class="admonition theorem">
+<p class="admonition-title">Théorème:</p>
+<p>Un résultat <span class="arithmatex">\(X\)</span> d&rsquo;une procédure <span class="arithmatex">\(F\)</span>, perturbé, peut s&rsquo;écrire :
+$$X = x + \sum _{i = 1}^n d_i 2^{-t}(\alpha_i - h_i) + O(2^{-2t}) $$</p>
+<p>Où <span class="arithmatex">\(x\)</span> est le résultat exact, <span class="arithmatex">\(n\)</span> le nombre d&rsquo;affectations et d&rsquo;opérations arithmétiques effectuées par <span class="arithmatex">\(F\)</span>, <span class="arithmatex">\(d_i\)</span> des quantités ne dépendant que des données et de la procédure <span class="arithmatex">\(F\)</span>, <span class="arithmatex">\((\alpha_i)_i\)</span> les erreurs d&rsquo;arrondis ou de troncature et <span class="arithmatex">\((h_i)_i\)</span> les perturbations effectuées.</p>
+</div>
+<p>Le biais de l&rsquo;estimateur <span class="arithmatex">\(\bar X\)</span> est la quantité <span class="arithmatex">\(E[\bar X] - x\)</span> . En supposant que les <span class="arithmatex">\((\alpha_i)_i\)</span> suivent une distribution uniforme sur l&rsquo;intervalle « qui va bien »<sup id="fnref:intervalle"><a class="footnote-ref" href="#fn:intervalle">5</a></sup>, il suffit de choisir correctement les <span class="arithmatex">\((h_i)_i\)</span> pour recentrer les <span class="arithmatex">\((\alpha_i)_i\)</span> et ainsi obtenir le résultat suivant, <strong>en négligeant les termes d&rsquo;ordre supérieur</strong> :
+$$X&rsquo; = x + \sum _{i = 1}^n d_i 2^{-t}(z_i) $$</p>
+<p>Où les <span class="arithmatex">\(z_i\)</span> sont des variables identiquement distribuées et centrées, de sorte que <span class="arithmatex">\(E(X') = x\)</span>, rendant le biais de notre estimateur nul.</p>
+<p>L&rsquo;hypothèse de la distribution des <span class="arithmatex">\(\alpha_i\)</span> est validée dès lors qu&rsquo;il y a suffisamment d&rsquo;opérations dans la procédure <span class="arithmatex">\(F\)</span>, autrement dit que <span class="arithmatex">\(n\)</span> est suffisamment grand. En fait, très précisément, le biais n&rsquo;est pas nul mais l&rsquo;on peut montrer qu&rsquo;il est de l&rsquo;ordre de quelques <span class="arithmatex">\(\sigma\)</span> ce qui fausse l&rsquo;estimation finale de moins d&rsquo;un chiffre significatif.</p>
+<h4 id="la-validite-du-test-de-student">La validité du test de Student<a class="headerlink" href="#la-validite-du-test-de-student" title="Permanent link">&para;</a></h4>
+<p>Comme nous l&rsquo;avons vu, l&rsquo;hypothèse de répartition des <span class="arithmatex">\(\alpha_i\)</span> est satisfaisante en théorie et en pratique. Mais par contre, pour arriver à ne plus avoir de biais nous avons fait une hypothèse supplémentaire, celle que les termes d&rsquo;ordre supérieur sont négligeables.</p>
+<p>Or, s&rsquo;il est facile de voir que l&rsquo;addition ou la soustraction ne créent pas d&rsquo;erreur d&rsquo;ordre <span class="arithmatex">\(2\)</span>, ce n&rsquo;est pas le cas de la multiplication ou de la division, puisqu&rsquo;en considérant <span class="arithmatex">\(X_1 = x_1 + \epsilon_1\)</span> et <span class="arithmatex">\(X_2 = x_2 + \epsilon_2\)</span>, ces opérateurs s&rsquo;écrivent :</p>
+<div class="arithmatex">\[X_1X_2 = x_1x_2 + x_1\epsilon_2 +  x_2\epsilon_1 + \epsilon_1\epsilon_2\]</div>
+<div class="arithmatex">\[\frac{X_1}{X_2} = \frac{x_1}{x_2} + \frac{\epsilon_2}{x_1} - \frac{x_1 \epsilon_2}{x_2^2} + O(\frac{\epsilon_2}{x_2})\]</div>
+<p>Le problème pour la multiplication est que si les erreurs <span class="arithmatex">\(\epsilon\)</span> respectives des deux opérandes sont prépondérantes devant les valeurs exactes <span class="arithmatex">\(x\)</span>, alors le terme d&rsquo;ordre <span class="arithmatex">\(2\)</span> devient prépondérant. Pour la division, les termes d&rsquo;ordres supérieurs deviennent prépondérants si <span class="arithmatex">\(\epsilon_2\)</span> l&rsquo;est devant <span class="arithmatex">\(x_2\)</span>.</p>
+<p>Dès lors, il existe deux manières complémentaires pour aider à respecter ces contraintes de validité de la méthode CESTAC :</p>
+<ul>
+<li>Augmenter la précision de la représentation, c&rsquo;est-à-dire coder chaque réel sur plus de bits, ce qui fera diminuer les <span class="arithmatex">\(\epsilon\)</span>. Autrement dit, la réponse au <strong>problème 3</strong>.</li>
+<li>Limiter au maximum la propagation des erreurs de calculs, c&rsquo;est-à-dire appliquer les recettes en réponse au <strong>problème 2</strong>.</li>
+</ul>
+<p>Une approche systématique envisageable consiste à inclure un contrôle dynamique sur le résultat des opérations de multiplication ou division, moyennant un coût important.</p>
+<h3 id="conclusion-cestac-mais-pour-quoi-et-pour-qui">Conclusion : CESTAC, mais pour quoi et pour qui ?<a class="headerlink" href="#conclusion-cestac-mais-pour-quoi-et-pour-qui" title="Permanent link">&para;</a></h3>
+<p>Nous avons vu les différents problèmes qui apparaissent dès lors que l&rsquo;on effectue des calculs en virgule flottante et nous avons donné une technique robuste afin de contrôler la propagation des erreurs induites par ces calculs. Après avoir présenté les fondements de la méthode et les modalités d&rsquo;utilisation, nous avons appliqué CESTAC au problème d&rsquo;arrêt optimal d&rsquo;un algorithme itératif. Enfin, une dernière partie fut consacrée à la discussion sur la validité de la méthode et une esquisse de preuve <em>dans l&rsquo;idée</em>.</p>
+<p>La seule question qui n&rsquo;a pas été abordée, et qui nous servira de conclusion, est : quand utiliser CESTAC ? Il est bien évident que la méthode présente un coût important en temps de calcul, qui doit pouvoir être justifié par un gain au moins aussi important. La nécessité d&rsquo;évaluation et de contrôle des erreurs est par exemple un point crutial pour les systèmes critiques tels que les avions. C&rsquo;est d&rsquo;ailleurs pour cette raison que la méthode est très utilisée dans le domaine de l&rsquo;aéro-nautique, afin de contrôler à la fois les simulations mais aussi directement les calculs au sein des sytèmes embarqués.</p>
+<p><center><figure><img src="images/2016-05-23-controler-la-propagation-des-erreurs-de-calculs-numeriques/3.jpg" /><figcaption>Le type de simulation critique qui pourrait nécessiter CESTAC.</figcaption>
+</figure></center></p>
+<h3 id="bibliographie">Bibliographie<a class="headerlink" href="#bibliographie" title="Permanent link">&para;</a></h3>
+<p>Afin d&rsquo;écrire cet article, je me suis principalement basé sur les ouvrages, articles ou documents suivants. J&rsquo;invite donc le lecteur désireux d&rsquo;en savoir plus à consulter ces ouvrages, malheureusement pour la plupart payants, mais dont des extraits sont disponibles sur Internet légalement et gratuitement.</p>
+<ul>
+<li><a href="http://www.editionstechnip.com/fr/catalogue-detail/144/ingenierie-du-controle-de-la-precision-des-calculs-sur-ordinateur.html">Ingénierie du contrôle de la précision des calculs sur ordinateur</a>, Michèle Pichat et Jean Vignes.</li>
+<li><a href="http://www-pequan.lip6.fr/~jmc/polycopies/poly_vln.pdf">Validité du logiciel numérique</a>, Jean-Marie Chesnaux, support de cours dispensé à l&rsquo;UPMC.</li>
+<li><a href="http://www.techniques-ingenieur.fr/base-documentaire/sciences-fondamentales-th8/methodes-numeriques-42105210/validation-des-resultats-des-logiciels-scientifiques-af1471/approche-stochastique-de-l-analyse-des-erreurs-d-arrondi-methode-cestac-af1471niv10002.html">Approche stochastique de l&rsquo;analyse des erreurs d&rsquo;arrondi : méthode CESTAC</a>, Jean Vignes et René Alt.</li>
+<li><a href="http://eu.wiley.com/WileyCDA/WileyTitle/productCd-0470035544.html">Handbook of Granular Computing</a>, Witold Pedrycz, Andrzej Skowron et Vladik Kreinovich.</li>
+</ul>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:normal">
+<p>Donnons une preuve succinte. Par définition, un nombre normal est un nombre tel que toute suite finie de <em>bits</em> apparait un nombre infini de fois dans la mantisse de ce nombre et la probabilité d&rsquo;apparition des suites est uniforme. Il est dit normal en toute base si quelle que soit la base il est normal. Grâce au <a href="https://fr.wikipedia.org/wiki/Th%C3%A9or%C3%A8me_de_Borel-Cantelli">lemme de Borel-Cantelli</a> on prouve que l&rsquo;ensemble des nombres non-normaux en toute base est de mesure nulle. Donc en tirant un nombre au hasard sur <span class="arithmatex">\(\mathbb{R}\)</span>, quelle que soit la base considérée, la probabilité que le nombre soit normal est 1. <span class="arithmatex">\(\square\)</span>&#160;<a class="footnote-backref" href="#fnref:normal" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+<li id="fn:fini">
+<p>où fini s&rsquo;entend comme un nombre fini d&rsquo;étapes pour trouver la solution à un probleme,&#160;<a class="footnote-backref" href="#fnref:fini" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+</li>
+<li id="fn:pire">
+<p>J&rsquo;insiste sur le fait qu&rsquo;il s&rsquo;agit du pire des cas qui est loin d&rsquo;être une réalité pratique. Or, les études déterministes classiques raisonnent principalement sur le pire des cas ce qui conduit à une surestimation des erreurs de calculs rendant parfois caduque ces méthodes. Au contraire, CESTAC permet de ne pas tomber dans ce piège-là par construction même de la méthode.&#160;<a class="footnote-backref" href="#fnref:pire" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+</li>
+<li id="fn:pratique">
+<p>En pratique, peut aussi utiliser systématiquement <span class="arithmatex">\(X_i\)</span> pour un <span class="arithmatex">\(i\)</span> donné, ce qui évite de faire le calcul de la moyenne à chaque fois.&#160;<a class="footnote-backref" href="#fnref:pratique" title="Jump back to footnote 4 in the text">&#8617;</a></p>
+</li>
+<li id="fn:intervalle">
+<p>Cet intervalle dépend de si l&rsquo;on se place en mode de troncature ou d&rsquo;arrondi.&#160;<a class="footnote-backref" href="#fnref:intervalle" title="Jump back to footnote 5 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+        </div>
+    </div><!--//main-body-->
+</div>
+
+
+    <footer class="footer">
+        
+    </footer><!--//footer-->
+    <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+
+</body>
+</html>

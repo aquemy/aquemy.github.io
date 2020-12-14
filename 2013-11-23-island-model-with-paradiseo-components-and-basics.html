@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <link rel="stylesheet" type="text/css" href="css/friendly.css" />
+
+    
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="" />
+
+    
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+
+    
+    <meta name="author" content="" />
+    <meta name="description" content="" />
+    
+    <title>Alexandre Quemy</title>
+
+</head>
+
+<body id="index" class="home">
+    
+
+<div class="wrapper">
+
+    <!-- Use icons from fontawesome when you are adding new item in the contact list  -->             
+ 
+<div class="sidebar-wrapper">
+    <div class="profile-container">
+        <img class="profile-img" src="images/profile.jpeg" alt="profile picture" />
+        <h1 class="name">Alexandre Quemy</h1>
+        <h3 class="tagline">PhD student in AI & Senior Engineer at IBM</h3>
+    </div><!--//profile-container-->
+    
+    <div class="contact-container container-block">
+        <ul class="list-unstyled contact-list">
+           
+           
+            <li class="email"><i class="fa fa-envelope"></i><a href="mailto: alexandre.quemy@gmail.com">alexandre.quemy@gmail.com</a></li>
+            
+            
+            
+            <li class="linkedin"><i class="fab fa-linkedin"></i><a href="https://in.linkedin.com/in/aquemy" target="_blank">linkedin.com/in/aquemy</a></li>
+            
+            
+            
+            <li class="github"><i class="fab fa-github"></i><a href="http://github.com/aquemy" target="_blank">github.com/aquemy</a></li>
+            
+            
+            
+
+            <li class="acclaim"><i class="fa fa-certificate"></i><a href="https://www.youracclaim.com/user/alexandre-quemy" target="_blank">alexandre-quemy</a></li>
+            
+            <div itemscope itemtype="https://schema.org/Person"><a itemprop="sameAs" content="https://orcid.org/0000-0002-5865-6403" href="https://orcid.org/0000-0002-5865-6403" target="orcid.widget" rel="me noopener noreferrer" style="vertical-align:top;"><img src="https://orcid.org/sites/default/files/images/orcid_16x16.png" style="width:1em;margin-right:.5em;" alt="ORCID iD icon">0000-0002-5865-6403</a></div>
+        </ul>
+    </div>
+    
+</div><!--//sidebar-wrapper-->
+     	<div class="top-menu">
+ 	    <ul>
+            <li id="selected"><a href="./index.html">Home</a></li>
+            <li><a href="./research.html">Research</a></li>
+            <li><a href="./cv.html">CV & Skills</a></li>
+            <li><a href="./portfolio.html">Portfolio</a></li>
+            <li><a href="./passions.html">Passions</a></li>
+            <li><a href="./blog.html">Blog</a></li>
+        </ul>
+    </div>
+    <div class="main-wrapper">
+        <div class="recent-post-header" id="top-menu-entry">
+        <p><a href="./blog.html">Back to entries</a></p>
+        </div>
+        <div class="blog_entry">
+        <h1 class="section-title">Island Model with ParadisEO: components and basics</h1>
+        <div class="item">
+                            <div class="meta">
+                                <div class="upper-row">
+                                    <h3 class="job-title"><cite>2013-11-23</cite></h3>
+                                    <div class="time">#Mathématiques</div>
+
+                                </div><!--//upper-row-->
+
+                            </div><!--//meta-->
+                        <div class="details">
+
+                        </div>
+                    </div>
+
+        <div class="toc">
+<ul>
+<li><a href="#introduction">Introduction</a><ul>
+<li><a href="#explanations">Explanations</a></li>
+<li><a href="#requirements">Requirements</a></li>
+</ul>
+</li>
+<li><a href="#generic-use">Generic use</a></li>
+<li><a href="#components">Components</a><ul>
+<li><a href="#policies">Policies</a></li>
+<li><a href="#islands">Islands</a></li>
+<li><a href="#model">Model</a></li>
+<li><a href="#topology">Topology</a></li>
+</ul>
+</li>
+<li><a href="#wrapper-for-homogeneous-island-model">Wrapper for homogeneous island model</a></li>
+</ul>
+</div>
+<h3 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h3>
+<p>The purpose of this article is to present how to create an homogeneous island model, that is to say with the same Evolutionary Algorithm (EA) on each island, with the module SMP from the framework ParadisEO. To do so, we will present all its components: integration policy, immigration policy, islands, topology and the model by itself.</p>
+<p>The need to speed up the runtime of EAs drove towards a new model of parallelism called island model where several EAs in the same time. It could be viewed like a multi start on an EA, however there is a fundamental change.</p>
+<p>In a multi start model we merely run our EAs on different populations and then wait for the result, hoping that one of the EAs would get better results than another. No exchange of useful information is considered and the full context of execution is lost between two runs.</p>
+<p>On the contrary, the island model takes benefit from the useful information discovered during the search process by an EA, by spreading this information in runtime to the other EAs according to a pre-defined topology and exchange policy.</p>
+<h4 id="explanations">Explanations<a class="headerlink" href="#explanations" title="Permanent link">&para;</a></h4>
+<p>A representation of an arbitrary topological model with migrations between the islands is shown below:
+{% img center /images/im.png %}
+Let us consider the following scenario emigrations/immigrations should occur every ten generations. In addition we would like to control the selection of the individuals to emigrate as well as the replacement process of the current individuals with the immigrant ones. In other words, constructing an insular migration model consists in:</p>
+<ol>
+<li>Having a topological model including several evolutionary algorithms.</li>
+<li>Defining the migration frequency as well as the size of the migration (i.e. the number of individuals that emigrate).</li>
+<li>The selection and replacement strategies or the velocity strategy.</li>
+</ol>
+<h4 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h4>
+<p>You are supposed to be able to build the algorithms that you want to run on multicores architecture using ParadisEO framework.</p>
+<h3 id="generic-use">Generic use<a class="headerlink" href="#generic-use" title="Permanent link">&para;</a></h3>
+<p>Before giving a practical example, let us see the generic way to create an homogeneous island model. For more details, refer to the source file <code>/smp/tutorial/Lesson2/islandmodel.cpp</code>.</p>
+<p>First of all, you need to create the elements shared by all islands.
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;smp&gt;</span><span class="cp"></span>
+
+<span class="c1">//Common part to all islands</span>
+<span class="n">IndiEvalFunc</span> <span class="n">plainEval</span><span class="p">;</span>
+<span class="n">IndiInit</span> <span class="n">chromInit</span><span class="p">;</span>
+<span class="n">eoDetTournamentSelect</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">selectOne</span><span class="p">(</span><span class="n">param</span><span class="p">.</span><span class="n">tSize</span><span class="p">);</span>
+<span class="n">eoSelectPerc</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">select</span><span class="p">(</span><span class="n">selectOne</span><span class="p">);</span><span class="c1">// by default rate==1</span>
+<span class="n">IndiXover</span> <span class="n">Xover</span><span class="p">;</span>                     <span class="c1">// CROSSOVER</span>
+<span class="n">IndiSwapMutation</span>  <span class="n">mutationSwap</span><span class="p">;</span>      <span class="c1">// MUTATION</span>
+<span class="n">eoSGATransform</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">transform</span><span class="p">(</span><span class="n">Xover</span><span class="p">,</span> <span class="n">param</span><span class="p">.</span><span class="n">pCross</span><span class="p">,</span> <span class="n">mutationSwap</span><span class="p">,</span> <span class="n">param</span><span class="p">.</span><span class="n">pMut</span><span class="p">);</span>
+<span class="n">eoPlusReplacement</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">replace</span><span class="p">;</span>
+</pre></div>
+</td></tr></table></p>
+<p>Then, create a model according to a certain topology:
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1">// MODEL</span>
+<span class="n">Topology</span><span class="o">&lt;</span><span class="n">Complete</span><span class="o">&gt;</span> <span class="n">topo</span><span class="p">;</span>
+<span class="n">IslandModel</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">model</span><span class="p">(</span><span class="n">topo</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></p>
+<p>Define the islands. The creation process will be detailled in the above section:
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="c1">// ISLAND 1</span>
+<span class="c1">// // Algorithm part</span>
+<span class="n">eoGenContinue</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">genCont</span><span class="p">(</span><span class="n">param</span><span class="p">.</span><span class="n">maxGen</span><span class="o">+</span><span class="mi">100</span><span class="p">);</span>
+<span class="n">eoPop</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">pop</span><span class="p">(</span><span class="n">param</span><span class="p">.</span><span class="n">popSize</span><span class="p">,</span> <span class="n">chromInit</span><span class="p">);</span>
+<span class="c1">// // Emigration policy</span>
+<span class="c1">// // // Element 1</span>
+<span class="n">eoPeriodicContinue</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">criteria</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
+<span class="n">eoDetTournamentSelect</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">selectOne</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span>
+<span class="n">eoSelectNumber</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">who</span><span class="p">(</span><span class="n">selectOne</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+
+<span class="n">MigPolicy</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">migPolicy</span><span class="p">;</span>
+<span class="n">migPolicy</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">PolicyElement</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span><span class="p">(</span><span class="n">who</span><span class="p">,</span> <span class="n">criteria</span><span class="p">));</span>
+
+<span class="c1">// // Integration policy</span>
+<span class="n">eoPlusReplacement</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">intPolicy</span><span class="p">;</span>
+
+<span class="n">Island</span><span class="o">&lt;</span><span class="n">eoEasyEA</span><span class="p">,</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">island1</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">intPolicy</span><span class="p">,</span> <span class="n">migPolicy</span><span class="p">,</span> <span class="n">genCont</span><span class="p">,</span> <span class="n">plainEval</span><span class="p">,</span> <span class="n">select</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">replace</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></p>
+<p>Last but not least, add the islands to the model and run the island model:
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3
+4
+5
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">island1</span><span class="p">);</span>
+<span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">island2</span><span class="p">);</span>
+<span class="p">...</span>
+<span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">islandn</span><span class="p">);</span>
+
+<span class="n">model</span><span class="p">();</span>
+</pre></div>
+</td></tr></table></p>
+<h3 id="components">Components<a class="headerlink" href="#components" title="Permanent link">&para;</a></h3>
+<p>Let us now present the design of each component.</p>
+<h4 id="policies">Policies<a class="headerlink" href="#policies" title="Permanent link">&para;</a></h4>
+<p>An island has two different kind of policy: one for the integration of individuals, the other to know who and when sending some individuals, namely the integration policy.</p>
+<p>The integration policy is just an <code>eoReplacement</code> in order to know how to integrate the population: elitist policy by integrating the best individuals or, on the contrary, integrate all individuals for diversification.</p>
+<p>For instance:
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">eoPlusReplacement</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">intPolicy</span><span class="p">;</span>
+</pre></div>
+</td></tr></table></p>
+<p>The migration policy is a little bit different. One could see it like a container of policy rule. Each policy rule is compound of two elements:
+&ldquo;Who&rdquo; which corresponds to the way to select individuals to send.
+This is an <code>eoReplacement</code> and in our example we define it as follow:
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">eoDetTournamentSelect</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">selectOne</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span> <span class="c1">// Tournament between 20 individuals</span>
+<span class="n">eoSelectNumber</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">who</span><span class="p">(</span><span class="n">selectOne</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>    <span class="c1">// Select 3 elements using the deterministic tournament</span>
+</pre></div>
+</td></tr></table></p>
+<p>&ldquo;When&rdquo; which answers the question: &ldquo;when to send individuals?&rdquo;.
+This is an <code>eoContinue</code> such as <code>eoGenContinue</code> or <code>eoFitContinue</code>.
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">eoPeriodicContinue</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">criteria</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span> <span class="c1">// Will send individuals all five generations</span>
+</pre></div>
+</td></tr></table>
+Finally, we need to push the policy rule into the policy :
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">MigPolicy</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">migPolicy</span><span class="p">;</span>
+<span class="n">migPolicy</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">PolicyElement</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span><span class="p">(</span><span class="n">who</span><span class="p">,</span> <span class="n">criteria</span><span class="p">));</span> <span class="c1">// First criteria</span>
+<span class="n">migPolicy</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">PolicyElement</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span><span class="p">(</span><span class="n">who_2</span><span class="p">,</span> <span class="n">criteria_2</span><span class="p">));</span> <span class="c1">// Second criteria</span>
+<span class="p">...</span>
+</pre></div>
+</td></tr></table></p>
+<h4 id="islands">Islands<a class="headerlink" href="#islands" title="Permanent link">&para;</a></h4>
+<p>The island is simply a wrapper over any algorithm to extent it with communications mecanisms.
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">Island</span><span class="o">&lt;</span><span class="n">eoEasyEA</span><span class="p">,</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">island1</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">intPolicy</span><span class="p">,</span> <span class="n">migPolicy</span><span class="p">,</span> <span class="n">genCont</span><span class="p">,</span> <span class="n">plainEval</span><span class="p">,</span> <span class="n">select</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">replace</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></p>
+<p>This island will be an <code>eoEasyEA</code> working on individuals of type <code>Indi</code>. It is required to specify the population on which the algorithm will work, policies and others parameters depending on the API of the wrapped algorithm.
+The only restriction is that the algorithm needs to inherite from <code>eoAlgo&lt;EOT&gt;</code>, that is to say, it must be a population based algorithm.</p>
+<h4 id="model">Model<a class="headerlink" href="#model" title="Permanent link">&para;</a></h4>
+<p>The model is the combination of an island container and a topology. Thus, it is quite straightforward to use it:
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">Topology</span><span class="o">&lt;</span><span class="n">Complete</span><span class="o">&gt;</span> <span class="n">topo</span><span class="p">;</span>
+<span class="n">IslandModel</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">model</span><span class="p">(</span><span class="n">topo</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></p>
+<p>One can change the topology as follow:
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">Topology</span><span class="o">&lt;</span><span class="n">Ring</span><span class="o">&gt;</span> <span class="n">topo_2</span><span class="p">;</span>
+<span class="n">model</span><span class="p">.</span><span class="n">setTopology</span><span class="p">(</span><span class="n">topo_2</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></p>
+<p>It is important to note that the island does not know its neighbours for scalability reasons. It always sends populations to the model which is responsible for dispatching populations to the right islands.</p>
+<h4 id="topology">Topology<a class="headerlink" href="#topology" title="Permanent link">&para;</a></h4>
+<p>The topology defines the links between islands. Since an island does not know its neighbours and the topology does not know neither the islands nor the number of islands, a topology just defines a general way of communications such as Ring, Complete, Hypercubic and more (refer to the documentation for an exhaustive list).</p>
+<p>The topology builds the matricial representation, used by the model, only when the model starts. As all topologies can not be built with any number of edges, please, check that the number of islands matches the topology requirements. In the other case an exception will be thrown.</p>
+<p>Defining a topology can be done as follow:
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">Topology</span><span class="o">&lt;</span><span class="n">Complete</span><span class="o">&gt;</span> <span class="n">topo</span><span class="p">;</span>
+<span class="n">Topology</span><span class="o">&lt;</span><span class="n">Ring</span><span class="o">&gt;</span> <span class="n">topo_2</span><span class="p">;</span>
+<span class="n">Topology</span><span class="o">&lt;</span><span class="n">Star</span><span class="o">&gt;</span> <span class="n">topo_3</span><span class="p">;</span>
+<span class="p">...</span>
+</pre></div>
+</td></tr></table></p>
+<p>Note the possiblity a cutom topology by its matricial representation (written in a JSON file), using the Custom topology object.
+In addition, it is possible to create stochastic topologies that will return a list neighbors depending on probabilities.
+Those mecanisms will be presented in an article about advanced features of the island model.</p>
+<h3 id="wrapper-for-homogeneous-island-model">Wrapper for homogeneous island model<a class="headerlink" href="#wrapper-for-homogeneous-island-model" title="Permanent link">&para;</a></h3>
+<p>In order to create an homogeneous model easily, it is possible to use the function <code>HomogeneousModelWrapper</code>.
+Please, note that all <code>eoContinue</code> will be shared between islands ! For instance, if one defines a <code>eoGenContinue</code> for 300 generations, and a model with 3 islands, only 300 generations will be performed, not 300 for each one !
+Moreover, as islands run in parallel, we can not assume that each island will perform exactly 100 generations.</p>
+<p>This is the same behavior with the migration policy because it uses <code>eoContinue</code> as criteria.</p>
+<p>Let us see how this convenient wrapper works (more details in the source file <code>/smp/tutorial/Lesson2/wrapper.cpp</code>) :
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">eoPop</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;&gt;</span> <span class="n">pops</span> <span class="o">=</span> <span class="n">IslandModelWrapper</span><span class="o">&lt;</span><span class="n">eoEasyEA</span><span class="p">,</span><span class="n">Indi</span><span class="o">&gt;</span><span class="p">(</span><span class="n">number_of_islands</span><span class="p">,</span> <span class="n">topo</span><span class="p">,</span> <span class="n">popSize</span><span class="p">,</span> <span class="n">chromInit</span><span class="p">,</span>
+    <span class="n">intPolicy</span><span class="p">,</span> <span class="n">migPolicy</span><span class="p">,</span> <span class="n">genCont</span><span class="p">,</span> <span class="n">plainEval</span><span class="p">,</span> <span class="n">select</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">replace</span><span class="p">);</span>
+</pre></div>
+</td></tr></table></p>
+<p>The function needs to know how many islands you would like to create, the topology, and how to create populations (that is to say the size per population and the <code>eoInit</code>). The other parameters depend on the API of the algorithm to wrap inside each island.</p>
+        </div>
+    </div><!--//main-body-->
+</div>
+
+
+    <footer class="footer">
+        
+    </footer><!--//footer-->
+    <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,623 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <link rel="stylesheet" type="text/css" href="css/friendly.css" />
+
+    
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="" />
+
+    
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+
+    
+    <meta name="author" content="" />
+    <meta name="description" content="" />
+    
+    <title>Alexandre Quemy</title>
+
+</head>
+
+<body id="index" class="home">
+    
+
+<div class="wrapper">
+
+    <!-- Use icons from fontawesome when you are adding new item in the contact list  -->             
+ 
+<div class="sidebar-wrapper">
+    <div class="profile-container">
+        <img class="profile-img" src="images/profile.jpeg" alt="profile picture" />
+        <h1 class="name">Alexandre Quemy</h1>
+        <h3 class="tagline">PhD student in AI & Senior Engineer at IBM</h3>
+    </div><!--//profile-container-->
+    
+    <div class="contact-container container-block">
+        <ul class="list-unstyled contact-list">
+           
+           
+            <li class="email"><i class="fa fa-envelope"></i><a href="mailto: alexandre.quemy@gmail.com">alexandre.quemy@gmail.com</a></li>
+            
+            
+            
+            <li class="linkedin"><i class="fab fa-linkedin"></i><a href="https://in.linkedin.com/in/aquemy" target="_blank">linkedin.com/in/aquemy</a></li>
+            
+            
+            
+            <li class="github"><i class="fab fa-github"></i><a href="http://github.com/aquemy" target="_blank">github.com/aquemy</a></li>
+            
+            
+            
+
+            <li class="acclaim"><i class="fa fa-certificate"></i><a href="https://www.youracclaim.com/user/alexandre-quemy" target="_blank">alexandre-quemy</a></li>
+            
+            <div itemscope itemtype="https://schema.org/Person"><a itemprop="sameAs" content="https://orcid.org/0000-0002-5865-6403" href="https://orcid.org/0000-0002-5865-6403" target="orcid.widget" rel="me noopener noreferrer" style="vertical-align:top;"><img src="https://orcid.org/sites/default/files/images/orcid_16x16.png" style="width:1em;margin-right:.5em;" alt="ORCID iD icon">0000-0002-5865-6403</a></div>
+        </ul>
+    </div>
+    
+</div><!--//sidebar-wrapper-->
+     	<div class="top-menu">
+ 	    <ul>
+            <li id="selected"><a href="./index.html">Home</a></li>
+            <li><a href="./research.html">Research</a></li>
+            <li><a href="./cv.html">CV & Skills</a></li>
+            <li><a href="./portfolio.html">Portfolio</a></li>
+            <li><a href="./passions.html">Passions</a></li>
+            <li><a href="./blog.html">Blog</a></li>
+        </ul>
+    </div>
+    <div class="main-wrapper">
+        <div class="recent-post-header" id="top-menu-entry">
+        <p><a href="./blog.html">Back to entries</a></p>
+        </div>
+        <div class="blog_entry">
+        <h1 class="section-title">Idiome NVI &amp; paramétrage par politique en C++</h1>
+        <div class="item">
+                            <div class="meta">
+                                <div class="upper-row">
+                                    <h3 class="job-title"><cite>2013-07-26</cite></h3>
+                                    <div class="time">#Informatique</div>
+
+                                </div><!--//upper-row-->
+
+                            </div><!--//meta-->
+                        <div class="details">
+
+                        </div>
+                    </div>
+
+        <div class="toc">
+<ul>
+<li><a href="#introduction-motivations">Introduction &amp; Motivations</a></li>
+<li><a href="#lidiome-nvi">L’idiome NVI</a><ul>
+<li><a href="#violation-du-single-responsability-principle">Violation du Single Responsability Principle</a></li>
+<li><a href="#programmation-par-contrat">Programmation par contrat</a></li>
+<li><a href="#inversion-de-controle">Inversion de contrôle</a></li>
+<li><a href="#ce-quil-faut-retenir">Ce qu’il faut retenir</a></li>
+<li><a href="#un-mot-sur-patron-de-methode">Un mot sur Patron de Méthode</a></li>
+</ul>
+</li>
+<li><a href="#parametrage-par-politiques">Paramétrage par politiques</a><ul>
+<li><a href="#presentation">Présentation</a></li>
+<li><a href="#identification-des-politiques">Identification des politiques</a></li>
+<li><a href="#mise-en-place">Mise en place</a></li>
+</ul>
+</li>
+<li><a href="#combiner-les-deux-techniques">Combiner les deux techniques</a><ul>
+<li><a href="#limitation-du-type-de-politique">Limitation du type de politique</a></li>
+</ul>
+</li>
+<li><a href="#une-alternative">Une alternative</a></li>
+<li><a href="#allez-plus-loin-politique-de-base-a-la-construction-logicielle">Allez plus loin : politique de base à la construction logicielle</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+</div>
+<h3 id="introduction-motivations">Introduction &amp; Motivations<a class="headerlink" href="#introduction-motivations" title="Permanent link">&para;</a></h3>
+<p>Cet article, sur le C++, vise à présenter d’une part l’idiome <strong>NVI</strong>, pour « Non Virtual Interface », et d’autre part, une technique de conception développée par <strong>Andreï Alexandrescu</strong>, notamment présentée dans son livre <em>Modern C++ Design</em>, à savoir le paramétrage pas politique.</p>
+<p>Le choix de présenter au sein du même article un idiome et une méthode plus générale d’architecture logicielle est motivé par le fait que la combinaison des deux permet de produire du code robuste, plus spécifiquement destiné à être réutilisé (notamment dans le cadre d’un <em>framework</em> ou d’une bibliothèque).</p>
+<p>Dans un premier temps nous aborderons l’idiome NVI, ses applications et sa mise en place. Ensuite, nous verrons ce qu’est le paramétrage par politique et la manière d’identifier des comportements transversaux au sein d’un ensemble de classes.</p>
+<p>Enfin, nous mettrons en application la combinaison des deux techniques afin de produire du code tirant bénéfice de ces deux techniques.</p>
+<p>Dans la suite de l’article on se placera dans une situation générale où l’on écrit du code dit « service », pour un client qui écrira du code dit « client ».</p>
+<h3 id="lidiome-nvi">L’idiome NVI<a class="headerlink" href="#lidiome-nvi" title="Permanent link">&para;</a></h3>
+<h4 id="violation-du-single-responsability-principle">Violation du <em>Single Responsability Principle</em><a class="headerlink" href="#violation-du-single-responsability-principle" title="Permanent link">&para;</a></h4>
+<p>Une façon classique de considérer une interface est la suivante :</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">InterfaceService</span>
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">service</span><span class="p">();</span> <span class="c1">// Eventuellement virtuel pur</span>
+<span class="p">};</span>
+</pre></div>
+</td></tr></table>
+
+<p>Une classe concrète pourra ou devra (selon ce que propose l’interface) réimplémenter le service de la sorte :</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
+2
+3
+4
+5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">MonService</span><span class="o">:</span> <span class="k">public</span> <span class="n">InterfaceService</span>
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">service</span><span class="p">()</span> <span class="p">{</span> <span class="c1">// Implémentation de mon service }</span>
+<span class="p">};</span>
+</pre></div>
+</td></tr></table>
+
+<p>Cette approche, très utilisée en <strong>Java</strong> notamment, propose un désavantage de taille. En procédant de la sorte, nous donnons deux responsabilités à la classe concrète <code>MonService</code> :</p>
+<ul>
+<li>L’implémentation du service.</li>
+<li>La réalisation du service.</li>
+</ul>
+<p>Ceci est donc une violation du <em>Single responsibility principle</em> qui veut que chaque objet ne se voit accorder qu’une unique responsabilité (et que cette responsabilité doit être complètement encapsulée par cette classe).</p>
+<p>Aidons-nous de ce petit exemple de code client pour mieux comprendre :</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">A</span>
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="kt">void</span> <span class="k">operator</span><span class="p">()(</span><span class="n">InterfaceService</span><span class="o">&amp;</span> <span class="n">_serveur</span><span class="p">)</span>
+    <span class="p">{</span>
+        <span class="n">_serveur</span><span class="p">.</span><span class="n">service</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="kt">int</span> <span class="nf">main</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span>
+<span class="p">{</span>
+    <span class="n">A</span> <span class="n">a</span><span class="p">;</span>
+    <span class="n">MonService</span> <span class="n">s</span><span class="p">;</span>
+
+    <span class="n">a</span><span class="p">(</span><span class="n">s</span><span class="p">);</span>
+
+    <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table>
+
+<p>On voit très clairement que le code client s’adresse directement à <code>MonService</code> malgré le fait qu’il manipule <code>InterfaceService</code>. Enfin, le service est réalisé par <code>MonService</code>, ce qui semble légitime.</p>
+<p>La mauvaise distribution des responsabilités au sein d’une architecture est source de rigidité et va donc à l’encontre de la réutilisabilité et augmente la maintenance par une complexification du code.</p>
+<h4 id="programmation-par-contrat">Programmation par contrat<a class="headerlink" href="#programmation-par-contrat" title="Permanent link">&para;</a></h4>
+<p>L’idiome NVI permet de distribuer ces responsabilités par la définition d’un <strong>contrat</strong> entre l’Interface et la classe concrète : l’Interface se charge de la vérification des <strong>invariants</strong> et <strong>préconditions</strong> sur le service et en contrepartie, la classe concrète se charge d’implémenter le service concret.</p>
+<p>Voici l’implémentation de l’idiome :</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">InterfaceService</span>
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="kt">void</span> <span class="n">service</span><span class="p">();</span> <span class="c1">// Notez la non-virtualité</span>
+
+<span class="k">private</span><span class="o">:</span> <span class="c1">// Notez le private</span>
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">_service</span><span class="p">();</span> <span class="c1">// Eventuellement virtuel pur</span>
+<span class="p">};</span>
+
+<span class="n">InterfaceService</span><span class="o">::</span><span class="n">service</span><span class="p">()</span>
+<span class="p">{</span>
+    <span class="c1">// Préconditions &amp; invariants</span>
+    <span class="c1">// ...</span>
+
+    <span class="n">_service</span><span class="p">();</span>
+
+    <span class="c1">// Postconditions &amp; invariants</span>
+    <span class="c1">// ...</span>
+<span class="p">}</span>
+</pre></div>
+</td></tr></table>
+
+<p>Contrairement à la première approche, ici c’est bien <code>InterfaceService::service</code> qui sera appelé par le code client et qui lui même appellera l’implémentation du service (soit celle qu’il propose par défaut, soit celle redéfinie par la classe concrète <code>MonService</code>).</p>
+<h4 id="inversion-de-controle">Inversion de contrôle<a class="headerlink" href="#inversion-de-controle" title="Permanent link">&para;</a></h4>
+<p>On a ici une vraie séparation des responsabilités en plus d’une factorisation appréciable du code : les <strong>préconditions</strong> et <strong>postconditions</strong> sont réalisées à un unique endroit : dans l’interface, c’est à dire dans le code service.</p>
+<p>Au delà du respect du SRP, cela permet également de centraliser en un endroit les préconditions relatives au contrat d’appel entre le code client et le code service : après tout, la maxime <em>never trust user inputs</em> s’applique également avec un client. Qui nous garantit que si le client écrit une classe héritant de <code>InterfaceService</code>, il pensera à vérifier les invariants nécessaires au bon fonctionnement de la classe ?</p>
+<p>En fait, le NVI permet une <strong>inversion de contrôle</strong>, caractéristique d’un <em>framework</em> : c’est le code service qui va appeler le code client et non l’inverse comme c’est le cas avec une simple bibliothèque. La différence est qu’ici, cette inversion de contrôle a une granularité très fine puisqu’elle est à l’échelle d’une classe, là où elle est généralement à l’échelle du flux d’exécution pour un framework. Cette inversion de contrôle permet de mieux faire face à la hantise de l&rsquo;architecte : le <em>Fragile Base Class problem</em>.</p>
+<p>Ce qui permet de réaliser cette inversion de contrôle est non seulement l’appel à l’implémentation du service par l’interface, mais aussi et surtout l’encapsulation de l’implémentation du service dont la visibilité est privée dans l’interface, ce qui fait qu’elle sera impossible à appeler depuis la classe concrète du fait de sa virtualité. On s’assure alors que le code client n’appellera jamais le code service.</p>
+<p>Dans de très rares occasions, cela peut cependant être utile d’accéder directement qu code service, via l’héritage. Pour cela, il est toujours possible de définir la méthode <code>_service</code> avec une visibilité en protégée, ce qui permettra au code client d’appeler l’implémentation par défaut :</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">InterfaceService</span> <span class="c1">// Évidemment on ne devrait avoir d’un seul service, ceci est juste pour l’exemple !</span>
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="kt">void</span> <span class="n">service</span><span class="p">();</span>
+
+<span class="k">protected</span><span class="o">:</span>
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">_service</span><span class="p">();</span>
+
+<span class="k">private</span><span class="o">:</span>
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">_service2</span><span class="p">();</span>
+<span class="p">};</span>
+
+<span class="k">class</span> <span class="nc">MonService</span><span class="o">:</span> <span class="k">public</span> <span class="n">InterfaceService</span>
+<span class="p">{</span>
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">_service</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">InterfaceService</span><span class="o">::</span><span class="n">_service</span><span class="p">();</span> <span class="c1">// OK</span>
+    <span class="p">}</span>
+
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">_service2</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">InterfaceService</span><span class="o">::</span><span class="n">_service2</span><span class="p">();</span> <span class="c1">// ERROR</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+</pre></div>
+</td></tr></table>
+
+<h4 id="ce-quil-faut-retenir">Ce qu’il faut retenir<a class="headerlink" href="#ce-quil-faut-retenir" title="Permanent link">&para;</a></h4>
+<p>L’idiome NVI aide à localiser les invariants à un unique endroit, permettant ainsi de prévenir ou sécuriser le code client quand à la consistance de ces invariants. L’inversion de contrôle permet de respecter le <em>Single Responsability Principle</em> et de mieux maîtriser le problème du <em>Fragile Base Class</em>.</p>
+<p>Pour la mise en place, citons <strong>Herb Sutter</strong>, dans son article <em>Virtuality</em> :</p>
+<blockquote>
+<ul>
+<li>Prefer to make interfaces nonvirtual, using Template Method design pattern.</li>
+<li>Prefer to make virtual functions private.</li>
+<li>Only if derived classes need to invoke the base implementation of a virtual function, make the virtual function protected.</li>
+<li>A base class destructor should be either public and virtual, or protected and nonvirtual.</li>
+</ul>
+</blockquote>
+<h4 id="un-mot-sur-patron-de-methode">Un mot sur Patron de Méthode<a class="headerlink" href="#un-mot-sur-patron-de-methode" title="Permanent link">&para;</a></h4>
+<p>Il est important d’insister sur le fait que NVI n’est pas la même chose que le patron de conception <strong>Patron de Méthode</strong>. En effet, la ressemblance est très forte sur le plan technique puisque ce patron de conception s’articule autour d’une interface définie ou redéfinie par les besoins concrets au niveau de sous-classes.</p>
+<p>La principale différence provient des motivations : l’objectif d’un patron de conception <strong>Patron de Méthode</strong> est de proposer un découpage logique d’un algorithme ou d’un service en méthodes dont l’implémentation de certaines sera reléguée à des sous-classes concrètes, permettant de modifier l’algorithme selon diverses considérations sans pour autant risquer de changer la structure générale de l’algorithme.</p>
+<h3 id="parametrage-par-politiques">Paramétrage par politiques<a class="headerlink" href="#parametrage-par-politiques" title="Permanent link">&para;</a></h3>
+<h4 id="presentation">Présentation<a class="headerlink" href="#presentation" title="Permanent link">&para;</a></h4>
+<p>Le paramétrage par politique est une technique de programmation développée et démocratisée par <strong>Andrei Alexandrescu</strong> dans son livre <em>Modern C++ Design: Generic Programming and Design Patterns Applied</em> et dans la bibliothèque <em>Loki</em> dédiée à la méta-programmation en C++.</p>
+<p>Concrètement, il s’agit de profiter de l’héritage multiple et de la méta-programmation pour permettre de séparer les différents comportements d’une classe ou de plusieurs classes et de créer sur mesure des comportements en combinant plusieurs politiques.</p>
+<h4 id="identification-des-politiques">Identification des politiques<a class="headerlink" href="#identification-des-politiques" title="Permanent link">&para;</a></h4>
+<p>La clef d’un paramétrage par politique efficace réside dans l’analyse des différents comportements d’une classe ou d’un ensemble de classes. Imaginons que nous ayons à créer une bibliothèque de gestion de graphes. Un graphe peut être représenté sous différentes formes : matrice d’adjacence, matrice d’incidence, ou liste de successeurs. Chaque représentation à ses avantages et ses inconvénients en fonction des applications. On pourrait aisément créer 3 classes différentes mais cela ne serait pas très pertinent. On pourrait simplement utiliser un <em>template</em> sur la classe de graphe mais chaque type donné n’a, à priori, pas la même API. De plus, imaginons qu’un graphe puisse être partagé entre plusieurs <em>thread</em> ou non selon les applications.</p>
+<p>Sans paramétrage par politique, il faudrait un nombre de classes égal au nombre de facteurs de comportement multiplié par le nombre de modes par facteur. Cela apporterait évidemment du code redondant et une maintenabilité fortement dégradée puisque dans le cas d’un paramétrage par politique le but est d’isoler complètement un comportement. Pour modifier l’intégralité du modèle <em>multithread</em> d’une application, la modification d’une seule classe de politique est nécessaire.</p>
+<p>Chaque facteur est représenté par une classe abstraite permettant de définir l’API commune à tous les modes et qui pourra être utilisée par les classes paramétrées avec ce facteur. Les classes concrètes implémentent chacun des modes de la politique.</p>
+<p>Enfin, la classe de service qui doit être paramétrée par politique va être templatée avec chacune des politiques et en hériter de manière publique ou privée selon les besoins.</p>
+<p>Le mot clef pour distinguer les comportements d’une classe est l’<strong>orthogonalité</strong>. En effet, les politiques doivent être totalement orthogonales et de fait, être indépendantes. On perd tout l’intérêt, en terme de maintenabilité et de simplicité dans le cas où une politique dépend d’une autre.</p>
+<p>Dans le cas de notre graphe, la représentation des données et son accès sont indépendants de la politique de <em>multithread</em>. C’est à la classe concrète de graphe d’utiliser ces deux politiques pour rendre ses services indépendamment des modes de politique choisis.</p>
+<h4 id="mise-en-place">Mise en place<a class="headerlink" href="#mise-en-place" title="Permanent link">&para;</a></h4>
+<p>La mise en place est aisée. Dans un premier temps, il suffit de définir des classes de politiques. Nous choisissons de créer une hiérarchie de classes pour chaque facteur. C’est un choix qui sera discuté par la suite.</p>
+<p>Dans l’exemple évoqué à la section précédente, nous avons d’une part la politique relative au contexte parallèle et la politique relative à la représentation (et l’utilisation) des données du graphe.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ThreadingModel</span>
+<span class="p">{</span>
+<span class="k">protected</span><span class="o">:</span>
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">Lock</span><span class="p">()</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">class</span> <span class="nc">MultiThread</span><span class="o">:</span> <span class="k">public</span> <span class="n">ThreadingModel</span>
+<span class="p">{</span>
+<span class="k">protected</span><span class="o">:</span>
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">Lock</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">m</span><span class="p">.</span><span class="n">lock</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="n">std</span><span class="o">::</span><span class="n">mutex</span> <span class="n">m</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">class</span> <span class="nc">MonoThread</span><span class="o">:</span> <span class="k">public</span> <span class="n">ThreadingModel</span>
+<span class="p">{</span>
+<span class="k">protected</span><span class="o">:</span>
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">Lock</span><span class="p">()</span> <span class="p">{</span> <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="c1">// ... Autres modeles ...</span>
+</pre></div>
+</td></tr></table>
+
+<p>On définit la classe principale de graphe et on la paramétrise à l’instanciation selon les besoins :</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Rep</span> <span class="o">=</span> <span class="n">AdjacenceMatrix</span><span class="p">,</span> <span class="k">class</span> <span class="nc">ThreadModel</span> <span class="o">=</span> <span class="n">MonoThread</span><span class="o">&gt;</span>
+<span class="k">class</span> <span class="nc">Graph</span><span class="o">:</span> <span class="k">public</span> <span class="n">Rep</span><span class="p">,</span> <span class="k">protected</span> <span class="n">ThreadModel</span>
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+    <span class="kt">bool</span> <span class="n">IsConnected</span><span class="p">()</span> <span class="k">const</span>
+    <span class="p">{</span>
+        <span class="n">ThreadModel</span><span class="o">::</span><span class="n">Lock</span><span class="p">();</span>
+        <span class="k">return</span> <span class="n">Rep</span><span class="o">::</span><span class="n">IsConnected</span><span class="p">();</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="k">using</span> <span class="n">GraphInciMT</span> <span class="o">=</span> <span class="n">Graph</span><span class="o">&lt;</span><span class="n">IncidenceMatrix</span><span class="p">,</span> <span class="n">MultiThread</span><span class="o">&gt;</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">GraphAdjMT</span> <span class="o">=</span> <span class="n">Graph</span><span class="o">&lt;</span><span class="n">AdjacenceMatrix</span><span class="p">,</span> <span class="n">MultiThread</span><span class="o">&gt;</span><span class="p">;</span>
+
+<span class="c1">// Exemples</span>
+<span class="n">Graph</span> <span class="n">a</span><span class="p">;</span> <span class="c1">// Adjacence, MonoThread</span>
+<span class="n">GraphInciMT</span> <span class="n">b</span><span class="p">;</span> <span class="c1">// Incidence, MultiThread</span>
+<span class="n">GraphAdjMT</span> <span class="n">c</span><span class="p">;</span> <span class="c1">// Adjacence, MultiThread</span>
+</pre></div>
+</td></tr></table>
+
+<p>La classe <code>Graph</code> fait appel à l’aveugle à sa politique de <em>thread</em> ainsi qu’à sa politique de représentation. La bonne écriture d’une politique est guidée par l’API de la classe abstraite en haut de la hiérarchie mais aucune vérification de type n’est effectuée par la classe <code>Graph</code>. Ainsi, un client pourrait écrire sa propre politique qui ne serait pas basée sur une des classes abstraites du code service.</p>
+<p>La partie définissant les alias n’est pas du simple sucre syntaxique puisqu’elle contribue également à la maintenabilité de l’application. L’utilisateur final utilise des types en dur, sans <em>template</em>, ce qui permet, si le besoin s’en fait sentir, de ne changer le <em>template</em> qu’à un unique endroit.</p>
+<h3 id="combiner-les-deux-techniques">Combiner les deux techniques<a class="headerlink" href="#combiner-les-deux-techniques" title="Permanent link">&para;</a></h3>
+<p>En observant attentivement l’exemple utilisant le paramétrage par politique, on se rend compte que le but de chaque politique est d’apporter un ensemble de services aux classes. On peut donc structurer nos hiérarchies de politiques en utilisant l’idiome NVI, leurs apportant tous les avantages cités précédemment.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16
+17
+18
+19
+20
+21
+22
+23
+24
+25
+26
+27
+28
+29
+30
+31</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">ThreadingModel</span>
+<span class="p">{</span>
+<span class="k">protected</span><span class="o">:</span>
+    <span class="kt">void</span> <span class="n">Lock</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">Logger</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">this_thread</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; : acquisition du lock.&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">std</span><span class="o">::</span><span class="n">endl</span><span class="p">;</span>
+        <span class="n">_Lock</span><span class="p">();</span>
+    <span class="p">}</span>
+
+<span class="k">private</span><span class="o">:</span>
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">_Lock</span><span class="p">()</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">class</span> <span class="nc">MultiThread</span><span class="o">:</span> <span class="k">public</span> <span class="n">ThreadingModel</span>
+<span class="p">{</span>
+<span class="k">private</span><span class="o">:</span>
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">_Lock</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="n">m</span><span class="p">.</span><span class="n">lock</span><span class="p">();</span>
+    <span class="p">}</span>
+
+    <span class="n">std</span><span class="o">::</span><span class="n">mutex</span> <span class="n">m</span><span class="p">;</span>
+<span class="p">};</span>
+
+<span class="k">class</span> <span class="nc">MonoThread</span><span class="o">:</span> <span class="k">public</span> <span class="n">ThreadingModel</span>
+<span class="p">{</span>
+<span class="k">private</span><span class="o">:</span>
+    <span class="k">virtual</span> <span class="kt">void</span> <span class="n">Lock</span><span class="p">()</span> <span class="o">=</span> <span class="k">default</span>
+<span class="p">};</span>
+
+<span class="c1">// ... Autres modeles ...</span>
+</pre></div>
+</td></tr></table>
+
+<p>Le reste ne change pas. Cependant, cela présente le désavantage de briser un des intérêts du NVI qui était de localiser les vérification des préconditions et des invariants à un seul endroit.</p>
+<p>En effet, l’utilisateur peut très bien écrire une classe de politique possédant l’interface requise par la classe paramétrée, sans respecter les invariants intrinsèques au service offert par la politique.</p>
+<h4 id="limitation-du-type-de-politique">Limitation du type de politique<a class="headerlink" href="#limitation-du-type-de-politique" title="Permanent link">&para;</a></h4>
+<p>Nous pouvons cependant forcer l’héritage de la classe de politique depuis la classe de base de la hiérarchie par l’utilisation d’une assertion statique. Aucun <em>overhead</em> en <em>runtime</em> n’est à prévoir puisque l’assertion est statique.</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Rep</span> <span class="o">=</span> <span class="n">AdjacenceMatrix</span><span class="p">,</span> <span class="k">class</span> <span class="nc">ThreadModel</span> <span class="o">=</span> <span class="n">MonoThread</span><span class="o">&gt;</span>
+<span class="k">class</span> <span class="nc">Graph</span><span class="o">:</span> <span class="k">public</span> <span class="n">Rep</span><span class="p">,</span> <span class="k">protected</span> <span class="n">ThreadModel</span>
+<span class="p">{</span>
+<span class="k">public</span><span class="o">:</span>
+
+    <span class="n">Graph</span><span class="p">()</span>
+    <span class="p">{</span>
+        <span class="k">static_assert</span><span class="p">(</span><span class="n">std</span><span class="o">::</span><span class="n">is_base_of</span><span class="o">&lt;</span><span class="n">ThreadModel</span><span class="p">,</span> <span class="n">ThreadingModel</span><span class="o">&gt;::</span><span class="n">value</span><span class="p">,</span>
+             <span class="s">&quot;ThreadModel must inherit from ThreadingModel class&quot;</span><span class="p">);</span>
+    <span class="p">}</span>
+
+    <span class="c1">// ...</span>
+<span class="p">};</span>
+</pre></div>
+</td></tr></table>
+
+<p>Le choix de la vérification basée sur l’interface ou celle plus stricte, basée sur l’interface et le type de la politique dépend du degré de liberté que vous souhaitez accorder à l’utilisateur.</p>
+<h3 id="une-alternative">Une alternative<a class="headerlink" href="#une-alternative" title="Permanent link">&para;</a></h3>
+<p>Comme il m’a été fait remarqué, à la relecture de cet article, l’utilisation de classes virtuelles et de <em>templates</em> a un effet certain sur les performances en plus de n’avoir qu’un avantage : l’utilisation de politiques dynamiques.</p>
+<p>Il a alors été proposé une alternative intéressante, qui permet en outre, de n’effectuer la vérification que sur demande explicite :</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12
+13
+14
+15
+16</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">Policy</span><span class="o">&gt;</span> <span class="k">class</span> <span class="nc">AssertChecker</span><span class="o">:</span> <span class="n">Policy</span> <span class="p">{</span>
+<span class="k">protected</span><span class="o">:</span>
+    <span class="kt">void</span> <span class="n">service</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">)</span> <span class="p">{</span>
+        <span class="n">assert</span><span class="p">(</span><span class="n">i</span> <span class="o">&gt;</span> <span class="mi">42</span><span class="p">);</span>
+        <span class="n">Policy</span><span class="o">::</span><span class="n">f</span><span class="p">(</span><span class="n">i</span><span class="p">);</span>
+    <span class="p">}</span>
+<span class="p">};</span>
+
+<span class="k">class</span> <span class="nc">Policy1</span> <span class="p">{</span> <span class="kt">void</span> <span class="nf">service</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">);</span> <span class="p">};</span>
+<span class="k">class</span> <span class="nc">Policy2</span> <span class="p">{</span> <span class="kt">void</span> <span class="nf">service</span><span class="p">(</span><span class="kt">int</span> <span class="n">i</span><span class="p">);</span> <span class="p">};</span>
+
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">typename</span> <span class="nc">Policy</span><span class="o">&gt;</span>
+<span class="k">class</span> <span class="nc">Concret</span><span class="o">:</span> <span class="k">protected</span> <span class="n">Policy</span> <span class="p">{</span> <span class="p">....</span> <span class="p">};</span>
+
+<span class="n">Concret</span><span class="o">&lt;</span><span class="n">Policy1</span><span class="o">&gt;</span> <span class="n">c1</span><span class="p">;</span> <span class="c1">// Sans vérification de contrat</span>
+<span class="n">Concret</span><span class="o">&lt;</span><span class="n">AssertChecker</span><span class="o">&lt;</span><span class="n">Policy1</span><span class="o">&gt;&gt;</span> <span class="n">c1bis</span><span class="p">;</span> <span class="c1">// Avec vérification de contrat</span>
+</pre></div>
+</td></tr></table>
+
+<h3 id="allez-plus-loin-politique-de-base-a-la-construction-logicielle">Allez plus loin : politique de base à la construction logicielle<a class="headerlink" href="#allez-plus-loin-politique-de-base-a-la-construction-logicielle" title="Permanent link">&para;</a></h3>
+<p>Il peut parfois être intéressant, pour des questions de commodité, d’avoir une politique par défaut qui puisse être modifiée dans l’ensemble du logiciel lors de la compilation.</p>
+<p>L’exemple le plus classique est celui de la politique du modèle de <em>thread</em> utilisée. En fonction de la machine sur laquelle va tourner le programme (ou des programmes utilisant la bibliothèque s’il s’agit d’une bibliothèque), on peut vouloir par défaut l’utilisation d’un unique <em>thread</em> et se passer de l’<em>overhead</em> généré par la protection des accès concurrents, ou alors au contraire utiliser l’ensemble de cœurs disponibles, choisir le mode de parallélisme (<em>thread</em> standards ou <em>OpenMP</em> par exemple, voire <em>MPI</em>), etc.</p>
+<p>Évidemment, on veut toujours pouvoir redéfinir localement la politique pour des raisons diverses et variées (dans notre exemple, l’utilisateur peut juger que localement il n’est pas nécessaire d’utiliser un modèle parallèle car il y aurait un <em>overhead</em> trop important sur une instance donnée).</p>
+<p>Pour se faire on peut envisager la définition d’une constante via le préprocesseur et la définition d’un alias permettant d’avoir un vrai type à passer en paramètre comme politique :</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
+ 2
+ 3
+ 4
+ 5
+ 6
+ 7
+ 8
+ 9
+10
+11
+12</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cp">#ifndef DEFAULT_THREADING_MODEL</span>
+<span class="cp">#define DEFAULT_THREADING_MODEL MultiThread</span>
+
+<span class="cp">#ifndef DEFAULT_GRAPH_DATA</span>
+<span class="cp">#define DEFAULT_GRAPH_DATA AdjacenceMatrix</span>
+
+<span class="k">using</span> <span class="n">DefThreadingPolicy</span> <span class="o">=</span> <span class="n">DEFAULT_THREADING_MODEL</span><span class="p">;</span>
+<span class="k">using</span> <span class="n">DefGraphDataPolicy</span> <span class="o">=</span> <span class="n">DEFAULT_GRAPH_DATA</span><span class="p">;</span>
+
+<span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">Rep</span> <span class="o">=</span> <span class="n">DefGraphDataPolicy</span><span class="p">,</span> <span class="k">class</span> <span class="nc">ThreadModel</span> <span class="o">=</span> <span class="n">DefThreadingPolicy</span><span class="o">&gt;</span>
+<span class="k">class</span> <span class="nc">Graph</span><span class="o">:</span> <span class="k">public</span> <span class="n">Rep</span><span class="p">,</span> <span class="k">protected</span> <span class="n">ThreadModel</span>
+<span class="p">{</span> <span class="p">}</span>
+</pre></div>
+</td></tr></table>
+
+<p>Cela n’empêche en rien d’utiliser des alias spécialisant les templates comme vu précédemment.</p>
+<p>Il suffit ainsi de redéfinir le constante souhaitée au moment de la compilation :</p>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span>g++ -DDEFAULT_THREADING_MODEL=MonoThread ...
+</pre></div>
+</td></tr></table>
+
+<h3 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h3>
+<p>Comme n’importe quel patron de conception et autre technique de conception, l’utilisation du NVI ou du paramétrage par politique ne doit pas être systématique mais faire l’objet d’une motivation réelle vis à vis d’une situation où elle est pertinente.</p>
+<p>Ces situations n’ont pas été décrites en détails puisqu’il est impossible d’en dresser une liste exhaustive : l’important est d’identifier les situations où leur utilisation est bénéfique ou résout un problème donné.</p>
+<p>L’utilisation <em>stricto sensu</em> des deux techniques combinées présente le désavantage d’un surcoût naturel lié à l’utilisation de méthodes virtuelles avec des templates ce qui peut être rebutant. Cette utilisation n’est intéressante que dans le cas où l’on veut absolument maintenir la consistance d’une hiérarchie de classes de politique. Dans les autres cas, il est certainement plus intéressant d’utiliser l’alternative proposée.</p>
+<p>J’espère que cet article vous aura donné les grandes lignes permettant l’utilisation du NVI et du paramétrage par politique, ainsi que quelques idées pour combiner les deux et faciliter la vie aux utilisateurs de votre code de service.</p>
+        </div>
+    </div><!--//main-body-->
+</div>
+
+
+    <footer class="footer">
+        
+    </footer><!--//footer-->
+    <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+
+</body>
+</html>
