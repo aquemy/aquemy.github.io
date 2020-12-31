@@ -153,7 +153,7 @@
 17
 18
 19
-20</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">struct</span> <span class="nc">Foo</span>
+20</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">struct</span> <span class="nc">Foo</span>
 <span class="p">{</span>
     <span class="kt">void</span> <span class="nf">f</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Foo::f()&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span> <span class="p">;</span> <span class="p">}</span>
 <span class="p">}</span> <span class="p">;</span>
@@ -173,17 +173,15 @@
 
     <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p>Il est évident ici que le compilateur peut extraire de manière certaine du contexte, la méthode à appeler. L&rsquo;ensemble des types utilisés par le programme principal est connu à l&rsquo;avance.</p>
 <p>Nous avons donc pour sortie :</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
-2</pre></div></td><td class="code"><div class="highlight"><pre><span></span>Foo::f
+2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>Foo::f
 Bar::f
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p>Exemple de liaison dynamique :</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
@@ -215,7 +213,7 @@ Bar::f
 28
 29
 30
-31</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">struct</span> <span class="nc">Base</span>
+31</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">struct</span> <span class="nc">Base</span>
 <span class="p">{</span>
     <span class="k">virtual</span> <span class="kt">void</span> <span class="n">f</span><span class="p">()</span> <span class="k">const</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span>
     <span class="k">virtual</span> <span class="o">~</span><span class="n">Base</span><span class="p">()</span> <span class="p">{}</span>
@@ -246,17 +244,15 @@ Bar::f
 
     <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p>Remarquez le type du paramètre de la fonction <code>dispatch</code> : il s&rsquo;agit d&rsquo;un objet polymorphique de type <code>Base</code>. Comment savoir quelle méthode membre <code>f</code> appeler avant l&rsquo;appel explicite à la fonction <code>dispatch</code> ? La liaison est donc faite en fonction du contexte d&rsquo;exécution.</p>
 <p>La sortie est la suivante :</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
-2</pre></div></td><td class="code"><div class="highlight"><pre><span></span>Foo::f
+2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>Foo::f
 Bar::f
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <h4 id="liaison-simple-ou-multiple">Liaison simple ou multiple<a class="headerlink" href="#liaison-simple-ou-multiple" title="Permanent link">&para;</a></h4>
 <p>On peut également caractériser davantage la liaison dynamique, en fonction de sa capacité à s&rsquo;appliquer au regard du nombre d&rsquo;objets polymorphiques qu&rsquo;une méthode prend en paramètre.</p>
 <p>Si le langage est capable de correctement choisir l&rsquo;implémentation d&rsquo;une fonction appelée contenant un seul objet polymorphique, on parle de liaison simple ou <em>Single Dispatch</em>, s&rsquo;il peut en traiter deux, on parle de <em>Double Dispatch</em> et pour un nombre quelconque de <em>Multiple Dispatch</em> de manière générale.</p>
@@ -284,7 +280,7 @@ Bar::f
 18
 19
 20
-21</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">struct</span> <span class="nc">Vehicle</span>
+21</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">struct</span> <span class="nc">Vehicle</span>
 <span class="p">{</span>
     <span class="k">virtual</span> <span class="kt">void</span> <span class="n">print</span><span class="p">()</span> <span class="k">const</span> <span class="p">{</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Je suis juste un vehicule ! :&#39;(&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span> <span class="p">};</span>
 <span class="p">};</span>
@@ -305,9 +301,8 @@ Bar::f
     <span class="kt">void</span> <span class="nf">park</span><span class="p">(</span><span class="k">const</span> <span class="n">Vehicle</span><span class="o">&amp;</span> <span class="n">v</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;Bienvenue au garage extra-large !&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span> <span class="n">v</span><span class="p">.</span><span class="n">print</span><span class="p">();</span> <span class="p">};</span>
     <span class="kt">void</span> <span class="nf">park</span><span class="p">(</span><span class="k">const</span> <span class="n">Plane</span><span class="o">&amp;</span> <span class="n">p</span><span class="p">)</span> <span class="k">const</span> <span class="p">{</span> <span class="n">cout</span> <span class="o">&lt;&lt;</span>  <span class="s">&quot;Il y a toute la place qu&#39;il faut pour un avion !&quot;</span> <span class="o">&lt;&lt;</span> <span class="n">endl</span><span class="p">;</span> <span class="n">p</span><span class="p">.</span><span class="n">print</span><span class="p">();};</span>
 <span class="p">};</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p>Et voici quelques fonctions <code>main</code> accompagnées de leur sortie :</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
@@ -323,7 +318,7 @@ Bar::f
 12
 13
 14
-15</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+15</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
 <span class="p">{</span>
     <span class="n">Vehicle</span> <span class="n">v</span><span class="p">;</span>
     <span class="n">Plane</span> <span class="n">pl</span><span class="p">;</span>
@@ -338,9 +333,8 @@ Bar::f
 
     <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p>Et la sortie associée :</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
@@ -350,7 +344,7 @@ Bar::f
 6
 7
 8
-9</pre></div></td><td class="code"><div class="highlight"><pre><span></span>Bienvenue au garage !
+9</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>Bienvenue au garage !
 Je suis juste un vehicule ! :&#39;(
 Bienvenue au garage extra-large !
 Je suis juste un vehicule ! :&#39;(
@@ -359,9 +353,8 @@ Pas assez de place pour garer un avion !
 Je suis un avion ! :)
 Il y a toute la place qu&#39;il faut pour un avion !
 Je suis un avion ! :)
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p>Ici, aucun soucis, nous avons bien le comportement désiré. En effet, tous les types sont bien caractérisés et peuvent être déduit en <em>compile time</em>,</p>
 <p>Un autre essai en utilisant un pointeur sur vehicule en lieu et place de notre instance d&rsquo;avion caractérisée :</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
@@ -376,7 +369,7 @@ Je suis un avion ! :)
 10
 11
 12
-13</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+13</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
 <span class="p">{</span>
     <span class="n">Plane</span> <span class="n">pl</span><span class="p">;</span>
     <span class="n">Vehicle</span><span class="o">&amp;</span> <span class="n">plr</span> <span class="o">=</span> <span class="n">pl</span><span class="p">;</span>
@@ -389,20 +382,18 @@ Je suis un avion ! :)
 
     <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p>Ce qui nous donne :</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3
-4</pre></div></td><td class="code"><div class="highlight"><pre><span></span>Bienvenue au garage !
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>Bienvenue au garage !
 Je suis un avion ! :)
 Bienvenue au garage extra-large !
 Je suis un avion ! :)
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p>Il s&rsquo;agit toujours du comportement attendu et pourtant cette fois il y a eu liaison dynamique. En effet, on ne pouvait déterminer qu&rsquo;en <em>run time</em> que l&rsquo;objet passé aux parkings était un avion et non pas un simple véhicule. Par ailleurs, si l&rsquo;on avait retiré la virtualité à la méthode <code>print</code>, nous n&rsquo;aurions évidemment pas eu le message indiquant qu&rsquo;il s&rsquo;agit d&rsquo;un avion.</p>
 <p>Un dernier exemple au comportement attendu avant de montrer les limites du <em>Single Dispatch</em> :</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
@@ -417,7 +408,7 @@ Je suis un avion ! :)
 10
 11
 12
-13</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+13</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
 <span class="p">{</span>
     <span class="n">Vehicle</span> <span class="n">v</span><span class="p">;</span>
     <span class="n">Plane</span> <span class="n">pl</span><span class="p">;</span>
@@ -430,20 +421,18 @@ Je suis un avion ! :)
 
     <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p>Avec pour sortie :</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3
-4</pre></div></td><td class="code"><div class="highlight"><pre><span></span>Bienvenue au garage extra-large !
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>Bienvenue au garage extra-large !
 Je suis juste un vehicule ! :&#39;(
 Il y a toute la place qu&#39;il faut pour un avion !
 Je suis un avion ! :)
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p>Cette fois, c&rsquo;est un pointeur sur <code>Parking</code> qui pointe sur un objet <code>WideParking</code>. Les types des véhicules sont pleinement caractérisés. On pourrait alors croire qu&rsquo;il y a eu une liaison statique alors qu&rsquo;en réalité la liaison c&rsquo;est effectuée en <em>run time</em>. En effet, l&rsquo;instance de l&rsquo;objet est un paramètre de la méthode <code>park</code>. Ainsi, pour appeler la bonne méthode <code>park</code>, il a fallu attendre l&rsquo;appel effectif pour que le contexte permette de savoir qu&rsquo;il s&rsquo;agissait bien d&rsquo;un <code>WideParking</code> !</p>
 <p>Pour vous convaincre que l&rsquo;instance est bien un paramètre, voici le cas pathologique :</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
@@ -461,7 +450,7 @@ Je suis un avion ! :)
 13
 14
 15
-16</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+16</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
 <span class="p">{</span>
     <span class="n">Plane</span> <span class="n">pl</span><span class="p">;</span>
     <span class="n">Vehicle</span><span class="o">&amp;</span> <span class="n">plr</span> <span class="o">=</span> <span class="n">pl</span><span class="p">;</span>
@@ -477,9 +466,8 @@ Je suis un avion ! :)
 
     <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p>Et nous obtenons ainsi :</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
@@ -489,7 +477,7 @@ Je suis un avion ! :)
 6
 7
 8
-9</pre></div></td><td class="code"><div class="highlight"><pre><span></span>Il y a toute la place qu&#39;il faut pour un avion !
+9</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>Il y a toute la place qu&#39;il faut pour un avion !
 Je suis un avion ! :)
 Bienvenue au garage extra-large !
 Je suis un avion ! :)
@@ -498,16 +486,14 @@ Il y a toute la place qu&#39;il faut pour un avion !
 Je suis un avion ! :)
 Bienvenue au garage extra-large !
 Je suis un avion ! :)
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p>Les 3 premiers appels ont été traités dans les exemples précédents. Le dernier ne donne cependant pas le résultat correct ! En effet, nous aurions aimé avoir :</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
-2</pre></div></td><td class="code"><div class="highlight"><pre><span></span>Il y a toute la place qu&#39;il faut pour un avion !
+2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>Il y a toute la place qu&#39;il faut pour un avion !
 Je suis un avion ! :)
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p>Le <em>Single Dispatch</em> fait que la résolution ne permet pas de trouver la bonne implémentation entre <code>WideParking::park(const Vehicle&amp;) const</code> et <code>WideParking::(const Plane&amp;) const</code> ainsi, c&rsquo;est la première qui est appelée puisque c&rsquo;est le type légitime de <code>plr</code>. On voit bien que le premier argument traité pour le dispatching est l&rsquo;instance de l&rsquo;objet qui appelle la méthode, puisqu&rsquo;on appelle bien une méthode de l&rsquo;objet <code>WideParking</code> et non pas <code>Parking</code>.</p>
 <p>D&rsquo;où provient cette limitation en nombre qui peut sembler surprenante ?</p>
 <p>La raison est assez simple et n&rsquo;est pourtant pas liée directement au C++. Le mécanisme de résolution des appels virtuels se fait au travers d&rsquo;une structure de données appelée la <em>vtable</em> qui ne permet pas directement de faire de la liaison multiple. La <em>vtable</em> se charge de stocker dans un tableau interne et invisible au programmeur, des pointeurs vers les instances de classes allouées. Typiquement, une <em>vtable</em> sera créée pour chaque classe.
@@ -534,7 +520,7 @@ Là où le bat blesse, c&rsquo;est que l&rsquo;implémentation de la <em>vtable<
 13
 14
 15
-16</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">A</span><span class="p">;</span>
+16</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">A</span><span class="p">;</span>
 
 <span class="k">class</span> <span class="nc">B</span> <span class="o">:</span> <span class="k">public</span> <span class="n">A</span> <span class="p">{};</span>
 <span class="k">class</span> <span class="nc">C</span> <span class="o">:</span> <span class="k">public</span> <span class="n">A</span> <span class="p">{};</span>
@@ -550,18 +536,16 @@ Là où le bat blesse, c&rsquo;est que l&rsquo;implémentation de la <em>vtable<
  <span class="kt">void</span> <span class="n">C</span><span class="o">::</span><span class="n">acceptVisit</span><span class="p">(</span><span class="n">Visitor</span> <span class="o">*</span><span class="n">visitor</span><span class="p">)</span> <span class="p">{</span>
    <span class="n">visitor</span><span class="o">-&gt;</span><span class="n">visitC</span><span class="p">(</span><span class="k">this</span><span class="p">)</span> <span class="p">;</span>
  <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p>Enfin, nous devons créer notre visiteur et chacune de ses méthodes pour visiter nos objets.</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
-3</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="n">Visitor</span><span class="o">::</span><span class="n">visitB</span><span class="p">(</span><span class="n">B</span> <span class="o">*</span> <span class="n">object</span><span class="p">)</span> <span class="p">{</span>
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kt">void</span> <span class="n">Visitor</span><span class="o">::</span><span class="n">visitB</span><span class="p">(</span><span class="n">B</span> <span class="o">*</span> <span class="n">object</span><span class="p">)</span> <span class="p">{</span>
     <span class="c1">// Le traitement de l&#39;objet de type B en utilisant une instance pleinement caractérisée</span>
   <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p>On comprendra donc pourquoi le visiteur n&rsquo;est une solution efficace et élégante qu&rsquo;en présente d&rsquo;un nombre restreint de classes.</p>
 <p>La littérature sur les patrons de conception étant vaste et très bien fournie, je me contenterai ici de ce strict minimum pour parler du <em>tag</em> <em>dispatching</em>, beaucoup moins représenté.</p>
 <h3 id="tag-dispatching">Tag Dispatching<a class="headerlink" href="#tag-dispatching" title="Permanent link">&para;</a></h3>
@@ -603,7 +587,7 @@ Cependant, il existe des cas où l&rsquo;on ne veut pas exécuter en parallèle 
 28
 29
 30
-31</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">struct</span> <span class="nc">MonoThread</span>
+31</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">struct</span> <span class="nc">MonoThread</span>
 <span class="p">{</span>
     <span class="kt">void</span> <span class="nf">Lock</span><span class="p">()</span>
     <span class="p">{</span>
@@ -634,9 +618,8 @@ Cependant, il existe des cas où l&rsquo;on ne veut pas exécuter en parallèle 
 <span class="k">protected</span> <span class="o">:</span>
     <span class="n">std</span><span class="o">::</span><span class="n">mutex</span> <span class="n">m</span><span class="p">;</span>
 <span class="p">};</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p>Et voici l&rsquo;heuristique. Il faut bien comprendre que l&rsquo;heuristique ne fait pas forcément ses traitements en parallèle. Le <em>lock</em> effectué s&rsquo;assure juste l&rsquo;exclusivité sur l&rsquo;accès des données partagées (non représentées ici).</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
@@ -647,7 +630,7 @@ Cependant, il existe des cas où l&rsquo;on ne veut pas exécuter en parallèle 
  7
  8
  9
-10</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">ThreadPolicy</span> <span class="o">=</span> <span class="n">MonoThread</span><span class="o">&gt;</span>
+10</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">ThreadPolicy</span> <span class="o">=</span> <span class="n">MonoThread</span><span class="o">&gt;</span>
 <span class="k">struct</span> <span class="nc">Heuristic</span> <span class="o">:</span> <span class="k">protected</span> <span class="n">ThreadPolicy</span>
 <span class="p">{</span>
     <span class="kt">void</span> <span class="nf">operator</span><span class="p">()()</span>
@@ -657,18 +640,16 @@ Cependant, il existe des cas où l&rsquo;on ne veut pas exécuter en parallèle 
         <span class="n">ThreadPolicy</span><span class="o">::</span><span class="n">Unlock</span><span class="p">();</span>
     <span class="p">};</span>
 <span class="p">};</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p>Enfin, voici les tags et l&rsquo;algorithme :</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
-3</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">template</span> <span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span> <span class="k">struct</span> <span class="nc">isMultiThread</span> <span class="p">{};</span>
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">template</span> <span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span> <span class="k">struct</span> <span class="nc">isMultiThread</span> <span class="p">{};</span>
 <span class="k">using</span> <span class="n">multi_tag</span> <span class="o">=</span> <span class="n">isMultiThread</span><span class="o">&lt;</span><span class="nb">true</span><span class="o">&gt;</span><span class="p">;</span>
 <span class="k">using</span> <span class="n">mono_tag</span> <span class="o">=</span> <span class="n">isMultiThread</span><span class="o">&lt;</span><span class="nb">false</span><span class="o">&gt;</span><span class="p">;</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p>Tout d&rsquo;abord, nous définissons le tag général : l&rsquo;information utile est portée par le template booléen. Soit nous sommes en <em>multithread</em>, soit nous sommes en <em>monothread</em> et ainsi nous spécialisons les tags. A noter que dans un cas plus complexe, il est possible de laisser un cas par défaut.</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
@@ -697,7 +678,7 @@ Cependant, il existe des cas où l&rsquo;on ne veut pas exécuter en parallèle 
 25
 26
 27
-28</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="k">class</span> <span class="nc">Algo</span>
+28</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Algo</span>
 <span class="p">{</span>
 <span class="k">public</span> <span class="o">:</span>
     <span class="k">template</span> <span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span>
@@ -725,9 +706,8 @@ Cependant, il existe des cas où l&rsquo;on ne veut pas exécuter en parallèle 
         <span class="n">h</span><span class="p">();</span>
     <span class="p">}</span>
 <span class="p">};</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p>Seule la version sans tag de l&rsquo;opérateur <code>()</code> est laissée publique. Les templates étant résolus à la compilation, lorsque le compilateur arrive sur la ligne <code>operator()(h, isMultiThread&lt;is_same&lt;T, MultiThread&gt;::value&gt;());</code>, il va remplacer l&rsquo;appel par le résultat du <em>type trait</em> de la bibliothèque standard <code>is_same</code> qui renvoie la valeur vrai si les types des deux templates spécifiés sont les même et faux autrement.</p>
 <p>Ainsi, si la politique <em>T</em> de l&rsquo;heuristique est <code>MultiThread</code>, cette ligne sera équivalente à <code>operator()(h, multi_tag)</code> qui correspond au prototype de l&rsquo;appel parallèle puisque <code>multi_tag</code> est un alias sur <code>isMultiThread&lt;true&gt;</code>. Dans le cas contraire, c&rsquo;est l&rsquo;appel séquentiel qui sera engagé.</p>
 <p>Avec le main suivant :</p>
@@ -739,7 +719,7 @@ Cependant, il existe des cas où l&rsquo;on ne veut pas exécuter en parallèle 
 6
 7
 8
-9</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
+9</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kt">int</span> <span class="nf">main</span><span class="p">()</span>
 <span class="p">{</span>
     <span class="n">Heuristic</span><span class="o">&lt;</span><span class="n">MultiThread</span><span class="o">&gt;</span> <span class="n">heur_mt</span><span class="p">;</span>
     <span class="n">Algo</span> <span class="n">algo</span><span class="p">;</span>
@@ -748,9 +728,8 @@ Cependant, il existe des cas où l&rsquo;on ne veut pas exécuter en parallèle 
 
     <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p>Nous obtenons la sortie suivante :</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
@@ -758,31 +737,29 @@ Cependant, il existe des cas où l&rsquo;on ne veut pas exécuter en parallèle 
 4
 5
 6
-7</pre></div></td><td class="code"><div class="highlight"><pre><span></span>On lance l&#39;algorithme !
+7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>On lance l&#39;algorithme !
 Quelques étapes d&#39;initiatialisation
 Chouette, mon heuristique est protégée, je peux la lancer en parallèle
 Quelques opérations en parallèle de mon heuristique.
 Je lock le scope, des accès concurrents sont possibles.
 On lance l&#39;heuristique !
 On delock le scope !
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p>Et si l&rsquo;on change la politique de l&rsquo;heuristique pour MonoThread :</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3
 4
 5
-6</pre></div></td><td class="code"><div class="highlight"><pre><span></span>On lance l&#39;algorithme !
+6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>On lance l&#39;algorithme !
 Quelques étapes d&#39;initiatialisation
 Mince, mon heuristique n&#39;est pas parallèle.
 Rien à locker, je suis en monothread !
 On lance l&#39;heuristique !
 Rien à unlocker !
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p>Précisions tout de même que cette implémentation n&rsquo;est pas <em>exception</em> <em>safe</em> mais laissée en l&rsquo;état pour des raisons pédagogiques.</p>
 <h4 id="cout">Coût<a class="headerlink" href="#cout" title="Permanent link">&para;</a></h4>
 <p>Le coût du <em>Tag Dispatching</em> est très faible puisqu&rsquo;il ne représente qu&rsquo;un temps de compilation plus élevé et l&rsquo;appel d&rsquo;une fonction supplémentaire. En terme de place mémoire, le compilateur optimise normalement les tags qui disparaitront, étant vides et non utilisés en <em>run time</em>.</p>

@@ -1,0 +1,253 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <link rel="stylesheet" type="text/css" href="css/friendly.css" />
+
+    
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="" />
+
+    
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+
+    
+    <meta name="author" content="" />
+    <meta name="description" content="" />
+    
+    <title>Alexandre Quemy</title>
+
+</head>
+
+<body id="index" class="home">
+    
+
+<div class="wrapper">
+
+    <!-- Use icons from fontawesome when you are adding new item in the contact list  -->             
+ 
+<div class="sidebar-wrapper">
+    <div class="profile-container">
+        <img class="profile-img" src="images/profile.jpeg" alt="profile picture" />
+        <h1 class="name">Alexandre Quemy</h1>
+        <h3 class="tagline">PhD student in AI & Senior Engineer at IBM</h3>
+    </div><!--//profile-container-->
+    
+    <div class="contact-container container-block">
+        <ul class="list-unstyled contact-list">
+           
+           
+            <li class="email"><i class="fa fa-envelope"></i><a href="mailto: alexandre.quemy@gmail.com">alexandre.quemy@gmail.com</a></li>
+            
+            
+            
+            <li class="linkedin"><i class="fab fa-linkedin"></i><a href="https://in.linkedin.com/in/aquemy" target="_blank">linkedin.com/in/aquemy</a></li>
+            
+            
+            
+            <li class="github"><i class="fab fa-github"></i><a href="http://github.com/aquemy" target="_blank">github.com/aquemy</a></li>
+            
+            
+            
+
+            <li class="acclaim"><i class="fa fa-certificate"></i><a href="https://www.youracclaim.com/user/alexandre-quemy" target="_blank">alexandre-quemy</a></li>
+            
+            <div itemscope itemtype="https://schema.org/Person"><a itemprop="sameAs" content="https://orcid.org/0000-0002-5865-6403" href="https://orcid.org/0000-0002-5865-6403" target="orcid.widget" rel="me noopener noreferrer" style="vertical-align:top;"><img src="https://orcid.org/sites/default/files/images/orcid_16x16.png" style="width:1em;margin-right:.5em;" alt="ORCID iD icon">0000-0002-5865-6403</a></div>
+        </ul>
+    </div>
+    
+</div><!--//sidebar-wrapper-->
+     	<div class="top-menu">
+ 	    <ul>
+            <li id="selected"><a href="./index.html">Home</a></li>
+            <li><a href="./research.html">Research</a></li>
+            <li><a href="./cv.html">CV & Skills</a></li>
+            <li><a href="./portfolio.html">Portfolio</a></li>
+            <li><a href="./passions.html">Passions</a></li>
+            <li><a href="./blog.html">Blog</a></li>
+        </ul>
+    </div>
+    <div class="main-wrapper">
+        <div class="recent-post-header" id="top-menu-entry">
+        <p><a href="./blog.html">Back to entries</a></p>
+        </div>
+        <div class="blog_entry">
+        <h1 class="section-title">ECHR Open Data - Build and Deployment Process for an open source data project</h1>
+        <div class="item">
+                            <div class="meta">
+                                <div class="upper-row">
+                                    <h3 class="job-title"><cite>2020-12-31</cite></h3>
+                                    <div class="time">#Engineering</div>
+
+                                </div><!--//upper-row-->
+
+                            </div><!--//meta-->
+                        <div class="details">
+
+                        </div>
+                    </div>
+
+        <div class="toc">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#high-level-picture">High Level Picture</a></li>
+<li><a href="#deployment-and-update">Deployment and Update</a><ul>
+<li><a href="#deploy-workflow">Deploy Workflow</a></li>
+<li><a href="#build-history-build-api-and-build-upgrade">Build History, Build API and Build upgrade</a></li>
+</ul>
+</li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+</div>
+<div class="admonition example">
+<p class="admonition-title">About this entry</p>
+<p><img alt="" src="https://echr-opendata.eu/assets/images/logo.png" /> This entry is part of a serie on the engineering part behind the <strong><a href="http://echr-opendata.eu/">European Court of Human Rights Open Project (ECHR-OD)</a></strong>.</p>
+</div>
+<h3 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h3>
+<p>The <strong><a href="http://echr-opendata.eu/">European Court of Human Rights Open Project (ECHR-OD)</a></strong> aims at providing data about the European Court of Human Rights. To reach this objective, the project follows few standards to ensure the highest possible data quality. In particular, </p>
+<ol>
+<li>no data is manipulated by hand,</li>
+<li>the whole creation process is available and open-source such that the consummable data can be recreated from scratch,</li>
+<li>each generated piece of data must be versionned and intermediate file must be publicly available.</li>
+</ol>
+<p><mark>This is particularily important because on top of the usual pitfals common to all open-source projects, data projects can also suffer from poor data quality. The large amount of data makes it barely impossible to check for every chunk of data, and a lot of malformed data might go undiscovered, even with proper QA tests.</mark></p>
+<p>In this article, I present the general <strong>DevOps strategy</strong> adopted for the ECHR-OD project. Bare in mind that this project is managed only by myself and on my free time, and with very limited resources. Therefore, many aspects presented here are engineered taking into account these constraints. In other words, many parts would not scale for first class industrial projects.</p>
+<p>Following the above-mentioned principles, we defined the following constraints on the release process:</p>
+<ol>
+<li>The build and deployment must happen <strong>automatically</strong> on a regular basis,</li>
+<li>The build and deployment must be <strong>fully automated</strong>,</li>
+<li>The only point of failure must be connectivity or hardware (i.e. not the code, QA must be enforced properly, which is outside the scope of this entry),</li>
+<li>A build failure should not be released but also not impact future build attempt nor production.</li>
+</ol>
+<h3 id="high-level-picture">High Level Picture<a class="headerlink" href="#high-level-picture" title="Permanent link">&para;</a></h3>
+<p>The projects is composed of two main components:</p>
+<ul>
+<li>The <strong><a href="https://github.com/echr-od/ECHR-OD_process">process</a></strong> of collecting and processing the data from scratch,</li>
+<li>The <strong><a href="https://github.com/echr-od/ECHR-OD_explorer">explorer</a></strong>, a web component that serves three purposes: <ol>
+<li>the <strong>main frontend</strong> for the project, including downloading the latest data, </li>
+<li>the <strong>API</strong> to programmatically retrieve the data, </li>
+<li>the <strong>explorer</strong> itself to visualize and explore the data.</li>
+</ol>
+</li>
+</ul>
+<p>Both have a separated git repository on <a href="https://github.com">GitHub</a>. Both components are containerized for scalability, convenience and reproducibility.</p>
+<p>The container <em>process</em> generates a build <code>build_name</code> in a folder <code>build</code>. This folder is mounted into the container <code>explorer</code> which loads the latest build at startup.</p>
+<div class="admonition note">
+<p>The whole <strong>build and deployment strategy</strong> relies on three elements:</p>
+<ol>
+<li><strong>GitHub Workflows</strong>, that is our starting point for automations and most QA related tasks,</li>
+<li><strong>ECHR-OD Workflows</strong>, designed similarily to GitHub&rsquo;s one, that enable modular build for tight resources,</li>
+<li>A <strong>Runner</strong>, which in this case is a small dedicated server with only 2Gb RAM, and serves both to host the explorer but also to build the data. <br />
+The explorer component runs behind a NGINX reverse-proxy.</li>
+</ol>
+</div>
+<p>The release (build and deployment) process is is illustrated by the following sequence diagram:</p>
+<p><center>
+<a href="https://mermaid-js.github.io/mermaid-live-editor/#/edit/eyJjb2RlIjoic2VxdWVuY2VEaWFncmFtXG4gICAgR2l0SHViLT4-K0dpdEh1YjogV29ya2Zsb3cgTW9udGhseSBSZWxlYXNlXG4gICAgR2l0SHViLS0-PlByb2Nlc3M6IFRyaWdnZXIgV29ya2Zsb3cgXCJEYXRhYmFzZVwiXG4gICAgcmVjdCByZ2IoNjYsIDEyOCwgMTkyLCAwLjIpXG4gICAgUHJvY2Vzcy0tPj5FeHBsb3JlcjogQ2FsbCAvYXBpL2J1aWxkL3VwZGF0ZVxuICAgIEV4cGxvcmVyLT4-K0V4cGxvcmVyOiBSZXN0YXJ0IERvY2tlclxuICAgIGVuZCAgICAgICAgIiwibWVybWFpZCI6eyJ0aGVtZSI6ImRlZmF1bHQifSwidXBkYXRlRWRpdG9yIjpmYWxzZX0"><img alt="" src="https://mermaid.ink/img/eyJjb2RlIjoic2VxdWVuY2VEaWFncmFtXG4gICAgR2l0SHViLT4-K0dpdEh1YjogV29ya2Zsb3cgTW9udGhseSBSZWxlYXNlXG4gICAgR2l0SHViLS0-PlByb2Nlc3M6IFRyaWdnZXIgV29ya2Zsb3cgXCJEYXRhYmFzZVwiXG4gICAgcmVjdCByZ2IoNjYsIDEyOCwgMTkyLCAwLjIpXG4gICAgUHJvY2Vzcy0tPj5FeHBsb3JlcjogQ2FsbCAvYXBpL2J1aWxkL3VwZGF0ZVxuICAgIEV4cGxvcmVyLT4-K0V4cGxvcmVyOiBSZXN0YXJ0IERvY2tlclxuICAgIGVuZCAgICAgICAgIiwibWVybWFpZCI6eyJ0aGVtZSI6ImRlZmF1bHQifSwidXBkYXRlRWRpdG9yIjpmYWxzZX0" /></a>
+</center></p>
+<p>The <strong>three steps</strong> can be described as follows:</p>
+<ol>
+<li>Every month, the <strong><a href="https://github.com/echr-od/ECHR-OD_process/actions?query=workflow%3A%22Cyclic+Database+Release%22">Cyclic Database Release</a></strong> workflow is automatically triggered by GitHub.<ul>
+<li>Build the image with the latest source</li>
+<li>Trigger test and coverage</li>
+<li>Build a small database with only 100 documents</li>
+<li>Push the image to <a href="https://hub.docker.com/repository/docker/aquemy1/echr_build/">docker.io</a></li>
+<li>Trigger ECHR-OD Workflow <strong>&ldquo;Deploy&rdquo;</strong></li>
+</ul>
+</li>
+<li>The ECHR-OD Workflow <strong>&ldquo;Database&rdquo;</strong> is then started</li>
+<li>The endpoint <code>/api/build/update</code> of the explorer API is called which trigger the update and the container reboot</li>
+</ol>
+<div class="admonition danger">
+<p class="admonition-title">Limited resources</p>
+<p>Because the server we use had only 2Gb RAM, it is impossible to regenerate the NLP models, including entity extraction, Bag-of-Words and associated models. For this reason, the monthly release includes only the database creation. The NLP models are regenerated once in a while manually. </p>
+<p>You can support this project through my GitHub sponsor page. A larger sponsor value would eneable me to pay for a server capable of regenerating the language models on a regular basis.</p>
+<p><center>
+<iframe src="https://github.com/sponsors/aquemy/card" title="Sponsor aquemy" height="225" width="600" style="border: 0;"></iframe>
+</center></p>
+</div>
+<h3 id="deployment-and-update">Deployment and Update<a class="headerlink" href="#deployment-and-update" title="Permanent link">&para;</a></h3>
+<h4 id="deploy-workflow">Deploy Workflow<a class="headerlink" href="#deploy-workflow" title="Permanent link">&para;</a></h4>
+<p>The <strong>workflow &ldquo;Deploy&rdquo;</strong> consists of a single action that does the following:</p>
+<ol>
+<li>Open a SSH connection to a given server,</li>
+<li>Clone a repository in a given location if it does not exist,</li>
+<li>Checkout the new code from <code>origin</code>,</li>
+<li>Create a <code>tmux</code> session and attach,</li>
+<li>Trigger the workflow specified in the parameters of the Deploy workflow, including the final endpoint call specified (in our case <code>/api/v1/build/update</code>),</li>
+<li>Detach the process</li>
+</ol>
+<p><mark>The source code for the action &ldquo;Deploy&rdquo; can be found <a href="https://github.com/echr-od/ECHR-OD_process/blob/develop/echr/steps/deploy.py">here</a>.</mark></p>
+<div class="admonition danger">
+<p class="admonition-title">GitHub Action usage limits</p>
+<p>At this stage, the GitHub Workflow &ldquo;Cyclic Database Release&rdquo; will finish. This means that there is <em>no way</em> for GitHub to alert us if a build fails. The reason the process is detached is because each job is limited to 6h, and 72h for a workflow, which is not enough for our purposes. However, if a build fails, we are still informed by the badge produced thanks to the API described thereafter. On top of that, a failing build does not impact production as it will not be deployed, thus an acceptable unconvenience at our level.</p>
+</div>
+<h4 id="build-history-build-api-and-build-upgrade">Build History, Build API and Build upgrade<a class="headerlink" href="#build-history-build-api-and-build-upgrade" title="Permanent link">&para;</a></h4>
+<p>For the explorer container to know that there is a new build, we introduced the build history and build info. Whenever a build is finished, a short summary is appended to the build <code>build/.build_history</code> and a descriptive file <code>build_info.yml</code> is added to <code>build/&lt;build_name&gt;</code>. </p>
+<div class="admonition note">
+<p class="admonition-title">Current and Latest build</p>
+<p><strong>Latest build</strong> refers to the latest attempt performed buy the workflow. <strong>Current build</strong> refers to the build currently served by the explorer (i.e. in production).</p>
+</div>
+<p>The explorer provides a simple API, mostly for internal usage, to manage build status:</p>
+<ul>
+<li>
+<p><strong>Latest build status for badge</strong> <code>/api/v1/build/status</code>:<br />
+<code>{"schemaVersion":1,"label":"Database Update","message":"2020/12/19 23:04:48","color":"green"}</code><br />
+<img alt="" src="https://camo.githubusercontent.com/fff13eaf507f8d59dd228a6f06a85ad381576b638518e117ca25267944e0cf15/68747470733a2f2f696d672e736869656c64732e696f2f656e64706f696e743f75726c3d6874747073253341253246253246656368722d6f70656e646174612e657525324661706925324676312532466275696c64253246737461747573" /></p>
+</li>
+<li>
+<p><strong>Current build status</strong> <code>/api/v1/build/current</code>:<br />
+<code>{"build_time":"2020/12/19 23:04:48"}</code></p>
+</li>
+<li>
+<p><strong>Check if a new build is available</strong> <code>/api/v1/build/new_build_available</code>:<br />
+<code>[false,null]</code>
+or <code>[true,&lt;build_name&gt;]</code></p>
+</li>
+</ul>
+<p>and the most important:</p>
+<ul>
+<li><strong>Update the current build</strong> <code>/api/v1/build/update</code>:<ol>
+<li>Check if there is no running build and if a new build is available</li>
+<li>Create a backup for the current build in case it needs to be rolled back</li>
+<li>Copy and replace the current build by the new build</li>
+<li>Restart the <code>explorer</code> container</li>
+</ol>
+</li>
+</ul>
+<p>The last operation is slightly technical, because we need to restart the container from the container.
+But ultimately, the container is restarted and the new SQLite database is loaded such that the explorer can serve the updated data.</p>
+<h3 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h3>
+<p>As we have seen, the main challenges faced by ECHR-OD are the <strong>lack of resources</strong> and the <strong>time constraint</strong> on GitHub Workflows. Initially, GitHub Workflows are made for pure software DevOps, and therefore, a time limit of 72h might be reasonable. However, for data science projects with a need to (pre)process large amount of data on a regular basis, this limit is easy to reach. We get around this limit by using our own server and a flexible and modular workflow system, inspired by GitHub and that we will describe in another entry.</p>
+<p>Another engineering challenge was the properly <strong>synchronized the process container with the explorer container</strong> such that the explorer container is aware of the existence a new build and can restart itself.</p>
+<p>Finally, we ensure that the production data is not disturbed by a <strong>failing build</strong>, which should happen only in case of problem with the runner (most likely connectivity or hardware issue).</p>
+        </div>
+    </div><!--//main-body-->
+</div>
+
+
+    <footer class="footer">
+        
+    </footer><!--//footer-->
+    <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+
+</body>
+</html>

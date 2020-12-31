@@ -158,10 +158,9 @@
 <p>Comme il ne s&rsquo;agit que de rappels, je n&rsquo;entre pas dans toutes subtilités de la norme IEEE-754, et nos explications sont suffisantes pour continuer.</p>
 <p>On considère l&rsquo;opération d&rsquo;affectation (<span class="arithmatex">\(:=\)</span>) : <span class="arithmatex">\(\mathbb{R} \to \mathcal{F}\)</span>, où <span class="arithmatex">\(\mathcal{F}\)</span> est l&rsquo;ensemble des nombres flottants. C&rsquo;est-à-dire l&rsquo;opération qui associe à un réel sa représentation machine.</p>
 <p>Pour illustrer concrètement la banalité de la chose via le C++:</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kt">double</span> <span class="n">x</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">;</span>
-</pre></div>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kt">double</span> <span class="n">x</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">;</span>
+</code></pre></div>
 </td></tr></table>
-
 <p>Pour un réel donné <span class="arithmatex">\(x\)</span>, il existe un flottant <span class="arithmatex">\(X^+\)</span> et un flottant <span class="arithmatex">\(X^-\)</span> tels que <span class="arithmatex">\(X^- \leq x \leq X^+\)</span> et tel qu&rsquo;il n&rsquo;existe pas de flottant <span class="arithmatex">\(Y\)</span> et <span class="arithmatex">\(Z\)</span> tel que <span class="arithmatex">\(X^- &lt; Y &lt; x &lt; Z &lt; X^+\)</span>. Autrement dit, <span class="arithmatex">\(X^+\)</span> et <span class="arithmatex">\(X^-\)</span> sont les flottants immédiatement supérieur et inférieur à <span class="arithmatex">\(x\)</span>.</p>
 <p>Si <span class="arithmatex">\(x\)</span> est représentable de manière exacte, alors on a égalité entre les trois termes et l&rsquo;opération d&rsquo;affectation <span class="arithmatex">\(X := x\)</span> est défini sans ambiguïté.</p>
 <p>Si ce n&rsquo;est pas le cas, comme par l&rsquo;exemple ci-dessus de <span class="arithmatex">\(0,1\)</span> en base 2, il faut choisir entre <span class="arithmatex">\(X^+\)</span> et <span class="arithmatex">\(X^-\)</span>, qui n&rsquo;ont pas plus de légitimité l&rsquo;un par rapport à l&rsquo;autre, à priori.</p>
@@ -213,7 +212,7 @@
 14
 15
 16
-17</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+17</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;iomanip&gt;</span><span class="cp"></span>
 <span class="cp">#include</span> <span class="cpf">&lt;limits&gt;</span><span class="cp"></span>
 
@@ -230,9 +229,8 @@
      <span class="p">}</span>
      <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
 <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p>Ce qui donne pour sortie (consultable directement <a href="http://ideone.com/ekKPml">ici</a>) :
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
  2
@@ -244,7 +242,7 @@
  8
  9
 10
-11</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="go">iter 0 - 1.0000000000004547</span>
+11</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="go">iter 0 - 1.0000000000004547</span>
 <span class="go">iter 1 - 1.0000000018630999</span>
 <span class="go">iter 2 - 1.0000076314440776</span>
 <span class="go">iter 3 - 1.0312591580864137</span>
@@ -255,7 +253,7 @@
 <span class="go">...</span>
 <span class="go">iter 88 - 3.519444240677161e+305</span>
 <span class="go">iter 89 - inf</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table></p>
 <p>Autrement dit, alors que le résultat mathématique attendu est <span class="arithmatex">\(1\)</span>, constant pour chaque itération, après quelques itérations sur machine il y a une divergence très rapide vers l&rsquo;infini. Après 4 itérations seulement, le nombre de chiffres significatifs entre le résultat réel exact et son penchant flottant est de 0 !</p>
 <h3 id="controle-et-estimation-stochastiques-des-arrondis-de-calculs">Contrôle et estimation stochastiques des arrondis de calculs<a class="headerlink" href="#controle-et-estimation-stochastiques-des-arrondis-de-calculs" title="Permanent link">&para;</a></h3>

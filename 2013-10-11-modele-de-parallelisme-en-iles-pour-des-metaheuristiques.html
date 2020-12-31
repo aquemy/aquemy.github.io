@@ -358,7 +358,7 @@ Le modèle d’ANOVA 1 se basent sur des hypothèses qui ne sont pas triviales d
 13
 14
 15
-16</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="o">&gt;</span> <span class="nf">lillie.test</span><span class="p">(</span><span class="nf">t</span><span class="p">(</span><span class="n">X1</span><span class="p">))</span>
+16</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="o">&gt;</span> <span class="nf">lillie.test</span><span class="p">(</span><span class="nf">t</span><span class="p">(</span><span class="n">X1</span><span class="p">))</span>
     <span class="nf">Lilliefors </span><span class="p">(</span><span class="n">Kolmogorov</span><span class="o">-</span><span class="n">Smirnov</span><span class="p">)</span> <span class="n">normality</span> <span class="n">test</span>
 <span class="n">data</span><span class="o">:</span>  <span class="nf">t</span><span class="p">(</span><span class="n">X1</span><span class="p">)</span>
 <span class="n">D</span> <span class="o">=</span> <span class="m">0.0599</span><span class="p">,</span> <span class="n">p</span><span class="o">-</span><span class="n">value</span> <span class="o">=</span> <span class="m">0.5072</span>
@@ -374,20 +374,18 @@ Le modèle d’ANOVA 1 se basent sur des hypothèses qui ne sont pas triviales d
     <span class="n">Shapiro</span><span class="o">-</span><span class="n">Wilk</span> <span class="n">normality</span> <span class="n">test</span>
 <span class="n">data</span><span class="o">:</span>  <span class="nf">t</span><span class="p">(</span><span class="n">X2</span><span class="p">)</span>
 <span class="n">W</span> <span class="o">=</span> <span class="m">0.992</span><span class="p">,</span> <span class="n">p</span><span class="o">-</span><span class="n">value</span> <span class="o">=</span> <span class="m">0.8184</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p>Le seuil fixé est de <span class="arithmatex">\(5\%\)</span>. L’hypothèse du test est que les individus suivent une loi normale. La p-value étant supérieure au seuil, on ne rejette pas l’hypothèse et on conclue donc à la normalité de l’échantillon.</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3
-4</pre></div></td><td class="code"><div class="highlight"><pre><span></span> <span class="nf">fligner.test</span><span class="p">(</span><span class="nf">list</span><span class="p">(</span><span class="nf">t</span><span class="p">(</span><span class="n">X1</span><span class="p">),</span><span class="nf">t</span><span class="p">(</span><span class="n">X2</span><span class="p">)))</span>
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code> <span class="nf">fligner.test</span><span class="p">(</span><span class="nf">list</span><span class="p">(</span><span class="nf">t</span><span class="p">(</span><span class="n">X1</span><span class="p">),</span><span class="nf">t</span><span class="p">(</span><span class="n">X2</span><span class="p">)))</span>
     <span class="n">Fligner</span><span class="o">-</span><span class="n">Killeen</span> <span class="n">test</span> <span class="n">of</span> <span class="n">homogeneity</span> <span class="n">of</span> <span class="n">variances</span>
 <span class="n">data</span><span class="o">:</span>  <span class="nf">list</span><span class="p">(</span><span class="nf">t</span><span class="p">(</span><span class="n">X1</span><span class="p">),</span> <span class="nf">t</span><span class="p">(</span><span class="n">X2</span><span class="p">))</span>
 <span class="n">Fligner</span><span class="o">-</span><span class="n">Killeen</span><span class="o">:</span><span class="n">med</span> <span class="n">chi</span><span class="o">-</span><span class="n">squared</span> <span class="o">=</span> <span class="m">15.5555</span><span class="p">,</span> <span class="n">df</span> <span class="o">=</span> <span class="m">1</span><span class="p">,</span> <span class="n">p</span><span class="o">-</span><span class="n">value</span> <span class="o">=</span> <span class="m">8.012e-05</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p>Le test de variance indique une variance non-commune aux deux groupes. Cependant, cette variance non homogène est moins problématique qu’une distribution non normale des individus, surtout lorsque les groupes comportent autant d’individus. Ainsi, le test de Fisher effectué lors de l’ANOVA sera potentiellement faussé en rejettant plus facilement l’influence significative du facteur étudié.</p>
 <h6>Analyse du tableau d’ANOVA</h6>
 <p><center><img alt="" src="images/2013-10-11-modele-de-parallelisme-en-iles-pour-des-metaheuristiques/anova.png" /></center></p>

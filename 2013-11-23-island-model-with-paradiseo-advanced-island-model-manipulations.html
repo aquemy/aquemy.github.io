@@ -118,37 +118,35 @@
 <p>Example for boolean topology:
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
-3</pre></div></td><td class="code"><div class="highlight"><pre><span></span>    0    1    0
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>    0    1    0
     1    0    1
     0    1    0
-</pre></div>
+</code></pre></div>
 </td></tr></table></p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
-3</pre></div></td><td class="code"><div class="highlight"><pre><span></span>    <span class="n">CustomBooleanTopology</span> <span class="nf">topo_bool</span><span class="p">(</span><span class="s">&quot;data_boolean&quot;</span><span class="p">);</span>
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>    <span class="n">CustomBooleanTopology</span> <span class="nf">topo_bool</span><span class="p">(</span><span class="s">&quot;data_boolean&quot;</span><span class="p">);</span>
     <span class="c1">//getting the neighbors of island 1</span>
     <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">unsigned</span><span class="o">&gt;</span> <span class="n">neighbors</span> <span class="o">=</span> <span class="n">topo_bool</span><span class="p">.</span><span class="n">getIdNeighbors</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span> <span class="c1">//return a vector containing 0 and 2</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p>Example for stochastic topology:
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
-3</pre></div></td><td class="code"><div class="highlight"><pre><span></span>    0    1    0
+3</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>    0    1    0
     1    0    .75
     0    1    0
-</pre></div>
+</code></pre></div>
 </td></tr></table></p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3
-4</pre></div></td><td class="code"><div class="highlight"><pre><span></span>    <span class="n">CustomBooleanTopology</span> <span class="nf">topo_stoch</span><span class="p">(</span><span class="s">&quot;data_stochastic&quot;</span><span class="p">);</span>
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>    <span class="n">CustomBooleanTopology</span> <span class="nf">topo_stoch</span><span class="p">(</span><span class="s">&quot;data_stochastic&quot;</span><span class="p">);</span>
     <span class="c1">//getting the neighbors of island 1:</span>
     <span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">unsigned</span><span class="o">&gt;</span> <span class="n">neighbors</span> <span class="o">=</span> <span class="n">topo_bool</span><span class="p">.</span><span class="n">getIdNeighbors</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span>
     <span class="c1">//return a vector containing 0, and the probability 0.75 to contain the value 2.</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <h3 id="advanced-management-of-policy">Advanced management of policy<a class="headerlink" href="#advanced-management-of-policy" title="Permanent link">&para;</a></h3>
 <p>In this part, we will present a list of common cases that use the combination of <code>eoContinue</code> to build fine-grained policy rules.
 As explained in the previous article about components, a policy rule is compound of a temporal criteria - an <code>eoContinue</code> -, and a spatial criteria - an <code>eoSelect</code> -.</p>
@@ -159,14 +157,14 @@ As explained in the previous article about components, a policy rule is compound
 4
 5
 6
-7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">eoSelect</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span> <span class="n">who</span><span class="p">;</span>
+7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">eoSelect</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span> <span class="n">who</span><span class="p">;</span>
 <span class="n">eoPeriodicGenContinue</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span> <span class="n">criteria_1</span><span class="p">(</span><span class="mi">50</span><span class="p">);</span>
 <span class="n">eoFitContinue</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span> <span class="n">criteria_2</span><span class="p">(</span><span class="mi">5000</span><span class="p">);</span>
 <span class="n">eoCheckPoint</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span> <span class="n">criterion</span><span class="p">(</span><span class="n">criteria_1</span><span class="p">);</span>
 <span class="n">criterion</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">criteria_2</span><span class="p">);</span>
 
 <span class="n">PolicyElement</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span> <span class="n">rule_1</span><span class="p">(</span><span class="n">criterions</span><span class="p">,</span> <span class="n">who</span><span class="p">);</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table></p>
 <p>A migration will be performed if the algorithm reaches one of the criterion: a generation number 0 mod 50 <strong>or</strong> a fitness of 5000 for an individual.</p>
 <p>Obviously, you can have more than 2 criteria.</p>
@@ -177,14 +175,14 @@ As explained in the previous article about components, a policy rule is compound
 4
 5
 6
-7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">eoSelect</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span> <span class="n">who</span><span class="p">;</span>
+7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">eoSelect</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span> <span class="n">who</span><span class="p">;</span>
 <span class="n">eoPeriodicGenContinue</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span> <span class="n">criteria_1</span><span class="p">(</span><span class="mi">50</span><span class="p">);</span>
 <span class="n">eoFitContinue</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span> <span class="n">criteria_2</span><span class="p">(</span><span class="mi">5000</span><span class="p">);</span>
 <span class="n">eoCombinedContinue</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span> <span class="n">criterion</span><span class="p">(</span><span class="n">criteria_1</span><span class="p">);</span>
 <span class="n">criterion</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">criteria_2</span><span class="p">);</span>
 
 <span class="n">PolicyElement</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span> <span class="n">rule_1</span><span class="p">(</span><span class="n">criterions</span><span class="p">,</span> <span class="n">who</span><span class="p">);</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table></p>
 <p>A migration will be performed only if a generation is number 0 mod 50 <strong>and</strong> if there is an individual with a fitness at least of 5000.</p>
 <p>This is particulary useful to create dynamic policy that selects between diversification or intensification. Here is an example of a policy that changes from diversification to intensification after 30 minutes.</p>
@@ -195,14 +193,14 @@ As explained in the previous article about components, a policy rule is compound
 4
 5
 6
-7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">eoSelect</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span> <span class="n">who</span><span class="p">;</span> <span class="c1">// Selection without condition on the fitness, for instance</span>
+7</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">eoSelect</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span> <span class="n">who</span><span class="p">;</span> <span class="c1">// Selection without condition on the fitness, for instance</span>
 <span class="n">eoPeriodicGenContinue</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span> <span class="n">criteria_1</span><span class="p">(</span><span class="mi">50</span><span class="p">);</span>
 <span class="n">eoSecondsElapsedContinue</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span> <span class="n">criteria_2</span><span class="p">(</span><span class="mi">60</span><span class="o">*</span><span class="mi">30</span><span class="p">);</span>
 <span class="n">eoCombinedContinue</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span> <span class="n">criterion</span><span class="p">(</span><span class="n">criteria_1</span><span class="p">);</span>
 <span class="n">criterion</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">criteria_2</span><span class="p">);</span>
 
 <span class="n">PolicyElement</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span> <span class="n">diversification_step</span><span class="p">(</span><span class="n">criterions</span><span class="p">,</span> <span class="n">who</span><span class="p">);</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table></p>
 <p>For the intensification step, we need to use a new <code>eoContinue</code>:
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
@@ -212,7 +210,7 @@ As explained in the previous article about components, a policy rule is compound
 5
 6
 7
-8</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">eoInvertedContinue</span> <span class="n">which</span> <span class="n">is</span> <span class="n">a</span> <span class="n">functor</span> <span class="n">that</span> <span class="n">returns</span> <span class="n">the</span> <span class="n">oposite</span> <span class="n">of</span> <span class="n">an</span> <span class="n">eoContinue</span><span class="p">.</span>
+8</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">eoInvertedContinue</span> <span class="n">which</span> <span class="n">is</span> <span class="n">a</span> <span class="n">functor</span> <span class="n">that</span> <span class="n">returns</span> <span class="n">the</span> <span class="n">oposite</span> <span class="n">of</span> <span class="n">an</span> <span class="n">eoContinue</span><span class="p">.</span>
 <span class="n">eoSelect</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span> <span class="n">who</span><span class="p">;</span> <span class="c1">// Elitist selection</span>
 <span class="n">eoPeriodicGenContinue</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span> <span class="n">criteria_1</span><span class="p">(</span><span class="mi">50</span><span class="p">);</span>
 <span class="n">eoInvertedContinue</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span><span class="n">criteria_2</span><span class="p">((</span><span class="n">eoSecondsElapsedContinue</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span><span class="p">(</span><span class="mi">60</span><span class="o">*</span><span class="mi">30</span><span class="p">));</span>
@@ -220,7 +218,7 @@ As explained in the previous article about components, a policy rule is compound
 <span class="n">criterion</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">criteria_2</span><span class="p">);</span>
 
 <span class="n">PolicyElement</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span> <span class="n">intensification_step</span><span class="p">(</span><span class="n">criterions</span><span class="p">,</span> <span class="n">who</span><span class="p">);</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table></p>
 <h3 id="creating-events-by-callback-method">Creating events by callback method<a class="headerlink" href="#creating-events-by-callback-method" title="Permanent link">&para;</a></h3>
 <p>When starting an island model it is possible to perform an action such as changing the topology at a precise moment.</p>
@@ -239,7 +237,7 @@ As explained in the previous article about components, a policy rule is compound
  9
 10
 11
-12</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="kt">void</span> <span class="nf">changeTopo</span><span class="p">(</span><span class="n">IslandModel</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;*</span> <span class="n">_model</span><span class="p">,</span> <span class="n">AbstractTopology</span><span class="o">&amp;</span> <span class="n">_topo</span><span class="p">)</span>
+12</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kt">void</span> <span class="nf">changeTopo</span><span class="p">(</span><span class="n">IslandModel</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;*</span> <span class="n">_model</span><span class="p">,</span> <span class="n">AbstractTopology</span><span class="o">&amp;</span> <span class="n">_topo</span><span class="p">)</span>
 <span class="p">{</span>
     <span class="k">static</span> <span class="k">auto</span> <span class="n">start</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">system_clock</span><span class="o">::</span><span class="n">now</span><span class="p">();</span>
     <span class="k">auto</span> <span class="n">now</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">chrono</span><span class="o">::</span><span class="n">system_clock</span><span class="o">::</span><span class="n">now</span><span class="p">();</span>
@@ -251,24 +249,22 @@ As explained in the previous article about components, a policy rule is compound
         <span class="n">first</span> <span class="o">=</span> <span class="nb">true</span><span class="p">;</span>
     <span class="p">}</span>
 <span class="p">}</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table></p>
 <p>Then, when creating the island, we need to bind our function with our model and the topology we would like to have after 10 minutes:</p>
 <table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
 2
 3
-4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">Topology</span><span class="o">&lt;</span><span class="n">Ring</span><span class="o">&gt;</span> <span class="n">topo2</span><span class="p">;</span> <span class="c1">// New topology</span>
+4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">Topology</span><span class="o">&lt;</span><span class="n">Ring</span><span class="o">&gt;</span> <span class="n">topo2</span><span class="p">;</span> <span class="c1">// New topology</span>
 <span class="n">std</span><span class="o">::</span><span class="n">function</span><span class="o">&lt;</span><span class="kt">void</span><span class="p">(</span><span class="kt">void</span><span class="p">)</span><span class="o">&gt;</span> <span class="n">task</span> <span class="o">=</span> <span class="n">std</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="n">changeTopo</span><span class="p">,</span> <span class="o">&amp;</span><span class="n">model</span><span class="p">,</span> <span class="n">topo2</span><span class="p">);</span> <span class="c1">// We bind our function with our new topology</span>
 <span class="n">Notifier</span> <span class="nf">topoChanger</span><span class="p">(</span><span class="n">task</span><span class="p">);</span> <span class="c1">// We create the notifier</span>
 <span class="n">checkPoint</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">topoChanger</span><span class="p">);</span> <span class="c1">// We add the notifier, assuming that checkPoint is the eoCheckPoint used by an island as continuators</span>
-</pre></div>
+</code></pre></div>
 </td></tr></table>
-
 <p>Finaly, we instanciate the island:</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span><span class="n">Island</span><span class="o">&lt;</span><span class="n">eoEasyEA</span><span class="p">,</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">test</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">intPolicy</span><span class="p">,</span> <span class="n">migPolicy</span><span class="p">,</span> <span class="n">checkPoint</span><span class="p">,</span> <span class="n">plainEval</span><span class="p">,</span> <span class="n">select</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">replace</span><span class="p">);</span>
-</pre></div>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">Island</span><span class="o">&lt;</span><span class="n">eoEasyEA</span><span class="p">,</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">test</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">intPolicy</span><span class="p">,</span> <span class="n">migPolicy</span><span class="p">,</span> <span class="n">checkPoint</span><span class="p">,</span> <span class="n">plainEval</span><span class="p">,</span> <span class="n">select</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">replace</span><span class="p">);</span>
+</code></pre></div>
 </td></tr></table>
-
 <p>In this example, we bind a function but it is possible to bind a lambda or class method which will be performed by a specific instance, etc.</p>
 <p>Another example of the use of the <code>Notifier</code> could be the modification of probabilities in stochastic topology in order to refine migration and integration policies during the computation.</p>
         </div>
