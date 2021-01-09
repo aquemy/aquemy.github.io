@@ -1,0 +1,309 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
+    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
+    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
+    <link rel="stylesheet" type="text/css" href="css/main.css" />
+    <link rel="stylesheet" type="text/css" href="css/friendly.css" />
+
+    
+
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="HandheldFriendly" content="True" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="robots" content="" />
+
+    
+
+    <script src="https://unpkg.com/mermaid@8.6.4/dist/mermaid.min.js"></script>
+
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
+
+    <!-- The loading of KaTeX is deferred to speed up page rendering -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
+
+        <!-- Global site tag (gtag.js) - Google Analytics -->
+    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PWL24785Z6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', 'G-PWL24785Z6');
+    </script>
+
+
+    <!-- To automatically render math in text elements, include the auto-render extension: -->
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
+        onload="renderMathInElement(document.body);"></script>
+
+    
+    <meta name="author" content="" />
+    <meta name="description" content="" />
+    
+    <title>Alexandre Quemy - Blog - Distributions, Laplace Transform and Initial Value Problem</title>
+
+</head>
+
+<body id="index" class="home">
+    
+
+<div class="wrapper">
+
+    <!-- Use icons from fontawesome when you are adding new item in the contact list  -->             
+ 
+<div class="sidebar-wrapper">
+    <div class="profile-container">
+        <img class="profile-img" src="images/profile.jpeg" alt="profile picture" />
+        <h1 class="name">Alexandre Quemy</h1>
+        <h3 class="tagline">PhD student in AI & Senior Engineer at IBM</h3>
+    </div><!--//profile-container-->
+    
+    <div class="contact-container container-block">
+        <ul class="list-unstyled contact-list">
+           
+           
+            <li class="email"><i class="fa fa-envelope"></i><a href="mailto: alexandre.quemy@gmail.com">alexandre.quemy@gmail.com</a></li>
+            
+            
+            
+            <li class="linkedin"><i class="fab fa-linkedin"></i><a href="https://in.linkedin.com/in/aquemy" target="_blank">linkedin.com/in/aquemy</a></li>
+            
+            
+            
+            <li class="github"><i class="fab fa-github"></i><a href="http://github.com/aquemy" target="_blank">github.com/aquemy</a></li>
+            
+            
+            
+
+            <li class="acclaim"><i class="fa fa-certificate"></i><a href="https://www.youracclaim.com/user/alexandre-quemy" target="_blank">alexandre-quemy</a></li>
+            
+            <div itemscope itemtype="https://schema.org/Person"><a itemprop="sameAs" content="https://orcid.org/0000-0002-5865-6403" href="https://orcid.org/0000-0002-5865-6403" target="orcid.widget" rel="me noopener noreferrer" style="vertical-align:top;"><img src="https://orcid.org/sites/default/files/images/orcid_16x16.png" style="width:1em;margin-right:.5em;" alt="ORCID iD icon">0000-0002-5865-6403</a></div>
+        </ul>
+    </div>
+    
+</div><!--//sidebar-wrapper-->
+     	<div class="top-menu">
+ 	    <ul>
+            <li id="selected"><a href="./index.html">Home</a></li>
+            <li><a href="./research.html">Research</a></li>
+            <li><a href="./cv.html">CV & Skills</a></li>
+            <li><a href="./portfolio.html">Portfolio</a></li>
+            <li><a href="./passions.html">Passions</a></li>
+            <li><a href="./blog.html">Blog</a></li>
+        </ul>
+    </div>
+    <div class="main-wrapper">
+        <div class="recent-post-header" id="top-menu-entry">
+        <p><a href="./blog.html">Back to entries</a></p>
+        </div>
+        <div class="blog_entry">
+        <h1 class="section-title">Distributions, Laplace Transform and Initial Value Problem</h1>
+        <div class="item">
+                            <div class="meta">
+                                <div class="upper-row">
+                                    <h3 class="job-title"><cite>2021-01-09</cite></h3>
+                                    <div class="time">#Mathematics</div>
+
+                                </div><!--//upper-row-->
+
+                            </div><!--//meta-->
+                        <div class="details">
+
+                        </div>
+                    </div>
+
+        <div class="toc">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#space-of-distributions">Space of Distributions</a><ul>
+<li><a href="#regular-distributions">Regular Distributions</a></li>
+<li><a href="#convolution-the-multiplication-of-distributions">Convolution, the multiplication of distributions</a></li>
+</ul>
+</li>
+<li><a href="#laplace-transform-and-the-algebra-over-d_">Laplace Transform and the algebra over \(D_+&rsquo;\)</a><ul>
+<li><a href="#some-examples-of-correspondance">Some examples of correspondance</a></li>
+</ul>
+</li>
+<li><a href="#application-to-the-initial-value-problem-ivp">Application to the Initial Value Problem (IVP)</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+</div>
+<h3 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h3>
+<p>In this article, we are interested in solving Initial Value Problem (IVP) using a special isomorphism between the algebraic fractions in <span class="arithmatex">\(\delta'\)</span> and the usual algebraic fractions. For that, we will use the space of distributions with compact and positive support and observe that the convolution of two distributions behaves like the multiplication over a field.</p>
+<p>Usually, this approach to solve an IVP simply presents Laplace transforms as a tool, without much explanation about where it comes from and why it works. I took a different approach with the point of view of distributions which is the natural space to perform convolution. In my opinion, it leads to naturally observe the similar structure between this particular subspace of distributions and the polynomials. On top of that, the concrete example presented which is solving a non-homogenous ordinary differential system with constant coefficients, would not even require the mention of Laplace transform, nor to compute explicitely the transformation, but using only a symbolic table derivated directly from a simple convolution equation and observing the effect of convolving with the derivatives of the dirac distribution.</p>
+<p>This article starts by presenting the space of distributions and in particular the regular distributions, as well as the convolution operator.</p>
+<h3 id="space-of-distributions">Space of Distributions<a class="headerlink" href="#space-of-distributions" title="Permanent link">&para;</a></h3>
+<p>We denote by <span class="arithmatex">\(\mathcal D\)</span> the set of test functions.
+A test function <span class="arithmatex">\(\phi \in \mathcal D\)</span> is a function from <span class="arithmatex">\(\phi: \mathbb{R}^n \mapsto \mathbb{R}\)</span>. The set of test functions is associated with an extremely strong notion of convergence:</p>
+<div class="arithmatex">\[
+\phi_n \underset{\mathcal D}{\to} \phi  \Leftrightarrow  \begin{cases}
+\exists[a,b], ~ \forall n, ~~  \phi_n = 0~~\text{outside of } [a,b]\\
+\phi = 0~~\text{outside of } [a,b] \\
+\forall k, ~~ \phi_n^{(k)} \underset{u}{\to} \phi^{k}
+\end{cases}
+\]</div>
+<p>In other words, the tests functions have a compact support and are <span class="arithmatex">\(C^{+\infty}\)</span>.</p>
+<p>The space of distribution is the topological dual of <span class="arithmatex">\(\mathcal D\)</span>, denoted <span class="arithmatex">\(\mathcal{D}^*\)</span>, i.e., a distribution <span class="arithmatex">\(T\)</span> is a continuous linear map on <span class="arithmatex">\(\mathcal D\)</span>. In other words,</p>
+<div class="arithmatex">\[T \colon
+\begin{aligned}
+\mathcal{D} &amp;\to \mathbb{C}\\
+\phi &amp; \to &lt;T,\phi&gt;
+\end{aligned}\]</div>
+<p>with the following properties:</p>
+<ul>
+<li><span class="arithmatex">\(&lt;T, a\phi + b\varphi&gt; = a&lt;T, \phi&gt; + b&lt;T,\varphi&gt;\)</span></li>
+<li>Si <span class="arithmatex">\(\phi_n \to \phi\)</span> alors <span class="arithmatex">\(&lt;T, \phi_n&gt; \to &lt;T, \phi&gt;\)</span></li>
+</ul>
+<p>We say that <span class="arithmatex">\(T_n \overset{\mathcal{D}'}{\to} T\)</span> if and only if <span class="arithmatex">\(\forall \phi \in \mathcal{D}, ~~ &lt;T_n, \phi&gt; \to &lt;T,\phi&gt;\)</span>.</p>
+<h4 id="regular-distributions">Regular Distributions<a class="headerlink" href="#regular-distributions" title="Permanent link">&para;</a></h4>
+<p>We denote by  <span class="arithmatex">\(L^1_{\text{loc}}\)</span>  the set of measurable and locally integrable functions, i.e. <span class="arithmatex">\(\forall a &lt; b \in \mathbb{R},~~ \int_a^b \vert f(x) \vert dx &lt; \infty\)</span>.</p>
+<p>It is relatively easy to see that if <span class="arithmatex">\(f \in L^1_{\text{loc}}\)</span> et <span class="arithmatex">\(\phi \in \mathcal D\)</span> then the product <span class="arithmatex">\(f\phi\)</span> is integrable. Then, any function <span class="arithmatex">\(f \in L^1_{\text{loc}}\)</span> uniquely defines a distribution, denoted <span class="arithmatex">\(f\)</span> by abuse of notation:</p>
+<div class="arithmatex">\[f \colon \phi \in \mathcal{D} \to &lt;f,\phi&gt; \overset{def}{=} \int_{-\infty}^{+\infty} f(x)\phi(x)dx\]</div>
+<p>Therefore, we can identify <span class="arithmatex">\(L^1_{\text{loc}}\)</span> as a subset of the space of distributions <span class="arithmatex">\(\mathcal{D}'\)</span>. This subset defines <em>regular</em> distributions. A distribution that is not regular is singular.</p>
+<h4 id="convolution-the-multiplication-of-distributions">Convolution, the <em>multiplication</em> of distributions<a class="headerlink" href="#convolution-the-multiplication-of-distributions" title="Permanent link">&para;</a></h4>
+<p>Given <span class="arithmatex">\(f\)</span> and <span class="arithmatex">\(g\)</span>, two measurable functions, then the <span class="arithmatex">\(f\)</span> and <span class="arithmatex">\(g\)</span> can be convolved if and only if for almost all <span class="arithmatex">\(x\)</span></p>
+<div class="arithmatex">\[h(x) = \int \vert f(u)g(x-u)\vert du &lt; +\infty\]</div>
+<p>Then, we define convolution between two functions by:</p>
+<div class="arithmatex">\[f \star g(x) = \int f(u)g(x-u) du, \text{almost everywhere}\]</div>
+<p>Convolution obviously has the commutativity property. It has regularization property on <span class="arithmatex">\(f\)</span>. For instance, if we take <span class="arithmatex">\(g(x) = \frac 1 {2h} 1_{[-h,h]}(x)\)</span>, <span class="arithmatex">\(f \star g\)</span> represents the moving average of <span class="arithmatex">\(f\)</span>.</p>
+<p>We can generalize the convolution operator for the space of distributions. We say that <span class="arithmatex">\(S\)</span> and <span class="arithmatex">\(T\)</span> are convolvable if and only if <span class="arithmatex">\(\forall \phi \in \mathcal D\)</span>, the expression <span class="arithmatex">\(&lt;S_x, &lt;T_y, \phi(x+y)&gt;&gt;\)</span> is well-defined.</p>
+<p>At first sight, convolution of distributions looks like composition of functions. Obviously, one might wonder when this expression is well-defined. Unfortunately, we would have to introduce the space of Schwartz distributions, which is outside the scope of this article. Therefore, we will only invoke <span class="arithmatex">\(D_+'\)</span>, the space of distributions with positive and compact support, i.e a subset of <span class="arithmatex">\([0,+\infty[\)</span>.</p>
+<p>The good news is that the convolution is well-defined for any function of <span class="arithmatex">\(D_+'\)</span>.
+In particular, the dirac distribution is the neutral element for <span class="arithmatex">\(\star\)</span>. Indeed,</p>
+<div class="arithmatex">\[&lt;\delta \star T, \phi&gt; = &lt;\delta_x, &lt;T_y, \phi(x+y)&gt;&gt; = &lt;T_y, \phi(0+y)&gt; = &lt;T,\phi&gt;\]</div>
+<p>Finally, let us consider the effect of the derivated dirac by the convolution operator:</p>
+<div class="arithmatex">\[&lt;T\star \delta', \phi&gt; = &lt;T_x,&lt;\delta'_y, \phi(x+y)&gt;&gt; = &lt;T_x, -&lt;\delta_y, \phi'(x+y)&gt;&gt; = &lt;T', \phi&gt; \]</div>
+<p>That is to say <span class="arithmatex">\(T\star \delta' = T'\)</span> and <span class="arithmatex">\(T \star \delta^{(k)} = T^{(k)}\)</span>.</p>
+<p>The convolution of a distribution <span class="arithmatex">\(T\)</span> by the <span class="arithmatex">\(k\)</span>-th derivative of the dirac distribution is the <span class="arithmatex">\(k\)</span>-th derivative of the distribution!</p>
+<h3 id="laplace-transform-and-the-algebra-over-d_">Laplace Transform and the algebra over <span class="arithmatex">\(D_+'\)</span><a class="headerlink" href="#laplace-transform-and-the-algebra-over-d_" title="Permanent link">&para;</a></h3>
+<p><span class="arithmatex">\((D_+', +, \times, \star)\)</span> is an associative, commutative and unitary algebra. Precisely, it is a Banach *-algebra usually denoted <span class="arithmatex">\(L^1(G)\)</span>.
+<span class="arithmatex">\(\times\)</span> denotes the scalar multiplication. We denote by <span class="arithmatex">\(T^{\star n}\)</span> the <span class="arithmatex">\(n\)</span> times composition of the convolution of <span class="arithmatex">\(T\)</span> by itself.
+For any locally integrable function <span class="arithmatex">\(f\)</span>, <span class="arithmatex">\(Hf\)</span> belongs to <span class="arithmatex">\(D_+'\)</span> where <span class="arithmatex">\(H\)</span> is the Heavyside distribution<sup id="fnref:3"><a class="footnote-ref" href="#fn:3">1</a></sup>.</p>
+<p>Notice that <span class="arithmatex">\(\delta'' = \delta' \star \delta' = (\delta')^{\star^2}\)</span> and that a polynomial of <span class="arithmatex">\(\delta'\)</span> is defined by <span class="arithmatex">\(P(\delta') = \delta^{(n)} + a_{n-1}\delta^{(n-1)}+\ldots+a_0\delta\)</span>. Therefore, if <span class="arithmatex">\(T\in D_+'\)</span> then <span class="arithmatex">\(P(\delta')\star T = T^{(n)}+ a_{n-1}T^{(n-1)}+\ldots+a_0T\)</span>.</p>
+<p>We can create an isomorphism <span class="arithmatex">\(\mathcal L\)</span> between algebraic fractions in <span class="arithmatex">\(\delta'\)</span> and the usual algebraic fractions such that:</p>
+<div class="arithmatex">\[\begin{array}{c  c  c}
+\star &amp; \leftrightarrow &amp; \times\\
+\delta &amp; \leftrightarrow &amp; 1\\
+c\delta &amp; \leftrightarrow &amp; c \\
+\delta' &amp; \leftrightarrow &amp; p \\
+\delta^{(n)} &amp; \leftrightarrow &amp; p^n\\
+P(\delta') &amp; \leftrightarrow &amp; P(p)
+\end{array}\]</div>
+<p>In particular, <span class="arithmatex">\(\mathcal L\)</span> needs to satisfy the following conditions:
+<span class="arithmatex">\(\mathcal L\{ f \star g\} = F(s)G(s)\)</span> and <span class="arithmatex">\(\mathcal L^{-1}\{ f g\} = (f \star g)(t)\)</span> where <span class="arithmatex">\(F = Hf\)</span> and <span class="arithmatex">\(G = Hg\)</span>.</p>
+<p>This transformation is known as Laplace transform and can be explicited by:</p>
+<div class="arithmatex">\[\forall f\in L^1_{\text{loc}}, ~ \mathcal L[f](\lambda) = \int_0^{+\infty} f(t)e^{-\lambda t}dt\]</div>
+<p>However, we do not need to compute any transformation analytically, and we can just work with the property of our newly defined algebra.</p>
+<p>It is easy to show that <span class="arithmatex">\(P(\delta')^{\star -1} \leftrightarrow \frac 1 {P(p)}\)</span>. Hence, <span class="arithmatex">\(Q(\delta')\star P(\delta')^{\star -1} \leftrightarrow \frac {Q(p)} {P(p)}\)</span>.</p>
+<p>Another remarkable relation is given by
+<span class="arithmatex">\(He^{\lambda t} = (\delta'-\lambda \delta)^{\star -1} \leftrightarrow \frac 1 {p - \lambda}\)</span></p>
+<div class="admonition remark">
+<p class="admonition-title">Proof:</p>
+<p>We have <span class="arithmatex">\(\delta = \delta' \star H\)</span>. Multiplying each side by <span class="arithmatex">\(e^{\lambda t}\)</span> leads to:
+<span class="arithmatex">\(\delta' \star He^{\lambda t} = \lambda e^{\lambda t} H + \delta e^{\lambda t}\)</span>
+but <span class="arithmatex">\(\delta e^{\lambda t} = 1\)</span> and therefore <span class="arithmatex">\(\delta' \star He^{\lambda t} - \lambda He^{\lambda t} = 1\)</span></p>
+<p>And therefore, <span class="arithmatex">\(He^{\lambda t} = (\delta'-\lambda \delta)^{\star -1}\)</span> which can be directly transformed into <span class="arithmatex">\(\frac 1 {p - \lambda}\)</span>.</p>
+</div>
+<h4 id="some-examples-of-correspondance">Some examples of correspondance<a class="headerlink" href="#some-examples-of-correspondance" title="Permanent link">&para;</a></h4>
+<p>From the previous relation, we can deduce the following one:</p>
+<p><span class="arithmatex">\(H\frac {t^{n-1}}{(n-1)!} e^{\lambda t} \leftrightarrow \frac 1 {(p - \lambda)^n}\)</span></p>
+<p>In particular <span class="arithmatex">\(\lambda = 0\)</span> : <span class="arithmatex">\(H\frac {t^{n-1}}{(n-1)!} \leftrightarrow \frac 1 {p^n}\)</span></p>
+<p>Obviously, with the exponential decomposition, we can obtain the relations with all trigonometric functions:</p>
+<ul>
+<li><span class="arithmatex">\(H \frac {sin (\omega t)}{\omega } \leftrightarrow \frac 1 {p^2 + \omega^2}\)</span></li>
+<li><span class="arithmatex">\(H cos (\omega t) \leftrightarrow \frac p {p^2 + \omega^2}\)</span></li>
+<li><span class="arithmatex">\(H \frac {sh (\omega t)}{\omega } \leftrightarrow \frac 1 {p^2 - \omega^2}\)</span></li>
+<li><span class="arithmatex">\(H ch (\omega t) \leftrightarrow \frac p {p^2 - \omega^2}\)</span></li>
+</ul>
+<p>A list of Laplace transform for some usual functions can be found <a href="https://en.wikipedia.org/wiki/List_of_Laplace_transforms">here</a>.</p>
+<h3 id="application-to-the-initial-value-problem-ivp">Application to the Initial Value Problem (IVP)<a class="headerlink" href="#application-to-the-initial-value-problem-ivp" title="Permanent link">&para;</a></h3>
+<p>Consider the following system of ordinary differential equations:</p>
+<div class="arithmatex">\[\left\{\begin{aligned}
+x'+y' = f\\
+x+y''=g
+\end{aligned}\right.\]</div>
+<p>with <span class="arithmatex">\(f\)</span> and <span class="arithmatex">\(g\)</span> in <span class="arithmatex">\(L^1_{\text{loc}}\)</span>, given, and the initial values <span class="arithmatex">\(x(0)\)</span>, <span class="arithmatex">\(y(0)\)</span> and <span class="arithmatex">\(y'(0)\)</span> also given.</p>
+<p>This system is non-homogeneous because of <span class="arithmatex">\(f\)</span> and <span class="arithmatex">\(g\)</span>, coupled because the dependent variables appear in more than one equation, and linear.</p>
+<p>To solve this, the first step is to transform our system in <span class="arithmatex">\(D_+'\)</span> by defining <span class="arithmatex">\(X = Hx\)</span>, <span class="arithmatex">\(Y=Hy\)</span>, <span class="arithmatex">\(F=Hf\)</span> et <span class="arithmatex">\(G=Hg\)</span> , définie par <span class="arithmatex">\(0\)</span> sur <span class="arithmatex">\(\mathbb{R}^{-}\)</span> et <span class="arithmatex">\(1\)</span> sur <span class="arithmatex">\(\mathbb{R}^{+}\)</span>.</p>
+<p>To completely rewrite the system, we need to obtain <span class="arithmatex">\(X'\)</span> as well as <span class="arithmatex">\(Y'\)</span> and <span class="arithmatex">\(Y''\)</span>. By applying the derivative of Heaviside, we obtain <span class="arithmatex">\(X'=Hx'+x(0)\delta\)</span> and <span class="arithmatex">\(Y'=Hy'+y(0)\delta\)</span>.
+Doing the same for <span class="arithmatex">\(Y'\)</span> leads to <span class="arithmatex">\(Y''=Hy''+y'(0)\delta + y(0)\delta'\)</span>.</p>
+<p>Thus, our system is equivalent to the following in <span class="arithmatex">\(D_+'\)</span>:</p>
+<div class="arithmatex">\[\left\{\begin{aligned}
+X'+Y'&amp; = F + (x(0)+y(0))\delta\\
+X+Y''&amp; = G + y(0)\delta'+y'(0)\delta
+\end{aligned}\right.\]</div>
+<p>The second step is to apply Laplace transform to obtain a pure algebraic system:</p>
+<div class="arithmatex">\[\left\{\begin{aligned}
+pX + pY &amp; = F + x(0)+y(0)\\
+X+p^2Y &amp; = G + y(0)p+y'(0)
+\end{aligned}\right.\]</div>
+<p>Which is equivalent to:</p>
+<div class="arithmatex">\[\begin{aligned}
+\begin{pmatrix}
+p &amp; p\\
+1 &amp; p^2
+\end{pmatrix}  &amp; \begin{pmatrix}
+X \\
+Y
+\end{pmatrix} &amp; = &amp; \begin{pmatrix}
+F + x(0)+y(0) \\
+G + y(0)p+y'(0)
+\end{pmatrix}
+\end{aligned}\]</div>
+<p>In other words, our initial system is equivalent to a the linear system <span class="arithmatex">\(AZ = B\)</span>.</p>
+<p>The determinant of <span class="arithmatex">\(A(p)\)</span> is <span class="arithmatex">\(det(A(p)) = p(p^2-1)\)</span> such that we can calculate the inverse of <span class="arithmatex">\(A\)</span> and solve this sytem very easily.</p>
+<div class="arithmatex">\[A(p)^{-1} = \frac 1 {p(p^2-1)} \begin{pmatrix}
+p^2 &amp; -p\\
+-1 &amp; p
+\end{pmatrix}\]</div>
+<p>Therefore,</p>
+<div class="arithmatex">\[\begin{aligned}
+\begin{pmatrix}
+X \\
+Y
+\end{pmatrix} &amp; = &amp; \frac 1 {p(p^2-1)} \begin{pmatrix}
+p^2 &amp; -p\\
+-1 &amp; p
+\end{pmatrix} &amp;
+\begin{pmatrix}
+F + x(0)+y(0) \\
+G + y(0)p+y'(0)
+\end{pmatrix}
+\end{aligned}\]</div>
+<p>To obtain <span class="arithmatex">\(X\)</span> and <span class="arithmatex">\(Y\)</span>, it is enough to apply the inverse of Laplace transform. 
+For <span class="arithmatex">\(x\)</span>:
+<span class="arithmatex">\(X = (x(0)+y(0))\frac p {p(p^2-1)} - y(0)\frac p {p^2 -1} - y'(0)\frac 1 {p^2 -1} + F \frac p {p^2 -1} - G \frac 1 {p^2 -1}\)</span></p>
+<p>For <span class="arithmatex">\(t&gt;0\)</span>, we have <span class="arithmatex">\(x(t) = x(0)ch(t) - y'(0)sh(t)+\int_0^tf(s)ch(t-s)-g(s)sh(t-s)ds\)</span>.</p>
+<p>Using a partial fracton decomposition, we obtain <span class="arithmatex">\(y(t) = -x(0)(ch(t) -1)+y'(0)sh(t)+\int_0^tg(s)sh(t-s)-f(s)(ch(t-s)-1)ds\)</span>.</p>
+<p>A basic verification consists in taking <span class="arithmatex">\(t=0\)</span> to observe that we verify the initial conditions.</p>
+<p>To summarize, the method consists in rewriting the problem in <span class="arithmatex">\(D_+'\)</span>, then expressing the system in a symbolic form, which is implicitely applying Laplace transform. The new problem is basically a linear system that can easily be solved for <span class="arithmatex">\(p\)</span>. Once the solution obtained, the solution to the original problem can be found thanks to the inverse transformation.</p>
+<h3 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h3>
+<p>In this article, I tried to show another point of view on Laplace transform, and in particular, how it is possible to leverage the convolution algebra to avoid to have to explicitely compute Laplace transforms (or to refer to tables).
+The isomorphism between the algebraic fractions in <span class="arithmatex">\(\delta'\)</span> and the usual algebraic fractions is absolutely remarkable and beautiful because it allows to solve analytically complex non-homogeneous, coupled and linear systems of ordinary differential equation without manipulating a single integral, but with basic algebra.</p>
+<p>Notice that the method holds for systems without constant coefficient, but requires to solve more complex convolution equations to determine the correspondance. In some cases, it might be easier to refer to tables of Laplace transform. But it is obviously less beautiful!</p>
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:3">
+<p>If the product of two distribution is not defined in general, the product of a distribution by a <span class="arithmatex">\(C^{\infty}\)</span> function is not a problem.&#160;<a class="footnote-backref" href="#fnref:3" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+        </div>
+    </div><!--//main-body-->
+</div>
+
+
+    <footer class="footer">
+        
+    </footer><!--//footer-->
+    <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
+    <script type="text/javascript" src="js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="js/main.js"></script>
+
+</body>
+</html>
