@@ -293,7 +293,7 @@ g(x) = \begin{pmatrix}
 <li>We might not have enough information in advance to know the whole domain and data points mostly arrive sequentially.</li>
 <li>Data points coming sequentially might also not be sampled uniformely on <span class="arithmatex">\(U\)</span> but on a restriction (independently of <span class="arithmatex">\(X\)</span> and <span class="arithmatex">\(Y\)</span>).</li>
 <li>And even when it is possible to request a sample, it might be very costly to do so in some regions of the domain, therefore introducing de facto a subspace.</li>
-<li>When as a <em>fact checker</em> or journalist, I have access to some data, they usually do not have information about whether the data are from a subsample or not.</li>
+<li><mark>When I have access to external data, e.g. as a <em>fact checker</em> or journalist, I usually do not have information about whether the data are from a subsample or not.</mark></li>
 </ol>
 <h3 id="alternative-measure-for-dependencies-mutual-information">Alternative measure for dependencies: Mutual Information<a class="headerlink" href="#alternative-measure-for-dependencies-mutual-information" title="Permanent link">&para;</a></h3>
 <blockquote>
@@ -306,7 +306,7 @@ g(x) = \begin{pmatrix}
 <p>where <span class="arithmatex">\(D_{\mathrm {KL} }\)</span> is the <a href="https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence">Kullback–Leibler</a> divergence.</p>
 <p>Computing it is not as easy as for the correlation, especially in practice where the joint distributions are not known and only a sample is available. Estimating the mutual information is currently actively being investigated. See for instance <a href="https://www.stat.berkeley.edu/~binyu/summer08/L2P2.pdf">here</a>, <a href="https://arxiv.org/pdf/1905.02034.pdf">here</a> or <a href="https://papers.nips.cc/paper/2017/file/ef72d53990bc4805684c9b61fa64a102-Paper.pdf">here</a>.
 As illustrated in the following figure, the Mutual Information measures also nonlinear relationships.</p>
-<p><center><figure><img src="images/2021-02-03-correlation-is-not-causation-limits/MI.png" /><figcaption>Mutual Information and correlation coefficient. <a href="https://acp.copernicus.org/articles/18/12699/2018/">Image source.</a></figcaption>
+<p><center><figure><img src="images/2021-02-03-correlation-is-not-causation-limits/MI.png" /><figcaption>Mutual Information and correlation coefficient. It also displays the Spearman&rsquo;s rank correlation which is as limited as Pearson&rsquo;s correlation. <a href="https://acp.copernicus.org/articles/18/12699/2018/">Image source.</a></figcaption>
 </figure></center></p>
 <p>It can actually be shown that the correlation coefficient can be directly connected to the Mutual Information in case <span class="arithmatex">\(X\)</span> and <span class="arithmatex">\(Y\)</span> is a bivariate normal distribution by:</p>
 <div class="arithmatex">\[I(X,Y) = -\frac 1 2 \log(1 - \text{corr}(X, Y)^2)\]</div>
