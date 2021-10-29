@@ -127,7 +127,7 @@
 </ul>
 </li>
 <li><a href="#resolution-probleme-spectral-associe-a-p_h">Résolution problème spectral associé à \((P_h)\)</a><ul>
-<li><a href="#resolution-de">Résolution de \((**)\)</a></li>
+<li><a href="#resolution-de_1">Résolution de \((**)\)</a></li>
 </ul>
 </li>
 <li><a href="#reecriture-du-probleme-dans-la-base-propre">Réecriture du problème dans la base propre</a><ul>
@@ -208,26 +208,26 @@ w(x,1) = 0 = X(x)Y(1)\Rightarrow \boxed{Y(1)=0}\end{cases}\]</div>
     \end{cases}
 \end{matrix}\]</div>
 <p>La résolution ne pose aucun soucis puisque <span class="arithmatex">\((*)\)</span> et <span class="arithmatex">\((**)\)</span> sont des équations différentielles linéaire du second ordre à coefficients constants. Une simple analyse de l&rsquo;équation caractéristique nous donne la forme de la solution et les conditions sur <span class="arithmatex">\(X'\)</span> et <span class="arithmatex">\(Y\)</span> déduites des conditions au bord du problème homogène permettent d&rsquo;éliminer des solutions qui sont identiquement nulles et donc pas intéressante ni d&rsquo;un point de vue mathématique et encore moins d&rsquo;un point de vue physique.</p>
-<h5>Résolution de <span class="arithmatex">\((*)\)</span></h5>
+<h5 id="resolution-de">Résolution de <span class="arithmatex">\((*)\)</span><a class="headerlink" href="#resolution-de" title="Permanent link">&para;</a></h5>
 <div class="arithmatex">\[- \frac{X"(x)}{X(x)}=\alpha \Rightarrow -X"(x) - \alpha X(x) = 0\]</div>
 <p>De l&rsquo;équation caractéristique nous trouvons :</p>
 <div class="arithmatex">\[\Delta = -4\alpha\]</div>
 <p>On distingue alors 3 cas :</p>
-<h5><span class="arithmatex">\(\alpha &gt; 0\)</span></h5>
+<h5 id="alpha-0"><span class="arithmatex">\(\alpha &gt; 0\)</span><a class="headerlink" href="#alpha-0" title="Permanent link">&para;</a></h5>
 <p>Ainsi <span class="arithmatex">\(\Delta &lt; 0\)</span> et <span class="arithmatex">\(X\)</span> est de la forme <span class="arithmatex">\(X(x) = A_x cos(\sqrt \alpha x) + B_x sin(\sqrt \alpha x)\)</span>.</p>
 <p>On en déduit que <span class="arithmatex">\(X'(x) = -\sqrt \alpha A_x sin(\sqrt \alpha x) + \sqrt \alpha B_x cos(\sqrt \alpha x)\)</span>.</p>
 <p>Des conditions aux limites on en déduit que :</p>
 <div class="arithmatex">\[\begin{cases}X'(0) = \sqrt \alpha B_x = 0 \Rightarrow B_x = 0\\
 X'(1) = -\sqrt \alpha A_x sin(\sqrt \alpha) = 0 \Rightarrow sin(\sqrt \alpha) = 0\end{cases}\]</div>
 <p>On en déduit que <span class="arithmatex">\(\alpha_k = k^2\pi^2, \forall k&gt;0\)</span> et donc <span class="arithmatex">\(X_k(x) = A_xcos(k\pi x), \forall k&gt;0\)</span>.</p>
-<h5><span class="arithmatex">\(\alpha = 0\)</span></h5>
+<h5 id="alpha-0_1"><span class="arithmatex">\(\alpha = 0\)</span><a class="headerlink" href="#alpha-0_1" title="Permanent link">&para;</a></h5>
 <p>Ainsi <span class="arithmatex">\(\Delta = 0\)</span> et <span class="arithmatex">\(X\)</span> est de la forme <span class="arithmatex">\(X(x) = A_xx + B_x\)</span>. On en déduit que <span class="arithmatex">\(X'(x) = -\sqrt \alpha A_x sin(\sqrt \alpha x) + \sqrt \alpha B_x cos(\sqrt \alpha x)\)</span>.</p>
 <p>Des conditions aux limites on en déduit que :</p>
 <div class="arithmatex">\[X'(0) = A_x = 0\]</div>
 <p>Donc <span class="arithmatex">\(X(x) = B_x\)</span>, solution constante.</p>
-<h5><span class="arithmatex">\(\alpha &lt; 0\)</span></h5>
+<h5 id="alpha-0_2"><span class="arithmatex">\(\alpha &lt; 0\)</span><a class="headerlink" href="#alpha-0_2" title="Permanent link">&para;</a></h5>
 <p>Ainsi <span class="arithmatex">\(\Delta &lt; 0\)</span> et <span class="arithmatex">\(X\)</span> est de la forme <span class="arithmatex">\(X(x) = A_xe^{-\sqrt(-\alpha)x} + B_xe^{\sqrt(-\alpha)x}\)</span>. Des conditions aux limites on en déduit que <span class="arithmatex">\(A_x = B_x = 0\)</span>. Donc <span class="arithmatex">\(X \equiv 0\)</span>, ce qui n&rsquo;est pas intéressant.</p>
-<h5>Formulation finale</h5>
+<h5 id="formulation-finale">Formulation finale<a class="headerlink" href="#formulation-finale" title="Permanent link">&para;</a></h5>
 <p>Finalement, nous pouvons regrouper les deux écritures en une seule, sous la forme suivante :</p>
 <div class="arithmatex">\[X_k(x) = C_xcos(k\pi x), \forall k \geq 0\]</div>
 <p>Avec : </p>
@@ -235,28 +235,28 @@ X'(1) = -\sqrt \alpha A_x sin(\sqrt \alpha) = 0 \Rightarrow sin(\sqrt \alpha) = 
  B_x &amp; \text{ si } k=0 \cr
  A_x &amp; \text{ si } k&gt;0
 \end{cases}\]</div>
-<h4 id="resolution-de">Résolution de <span class="arithmatex">\((**)\)</span><a class="headerlink" href="#resolution-de" title="Permanent link">&para;</a></h4>
+<h4 id="resolution-de_1">Résolution de <span class="arithmatex">\((**)\)</span><a class="headerlink" href="#resolution-de_1" title="Permanent link">&para;</a></h4>
 <p>De la même manière nous résolvons l&rsquo;équation <span class="arithmatex">\((**)\)</span>.
 De l&rsquo;équation caractéristique nous trouvons :</p>
 <div class="arithmatex">\[\Delta = -4\beta\]</div>
 <p>On distingue alors 3 cas :</p>
-<h5>Cas <span class="arithmatex">\(\beta &gt; 0\)</span></h5>
+<h5 id="cas-beta-0">Cas <span class="arithmatex">\(\beta &gt; 0\)</span><a class="headerlink" href="#cas-beta-0" title="Permanent link">&para;</a></h5>
 <p>Ainsi <span class="arithmatex">\(\Delta &lt; 0\)</span> et <span class="arithmatex">\(Y\)</span> est de la forme <span class="arithmatex">\(Y(y) = A_y cos(\sqrt \beta x) + B_y sin(\sqrt \beta x)\)</span>.</p>
 <p>Des conditions aux limites on en déduit que :</p>
 <div class="arithmatex">\[\begin{cases}Y(0) = 0 \Rightarrow A_y = 0\\
 Y(1) = 0 \Rightarrow sin(\sqrt \beta) = 0\end{cases}\]</div>
 <p>On en déduit que <span class="arithmatex">\(\beta_k = k^2\pi^2, \forall k&gt;0\)</span> et donc <span class="arithmatex">\(Y_k(y) = A_ysin(k\pi y), \forall k&gt;0\)</span>.</p>
-<h5>Cas <span class="arithmatex">\(\beta = 0\)</span></h5>
+<h5 id="cas-beta-0_1">Cas <span class="arithmatex">\(\beta = 0\)</span><a class="headerlink" href="#cas-beta-0_1" title="Permanent link">&para;</a></h5>
 <p>Ainsi <span class="arithmatex">\(\Delta = 0\)</span> et <span class="arithmatex">\(Y\)</span> est de la forme <span class="arithmatex">\(Y(y) = A_yy + B_y\)</span>.</p>
 <p>Des conditions aux limites on en déduit que :</p>
 <div class="arithmatex">\[\begin{cases}Y(0) = B = 0\\
 Y(1) = A = 0\end{cases}\]</div>
 <p>Donc <span class="arithmatex">\(Y \equiv 0\)</span>, ce qui n&rsquo;est pas intéressant.</p>
-<h5>Cas <span class="arithmatex">\(\beta &gt; 0\)</span></h5>
+<h5 id="cas-beta-0_2">Cas <span class="arithmatex">\(\beta &gt; 0\)</span><a class="headerlink" href="#cas-beta-0_2" title="Permanent link">&para;</a></h5>
 <p>Ainsi <span class="arithmatex">\(\Delta &lt; 0\)</span> et <span class="arithmatex">\(Y\)</span> est de la forme <span class="arithmatex">\(Y(y) = A_ye^{-\sqrt(-\beta)y} + B_ye^{\sqrt(-\beta)y}\)</span>.</p>
 <p>Des conditions aux limites on en déduit que <span class="arithmatex">\(A_y = B_y = 0\)</span>.</p>
 <p>Donc <span class="arithmatex">\(Y \equiv 0\)</span>, ce qui n&rsquo;est pas intéressant.</p>
-<h5>Formulation finale</h5>
+<h5 id="formulation-finale_1">Formulation finale<a class="headerlink" href="#formulation-finale_1" title="Permanent link">&para;</a></h5>
 <p>La solution de <span class="arithmatex">\((**)\)</span> s&rsquo;écrit donc :</p>
 <div class="arithmatex">\[Y_k(y) = B_ysin(k\pi y), \forall k &gt; 0\]</div>
 <h3 id="reecriture-du-probleme-dans-la-base-propre">Réecriture du problème dans la base propre<a class="headerlink" href="#reecriture-du-probleme-dans-la-base-propre" title="Permanent link">&para;</a></h3>

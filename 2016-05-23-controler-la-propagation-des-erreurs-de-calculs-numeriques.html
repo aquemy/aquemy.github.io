@@ -173,7 +173,7 @@
 <p>Comme il ne s&rsquo;agit que de rappels, je n&rsquo;entre pas dans toutes subtilités de la norme IEEE-754, et nos explications sont suffisantes pour continuer.</p>
 <p>On considère l&rsquo;opération d&rsquo;affectation (<span class="arithmatex">\(:=\)</span>) : <span class="arithmatex">\(\mathbb{R} \to \mathcal{F}\)</span>, où <span class="arithmatex">\(\mathcal{F}\)</span> est l&rsquo;ensemble des nombres flottants. C&rsquo;est-à-dire l&rsquo;opération qui associe à un réel sa représentation machine.</p>
 <p>Pour illustrer concrètement la banalité de la chose via le C++:</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kt">double</span> <span class="n">x</span> <span class="o">=</span> <span class="mf">0.1</span><span class="p">;</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kt">double</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.1</span><span class="p">;</span><span class="w"></span>
 </code></pre></div>
 </td></tr></table>
 <p>Pour un réel donné <span class="arithmatex">\(x\)</span>, il existe un flottant <span class="arithmatex">\(X^+\)</span> et un flottant <span class="arithmatex">\(X^-\)</span> tels que <span class="arithmatex">\(X^- \leq x \leq X^+\)</span> et tel qu&rsquo;il n&rsquo;existe pas de flottant <span class="arithmatex">\(Y\)</span> et <span class="arithmatex">\(Z\)</span> tel que <span class="arithmatex">\(X^- &lt; Y &lt; x &lt; Z &lt; X^+\)</span>. Autrement dit, <span class="arithmatex">\(X^+\)</span> et <span class="arithmatex">\(X^-\)</span> sont les flottants immédiatement supérieur et inférieur à <span class="arithmatex">\(x\)</span>.</p>
@@ -211,53 +211,53 @@
 <p>C&rsquo;est ce dernier problème que s&rsquo;attache à résoudre la méthode CESTAC que l&rsquo;on présentera dans la section suivante. Cependant, comme nous le verrons ci-après, on ne peut faire l&rsquo;économie de quelques connaissances sur les autres problèmes.</p>
 <p><strong>Question :</strong> N&rsquo;exagères-tu pas un peu les erreurs de calculs et ne serait-ce pas finalement que des considérations pour chercheurs barbus ? Les erreurs sont-elles si courantes et si importantes ? De ce que j&rsquo;ai lu, la norme IEEE-754 permet une précision de l&rsquo;ordre de <span class="arithmatex">\(10^{-15}\)</span> en double précision donc mes résultats sont au moins aussi bons non ?</p>
 <p>Non, oui, et non. Prenons un cas pathologique extrêmement simple : <span class="arithmatex">\(x_n = ax_{n-1} - b\)</span>, soit un calcul extrêmement simple. En voici par ailleurs une implémentation en C++, avec une initialisation particulière :</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="cp">#include</span> <span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
-<span class="cp">#include</span> <span class="cpf">&lt;iomanip&gt;</span><span class="cp"></span>
-<span class="cp">#include</span> <span class="cpf">&lt;limits&gt;</span><span class="cp"></span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iomanip&gt;</span><span class="cp"></span>
+<span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;limits&gt;</span><span class="cp"></span>
 
-<span class="kt">int</span> <span class="nf">main</span><span class="p">()</span> <span class="p">{</span>
-     <span class="k">using</span> <span class="k">namespace</span> <span class="n">std</span><span class="p">;</span>
+<span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">     </span><span class="k">using</span><span class="w"> </span><span class="k">namespace</span><span class="w"> </span><span class="nn">std</span><span class="p">;</span><span class="w"></span>
 
-     <span class="kt">double</span>    <span class="n">b</span><span class="o">=</span><span class="mf">4095.1</span><span class="p">;</span>
-     <span class="kt">double</span>    <span class="n">a</span><span class="o">=</span><span class="n">b</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span>
-     <span class="kt">double</span>    <span class="n">x</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span>
+<span class="w">     </span><span class="kt">double</span><span class="w">    </span><span class="n">b</span><span class="o">=</span><span class="mf">4095.1</span><span class="p">;</span><span class="w"></span>
+<span class="w">     </span><span class="kt">double</span><span class="w">    </span><span class="n">a</span><span class="o">=</span><span class="n">b</span><span class="o">+</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
+<span class="w">     </span><span class="kt">double</span><span class="w">    </span><span class="n">x</span><span class="o">=</span><span class="mi">1</span><span class="p">;</span><span class="w"></span>
 
-     <span class="k">for</span> <span class="p">(</span><span class="kt">int</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">0</span><span class="p">;</span> <span class="n">i</span> <span class="o">&lt;</span> <span class="mi">100</span><span class="p">;</span> <span class="o">++</span><span class="n">i</span><span class="p">)</span> <span class="p">{</span>
-          <span class="n">x</span> <span class="o">=</span> <span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">x</span><span class="p">)</span> <span class="o">-</span> <span class="n">b</span><span class="p">;</span>
-          <span class="n">cout</span> <span class="o">&lt;&lt;</span> <span class="s">&quot;iter &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">i</span> <span class="o">&lt;&lt;</span> <span class="s">&quot; - &quot;</span> <span class="o">&lt;&lt;</span> <span class="n">setprecision</span><span class="p">(</span><span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;::</span><span class="n">max_digits10</span><span class="p">)</span> <span class="o">&lt;&lt;</span> <span class="n">x</span> <span class="o">&lt;&lt;</span> <span class="sc">&#39;\n&#39;</span><span class="p">;</span>
-     <span class="p">}</span>
-     <span class="k">return</span> <span class="mi">0</span><span class="p">;</span>
-<span class="p">}</span>
+<span class="w">     </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">          </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">b</span><span class="p">;</span><span class="w"></span>
+<span class="w">          </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;iter &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; - &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">setprecision</span><span class="p">(</span><span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;::</span><span class="n">max_digits10</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="sc">&#39;\n&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">     </span><span class="p">}</span><span class="w"></span>
+<span class="w">     </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
 </code></pre></div>
 </td></tr></table>
 <p>Ce qui donne pour sortie (consultable directement <a href="http://ideone.com/ekKPml">ici</a>) :
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="go">iter 0 - 1.0000000000004547</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="go">iter 0 - 1.0000000000004547</span>
 <span class="go">iter 1 - 1.0000000018630999</span>
 <span class="go">iter 2 - 1.0000076314440776</span>
 <span class="go">iter 3 - 1.0312591580864137</span>
@@ -343,7 +343,7 @@ En pratique on ne le fait pas, notamment car c&rsquo;est très compliqué pour u
 </div>
 <p>Ainsi, on ne considerera <strong>pas</strong> les permutations dans la suite.</p>
 <p>À partir de là, il existe deux manières d&rsquo;utiliser <code>pert</code> pour créer un échantillon <span class="arithmatex">\(R\)</span> et estimer le nombre de chiffres significatifs d&rsquo;un résultat numérique.</p>
-<h5>Utilisation asynchrone</h5>
+<h5 id="utilisation-asynchrone">Utilisation asynchrone<a class="headerlink" href="#utilisation-asynchrone" title="Permanent link">&para;</a></h5>
 <p>L&rsquo;utilisation asynchrone consiste à effectuer nos perturbations à chaque affectation, et à construire notre échantillon <span class="arithmatex">\(R\)</span> comme le resultat de <span class="arithmatex">\(N\)</span> appels à notre procedure <span class="arithmatex">\(F\)</span>. Autrement dit, les <span class="arithmatex">\(N\)</span> appels sont indépendants, d&rsquo;où le nom asynchrone. Une fois l&rsquo;échantillon à notre disposition, on calcule le nombre de chiffres significatifs <em>a posteriori</em>.</p>
 <p>Illustration de la méthode asynchrone avec une suite itérative définit par <span class="arithmatex">\(X_n = F(X_{n-1})\)</span> et pour terme initial <span class="arithmatex">\(X_0\)</span> avec <span class="arithmatex">\(N=3\)</span>:</p>
 <div class="arithmatex">\[
@@ -359,7 +359,7 @@ X_0 &amp; \to X^1_1 = \text{pert}(F(X_0)) &amp;\to X^1_2 = \text{pert}(F(X^1_1))
 <li>D&rsquo;une exécution à l&rsquo;autre, comme il y a certainement des embranchements conditionnels, deux résultats peuvent provenir d&rsquo;une suite d&rsquo;embranchements différents à cause des erreurs d&rsquo;arrondis. Dès lors il n&rsquo;est pas pertinent de comparer ces résultats.</li>
 </ul>
 <p>Pour ces deux raisons, la version asynchrone est inapplicable en général.</p>
-<h5>Utilisation synchrone</h5>
+<h5 id="utilisation-synchrone">Utilisation synchrone<a class="headerlink" href="#utilisation-synchrone" title="Permanent link">&para;</a></h5>
 <p>La version synchrone consiste cette fois à faire évoluer l&rsquo;échantillon à chaque opération d&rsquo;affectation et utiliser la moyenne empirique de celui-ci pour les embranchements<sup id="fnref:pratique"><a class="footnote-ref" href="#fn:pratique">4</a></sup>. Il est possible de donner une estimation du nombre de chiffres significatifs à tout moment car on dispose de l&rsquo;échantillon à tout moment durant l&rsquo;exécution. De fait, cela répond aux deux problématiques de la version asynchrone :</p>
 <ul>
 <li>À chaque étape, le résultat est consistant avec lui même, il ne peut s&rsquo;agir de différentes solutions puisqu&rsquo;il n&rsquo;y a jamais qu&rsquo;une seule valeur qui est utilisée pour les structures conditionnelles.</li>

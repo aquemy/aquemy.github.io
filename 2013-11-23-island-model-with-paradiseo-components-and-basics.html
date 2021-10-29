@@ -155,85 +155,85 @@ Let us consider the following scenario emigrations/immigrations should occur eve
 <h3 id="generic-use">Generic use<a class="headerlink" href="#generic-use" title="Permanent link">&para;</a></h3>
 <p>Before giving a practical example, let us see the generic way to create an homogeneous island model. For more details, refer to the source file <code>/smp/tutorial/Lesson2/islandmodel.cpp</code>.</p>
 <p>First of all, you need to create the elements shared by all islands.
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="cp">#include</span> <span class="cpf">&lt;smp&gt;</span><span class="cp"></span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;smp&gt;</span><span class="cp"></span>
 
 <span class="c1">//Common part to all islands</span>
-<span class="n">IndiEvalFunc</span> <span class="n">plainEval</span><span class="p">;</span>
-<span class="n">IndiInit</span> <span class="n">chromInit</span><span class="p">;</span>
-<span class="n">eoDetTournamentSelect</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">selectOne</span><span class="p">(</span><span class="n">param</span><span class="p">.</span><span class="n">tSize</span><span class="p">);</span>
-<span class="n">eoSelectPerc</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">select</span><span class="p">(</span><span class="n">selectOne</span><span class="p">);</span><span class="c1">// by default rate==1</span>
-<span class="n">IndiXover</span> <span class="n">Xover</span><span class="p">;</span>                     <span class="c1">// CROSSOVER</span>
-<span class="n">IndiSwapMutation</span>  <span class="n">mutationSwap</span><span class="p">;</span>      <span class="c1">// MUTATION</span>
-<span class="n">eoSGATransform</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">transform</span><span class="p">(</span><span class="n">Xover</span><span class="p">,</span> <span class="n">param</span><span class="p">.</span><span class="n">pCross</span><span class="p">,</span> <span class="n">mutationSwap</span><span class="p">,</span> <span class="n">param</span><span class="p">.</span><span class="n">pMut</span><span class="p">);</span>
-<span class="n">eoPlusReplacement</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">replace</span><span class="p">;</span>
+<span class="n">IndiEvalFunc</span><span class="w"> </span><span class="n">plainEval</span><span class="p">;</span><span class="w"></span>
+<span class="n">IndiInit</span><span class="w"> </span><span class="n">chromInit</span><span class="p">;</span><span class="w"></span>
+<span class="n">eoDetTournamentSelect</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span><span class="w"> </span><span class="n">selectOne</span><span class="p">(</span><span class="n">param</span><span class="p">.</span><span class="n">tSize</span><span class="p">);</span><span class="w"></span>
+<span class="n">eoSelectPerc</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span><span class="w"> </span><span class="n">select</span><span class="p">(</span><span class="n">selectOne</span><span class="p">);</span><span class="c1">// by default rate==1</span>
+<span class="n">IndiXover</span><span class="w"> </span><span class="n">Xover</span><span class="p">;</span><span class="w">                     </span><span class="c1">// CROSSOVER</span>
+<span class="n">IndiSwapMutation</span><span class="w">  </span><span class="n">mutationSwap</span><span class="p">;</span><span class="w">      </span><span class="c1">// MUTATION</span>
+<span class="n">eoSGATransform</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span><span class="w"> </span><span class="n">transform</span><span class="p">(</span><span class="n">Xover</span><span class="p">,</span><span class="w"> </span><span class="n">param</span><span class="p">.</span><span class="n">pCross</span><span class="p">,</span><span class="w"> </span><span class="n">mutationSwap</span><span class="p">,</span><span class="w"> </span><span class="n">param</span><span class="p">.</span><span class="n">pMut</span><span class="p">);</span><span class="w"></span>
+<span class="n">eoPlusReplacement</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span><span class="w"> </span><span class="n">replace</span><span class="p">;</span><span class="w"></span>
 </code></pre></div>
 </td></tr></table></p>
 <p>Then, create a model according to a certain topology:
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
-2
-3</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="c1">// MODEL</span>
-<span class="n">Topology</span><span class="o">&lt;</span><span class="n">Complete</span><span class="o">&gt;</span> <span class="n">topo</span><span class="p">;</span>
-<span class="n">IslandModel</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">model</span><span class="p">(</span><span class="n">topo</span><span class="p">);</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="c1">// MODEL</span>
+<span class="n">Topology</span><span class="o">&lt;</span><span class="n">Complete</span><span class="o">&gt;</span><span class="w"> </span><span class="n">topo</span><span class="p">;</span><span class="w"></span>
+<span class="n">IslandModel</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span><span class="w"> </span><span class="n">model</span><span class="p">(</span><span class="n">topo</span><span class="p">);</span><span class="w"></span>
 </code></pre></div>
 </td></tr></table></p>
 <p>Define the islands. The creation process will be detailled in the above section:
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16
-17</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="c1">// ISLAND 1</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="c1">// ISLAND 1</span>
 <span class="c1">// // Algorithm part</span>
-<span class="n">eoGenContinue</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">genCont</span><span class="p">(</span><span class="n">param</span><span class="p">.</span><span class="n">maxGen</span><span class="o">+</span><span class="mi">100</span><span class="p">);</span>
-<span class="n">eoPop</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">pop</span><span class="p">(</span><span class="n">param</span><span class="p">.</span><span class="n">popSize</span><span class="p">,</span> <span class="n">chromInit</span><span class="p">);</span>
+<span class="n">eoGenContinue</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span><span class="w"> </span><span class="n">genCont</span><span class="p">(</span><span class="n">param</span><span class="p">.</span><span class="n">maxGen</span><span class="o">+</span><span class="mi">100</span><span class="p">);</span><span class="w"></span>
+<span class="n">eoPop</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span><span class="w"> </span><span class="n">pop</span><span class="p">(</span><span class="n">param</span><span class="p">.</span><span class="n">popSize</span><span class="p">,</span><span class="w"> </span><span class="n">chromInit</span><span class="p">);</span><span class="w"></span>
 <span class="c1">// // Emigration policy</span>
 <span class="c1">// // // Element 1</span>
-<span class="n">eoPeriodicContinue</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">criteria</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span>
-<span class="n">eoDetTournamentSelect</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">selectOne</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span>
-<span class="n">eoSelectNumber</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">who</span><span class="p">(</span><span class="n">selectOne</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>
+<span class="n">eoPeriodicContinue</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span><span class="w"> </span><span class="n">criteria</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span><span class="w"></span>
+<span class="n">eoDetTournamentSelect</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span><span class="w"> </span><span class="n">selectOne</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span><span class="w"></span>
+<span class="n">eoSelectNumber</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span><span class="w"> </span><span class="n">who</span><span class="p">(</span><span class="n">selectOne</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">MigPolicy</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">migPolicy</span><span class="p">;</span>
-<span class="n">migPolicy</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">PolicyElement</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span><span class="p">(</span><span class="n">who</span><span class="p">,</span> <span class="n">criteria</span><span class="p">));</span>
+<span class="n">MigPolicy</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span><span class="w"> </span><span class="n">migPolicy</span><span class="p">;</span><span class="w"></span>
+<span class="n">migPolicy</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">PolicyElement</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span><span class="p">(</span><span class="n">who</span><span class="p">,</span><span class="w"> </span><span class="n">criteria</span><span class="p">));</span><span class="w"></span>
 
 <span class="c1">// // Integration policy</span>
-<span class="n">eoPlusReplacement</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">intPolicy</span><span class="p">;</span>
+<span class="n">eoPlusReplacement</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span><span class="w"> </span><span class="n">intPolicy</span><span class="p">;</span><span class="w"></span>
 
-<span class="n">Island</span><span class="o">&lt;</span><span class="n">eoEasyEA</span><span class="p">,</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">island1</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">intPolicy</span><span class="p">,</span> <span class="n">migPolicy</span><span class="p">,</span> <span class="n">genCont</span><span class="p">,</span> <span class="n">plainEval</span><span class="p">,</span> <span class="n">select</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">replace</span><span class="p">);</span>
+<span class="n">Island</span><span class="o">&lt;</span><span class="n">eoEasyEA</span><span class="p">,</span><span class="n">Indi</span><span class="o">&gt;</span><span class="w"> </span><span class="n">island1</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span><span class="w"> </span><span class="n">intPolicy</span><span class="p">,</span><span class="w"> </span><span class="n">migPolicy</span><span class="p">,</span><span class="w"> </span><span class="n">genCont</span><span class="p">,</span><span class="w"> </span><span class="n">plainEval</span><span class="p">,</span><span class="w"> </span><span class="n">select</span><span class="p">,</span><span class="w"> </span><span class="n">transform</span><span class="p">,</span><span class="w"> </span><span class="n">replace</span><span class="p">);</span><span class="w"></span>
 </code></pre></div>
 </td></tr></table></p>
 <p>Last but not least, add the islands to the model and run the island model:
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
-2
-3
-4
-5
-6</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">island1</span><span class="p">);</span>
-<span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">island2</span><span class="p">);</span>
-<span class="p">...</span>
-<span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">islandn</span><span class="p">);</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">island1</span><span class="p">);</span><span class="w"></span>
+<span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">island2</span><span class="p">);</span><span class="w"></span>
+<span class="p">...</span><span class="w"></span>
+<span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">islandn</span><span class="p">);</span><span class="w"></span>
 
-<span class="n">model</span><span class="p">();</span>
+<span class="n">model</span><span class="p">();</span><span class="w"></span>
 </code></pre></div>
 </td></tr></table></p>
 <h3 id="components">Components<a class="headerlink" href="#components" title="Permanent link">&para;</a></h3>
@@ -242,50 +242,50 @@ Let us consider the following scenario emigrations/immigrations should occur eve
 <p>An island has two different kind of policy: one for the integration of individuals, the other to know who and when sending some individuals, namely the integration policy.</p>
 <p>The integration policy is just an <code>eoReplacement</code> in order to know how to integrate the population: elitist policy by integrating the best individuals or, on the contrary, integrate all individuals for diversification.</p>
 <p>For instance:
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">eoPlusReplacement</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">intPolicy</span><span class="p">;</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">eoPlusReplacement</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span><span class="w"> </span><span class="n">intPolicy</span><span class="p">;</span><span class="w"></span>
 </code></pre></div>
 </td></tr></table></p>
 <p>The migration policy is a little bit different. One could see it like a container of policy rule. Each policy rule is compound of two elements:
 &ldquo;Who&rdquo; which corresponds to the way to select individuals to send.
 This is an <code>eoReplacement</code> and in our example we define it as follow:
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
-2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">eoDetTournamentSelect</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">selectOne</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span> <span class="c1">// Tournament between 20 individuals</span>
-<span class="n">eoSelectNumber</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">who</span><span class="p">(</span><span class="n">selectOne</span><span class="p">,</span> <span class="mi">3</span><span class="p">);</span>    <span class="c1">// Select 3 elements using the deterministic tournament</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">eoDetTournamentSelect</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span><span class="w"> </span><span class="n">selectOne</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span><span class="w"> </span><span class="c1">// Tournament between 20 individuals</span>
+<span class="n">eoSelectNumber</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span><span class="w"> </span><span class="n">who</span><span class="p">(</span><span class="n">selectOne</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span><span class="w">    </span><span class="c1">// Select 3 elements using the deterministic tournament</span>
 </code></pre></div>
 </td></tr></table></p>
 <p>&ldquo;When&rdquo; which answers the question: &ldquo;when to send individuals?&rdquo;.
 This is an <code>eoContinue</code> such as <code>eoGenContinue</code> or <code>eoFitContinue</code>.
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">eoPeriodicContinue</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">criteria</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span> <span class="c1">// Will send individuals all five generations</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">eoPeriodicContinue</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span><span class="w"> </span><span class="n">criteria</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span><span class="w"> </span><span class="c1">// Will send individuals all five generations</span>
 </code></pre></div>
 </td></tr></table>
 Finally, we need to push the policy rule into the policy :
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
-2
-3
-4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">MigPolicy</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">migPolicy</span><span class="p">;</span>
-<span class="n">migPolicy</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">PolicyElement</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span><span class="p">(</span><span class="n">who</span><span class="p">,</span> <span class="n">criteria</span><span class="p">));</span> <span class="c1">// First criteria</span>
-<span class="n">migPolicy</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">PolicyElement</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span><span class="p">(</span><span class="n">who_2</span><span class="p">,</span> <span class="n">criteria_2</span><span class="p">));</span> <span class="c1">// Second criteria</span>
-<span class="p">...</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">MigPolicy</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span><span class="w"> </span><span class="n">migPolicy</span><span class="p">;</span><span class="w"></span>
+<span class="n">migPolicy</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">PolicyElement</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span><span class="p">(</span><span class="n">who</span><span class="p">,</span><span class="w"> </span><span class="n">criteria</span><span class="p">));</span><span class="w"> </span><span class="c1">// First criteria</span>
+<span class="n">migPolicy</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">PolicyElement</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span><span class="p">(</span><span class="n">who_2</span><span class="p">,</span><span class="w"> </span><span class="n">criteria_2</span><span class="p">));</span><span class="w"> </span><span class="c1">// Second criteria</span>
+<span class="p">...</span><span class="w"></span>
 </code></pre></div>
 </td></tr></table></p>
 <h4 id="islands">Islands<a class="headerlink" href="#islands" title="Permanent link">&para;</a></h4>
 <p>The island is simply a wrapper over any algorithm to extent it with communications mecanisms.
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">Island</span><span class="o">&lt;</span><span class="n">eoEasyEA</span><span class="p">,</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">island1</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span> <span class="n">intPolicy</span><span class="p">,</span> <span class="n">migPolicy</span><span class="p">,</span> <span class="n">genCont</span><span class="p">,</span> <span class="n">plainEval</span><span class="p">,</span> <span class="n">select</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">replace</span><span class="p">);</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">Island</span><span class="o">&lt;</span><span class="n">eoEasyEA</span><span class="p">,</span><span class="n">Indi</span><span class="o">&gt;</span><span class="w"> </span><span class="n">island1</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span><span class="w"> </span><span class="n">intPolicy</span><span class="p">,</span><span class="w"> </span><span class="n">migPolicy</span><span class="p">,</span><span class="w"> </span><span class="n">genCont</span><span class="p">,</span><span class="w"> </span><span class="n">plainEval</span><span class="p">,</span><span class="w"> </span><span class="n">select</span><span class="p">,</span><span class="w"> </span><span class="n">transform</span><span class="p">,</span><span class="w"> </span><span class="n">replace</span><span class="p">);</span><span class="w"></span>
 </code></pre></div>
 </td></tr></table></p>
 <p>This island will be an <code>eoEasyEA</code> working on individuals of type <code>Indi</code>. It is required to specify the population on which the algorithm will work, policies and others parameters depending on the API of the wrapped algorithm.
 The only restriction is that the algorithm needs to inherite from <code>eoAlgo&lt;EOT&gt;</code>, that is to say, it must be a population based algorithm.</p>
 <h4 id="model">Model<a class="headerlink" href="#model" title="Permanent link">&para;</a></h4>
 <p>The model is the combination of an island container and a topology. Thus, it is quite straightforward to use it:
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
-2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">Topology</span><span class="o">&lt;</span><span class="n">Complete</span><span class="o">&gt;</span> <span class="n">topo</span><span class="p">;</span>
-<span class="n">IslandModel</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span> <span class="n">model</span><span class="p">(</span><span class="n">topo</span><span class="p">);</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">Topology</span><span class="o">&lt;</span><span class="n">Complete</span><span class="o">&gt;</span><span class="w"> </span><span class="n">topo</span><span class="p">;</span><span class="w"></span>
+<span class="n">IslandModel</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span><span class="w"> </span><span class="n">model</span><span class="p">(</span><span class="n">topo</span><span class="p">);</span><span class="w"></span>
 </code></pre></div>
 </td></tr></table></p>
 <p>One can change the topology as follow:
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
-2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">Topology</span><span class="o">&lt;</span><span class="n">Ring</span><span class="o">&gt;</span> <span class="n">topo_2</span><span class="p">;</span>
-<span class="n">model</span><span class="p">.</span><span class="n">setTopology</span><span class="p">(</span><span class="n">topo_2</span><span class="p">);</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">Topology</span><span class="o">&lt;</span><span class="n">Ring</span><span class="o">&gt;</span><span class="w"> </span><span class="n">topo_2</span><span class="p">;</span><span class="w"></span>
+<span class="n">model</span><span class="p">.</span><span class="n">setTopology</span><span class="p">(</span><span class="n">topo_2</span><span class="p">);</span><span class="w"></span>
 </code></pre></div>
 </td></tr></table></p>
 <p>It is important to note that the island does not know its neighbours for scalability reasons. It always sends populations to the model which is responsible for dispatching populations to the right islands.</p>
@@ -293,13 +293,13 @@ The only restriction is that the algorithm needs to inherite from <code>eoAlgo&l
 <p>The topology defines the links between islands. Since an island does not know its neighbours and the topology does not know neither the islands nor the number of islands, a topology just defines a general way of communications such as Ring, Complete, Hypercubic and more (refer to the documentation for an exhaustive list).</p>
 <p>The topology builds the matricial representation, used by the model, only when the model starts. As all topologies can not be built with any number of edges, please, check that the number of islands matches the topology requirements. In the other case an exception will be thrown.</p>
 <p>Defining a topology can be done as follow:
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
-2
-3
-4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">Topology</span><span class="o">&lt;</span><span class="n">Complete</span><span class="o">&gt;</span> <span class="n">topo</span><span class="p">;</span>
-<span class="n">Topology</span><span class="o">&lt;</span><span class="n">Ring</span><span class="o">&gt;</span> <span class="n">topo_2</span><span class="p">;</span>
-<span class="n">Topology</span><span class="o">&lt;</span><span class="n">Star</span><span class="o">&gt;</span> <span class="n">topo_3</span><span class="p">;</span>
-<span class="p">...</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">Topology</span><span class="o">&lt;</span><span class="n">Complete</span><span class="o">&gt;</span><span class="w"> </span><span class="n">topo</span><span class="p">;</span><span class="w"></span>
+<span class="n">Topology</span><span class="o">&lt;</span><span class="n">Ring</span><span class="o">&gt;</span><span class="w"> </span><span class="n">topo_2</span><span class="p">;</span><span class="w"></span>
+<span class="n">Topology</span><span class="o">&lt;</span><span class="n">Star</span><span class="o">&gt;</span><span class="w"> </span><span class="n">topo_3</span><span class="p">;</span><span class="w"></span>
+<span class="p">...</span><span class="w"></span>
 </code></pre></div>
 </td></tr></table></p>
 <p>Note the possiblity a cutom topology by its matricial representation (written in a JSON file), using the Custom topology object.
@@ -311,9 +311,9 @@ Please, note that all <code>eoContinue</code> will be shared between islands ! F
 Moreover, as islands run in parallel, we can not assume that each island will perform exactly 100 generations.</p>
 <p>This is the same behavior with the migration policy because it uses <code>eoContinue</code> as criteria.</p>
 <p>Let us see how this convenient wrapper works (more details in the source file <code>/smp/tutorial/Lesson2/wrapper.cpp</code>) :
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
-2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">eoPop</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;&gt;</span> <span class="n">pops</span> <span class="o">=</span> <span class="n">IslandModelWrapper</span><span class="o">&lt;</span><span class="n">eoEasyEA</span><span class="p">,</span><span class="n">Indi</span><span class="o">&gt;</span><span class="p">(</span><span class="n">number_of_islands</span><span class="p">,</span> <span class="n">topo</span><span class="p">,</span> <span class="n">popSize</span><span class="p">,</span> <span class="n">chromInit</span><span class="p">,</span>
-    <span class="n">intPolicy</span><span class="p">,</span> <span class="n">migPolicy</span><span class="p">,</span> <span class="n">genCont</span><span class="p">,</span> <span class="n">plainEval</span><span class="p">,</span> <span class="n">select</span><span class="p">,</span> <span class="n">transform</span><span class="p">,</span> <span class="n">replace</span><span class="p">);</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="n">eoPop</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;&gt;</span><span class="w"> </span><span class="n">pops</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">IslandModelWrapper</span><span class="o">&lt;</span><span class="n">eoEasyEA</span><span class="p">,</span><span class="n">Indi</span><span class="o">&gt;</span><span class="p">(</span><span class="n">number_of_islands</span><span class="p">,</span><span class="w"> </span><span class="n">topo</span><span class="p">,</span><span class="w"> </span><span class="n">popSize</span><span class="p">,</span><span class="w"> </span><span class="n">chromInit</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="n">intPolicy</span><span class="p">,</span><span class="w"> </span><span class="n">migPolicy</span><span class="p">,</span><span class="w"> </span><span class="n">genCont</span><span class="p">,</span><span class="w"> </span><span class="n">plainEval</span><span class="p">,</span><span class="w"> </span><span class="n">select</span><span class="p">,</span><span class="w"> </span><span class="n">transform</span><span class="p">,</span><span class="w"> </span><span class="n">replace</span><span class="p">);</span><span class="w"></span>
 </code></pre></div>
 </td></tr></table></p>
 <p>The function needs to know how many islands you would like to create, the topology, and how to create populations (that is to say the size per population and the <code>eoInit</code>). The other parameters depend on the API of the algorithm to wrap inside each island.</p>

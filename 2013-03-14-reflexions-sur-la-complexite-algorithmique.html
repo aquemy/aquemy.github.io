@@ -186,11 +186,11 @@
 <p>Un nombre est composé s’il n’est pas premier.
 Donnons nous le problème de décision suivant : <em>Soit un entier n. Est-il composé ?</em></p>
 <p>Un algorithme naïf serait le suivant : </p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
-2
-3
-4
-5</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>Pour i = 2 à racine(n) faire
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>Pour i = 2 à racine(n) faire
     Si n % i = 0 alors
         Retourner Vrai
 Fin pour
@@ -205,8 +205,8 @@ Retourne Faux
 <p>Ainsi, le polynôme cherché est un polynôme fonction de <span class="arithmatex">\(O(\text{log}\;n)\)</span>. <span class="arithmatex">\(O(n^{\frac{1}{2}})\)</span> n’est pas borné par un polynôme en <span class="arithmatex">\(O(\text{log}\;n)\)</span>, ce qui fait que notre algorithme n’est <strong>PAS</strong> polynomial.</p>
 <p>Attention toutefois, cela n’exclut pas que le problème soit polynomial (qu’il existe un algorithme polynomial pour le résoudre), mais ce ne sera pas celui-ci. Une bonne pratique consiste à vérifier qu’il est au moins dans la classe <span class="arithmatex">\(NP\)</span> et ensuite d’essayer de montrer qu’il est dans <span class="arithmatex">\(P\)</span> … s’il est dans <span class="arithmatex">\(P\)</span>.</p>
 <p>Au vu de la définition formelle de la section précédente, il suffit de trouver un bon certificat qui permet de trouver un algorithme en temps polynomial en fonction de la taille d’écriture du problème. On peut simplement prendre deux entiers <span class="arithmatex">\(a\)</span> et <span class="arithmatex">\(b\)</span> comme certificat et cet algorithme de vérification : </p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
-2</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>Si a * b = n alors
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>Si a * b = n alors
     Retourner Vrai
 </code></pre></div>
 </td></tr></table>

@@ -187,7 +187,7 @@ La population est ensuite évaluée, c’est à dire que l’on attribut un indi
 <p>Les tests de performance ont été effectués sur un problème du voyageur de commerce, avec des instances de différentes tailles (approximativement 100 villes à 13 000 villes). Il s’agit d’instances réelles.
 La première série de tests est purement descriptive puisqu’elle ne fait que donner des indicateurs sur des instances déterministes, c’est à dire avec une graine fixée. La seconde partie des tests est plus intéressante parce qu’elle donne une réponse statistique quand à l’influence de certains facteurs.</p>
 <h4 id="modele-homogene-vs-serialise">Modèle homogène vs Sérialisé<a class="headerlink" href="#modele-homogene-vs-serialise" title="Permanent link">&para;</a></h4>
-<h5>Test 1</h5>
+<h5 id="test-1">Test 1<a class="headerlink" href="#test-1" title="Permanent link">&para;</a></h5>
 <p><strong>Objectif :</strong>
 Mettre en évidence une rapidité de convergence accrue du modèle.</p>
 <p><strong>Protocole :</strong></p>
@@ -271,7 +271,7 @@ Mettre en évidence une rapidité de convergence accrue du modèle.</p>
 <p>On peut également se demander si la politique très élitiste mise en place n’a pas fait converger les algorithmes vers un minimum local, ainsi si l’algorithme converge à partir de 3 îles et pour les critères d’arrêts spécifiés, alors il convergera vers le même optimum pour un nombre d’îles supérieur (sauf si par chance ces îles supplémentaires sont générés avec des individus meilleurs à la base).</p>
 <p>Les autres métriques sont unanimes : la SCR est divisé par 10 à 100 voire par un facteur <span class="arithmatex">\(10^6\)</span> sur des populations constantes par exemple, montrant fitness bien meilleurs sur le modèle d’îles. Le graphique nous montre clairement que les modèles d’îles ont convergés alors que la fitness des individus de l’algorithme seul semble continuer de s’améliorer (cf. dernier tiers).</p>
 <p>Le test s’avère ici plus qualititatif que quantitatif car il ne répond pas à la question suivante : quelle est le gain sur la vitesse de convergence. Accessoirement on peut également se demander si l’algorithme sérialisé aurait convergé vers un meilleur optimum ou non, et ce, malgré une politique très élitiste.</p>
-<h5>Test 2</h5>
+<h5 id="test-2">Test 2<a class="headerlink" href="#test-2" title="Permanent link">&para;</a></h5>
 <p><strong>Objectifs :</strong>
 Quantifier le gain sur la rapidité de convergence du modèle d’île.</p>
 <p><strong>Protocole :</strong></p>
@@ -289,7 +289,7 @@ On ajoutera un compteur sur le nombre de générations avant d’atteindre cette
 <p>L’algorithme s’arrête au moment où l’algorithme est prêt à converger (première apparition de la meilleure fitness observée). Le résultat montre bien que les modèles d’îles convergent plus rapidemment.
 On obtient un ratio de 2,6 pour le modèle à 3 îles et un ratio de 3,47 pour le modèle à 4 îles.</p>
 <h4 id="influence-du-facteur-communication">Influence du facteur communication<a class="headerlink" href="#influence-du-facteur-communication" title="Permanent link">&para;</a></h4>
-<h5>Test déterministe</h5>
+<h5 id="test-deterministe">Test déterministe<a class="headerlink" href="#test-deterministe" title="Permanent link">&para;</a></h5>
 <p><strong>Objectifs :</strong>
 Mettre en avant l’intérêt des communications dans la convergence de l’algorithme et la qualité de solutions.</p>
 <p><strong>Protocole :</strong></p>
@@ -339,7 +339,7 @@ Mettre en avant l’intérêt des communications dans la convergence de l’algo
 <p><strong>Analyse des résultats :</strong></p>
 <p>Tous les indicateurs sont favorables au modèle avec communication. On note une amélioration moyenne de 30% des solutions et une somme des carrés des résidus qui a diminué d’un facteur 70.
 Le graphique montre que le modèle sans communication n’a pas encore convergé alors que celui avec communication est en passe d’avoir complètement convergé.</p>
-<h5>Test non déterministe : ANOVA 1</h5>
+<h5 id="test-non-deterministe-anova-1">Test non déterministe : ANOVA 1<a class="headerlink" href="#test-non-deterministe-anova-1" title="Permanent link">&para;</a></h5>
 <p>Dans le cas général où la graine n’est pas fixée, nous voulons déterminer si les communications ont un facteur sur la qualité de la solution obtenue. Pour cela nous allons essayer de nous servir de l’ANOVA 1 : l’analyse de variance à un facteur.</p>
 <p>Nous avons ici un facteur, les communications, avec deux modes : avec ou sans communication.
 Nos observations seront notées <span class="arithmatex">\(y_{ij}\)</span> avec <span class="arithmatex">\(1 \leq i \leq 2\)</span> respectivement sans et avec communication, et <span class="arithmatex">\(1 \leq j \leq 100\)</span> puisque nous avons réalisé 100 expériences avec et sans communication.
@@ -358,22 +358,22 @@ Le modèle d’ANOVA 1 se basent sur des hypothèses qui ne sont pas triviales d
 </ul>
 <p>Un test de comparaison par approche de modèle nous donnera une réponse au risque de <span class="arithmatex">\(5\%\)</span> quand à l’influence du facteur communication sur la différence des moyennes des deux groupes.</p>
 <p>Les tests de normalité nous permettent de conclure à la normalité des deux échantillons. Les tests effectués sont le test de Lilliefors et le test de Shapiro-Wilk. Ils ont été réalisés sous R grâce au paquet normtest.</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span> 1
- 2
- 3
- 4
- 5
- 6
- 7
- 8
- 9
-10
-11
-12
-13
-14
-15
-16</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="o">&gt;</span> <span class="nf">lillie.test</span><span class="p">(</span><span class="nf">t</span><span class="p">(</span><span class="n">X1</span><span class="p">))</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="o">&gt;</span> <span class="nf">lillie.test</span><span class="p">(</span><span class="nf">t</span><span class="p">(</span><span class="n">X1</span><span class="p">))</span>
     <span class="nf">Lilliefors </span><span class="p">(</span><span class="n">Kolmogorov</span><span class="o">-</span><span class="n">Smirnov</span><span class="p">)</span> <span class="n">normality</span> <span class="n">test</span>
 <span class="n">data</span><span class="o">:</span>  <span class="nf">t</span><span class="p">(</span><span class="n">X1</span><span class="p">)</span>
 <span class="n">D</span> <span class="o">=</span> <span class="m">0.0599</span><span class="p">,</span> <span class="n">p</span><span class="o">-</span><span class="n">value</span> <span class="o">=</span> <span class="m">0.5072</span>
@@ -392,17 +392,17 @@ Le modèle d’ANOVA 1 se basent sur des hypothèses qui ne sont pas triviales d
 </code></pre></div>
 </td></tr></table>
 <p>Le seuil fixé est de <span class="arithmatex">\(5\%\)</span>. L’hypothèse du test est que les individus suivent une loi normale. La p-value étant supérieure au seuil, on ne rejette pas l’hypothèse et on conclue donc à la normalité de l’échantillon.</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span>1
-2
-3
-4</pre></div></td><td class="code"><div class="highlight"><pre><span></span><code> <span class="nf">fligner.test</span><span class="p">(</span><span class="nf">list</span><span class="p">(</span><span class="nf">t</span><span class="p">(</span><span class="n">X1</span><span class="p">),</span><span class="nf">t</span><span class="p">(</span><span class="n">X2</span><span class="p">)))</span>
+<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code> <span class="nf">fligner.test</span><span class="p">(</span><span class="nf">list</span><span class="p">(</span><span class="nf">t</span><span class="p">(</span><span class="n">X1</span><span class="p">),</span><span class="nf">t</span><span class="p">(</span><span class="n">X2</span><span class="p">)))</span>
     <span class="n">Fligner</span><span class="o">-</span><span class="n">Killeen</span> <span class="n">test</span> <span class="n">of</span> <span class="n">homogeneity</span> <span class="n">of</span> <span class="n">variances</span>
 <span class="n">data</span><span class="o">:</span>  <span class="nf">list</span><span class="p">(</span><span class="nf">t</span><span class="p">(</span><span class="n">X1</span><span class="p">),</span> <span class="nf">t</span><span class="p">(</span><span class="n">X2</span><span class="p">))</span>
 <span class="n">Fligner</span><span class="o">-</span><span class="n">Killeen</span><span class="o">:</span><span class="n">med</span> <span class="n">chi</span><span class="o">-</span><span class="n">squared</span> <span class="o">=</span> <span class="m">15.5555</span><span class="p">,</span> <span class="n">df</span> <span class="o">=</span> <span class="m">1</span><span class="p">,</span> <span class="n">p</span><span class="o">-</span><span class="n">value</span> <span class="o">=</span> <span class="m">8.012e-05</span>
 </code></pre></div>
 </td></tr></table>
 <p>Le test de variance indique une variance non-commune aux deux groupes. Cependant, cette variance non homogène est moins problématique qu’une distribution non normale des individus, surtout lorsque les groupes comportent autant d’individus. Ainsi, le test de Fisher effectué lors de l’ANOVA sera potentiellement faussé en rejettant plus facilement l’influence significative du facteur étudié.</p>
-<h6>Analyse du tableau d’ANOVA</h6>
+<h6 id="analyse-du-tableau-danova">Analyse du tableau d’ANOVA<a class="headerlink" href="#analyse-du-tableau-danova" title="Permanent link">&para;</a></h6>
 <p><center><img alt="" src="images/2013-10-11-modele-de-parallelisme-en-iles-pour-des-metaheuristiques/anova.png" /></center></p>
 <p>Nous observons une p-value de l’ordre de <span class="arithmatex">\(10^{-62}\)</span>, très largement inférieure au seuil des 5% fixés. On peut donc conclure à l’influence significative des communications sur notre modèle. Ce qui est d&rsquo;autant plus intéressant c&rsquo;est de remarquer la part de variance expliquée par le facteur de communication entre groupes par rapport à la variance résiduelle, ce qui traduit très exactement le fait que la différence entre les deux groupes s&rsquo;explique par le ce seul facteur (les autres facteurs étant négligeables).</p>
 <h3 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h3>
