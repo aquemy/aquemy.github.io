@@ -134,50 +134,46 @@
 <h3 id="concrete-example">Concrete example<a class="headerlink" href="#concrete-example" title="Permanent link">&para;</a></h3>
 <p>A complete example is available in the file <code>/smp/tutorial/Lesson3/heterogeneous.cpp</code>.</p>
 <p>Assuming we have a base type called <code>Indi</code>, and a second type called <code>Indi2</code>, we need to create our conversion functions:
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
 <span class="normal">4</span>
 <span class="normal">5</span>
-<span class="normal">6</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="c1">// Conversion functions</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// Conversion functions</span>
 <span class="n">Indi2</span><span class="w"> </span><span class="nf">fromBase</span><span class="p">(</span><span class="n">Indi</span><span class="o">&amp;</span><span class="w"> </span><span class="n">i</span><span class="p">,</span><span class="w"> </span><span class="kt">unsigned</span><span class="w"> </span><span class="n">size</span><span class="p">)</span><span class="w"></span>
 <span class="p">{}</span><span class="w"></span>
 
 <span class="n">Indi</span><span class="w"> </span><span class="nf">toBase</span><span class="p">(</span><span class="n">Indi2</span><span class="o">&amp;</span><span class="w"> </span><span class="n">i</span><span class="p">)</span><span class="w"></span>
 <span class="p">{}</span><span class="w"></span>
-</code></pre></div>
-</td></tr></table></p>
+</code></pre></div></td></tr></table></div></p>
 <p>Note that it it possible to have more that one parameter. In our example, we need the size of the <code>Indi2</code> to convert an <code>Indi</code> to an <code>Indi2</code>.</p>
 <p>Then, we need to bind our functions in a <code>std::function</code> object (one per island that does not work on base type :
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
-<span class="normal">3</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="c1">// We bind conversion functions</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1">// We bind conversion functions</span>
 <span class="k">auto</span><span class="w"> </span><span class="n">frombase</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="n">fromBase</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">placeholders</span><span class="o">::</span><span class="n">_1</span><span class="p">,</span><span class="w"> </span><span class="n">VEC_SIZE</span><span class="p">);</span><span class="w"></span>
 <span class="k">auto</span><span class="w"> </span><span class="n">tobase</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">bind</span><span class="p">(</span><span class="n">toBase</span><span class="p">,</span><span class="w"> </span><span class="n">std</span><span class="o">::</span><span class="n">placeholders</span><span class="o">::</span><span class="n">_1</span><span class="p">);</span><span class="w"></span>
-</code></pre></div>
-</td></tr></table></p>
+</code></pre></div></td></tr></table></div></p>
 <p>As the expected prototype for conversion function in the island contains only one parameter (a reference or value of the original type), we need to fix the second one which is the size. That is why we fixed it with the constant <code>VEC_SIZE</code>.</p>
 <p>Finally, create your islands :
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
-<span class="normal">3</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">Island</span><span class="o">&lt;</span><span class="n">eoSGA</span><span class="p">,</span><span class="n">Indi2</span><span class="p">,</span><span class="w"> </span><span class="n">Indi</span><span class="o">&gt;</span><span class="w"> </span><span class="n">gga</span><span class="p">(</span><span class="n">frombase</span><span class="p">,</span><span class="w"> </span><span class="n">tobase</span><span class="p">,</span><span class="w"> </span><span class="n">pop</span><span class="p">,</span><span class="w"> </span><span class="n">intPolicy</span><span class="p">,</span><span class="w"> </span><span class="n">migPolicy</span><span class="p">,</span><span class="w"> </span><span class="n">select</span><span class="p">,</span><span class="w"></span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">Island</span><span class="o">&lt;</span><span class="n">eoSGA</span><span class="p">,</span><span class="n">Indi2</span><span class="p">,</span><span class="w"> </span><span class="n">Indi</span><span class="o">&gt;</span><span class="w"> </span><span class="n">gga</span><span class="p">(</span><span class="n">frombase</span><span class="p">,</span><span class="w"> </span><span class="n">tobase</span><span class="p">,</span><span class="w"> </span><span class="n">pop</span><span class="p">,</span><span class="w"> </span><span class="n">intPolicy</span><span class="p">,</span><span class="w"> </span><span class="n">migPolicy</span><span class="p">,</span><span class="w"> </span><span class="n">select</span><span class="p">,</span><span class="w"></span>
 <span class="w">    </span><span class="n">xover</span><span class="p">,</span><span class="w"> </span><span class="n">CROSS_RATE</span><span class="p">,</span><span class="w"> </span><span class="n">mutation</span><span class="p">,</span><span class="w"> </span><span class="n">MUT_RATE</span><span class="p">,</span><span class="w"> </span><span class="n">eval</span><span class="p">,</span><span class="w"> </span><span class="n">continuator</span><span class="p">);</span><span class="w"></span>
 <span class="n">Island</span><span class="o">&lt;</span><span class="n">eoEasyEA</span><span class="p">,</span><span class="n">Indi</span><span class="o">&gt;</span><span class="w"> </span><span class="n">ea</span><span class="p">(</span><span class="n">pop2</span><span class="p">,</span><span class="w"> </span><span class="n">intPolicy2</span><span class="p">,</span><span class="w"> </span><span class="n">migPolicy2</span><span class="p">,</span><span class="w"> </span><span class="n">genCont</span><span class="p">,</span><span class="w"> </span><span class="n">plainEval</span><span class="p">,</span><span class="w"> </span><span class="n">select2</span><span class="p">,</span><span class="w"> </span><span class="n">transform</span><span class="p">,</span><span class="w"> </span><span class="n">replace</span><span class="p">);</span><span class="w"></span>
-</code></pre></div>
-</td></tr></table></p>
+</code></pre></div></td></tr></table></div></p>
 <p>The third template parameter of the <code>eoSGA</code> island is the base type.</p>
 <p>And finally, we add islands and start the model:</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
 <span class="normal">4</span>
-<span class="normal">5</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="n">IslandModel</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span><span class="w"> </span><span class="n">model</span><span class="p">(</span><span class="n">topo</span><span class="p">);</span><span class="w"></span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">IslandModel</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span><span class="w"> </span><span class="n">model</span><span class="p">(</span><span class="n">topo</span><span class="p">);</span><span class="w"></span>
 <span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">ea</span><span class="p">);</span><span class="w"></span>
 <span class="n">model</span><span class="p">.</span><span class="n">add</span><span class="p">(</span><span class="n">gga</span><span class="p">);</span><span class="w"></span>
 
 <span class="n">model</span><span class="p">();</span><span class="w"></span>
-</code></pre></div>
-</td></tr></table>
+</code></pre></div></td></tr></table></div>
 <p>Obviously, the number of individual types is not limited to two.</p>
         </div>
     </div><!--//main-body-->

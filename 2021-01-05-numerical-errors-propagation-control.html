@@ -173,9 +173,8 @@
 <p>As these are only reminders, I am not going into all the intricacies of the IEEE-754 standard, and these explanations are sufficient to continue the article.</p>
 <p>We consider the assignment operation (<span class="arithmatex">\(:=\)</span>): <span class="arithmatex">\(\mathbb {R} \to \mathcal {F}\)</span>, where <span class="arithmatex">\(\mathcal{F}\)</span> is the set of floating point numbers. That is to say the operation which associates to a real number its machine representation.</p>
 <p>To concretely illustrate the banality of the thing via C++:
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kt">double</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.1</span><span class="p">;</span><span class="w"></span>
-</code></pre></div>
-</td></tr></table></p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kt">double</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mf">0.1</span><span class="p">;</span><span class="w"></span>
+</code></pre></div></td></tr></table></div></p>
 <p>For a given real <span class="arithmatex">\(x\)</span>, there exists a float <span class="arithmatex">\(X^+\)</span> and a float <span class="arithmatex">\(X^-\)</span> such that <span class="arithmatex">\(X^- \leq x \leq X^+\)</span> and such that there is no float <span class="arithmatex">\(Y\)</span> and <span class="arithmatex">\(Z\)</span> such that <span class="arithmatex">\(X^- &lt; Y &lt; x &lt; Z &lt; X^+\)</span>. In other words, <span class="arithmatex">\(X ^ +\)</span> and <span class="arithmatex">\(X ^-\)</span> are the floats immediately greater than and less than <span class="arithmatex">\(x\)</span>.</p>
 <p>If <span class="arithmatex">\(x\)</span> is representable in an exact way, then we have equality between the three terms and the assignment operation <span class="arithmatex">\(X: = x\)</span> is unambiguously defined.</p>
 <p>If this is not the case, as in the above example with <span class="arithmatex">\(0.1\)</span> in base 2, we must choose a representative between <span class="arithmatex">\(X^+\)</span> and <span class="arithmatex">\(X^-\)</span>. At first sight, none of them are more legitimate to represent <span class="arithmatex">\(x\)</span>.</p>
@@ -211,7 +210,7 @@
 <p>CESTAC method attempts to solve the last problem and will be presented in the following section. However, as we will see below, we cannot do it without some knowledge about the other problems.</p>
 <p><strong>Question:</strong> Are you not exaggerating the computation errors a little and is it not ultimately just some considerations for researchers with long grey beards? Are mistakes so common and so important? From what I&rsquo;ve read, the IEEE-754 standard allows precision to the order of <span class="arithmatex">\(10^{-15}\)</span> in double precision so my results are at least as good right?</p>
 <p>No, yes, and no. Let us take an extremely simple pathological case: <span class="arithmatex">\(x_n = ax_ {n-1} - b\)</span>, which is an extremely simple computation. Here is also a C++ implementation with a particular initialization:</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -227,7 +226,7 @@
 <span class="normal">14</span>
 <span class="normal">15</span>
 <span class="normal">16</span>
-<span class="normal">17</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
+<span class="normal">17</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iostream&gt;</span><span class="cp"></span>
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;iomanip&gt;</span><span class="cp"></span>
 <span class="cp">#include</span><span class="w"> </span><span class="cpf">&lt;limits&gt;</span><span class="cp"></span>
 
@@ -244,10 +243,9 @@
 <span class="w">     </span><span class="p">}</span><span class="w"></span>
 <span class="w">     </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
-</code></pre></div>
-</td></tr></table>
+</code></pre></div></td></tr></table></div>
 <p>Which gives for output (directly available <a href="http://ideone.com/ekKPml">here</a>):
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -257,7 +255,7 @@
 <span class="normal"> 8</span>
 <span class="normal"> 9</span>
 <span class="normal">10</span>
-<span class="normal">11</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="go">iter 0 - 1.0000000000004547</span>
+<span class="normal">11</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="go">iter 0 - 1.0000000000004547</span>
 <span class="go">iter 1 - 1.0000000018630999</span>
 <span class="go">iter 2 - 1.0000076314440776</span>
 <span class="go">iter 3 - 1.0312591580864137</span>
@@ -268,8 +266,7 @@
 <span class="go">...</span>
 <span class="go">iter 88 - 3.519444240677161e+305</span>
 <span class="go">iter 89 - inf</span>
-</code></pre></div>
-</td></tr></table></p>
+</code></pre></div></td></tr></table></div></p>
 <p>While the expected mathematical result is <span class="arithmatex">\(1\)</span>, constant for each iteration, we observe that after a few iterations on the machine there is a fast divergence towards infinity. After only 4 iterations, the number of significant digits between the exact actual result and its floating bias is 0!</p>
 <h3 id="stochastic-control-and-estimation-of-rounding">Stochastic control and estimation of rounding<a class="headerlink" href="#stochastic-control-and-estimation-of-rounding" title="Permanent link">&para;</a></h3>
 <h4 id="cestac-core-and-error-propagation">CESTAC core and error propagation<a class="headerlink" href="#cestac-core-and-error-propagation" title="Permanent link">&para;</a></h4>

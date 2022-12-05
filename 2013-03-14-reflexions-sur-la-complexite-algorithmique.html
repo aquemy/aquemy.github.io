@@ -149,7 +149,7 @@
 <h3 id="rappels-sur-la-complexite-temporelle">Rappels sur la complexité temporelle<a class="headerlink" href="#rappels-sur-la-complexite-temporelle" title="Permanent link">&para;</a></h3>
 <h4 id="complexite-en-temps">Complexité en temps<a class="headerlink" href="#complexite-en-temps" title="Permanent link">&para;</a></h4>
 <p>Il est coutume que de manière informelle, on enseigne aux novices de l’algorithmique que la complexité d’un algorithme correspond au nombre  d’étapes (élémentaires) de l’algorithme, qui est fonction de la taille des données du problème. Cette définition a l’avantage d’être très facile à appliquer, facilement compréhensible et de donner une borne assez fidèle dans la plupart des applications.</p>
-<p>Cependant, cette définition est problématique, comme nous allons le voir, lorsque l’on donne la définition formelle des classes d’équivalence de complexité algorithmique. On présente souvent les classes de complexité principales :  <span class="arithmatex">\(P\)</span> et <span class="arithmatex">\(NP\)</span>, respectivement pour <em>Polynomial</em> et <em>Non-</em><em>Déterministe</em>* Polynomial<em>. Le terme « non déterministe » est important puisqu’à l’heure actuelle, nous ne savons pas si <span class="arithmatex">\(P = NP\)</span> (et pour l’anecdote, il s’agit d’un des problèmes du prix du millénaire, récompensé par la coquette somme d’un million de dollars par le *Clay Mathematical Institute</em>).</p>
+<p>Cependant, cette définition est problématique, comme nous allons le voir, lorsque l’on donne la définition formelle des classes d’équivalence de complexité algorithmique. On présente souvent les classes de complexité principales :  <span class="arithmatex">\(P\)</span> et <span class="arithmatex">\(NP\)</span>, respectivement pour <em>Polynomial</em> et <em>Non-<strong>Déterministe</strong> Polynomial</em>. Le terme « non déterministe » est important puisqu’à l’heure actuelle, nous ne savons pas si <span class="arithmatex">\(P = NP\)</span> (et pour l’anecdote, il s’agit d’un des problèmes du prix du millénaire, récompensé par la coquette somme d’un million de dollars par le <em>Clay Mathematical Institute</em>).</p>
 <p>De manière formelle, un algorithme <span class="arithmatex">\(A\)</span> de <strong>machine de Turing déterministe</strong> est polynomial s’il existe un polynôme <span class="arithmatex">\(p_A\)</span> tel que <span class="arithmatex">\(\forall x \in \Sigma^*, |x|=n, t_A(x) \leq p_A(n)\)</span> où <span class="arithmatex">\(x\)</span> est un mot de l’alphabet <span class="arithmatex">\(\Sigma\)</span> (ensemble des symboles différents pour coder l’entrée), <span class="arithmatex">\(t_A(x)\)</span> le nombre de pas jusqu’à l’arrêt de <span class="arithmatex">\(A\)</span> et <span class="arithmatex">\(n\)</span>, la longueur de l’entrée, qui est arbitrairement fixée.</p>
 <p>On appelle complexité en temps de <span class="arithmatex">\(A\)</span>, le maximum des <span class="arithmatex">\(t_A(x)\)</span> pour un <span class="arithmatex">\(n=|x|\)</span> fixé. On comprend donc aisément qu’un algorithme est polynomial si sa complexité temporelle est bornée par un polynôme. Par extension, on dira qu’un problème <span class="arithmatex">\(\Pi\)</span> est polynomial s’il existe un algorithme <span class="arithmatex">\(A\)</span> polynomial qui résout <span class="arithmatex">\(\Pi\)</span>.</p>
 <p>Cette définition est excessivement formelle et oblige à recourir aux machines de Turing. Cependant, il existe toujours des fonctions permettant de passer d’un formalisme en machine de Turing à un formalisme utilisant nos ordinateurs modernes, le tout, évidemment, en temps polynomial. Ainsi, par la suite, on ne reviendra jamais aux machines de Turing pour calculer des complexités, et heureusement !</p>
@@ -186,17 +186,16 @@
 <p>Un nombre est composé s’il n’est pas premier.
 Donnons nous le problème de décision suivant : <em>Soit un entier n. Est-il composé ?</em></p>
 <p>Un algorithme naïf serait le suivant : </p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
 <span class="normal">4</span>
-<span class="normal">5</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>Pour i = 2 à racine(n) faire
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code>Pour i = 2 à racine(n) faire
     Si n % i = 0 alors
         Retourner Vrai
 Fin pour
 Retourne Faux
-</code></pre></div>
-</td></tr></table>
+</code></pre></div></td></tr></table></div>
 <p>La question à se poser est : <em>quelle est la complexité de cet algorithme ?</em></p>
 <p>Au premier coup d’œil, nous parcourons une boucle dans laquelle nous effectuons une opération plus ou moins élémentaire. Bref, il semblerait que cet algorithme soit en <span class="arithmatex">\(O(n)\)</span> voire <span class="arithmatex">\(O(n^{\frac{1}{2}})\)</span> si nous voulions être plus précis. Dans les deux cas, un joli polynôme. Notre problème est donc un problème polynomial.</p>
 <p>Ce calcul est évidemment bon mais la conclusion est fausse, pour la raison évoquée : elle ne tient pas compte de la taille d’écriture du problème.</p>
@@ -205,11 +204,10 @@ Retourne Faux
 <p>Ainsi, le polynôme cherché est un polynôme fonction de <span class="arithmatex">\(O(\text{log}\;n)\)</span>. <span class="arithmatex">\(O(n^{\frac{1}{2}})\)</span> n’est pas borné par un polynôme en <span class="arithmatex">\(O(\text{log}\;n)\)</span>, ce qui fait que notre algorithme n’est <strong>PAS</strong> polynomial.</p>
 <p>Attention toutefois, cela n’exclut pas que le problème soit polynomial (qu’il existe un algorithme polynomial pour le résoudre), mais ce ne sera pas celui-ci. Une bonne pratique consiste à vérifier qu’il est au moins dans la classe <span class="arithmatex">\(NP\)</span> et ensuite d’essayer de montrer qu’il est dans <span class="arithmatex">\(P\)</span> … s’il est dans <span class="arithmatex">\(P\)</span>.</p>
 <p>Au vu de la définition formelle de la section précédente, il suffit de trouver un bon certificat qui permet de trouver un algorithme en temps polynomial en fonction de la taille d’écriture du problème. On peut simplement prendre deux entiers <span class="arithmatex">\(a\)</span> et <span class="arithmatex">\(b\)</span> comme certificat et cet algorithme de vérification : </p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
-<span class="normal">2</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>Si a * b = n alors
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code>Si a * b = n alors
     Retourner Vrai
-</code></pre></div>
-</td></tr></table>
+</code></pre></div></td></tr></table></div>
 <p>Dans la vérification, on ne s’intéresse qu’à savoir si <span class="arithmatex">\(x\)</span> est vérifié, comme son nom l’indique. Nous avons bien un algorithme dont la complexité est cette fois borné par un polynôme et notre problème admet donc un algorithme de la classe <span class="arithmatex">\(NP\)</span> qui le résout. Il s’agit donc d’un problème <span class="arithmatex">\(NP\)</span>.</p>
 <p>Pour la petite histoire, ce problème est effectivement dans la classe <span class="arithmatex">\(P\)</span>. Le co-problème associé est le test de primalité, dont la preuve de l’appartenance à la classe <span class="arithmatex">\(P\)</span> n’a été trouvée qu’en 2002, avec les algorithmes AKS (au pluriel, car de nombreuses variantes se sont développées).</p>
 <h4 id="en-resume_1">En résumé<a class="headerlink" href="#en-resume_1" title="Permanent link">&para;</a></h4>

@@ -149,7 +149,7 @@
 <p>Il y a un liaison dynamique lorsque la sélection d&rsquo;une méthode à utiliser dépend d&rsquo;un type qui ne sera connu qu&rsquo;à l&rsquo;exécution, comme celui du paramètre d&rsquo;une méthode par exemple.</p>
 <p>Le C++ propose ces deux types de liaisons, la liaison statique étant le comportement par défaut et la liaison dynamique étant obtenue grâce à l&rsquo;utilisation du mot clef <code>virtual</code>.</p>
 <p>Exemple de static dispatch :</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -168,12 +168,12 @@
 <span class="normal">17</span>
 <span class="normal">18</span>
 <span class="normal">19</span>
-<span class="normal">20</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">struct</span> <span class="nc">Foo</span><span class="w"></span>
+<span class="normal">20</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">struct</span><span class="w"> </span><span class="nc">Foo</span><span class="w"></span>
 <span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">f</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Foo::f()&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 <span class="p">}</span><span class="w"> </span><span class="p">;</span><span class="w"></span>
 
-<span class="k">struct</span> <span class="nc">Bar</span><span class="w"></span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">Bar</span><span class="w"></span>
 <span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">f</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Bar::f()&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 <span class="p">}</span><span class="w"> </span><span class="p">;</span><span class="w"></span>
@@ -188,17 +188,15 @@
 
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
-</code></pre></div>
-</td></tr></table>
+</code></pre></div></td></tr></table></div>
 <p>Il est évident ici que le compilateur peut extraire de manière certaine du contexte, la méthode à appeler. L&rsquo;ensemble des types utilisés par le programme principal est connu à l&rsquo;avance.</p>
 <p>Nous avons donc pour sortie :</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
-<span class="normal">2</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>Foo::f
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code>Foo::f
 Bar::f
-</code></pre></div>
-</td></tr></table>
+</code></pre></div></td></tr></table></div>
 <p>Exemple de liaison dynamique :</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -228,18 +226,18 @@ Bar::f
 <span class="normal">28</span>
 <span class="normal">29</span>
 <span class="normal">30</span>
-<span class="normal">31</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">struct</span> <span class="nc">Base</span><span class="w"></span>
+<span class="normal">31</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">struct</span><span class="w"> </span><span class="nc">Base</span><span class="w"></span>
 <span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">f</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
 <span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="o">~</span><span class="n">Base</span><span class="p">()</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
 <span class="p">};</span><span class="w"></span>
 
-<span class="k">struct</span> <span class="nc">Foo</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">Base</span><span class="w"></span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">Foo</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">Base</span><span class="w"></span>
 <span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">f</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Foo::f()&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 <span class="p">};</span><span class="w"></span>
 
-<span class="k">struct</span> <span class="nc">Bar</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">Base</span><span class="w"></span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">Bar</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">Base</span><span class="w"></span>
 <span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">f</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Bar::f()&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 <span class="p">};</span><span class="w"></span>
@@ -259,15 +257,13 @@ Bar::f
 
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
-</code></pre></div>
-</td></tr></table>
+</code></pre></div></td></tr></table></div>
 <p>Remarquez le type du paramètre de la fonction <code>dispatch</code> : il s&rsquo;agit d&rsquo;un objet polymorphique de type <code>Base</code>. Comment savoir quelle méthode membre <code>f</code> appeler avant l&rsquo;appel explicite à la fonction <code>dispatch</code> ? La liaison est donc faite en fonction du contexte d&rsquo;exécution.</p>
 <p>La sortie est la suivante :</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
-<span class="normal">2</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>Foo::f
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code>Foo::f
 Bar::f
-</code></pre></div>
-</td></tr></table>
+</code></pre></div></td></tr></table></div>
 <h4 id="liaison-simple-ou-multiple">Liaison simple ou multiple<a class="headerlink" href="#liaison-simple-ou-multiple" title="Permanent link">&para;</a></h4>
 <p>On peut également caractériser davantage la liaison dynamique, en fonction de sa capacité à s&rsquo;appliquer au regard du nombre d&rsquo;objets polymorphiques qu&rsquo;une méthode prend en paramètre.</p>
 <p>Si le langage est capable de correctement choisir l&rsquo;implémentation d&rsquo;une fonction appelée contenant un seul objet polymorphique, on parle de liaison simple ou <em>Single Dispatch</em>, s&rsquo;il peut en traiter deux, on parle de <em>Double Dispatch</em> et pour un nombre quelconque de <em>Multiple Dispatch</em> de manière générale.</p>
@@ -275,7 +271,7 @@ Bar::f
 <p>Avant de donner quelques exemples, rappeler que lorsque l&rsquo;on appelle une méthode depuis une instance de classe, il y a <strong>toujours</strong> un paramètre : l&rsquo;instance de la classe qui appelle la méthode. L&rsquo;écriture courante utilisant un point (ou autre selon les langages) pour séparer visuellement l&rsquo;instance appelante des autres paramètres n&rsquo;est que du sucre syntaxique permettant une plus grande lisibilité. Il faut donc en tenir compte lorsque l&rsquo;on parle de liaison puisque dans le cas du <em>Single Dispatch</em>, le seul paramètre prit en compte est l&rsquo;instance appelante.</p>
 <p>Nous avons donc déjà rencontré un exemple de <em>Single Dispatch</em> : l&rsquo;exemple de la liaison dynamique donné à la section précédente.</p>
 <p>Voici un exemple qui montre le comportement limité de la liaison en C++ . Considérons les classes suivantes :</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -295,31 +291,30 @@ Bar::f
 <span class="normal">18</span>
 <span class="normal">19</span>
 <span class="normal">20</span>
-<span class="normal">21</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">struct</span> <span class="nc">Vehicle</span><span class="w"></span>
+<span class="normal">21</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">struct</span><span class="w"> </span><span class="nc">Vehicle</span><span class="w"></span>
 <span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">print</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Je suis juste un vehicule ! :&#39;(&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
 <span class="p">};</span><span class="w"></span>
 
-<span class="k">struct</span> <span class="nc">Plane</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">Vehicle</span><span class="w"></span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">Plane</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">Vehicle</span><span class="w"></span>
 <span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">print</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Je suis un avion ! :)&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 <span class="p">};</span><span class="w"></span>
 
-<span class="k">struct</span> <span class="nc">Parking</span><span class="w"></span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">Parking</span><span class="w"></span>
 <span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">park</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">Vehicle</span><span class="o">&amp;</span><span class="w"> </span><span class="n">v</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Bienvenue au garage !&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">print</span><span class="p">();</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
 <span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">park</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">Plane</span><span class="o">&amp;</span><span class="w"> </span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w">  </span><span class="s">&quot;Pas assez de place pour garer un avion !&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">print</span><span class="p">();};</span><span class="w"></span>
 <span class="p">};</span><span class="w"></span>
 
-<span class="k">struct</span> <span class="nc">WideParking</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">Parking</span><span class="w"></span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">WideParking</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">Parking</span><span class="w"></span>
 <span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">park</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">Vehicle</span><span class="o">&amp;</span><span class="w"> </span><span class="n">v</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Bienvenue au garage extra-large !&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">print</span><span class="p">();</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
 <span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">park</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">Plane</span><span class="o">&amp;</span><span class="w"> </span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w">  </span><span class="s">&quot;Il y a toute la place qu&#39;il faut pour un avion !&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">print</span><span class="p">();};</span><span class="w"></span>
 <span class="p">};</span><span class="w"></span>
-</code></pre></div>
-</td></tr></table>
+</code></pre></div></td></tr></table></div>
 <p>Et voici quelques fonctions <code>main</code> accompagnées de leur sortie :</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -333,7 +328,7 @@ Bar::f
 <span class="normal">12</span>
 <span class="normal">13</span>
 <span class="normal">14</span>
-<span class="normal">15</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"></span>
+<span class="normal">15</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"></span>
 <span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="n">Vehicle</span><span class="w"> </span><span class="n">v</span><span class="p">;</span><span class="w"></span>
 <span class="w">    </span><span class="n">Plane</span><span class="w"> </span><span class="n">pl</span><span class="p">;</span><span class="w"></span>
@@ -348,10 +343,9 @@ Bar::f
 
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
-</code></pre></div>
-</td></tr></table>
+</code></pre></div></td></tr></table></div>
 <p>Et la sortie associée :</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
 <span class="normal">4</span>
@@ -359,7 +353,7 @@ Bar::f
 <span class="normal">6</span>
 <span class="normal">7</span>
 <span class="normal">8</span>
-<span class="normal">9</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>Bienvenue au garage !
+<span class="normal">9</span></pre></div></td><td class="code"><div><pre><span></span><code>Bienvenue au garage !
 Je suis juste un vehicule ! :&#39;(
 Bienvenue au garage extra-large !
 Je suis juste un vehicule ! :&#39;(
@@ -368,11 +362,10 @@ Pas assez de place pour garer un avion !
 Je suis un avion ! :)
 Il y a toute la place qu&#39;il faut pour un avion !
 Je suis un avion ! :)
-</code></pre></div>
-</td></tr></table>
+</code></pre></div></td></tr></table></div>
 <p>Ici, aucun soucis, nous avons bien le comportement désiré. En effet, tous les types sont bien caractérisés et peuvent être déduit en <em>compile time</em>,</p>
 <p>Un autre essai en utilisant un pointeur sur vehicule en lieu et place de notre instance d&rsquo;avion caractérisée :</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -384,7 +377,7 @@ Je suis un avion ! :)
 <span class="normal">10</span>
 <span class="normal">11</span>
 <span class="normal">12</span>
-<span class="normal">13</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"></span>
+<span class="normal">13</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"></span>
 <span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="n">Plane</span><span class="w"> </span><span class="n">pl</span><span class="p">;</span><span class="w"></span>
 <span class="w">    </span><span class="n">Vehicle</span><span class="o">&amp;</span><span class="w"> </span><span class="n">plr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pl</span><span class="p">;</span><span class="w"></span>
@@ -397,21 +390,19 @@ Je suis un avion ! :)
 
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
-</code></pre></div>
-</td></tr></table>
+</code></pre></div></td></tr></table></div>
 <p>Ce qui nous donne :</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
-<span class="normal">4</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>Bienvenue au garage !
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code>Bienvenue au garage !
 Je suis un avion ! :)
 Bienvenue au garage extra-large !
 Je suis un avion ! :)
-</code></pre></div>
-</td></tr></table>
+</code></pre></div></td></tr></table></div>
 <p>Il s&rsquo;agit toujours du comportement attendu et pourtant cette fois il y a eu liaison dynamique. En effet, on ne pouvait déterminer qu&rsquo;en <em>run time</em> que l&rsquo;objet passé aux parkings était un avion et non pas un simple véhicule. Par ailleurs, si l&rsquo;on avait retiré la virtualité à la méthode <code>print</code>, nous n&rsquo;aurions évidemment pas eu le message indiquant qu&rsquo;il s&rsquo;agit d&rsquo;un avion.</p>
 <p>Un dernier exemple au comportement attendu avant de montrer les limites du <em>Single Dispatch</em> :</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -423,7 +414,7 @@ Je suis un avion ! :)
 <span class="normal">10</span>
 <span class="normal">11</span>
 <span class="normal">12</span>
-<span class="normal">13</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"></span>
+<span class="normal">13</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"></span>
 <span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="n">Vehicle</span><span class="w"> </span><span class="n">v</span><span class="p">;</span><span class="w"></span>
 <span class="w">    </span><span class="n">Plane</span><span class="w"> </span><span class="n">pl</span><span class="p">;</span><span class="w"></span>
@@ -436,21 +427,19 @@ Je suis un avion ! :)
 
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
-</code></pre></div>
-</td></tr></table>
+</code></pre></div></td></tr></table></div>
 <p>Avec pour sortie :</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
-<span class="normal">4</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>Bienvenue au garage extra-large !
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code>Bienvenue au garage extra-large !
 Je suis juste un vehicule ! :&#39;(
 Il y a toute la place qu&#39;il faut pour un avion !
 Je suis un avion ! :)
-</code></pre></div>
-</td></tr></table>
+</code></pre></div></td></tr></table></div>
 <p>Cette fois, c&rsquo;est un pointeur sur <code>Parking</code> qui pointe sur un objet <code>WideParking</code>. Les types des véhicules sont pleinement caractérisés. On pourrait alors croire qu&rsquo;il y a eu une liaison statique alors qu&rsquo;en réalité la liaison c&rsquo;est effectuée en <em>run time</em>. En effet, l&rsquo;instance de l&rsquo;objet est un paramètre de la méthode <code>park</code>. Ainsi, pour appeler la bonne méthode <code>park</code>, il a fallu attendre l&rsquo;appel effectif pour que le contexte permette de savoir qu&rsquo;il s&rsquo;agissait bien d&rsquo;un <code>WideParking</code> !</p>
 <p>Pour vous convaincre que l&rsquo;instance est bien un paramètre, voici le cas pathologique :</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -465,7 +454,7 @@ Je suis un avion ! :)
 <span class="normal">13</span>
 <span class="normal">14</span>
 <span class="normal">15</span>
-<span class="normal">16</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"></span>
+<span class="normal">16</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"></span>
 <span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="n">Plane</span><span class="w"> </span><span class="n">pl</span><span class="p">;</span><span class="w"></span>
 <span class="w">    </span><span class="n">Vehicle</span><span class="o">&amp;</span><span class="w"> </span><span class="n">plr</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">pl</span><span class="p">;</span><span class="w"></span>
@@ -481,10 +470,9 @@ Je suis un avion ! :)
 
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
-</code></pre></div>
-</td></tr></table>
+</code></pre></div></td></tr></table></div>
 <p>Et nous obtenons ainsi :</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
 <span class="normal">4</span>
@@ -492,7 +480,7 @@ Je suis un avion ! :)
 <span class="normal">6</span>
 <span class="normal">7</span>
 <span class="normal">8</span>
-<span class="normal">9</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>Il y a toute la place qu&#39;il faut pour un avion !
+<span class="normal">9</span></pre></div></td><td class="code"><div><pre><span></span><code>Il y a toute la place qu&#39;il faut pour un avion !
 Je suis un avion ! :)
 Bienvenue au garage extra-large !
 Je suis un avion ! :)
@@ -501,14 +489,12 @@ Il y a toute la place qu&#39;il faut pour un avion !
 Je suis un avion ! :)
 Bienvenue au garage extra-large !
 Je suis un avion ! :)
-</code></pre></div>
-</td></tr></table>
+</code></pre></div></td></tr></table></div>
 <p>Les 3 premiers appels ont été traités dans les exemples précédents. Le dernier ne donne cependant pas le résultat correct ! En effet, nous aurions aimé avoir :</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
-<span class="normal">2</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>Il y a toute la place qu&#39;il faut pour un avion !
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code>Il y a toute la place qu&#39;il faut pour un avion !
 Je suis un avion ! :)
-</code></pre></div>
-</td></tr></table>
+</code></pre></div></td></tr></table></div>
 <p>Le <em>Single Dispatch</em> fait que la résolution ne permet pas de trouver la bonne implémentation entre <code>WideParking::park(const Vehicle&amp;) const</code> et <code>WideParking::(const Plane&amp;) const</code> ainsi, c&rsquo;est la première qui est appelée puisque c&rsquo;est le type légitime de <code>plr</code>. On voit bien que le premier argument traité pour le dispatching est l&rsquo;instance de l&rsquo;objet qui appelle la méthode, puisqu&rsquo;on appelle bien une méthode de l&rsquo;objet <code>WideParking</code> et non pas <code>Parking</code>.</p>
 <p>D&rsquo;où provient cette limitation en nombre qui peut sembler surprenante ?</p>
 <p>La raison est assez simple et n&rsquo;est pourtant pas liée directement au C++. Le mécanisme de résolution des appels virtuels se fait au travers d&rsquo;une structure de données appelée la <em>vtable</em> qui ne permet pas directement de faire de la liaison multiple. La <em>vtable</em> se charge de stocker dans un tableau interne et invisible au programmeur, des pointeurs vers les instances de classes allouées. Typiquement, une <em>vtable</em> sera créée pour chaque classe.
@@ -520,7 +506,7 @@ Là où le bat blesse, c&rsquo;est que l&rsquo;implémentation de la <em>vtable<
 <p>Si techniquement il permet la simulation de la liaison double dynamique, les problèmes rencontrés qui amènent à se tourner vers cette solution relèvent plutôt de la séparation entre algorithme et structure de données.</p>
 <p>Le principe est d&rsquo;avoir une méthode publique pour chaque objet devant être visité, prenant un objet Visiteur devant effectuer un traitement en utilisant des données internes à l&rsquo;objet visité. Cette méthode publique va appeler la méthode effectuer ce traitement sur l&rsquo;instance du Visiteur, tout en lui donnant une réference sur lui même.</p>
 <p>Concrètement, admettons que nous ayons ces quelques classes :</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -535,13 +521,13 @@ Là où le bat blesse, c&rsquo;est que l&rsquo;implémentation de la <em>vtable<
 <span class="normal">13</span>
 <span class="normal">14</span>
 <span class="normal">15</span>
-<span class="normal">16</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">A</span><span class="p">;</span><span class="w"></span>
+<span class="normal">16</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">A</span><span class="p">;</span><span class="w"></span>
 
-<span class="k">class</span> <span class="nc">B</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="p">{};</span><span class="w"></span>
-<span class="k">class</span> <span class="nc">C</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="p">{};</span><span class="w"></span>
+<span class="k">class</span><span class="w"> </span><span class="nc">B</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="p">{};</span><span class="w"></span>
+<span class="k">class</span><span class="w"> </span><span class="nc">C</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">A</span><span class="w"> </span><span class="p">{};</span><span class="w"></span>
 
 
-<span class="n">Pour</span><span class="w"> </span><span class="n">chaque</span><span class="w"> </span><span class="n">objet</span><span class="w"> </span><span class="n">dérivant</span><span class="w"> </span><span class="n">de</span><span class="w"> </span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">nous</span><span class="w"> </span><span class="n">devons</span><span class="w"> </span><span class="n">créer</span><span class="w"> </span><span class="n">une</span><span class="w"> </span><span class="n">méthode</span><span class="w"> </span><span class="n">acceptant</span><span class="w"> </span><span class="n">un</span><span class="w"> </span><span class="nl">Visisteur</span> <span class="p">:</span><span class="w"></span>
+<span class="n">Pour</span><span class="w"> </span><span class="n">chaque</span><span class="w"> </span><span class="n">objet</span><span class="w"> </span><span class="n">dérivant</span><span class="w"> </span><span class="n">de</span><span class="w"> </span><span class="n">A</span><span class="p">,</span><span class="w"> </span><span class="n">nous</span><span class="w"> </span><span class="n">devons</span><span class="w"> </span><span class="n">créer</span><span class="w"> </span><span class="n">une</span><span class="w"> </span><span class="n">méthode</span><span class="w"> </span><span class="n">acceptant</span><span class="w"> </span><span class="n">un</span><span class="w"> </span><span class="n">Visisteur</span><span class="w"> </span><span class="o">:</span><span class="w"></span>
 
 <span class="w">    </span><span class="cp">#!c++</span>
 <span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">B</span><span class="o">::</span><span class="n">acceptVisit</span><span class="p">(</span><span class="n">Visitor</span><span class="w"> </span><span class="o">*</span><span class="n">visitor</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
@@ -551,16 +537,14 @@ Là où le bat blesse, c&rsquo;est que l&rsquo;implémentation de la <em>vtable<
 <span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="n">C</span><span class="o">::</span><span class="n">acceptVisit</span><span class="p">(</span><span class="n">Visitor</span><span class="w"> </span><span class="o">*</span><span class="n">visitor</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">   </span><span class="n">visitor</span><span class="o">-&gt;</span><span class="n">visitC</span><span class="p">(</span><span class="k">this</span><span class="p">)</span><span class="w"> </span><span class="p">;</span><span class="w"></span>
 <span class="w"> </span><span class="p">}</span><span class="w"></span>
-</code></pre></div>
-</td></tr></table>
+</code></pre></div></td></tr></table></div>
 <p>Enfin, nous devons créer notre visiteur et chacune de ses méthodes pour visiter nos objets.</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
-<span class="normal">3</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="nf">Visitor::visitB</span><span class="p">(</span><span class="n">B</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">object</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="nf">Visitor::visitB</span><span class="p">(</span><span class="n">B</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">object</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="c1">// Le traitement de l&#39;objet de type B en utilisant une instance pleinement caractérisée</span>
 <span class="w">  </span><span class="p">}</span><span class="w"></span>
-</code></pre></div>
-</td></tr></table>
+</code></pre></div></td></tr></table></div>
 <p>On comprendra donc pourquoi le visiteur n&rsquo;est une solution efficace et élégante qu&rsquo;en présente d&rsquo;un nombre restreint de classes.</p>
 <p>La littérature sur les patrons de conception étant vaste et très bien fournie, je me contenterai ici de ce strict minimum pour parler du <em>tag</em> <em>dispatching</em>, beaucoup moins représenté.</p>
 <h3 id="tag-dispatching">Tag Dispatching<a class="headerlink" href="#tag-dispatching" title="Permanent link">&para;</a></h3>
@@ -572,7 +556,7 @@ Là où le bat blesse, c&rsquo;est que l&rsquo;implémentation de la <em>vtable<
 Cependant, il existe des cas où l&rsquo;on ne veut pas exécuter en parallèle l&rsquo;heuristique (parce que les accès concurrents feraient perdre trop de temps pour un gain non significatif, parce que la machine cible ne sera capable de gérer le multithread correctement, etc).</p>
 <p>Le <em>Tag Dispatching</em> va nous permettre d&rsquo;appeler la bonne version de l&rsquo;algorithme selon la politique de l&rsquo;heuristique.</p>
 <p>Voici les politiques :</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -602,7 +586,7 @@ Cependant, il existe des cas où l&rsquo;on ne veut pas exécuter en parallèle 
 <span class="normal">28</span>
 <span class="normal">29</span>
 <span class="normal">30</span>
-<span class="normal">31</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">struct</span> <span class="nc">MonoThread</span><span class="w"></span>
+<span class="normal">31</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">struct</span><span class="w"> </span><span class="nc">MonoThread</span><span class="w"></span>
 <span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">Lock</span><span class="p">()</span><span class="w"></span>
 <span class="w">    </span><span class="p">{</span><span class="w"></span>
@@ -615,7 +599,7 @@ Cependant, il existe des cas où l&rsquo;on ne veut pas exécuter en parallèle 
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
 <span class="p">};</span><span class="w"></span>
 
-<span class="k">class</span> <span class="nc">MultiThread</span><span class="w"></span>
+<span class="k">class</span><span class="w"> </span><span class="nc">MultiThread</span><span class="w"></span>
 <span class="p">{</span><span class="w"></span>
 <span class="k">public</span><span class="w"> </span><span class="o">:</span><span class="w"></span>
 <span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">Lock</span><span class="p">()</span><span class="w"></span>
@@ -633,10 +617,9 @@ Cependant, il existe des cas où l&rsquo;on ne veut pas exécuter en parallèle 
 <span class="k">protected</span><span class="w"> </span><span class="o">:</span><span class="w"></span>
 <span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="w"> </span><span class="n">m</span><span class="p">;</span><span class="w"></span>
 <span class="p">};</span><span class="w"></span>
-</code></pre></div>
-</td></tr></table>
+</code></pre></div></td></tr></table></div>
 <p>Et voici l&rsquo;heuristique. Il faut bien comprendre que l&rsquo;heuristique ne fait pas forcément ses traitements en parallèle. Le <em>lock</em> effectué s&rsquo;assure juste l&rsquo;exclusivité sur l&rsquo;accès des données partagées (non représentées ici).</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -645,8 +628,8 @@ Cependant, il existe des cas où l&rsquo;on ne veut pas exécuter en parallèle 
 <span class="normal"> 7</span>
 <span class="normal"> 8</span>
 <span class="normal"> 9</span>
-<span class="normal">10</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">class</span> <span class="nc">ThreadPolicy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MonoThread</span><span class="o">&gt;</span><span class="w"></span>
-<span class="k">struct</span> <span class="nc">Heuristic</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">protected</span><span class="w"> </span><span class="n">ThreadPolicy</span><span class="w"></span>
+<span class="normal">10</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">ThreadPolicy</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">MonoThread</span><span class="o">&gt;</span><span class="w"></span>
+<span class="k">struct</span><span class="w"> </span><span class="nc">Heuristic</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">protected</span><span class="w"> </span><span class="n">ThreadPolicy</span><span class="w"></span>
 <span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">operator</span><span class="p">()()</span><span class="w"></span>
 <span class="w">    </span><span class="p">{</span><span class="w"></span>
@@ -655,18 +638,16 @@ Cependant, il existe des cas où l&rsquo;on ne veut pas exécuter en parallèle 
 <span class="w">        </span><span class="n">ThreadPolicy</span><span class="o">::</span><span class="n">Unlock</span><span class="p">();</span><span class="w"></span>
 <span class="w">    </span><span class="p">};</span><span class="w"></span>
 <span class="p">};</span><span class="w"></span>
-</code></pre></div>
-</td></tr></table>
+</code></pre></div></td></tr></table></div>
 <p>Enfin, voici les tags et l&rsquo;algorithme :</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
-<span class="normal">3</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span><span class="w"> </span><span class="k">struct</span> <span class="nc">isMultiThread</span><span class="w"> </span><span class="p">{};</span><span class="w"></span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">isMultiThread</span><span class="w"> </span><span class="p">{};</span><span class="w"></span>
 <span class="k">using</span><span class="w"> </span><span class="n">multi_tag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">isMultiThread</span><span class="o">&lt;</span><span class="nb">true</span><span class="o">&gt;</span><span class="p">;</span><span class="w"></span>
 <span class="k">using</span><span class="w"> </span><span class="n">mono_tag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">isMultiThread</span><span class="o">&lt;</span><span class="nb">false</span><span class="o">&gt;</span><span class="p">;</span><span class="w"></span>
-</code></pre></div>
-</td></tr></table>
+</code></pre></div></td></tr></table></div>
 <p>Tout d&rsquo;abord, nous définissons le tag général : l&rsquo;information utile est portée par le template booléen. Soit nous sommes en <em>multithread</em>, soit nous sommes en <em>monothread</em> et ainsi nous spécialisons les tags. A noter que dans un cas plus complexe, il est possible de laisser un cas par défaut.</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
 <span class="normal"> 4</span>
@@ -693,10 +674,10 @@ Cependant, il existe des cas où l&rsquo;on ne veut pas exécuter en parallèle 
 <span class="normal">25</span>
 <span class="normal">26</span>
 <span class="normal">27</span>
-<span class="normal">28</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="k">class</span> <span class="nc">Algo</span><span class="w"></span>
+<span class="normal">28</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">class</span><span class="w"> </span><span class="nc">Algo</span><span class="w"></span>
 <span class="p">{</span><span class="w"></span>
 <span class="k">public</span><span class="w"> </span><span class="o">:</span><span class="w"></span>
-<span class="w">    </span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span><span class="w"></span>
+<span class="w">    </span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span><span class="w"></span>
 <span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="k">operator</span><span class="p">()(</span><span class="n">Heuristic</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">h</span><span class="p">)</span><span class="w"></span>
 <span class="w">    </span><span class="p">{</span><span class="w"></span>
 <span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;On lance l&#39;algorithme !&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
@@ -705,7 +686,7 @@ Cependant, il existe des cas où l&rsquo;on ne veut pas exécuter en parallèle 
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
 
 <span class="k">protected</span><span class="w"> </span><span class="o">:</span><span class="w"></span>
-<span class="w">    </span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span><span class="w"></span>
+<span class="w">    </span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span><span class="w"></span>
 <span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="k">operator</span><span class="p">()(</span><span class="n">Heuristic</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">multi_tag</span><span class="o">&amp;</span><span class="p">)</span><span class="w"></span>
 <span class="w">    </span><span class="p">{</span><span class="w"></span>
 <span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Chouette, mon heuristique est protégée, je peux la lancer en parallèle&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
@@ -714,19 +695,18 @@ Cependant, il existe des cas où l&rsquo;on ne veut pas exécuter en parallèle 
 <span class="w">        </span><span class="n">t</span><span class="p">.</span><span class="n">join</span><span class="p">();</span><span class="w"></span>
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
 
-<span class="w">    </span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">class</span> <span class="nc">T</span><span class="o">&gt;</span><span class="w"></span>
+<span class="w">    </span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span><span class="w"></span>
 <span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="k">operator</span><span class="p">()(</span><span class="n">Heuristic</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">mono_tag</span><span class="o">&amp;</span><span class="p">)</span><span class="w"></span>
 <span class="w">    </span><span class="p">{</span><span class="w"></span>
 <span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Mince, mon heuristique n&#39;est pas parallèle.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
 <span class="w">        </span><span class="n">h</span><span class="p">();</span><span class="w"></span>
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
 <span class="p">};</span><span class="w"></span>
-</code></pre></div>
-</td></tr></table>
+</code></pre></div></td></tr></table></div>
 <p>Seule la version sans tag de l&rsquo;opérateur <code>()</code> est laissée publique. Les templates étant résolus à la compilation, lorsque le compilateur arrive sur la ligne <code>operator()(h, isMultiThread&lt;is_same&lt;T, MultiThread&gt;::value&gt;());</code>, il va remplacer l&rsquo;appel par le résultat du <em>type trait</em> de la bibliothèque standard <code>is_same</code> qui renvoie la valeur vrai si les types des deux templates spécifiés sont les même et faux autrement.</p>
 <p>Ainsi, si la politique <em>T</em> de l&rsquo;heuristique est <code>MultiThread</code>, cette ligne sera équivalente à <code>operator()(h, multi_tag)</code> qui correspond au prototype de l&rsquo;appel parallèle puisque <code>multi_tag</code> est un alias sur <code>isMultiThread&lt;true&gt;</code>. Dans le cas contraire, c&rsquo;est l&rsquo;appel séquentiel qui sera engagé.</p>
 <p>Avec le main suivant :</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
 <span class="normal">4</span>
@@ -734,7 +714,7 @@ Cependant, il existe des cas où l&rsquo;on ne veut pas exécuter en parallèle 
 <span class="normal">6</span>
 <span class="normal">7</span>
 <span class="normal">8</span>
-<span class="normal">9</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"></span>
+<span class="normal">9</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"></span>
 <span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="n">Heuristic</span><span class="o">&lt;</span><span class="n">MultiThread</span><span class="o">&gt;</span><span class="w"> </span><span class="n">heur_mt</span><span class="p">;</span><span class="w"></span>
 <span class="w">    </span><span class="n">Algo</span><span class="w"> </span><span class="n">algo</span><span class="p">;</span><span class="w"></span>
@@ -743,38 +723,35 @@ Cependant, il existe des cas où l&rsquo;on ne veut pas exécuter en parallèle 
 
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
-</code></pre></div>
-</td></tr></table>
+</code></pre></div></td></tr></table></div>
 <p>Nous obtenons la sortie suivante :</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
 <span class="normal">4</span>
 <span class="normal">5</span>
 <span class="normal">6</span>
-<span class="normal">7</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>On lance l&#39;algorithme !
+<span class="normal">7</span></pre></div></td><td class="code"><div><pre><span></span><code>On lance l&#39;algorithme !
 Quelques étapes d&#39;initiatialisation
 Chouette, mon heuristique est protégée, je peux la lancer en parallèle
 Quelques opérations en parallèle de mon heuristique.
 Je lock le scope, des accès concurrents sont possibles.
 On lance l&#39;heuristique !
 On delock le scope !
-</code></pre></div>
-</td></tr></table>
+</code></pre></div></td></tr></table></div>
 <p>Et si l&rsquo;on change la politique de l&rsquo;heuristique pour MonoThread :</p>
-<table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
 <span class="normal">4</span>
 <span class="normal">5</span>
-<span class="normal">6</span></pre></div></td><td class="code"><div class="highlight"><pre><span></span><code>On lance l&#39;algorithme !
+<span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code>On lance l&#39;algorithme !
 Quelques étapes d&#39;initiatialisation
 Mince, mon heuristique n&#39;est pas parallèle.
 Rien à locker, je suis en monothread !
 On lance l&#39;heuristique !
 Rien à unlocker !
-</code></pre></div>
-</td></tr></table>
+</code></pre></div></td></tr></table></div>
 <p>Précisions tout de même que cette implémentation n&rsquo;est pas <em>exception</em> <em>safe</em> mais laissée en l&rsquo;état pour des raisons pédagogiques.</p>
 <h4 id="cout">Coût<a class="headerlink" href="#cout" title="Permanent link">&para;</a></h4>
 <p>Le coût du <em>Tag Dispatching</em> est très faible puisqu&rsquo;il ne représente qu&rsquo;un temps de compilation plus élevé et l&rsquo;appel d&rsquo;une fonction supplémentaire. En terme de place mémoire, le compilateur optimise normalement les tags qui disparaitront, étant vides et non utilisés en <em>run time</em>.</p>
