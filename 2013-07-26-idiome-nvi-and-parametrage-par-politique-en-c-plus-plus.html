@@ -1,146 +1,136 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="en" class="scroll-smooth">
 <head>
-    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
-    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="css/main.css" />
-    <link rel="stylesheet" type="text/css" href="css/friendly.css" />
-
-    
-
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="HandheldFriendly" content="True" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="robots" content="" />
-
-    
-
-    <script src="https://unpkg.com/mermaid@8.6.4/dist/mermaid.min.js"></script>
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
-
-    <!-- The loading of KaTeX is deferred to speed up page rendering -->
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
-
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PWL24785Z6"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-PWL24785Z6');
-    </script>
-
-
-    <!-- To automatically render math in text elements, include the auto-render extension: -->
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
-        onload="renderMathInElement(document.body);"></script>
-
-    
-    <meta name="author" content="" />
-    <meta name="description" content="" />
-    
+    <meta name="author" content="Alexandre Quemy" />
+    <meta name="description" content="Personal website of Alexandre Quemy, Tech Staff and Researcher in AI." />
     <title>Alexandre Quemy - Blog - Idiome NVI &amp; paramétrage par politique en C++</title>
 
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Source Sans Pro', 'sans-serif'],
+              serif: ['Lora', 'serif'],
+            },
+            colors: {
+              paper: '#F8F6F1',
+              ink: '#2A2927',
+              accent: {
+                light: '#D97706', // amber-600
+                dark: '#FBBF24'   // amber-400
+              },
+              'dark-bg': '#192231',
+              'dark-ink': '#E2E0DB',
+            }
+          }
+        }
+      }
+    </script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Source+Sans+Pro:wght@400;600;700&family=Roboto+Mono&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX for Math Rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, { delimiters: [ {left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}, {left: '\\(', right: '\\)', display: false}, {left: '\\[', right: '\\]', display: true} ]});"></script>
+    
+    <!-- Custom Styles and Theming -->
+    <link rel="stylesheet" href="http://localhost:8000/css/custom.css">
+    <link rel="stylesheet" href="http://localhost:8000/css/friendly.css">
+
+    <script>
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
 </head>
-
-<body id="index" class="home">
+<body class="bg-paper dark:bg-dark-bg text-ink dark:text-dark-ink font-sans transition-colors duration-500 antialiased">
     
-
-<div class="wrapper">
-
-    <!-- Use icons from fontawesome when you are adding new item in the contact list  -->             
- 
-<div class="sidebar-wrapper">
-    <div class="profile-container">
-        <img class="profile-img" src="images/profile.jpeg" alt="profile picture" />
-        <h1 class="name">Alexandre Quemy</h1>
-        <h3 class="tagline">Tech Staff @ Proof.io</h3>
-        <h3 class="tagline">Freelance @ Hother.io</h3>
-    </div><!--//profile-container-->
-    
-    <div class="contact-container container-block">
-        <ul class="list-unstyled contact-list">
-           
-           
-            <li class="email"><i class="fa fa-envelope"></i><a href="mailto: alexandre@quemy.info">alexandre@quemy.info</a></li>
-            
-            
-            
-            <li class="linkedin"><i class="fab fa-linkedin"></i><a href="https://in.linkedin.com/in/aquemy" target="_blank">linkedin.com/in/aquemy</a></li>
-            
-            
-            
-            <li class="github"><i class="fab fa-github"></i><a href="http://github.com/aquemy" target="_blank">github.com/aquemy</a></li>
-            
-            
-            
-            <li class="twitter"><i class="fa fa-twitter"></i><a href="https://twitter.com/@alexandre_quemy" target="_blank">@alexandre_quemy</a></li>
-            
-
-            <!--<li class="acclaim"><i class="fa fa-certificate"></i><a href="https://www.youracclaim.com/user/alexandre-quemy" target="_blank">alexandre-quemy</a></li>-->
-            
-            <div itemscope itemtype="https://schema.org/Person"><a itemprop="sameAs" content="https://orcid.org/0000-0002-5865-6403" href="https://orcid.org/0000-0002-5865-6403" target="orcid.widget" rel="me noopener noreferrer" style="vertical-align:top;"><img src="https://orcid.org/sites/default/files/images/orcid_16x16.png" style="width:1em;margin-right:.5em;" alt="ORCID iD icon">0000-0002-5865-6403</a></div>
-        </ul>
+    <!-- Background Animation Layer (only populated on index.html) -->
+    <div class="fixed inset-0 z-0">
+        
     </div>
-    
-</div><!--//sidebar-wrapper-->
-     	<div class="top-menu">
- 	    <ul>
-            <li id="selected"><a href="./index.html">Home</a></li>
-            <li><a href="./research.html">Research</a></li>
-            <li><a href="./cv.html">CV</a></li>
-            <!-- <li><a href="./portfolio.html">Portfolio</a></li> -->
-            <!-- <li><a href="./passions.html">Passions</a></li> -->
-            <!-- <li><a href="./blog.html">Blog</a></li> -->
-            <li><a href="https://endomorphis.me" target="_blank">Blog</a></li>
-        </ul>
-    </div>
-    <div class="main-wrapper">
-        <div class="recent-post-header" id="top-menu-entry">
-        <p><a href="./blog.html">Back to entries</a></p>
+
+    <!-- Main Content Layer -->
+    <div class="relative z-10">
+        <nav class="w-full max-w-4xl mx-auto py-6 px-4 flex justify-between items-center">
+    <a href="./index.html" class="font-serif text-xl font-bold hover:text-accent-light dark:hover:text-accent-dark transition-colors">
+        Alexandre Quemy
+    </a>
+    <div class="flex items-center space-x-6">
+        <div class="hidden md:flex items-center space-x-6 text-sm font-semibold tracking-wider uppercase">
+            <a href="./research.html" class="nav-link" data-page="research">Research</a>
+            <a href="./cv.html" class="nav-link" data-page="cv">CV</a>
+            <a href="./blog.html" class="nav-link" data-page="blog">Blog</a>
         </div>
-        <div class="blog_entry">
-        <h1 class="section-title">Idiome NVI &amp; paramétrage par politique en C++</h1>
-        <div class="item">
-                            <div class="meta">
-                                <div class="upper-row">
-                                    <h3 class="job-title"><cite>2013-07-26</cite></h3>
-                                    <div class="time">#Informatique</div>
+        <button id="theme-toggle" class="w-8 h-8 flex items-center justify-center rounded-full text-ink dark:text-dark-ink hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+             <i id="theme-toggle-dark-icon" class="fas fa-moon hidden"></i>
+             <i id="theme-toggle-light-icon" class="fas fa-sun hidden"></i>
+        </button>
+        <button id="mobile-menu-button" class="md:hidden text-2xl">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+</nav>
 
-                                </div><!--//upper-row-->
+<!-- Mobile Menu -->
+<div id="mobile-menu" class="hidden md:hidden fixed inset-0 bg-paper/80 dark:bg-dark-bg/80 backdrop-blur-sm z-50">
+    <div class="flex justify-end p-4">
+        <button id="mobile-menu-close" class="text-3xl">×</button>
+    </div>
+    <div class="flex flex-col items-center justify-center h-full space-y-8 text-2xl font-semibold tracking-wider uppercase">
+        <a href="./index.html" class="nav-link" data-page="index">Home</a>
+        <a href="./research.html" class="nav-link" data-page="research">Research</a>
+        <a href="./cv.html" class="nav-link" data-page="cv">CV</a>
+        <a href="./blog.html" class="nav-link" data-page="blog">Blog</a>
+    </div>
+</div>
+        <main>  <!-- class="fade-in"> -->
+            
+<div class="w-full max-w-6xl mx-auto py-12 px-4">
+    <!-- Header moved outside the grid for proper alignment -->
+    <header class="max-w-3xl mx-auto lg:mx-0 lg:ml-auto lg:w-3/4 lg:pl-12 mb-12 text-left">
+        <a href="http://localhost:8000/blog.html" class="text-sm text-accent-light dark:text-accent-dark hover:underline mb-4 inline-block">← Back to all posts</a>
+        <h1 class="font-sans text-4xl md:text-5xl font-black text-ink dark:text-dark-ink leading-tight">Idiome NVI &amp; paramétrage par politique en C++</h1>
+        <p class="mt-4 text-stone-500 dark:text-stone-400">2013-07-26 · Informatique</p>
+    </header>
 
-                            </div><!--//meta-->
-                        <div class="details">
-
-                        </div>
-                    </div>
-
-        <div class="toc">
+    <div class="lg:grid lg:grid-cols-4 lg:gap-12">
+        <!-- Sticky Sidebar for Table of Contents -->
+        <aside class="hidden lg:block lg:col-span-1">
+            <div class="sticky top-24">
+                <h3 class="font-semibold text-sm uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-4">ON THIS PAGE</h3>
+                <div id="toc-sidebar">
+                    <!-- ToC will be moved here by JavaScript -->
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Main Article Content -->
+        <div class="lg:col-span-3">
+            <article class="fade-in">
+                <div id="prose-content" class="prose lg:prose-lg dark:prose-invert max-w-none">
+                    <div class="toc">
 <ul>
 <li><a href="#introduction-motivations">Introduction &amp; Motivations</a></li>
-<li><a href="#lidiome-nvi">L’idiome NVI</a><ul>
-<li><a href="#violation-du-single-responsability-principle">Violation du Single Responsability Principle</a></li>
-<li><a href="#programmation-par-contrat">Programmation par contrat</a></li>
-<li><a href="#inversion-de-controle">Inversion de contrôle</a></li>
-<li><a href="#ce-quil-faut-retenir">Ce qu’il faut retenir</a></li>
-<li><a href="#un-mot-sur-patron-de-methode">Un mot sur Patron de Méthode</a></li>
-</ul>
-</li>
-<li><a href="#parametrage-par-politiques">Paramétrage par politiques</a><ul>
-<li><a href="#presentation">Présentation</a></li>
-<li><a href="#identification-des-politiques">Identification des politiques</a></li>
-<li><a href="#mise-en-place">Mise en place</a></li>
-</ul>
-</li>
-<li><a href="#combiner-les-deux-techniques">Combiner les deux techniques</a><ul>
-<li><a href="#limitation-du-type-de-politique">Limitation du type de politique</a></li>
-</ul>
-</li>
+<li><a href="#lidiome-nvi">L’idiome NVI</a></li>
+<li><a href="#parametrage-par-politiques">Paramétrage par politiques</a></li>
+<li><a href="#combiner-les-deux-techniques">Combiner les deux techniques</a></li>
 <li><a href="#une-alternative">Une alternative</a></li>
 <li><a href="#allez-plus-loin-politique-de-base-a-la-construction-logicielle">Allez plus loin : politique de base à la construction logicielle</a></li>
 <li><a href="#conclusion">Conclusion</a></li>
@@ -600,17 +590,37 @@
 <p>Ces situations n’ont pas été décrites en détails puisqu’il est impossible d’en dresser une liste exhaustive : l’important est d’identifier les situations où leur utilisation est bénéfique ou résout un problème donné.</p>
 <p>L’utilisation <em>stricto sensu</em> des deux techniques combinées présente le désavantage d’un surcoût naturel lié à l’utilisation de méthodes virtuelles avec des templates ce qui peut être rebutant. Cette utilisation n’est intéressante que dans le cas où l’on veut absolument maintenir la consistance d’une hiérarchie de classes de politique. Dans les autres cas, il est certainement plus intéressant d’utiliser l’alternative proposée.</p>
 <p>J’espère que cet article vous aura donné les grandes lignes permettant l’utilisation du NVI et du paramétrage par politique, ainsi que quelques idées pour combiner les deux et faciliter la vie aux utilisateurs de votre code de service.</p>
+                </div>
+            </article>
         </div>
-    </div><!--//main-body-->
+    </div>
 </div>
 
-
-    <footer class="footer">
+        </main>
+        <footer class="w-full max-w-4xl mx-auto text-center py-16 px-4 mt-16 border-t border-black/10 dark:border-white/10">
+    <div class="flex justify-center space-x-6 mb-4">
         
-    </footer><!--//footer-->
-    <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="js/main.js"></script>
+        <a href="mailto:alexandre@quemy.info" title="Email" class="footer-icon"><i class="fas fa-envelope"></i></a>
+        
+        
+        <a href="https://linkedin.com/in/aquemy" title="LinkedIn" target="_blank" class="footer-icon"><i class="fab fa-linkedin"></i></a>
+        
+        
+        <a href="http://github.com/aquemy" title="GitHub" target="_blank" class="footer-icon"><i class="fab fa-github"></i></a>
+        
+        
+        <a href="https://twitter.com/@alexandre_quemy" title="Twitter" target="_blank" class="footer-icon"><i class="fab fa-twitter"></i></a>
+        
+        <a href="https://orcid.org/0000-0002-5865-6403" title="ORCID" target="_blank" class="footer-icon"><i class="fab fa-orcid"></i></a>
+    </div>
+    <p class="text-xs text-stone-500 dark:text-stone-400">
+        © <span id="current-year"></span> Alexandre Quemy. All rights reserved.
+    </p>
+</footer> <!-- This is the footer -->
+    </div>
+    
 
+    <!-- Custom JavaScript -->
+    <script src="http://localhost:8000/js/main.js"></script>
 </body>
 </html>

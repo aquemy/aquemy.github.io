@@ -1,712 +1,1458 @@
 <!DOCTYPE html>
-<html lang="">
+<html lang="en" class="scroll-smooth">
 <head>
-    <link href='https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,700,400italic' rel='stylesheet' type='text/css'>
-    <link href="https://fonts.googleapis.com/css?family=Roboto" rel="stylesheet"> 
-    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.6.3/css/all.css" integrity="sha384-UHRtZLI+pbxtHCWp1t77Bi1L4ZtiqrqD80Kn4Z8NTSRyMA2Fd33n5dQ8lWUE00s/" crossorigin="anonymous">
-    <link rel="stylesheet" type="text/css" href="css/bootstrap.min.css" />
-    <link rel="stylesheet" type="text/css" href="css/main.css" />
-    <link rel="stylesheet" type="text/css" href="css/friendly.css" />
-
-    
-
     <meta charset="utf-8" />
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
-    <meta name="HandheldFriendly" content="True" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <meta name="robots" content="" />
-
-    
-
-    <script src="https://unpkg.com/mermaid@8.6.4/dist/mermaid.min.js"></script>
-
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.css" integrity="sha384-AfEj0r4/OFrOo5t7NnNe46zW/tFgW6x/bCJG8FqQCEo3+Aro6EYUG4+cU+KJWu/X" crossorigin="anonymous">
-
-    <!-- The loading of KaTeX is deferred to speed up page rendering -->
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/katex.min.js" integrity="sha384-g7c+Jr9ZivxKLnZTDUhnkOnsh30B4H0rpLUpJ4jAIKs4fnJI+sEnkvrMWph2EDg4" crossorigin="anonymous"></script>
-
-        <!-- Global site tag (gtag.js) - Google Analytics -->
-    <script async src="https://www.googletagmanager.com/gtag/js?id=G-PWL24785Z6"></script>
-    <script>
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){dataLayer.push(arguments);}
-      gtag('js', new Date());
-
-      gtag('config', 'G-PWL24785Z6');
-    </script>
-
-
-    <!-- To automatically render math in text elements, include the auto-render extension: -->
-    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.12.0/dist/contrib/auto-render.min.js" integrity="sha384-mll67QQFJfxn0IYznZYonOWZ644AWYC+Pt2cHqMaRhXVrursRwvLnLaebdGIlYNa" crossorigin="anonymous"
-        onload="renderMathInElement(document.body);"></script>
-
-    
-    <meta name="author" content="" />
-    <meta name="description" content="" />
-    
+    <meta name="author" content="Alexandre Quemy" />
+    <meta name="description" content="Personal website of Alexandre Quemy, Tech Staff and Researcher in AI." />
     <title>Alexandre Quemy - Research</title>
 
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Source Sans Pro', 'sans-serif'],
+              serif: ['Lora', 'serif'],
+            },
+            colors: {
+              paper: '#F8F6F1',
+              ink: '#2A2927',
+              accent: {
+                light: '#D97706', // amber-600
+                dark: '#FBBF24'   // amber-400
+              },
+              'dark-bg': '#192231',
+              'dark-ink': '#E2E0DB',
+            }
+          }
+        }
+      }
+    </script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Source+Sans+Pro:wght@400;600;700&family=Roboto+Mono&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX for Math Rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, { delimiters: [ {left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}, {left: '\\(', right: '\\)', display: false}, {left: '\\[', right: '\\]', display: true} ]});"></script>
+    
+    <!-- Custom Styles and Theming -->
+    <link rel="stylesheet" href="http://localhost:8000/css/custom.css">
+    <link rel="stylesheet" href="http://localhost:8000/css/friendly.css">
+
+    <script>
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
 </head>
-
-<body id="index" class="home">
+<body class="bg-paper dark:bg-dark-bg text-ink dark:text-dark-ink font-sans transition-colors duration-500 antialiased">
     
-
-<div class="wrapper">
-
-
-    <!-- Use icons from fontawesome when you are adding new item in the contact list  -->             
- 
-<div class="sidebar-wrapper">
-    <div class="profile-container">
-        <img class="profile-img" src="images/profile.jpeg" alt="profile picture" />
-        <h1 class="name">Alexandre Quemy</h1>
-        <h3 class="tagline">Tech Staff @ Proof.io</h3>
-        <h3 class="tagline">Freelance @ Hother.io</h3>
-    </div><!--//profile-container-->
-    
-    <div class="contact-container container-block">
-        <ul class="list-unstyled contact-list">
-           
-           
-            <li class="email"><i class="fa fa-envelope"></i><a href="mailto: alexandre@quemy.info">alexandre@quemy.info</a></li>
-            
-            
-            
-            <li class="linkedin"><i class="fab fa-linkedin"></i><a href="https://in.linkedin.com/in/aquemy" target="_blank">linkedin.com/in/aquemy</a></li>
-            
-            
-            
-            <li class="github"><i class="fab fa-github"></i><a href="http://github.com/aquemy" target="_blank">github.com/aquemy</a></li>
-            
-            
-            
-            <li class="twitter"><i class="fa fa-twitter"></i><a href="https://twitter.com/@alexandre_quemy" target="_blank">@alexandre_quemy</a></li>
-            
-
-            <!--<li class="acclaim"><i class="fa fa-certificate"></i><a href="https://www.youracclaim.com/user/alexandre-quemy" target="_blank">alexandre-quemy</a></li>-->
-            
-            <div itemscope itemtype="https://schema.org/Person"><a itemprop="sameAs" content="https://orcid.org/0000-0002-5865-6403" href="https://orcid.org/0000-0002-5865-6403" target="orcid.widget" rel="me noopener noreferrer" style="vertical-align:top;"><img src="https://orcid.org/sites/default/files/images/orcid_16x16.png" style="width:1em;margin-right:.5em;" alt="ORCID iD icon">0000-0002-5865-6403</a></div>
-        </ul>
+    <!-- Background Animation Layer (only populated on index.html) -->
+    <div class="fixed inset-0 z-0">
+        
     </div>
-    
-</div><!--//sidebar-wrapper-->
-     	<div class="top-menu">
- 	    <ul>
-            <li id="selected"><a href="./index.html">Home</a></li>
-            <li><a href="./research.html">Research</a></li>
-            <li><a href="./cv.html">CV</a></li>
-            <!-- <li><a href="./portfolio.html">Portfolio</a></li> -->
-            <!-- <li><a href="./passions.html">Passions</a></li> -->
-            <!-- <li><a href="./blog.html">Blog</a></li> -->
-            <li><a href="https://endomorphis.me" target="_blank">Blog</a></li>
-        </ul>
-    </div>
-    <div class="main-wrapper">
 
-        <section class="section summary-section">
-        <h2 class="section-title"><i class="fa fa-university"></i>Research</h2>
-        <div class="summary">
-            <p>My doctoral thesis is entitled "<b>End-to-end approach to classification in unstructured spaces with application to judicial decisions</b>" and focused both on theoretical and practical Machine Learning. I try to reduce the need for expertise required in the usual Machine Learning workflow as it is the first obstacle to the adoption of artificial intelligence solutions.</p>
-            <p>A detailed summary of my doctoral thesis is available <a href="./static/others/phd_summary.pdf">here</a>.
-            <p>
-            My main contributions are:
-            <ul>
-                <li>A new mathematical theory for classification, with "good" properties (explainability, no metric required, no hyperparameter,...) based on hypergraphs and metric learning,</li>
-                <li>A generic method to automate most of data preparation using standard hyperparameter tuning techniques,</li>
-                <li>The largest curated datasets about the legal domain, on which I reached over 94% accuracy predicting the outcome of a judgment.</li>
-            </ul>
-            </p>
-            <p>My current research interests span different areas of Machine Learning and Artificial Intelligence:
-                <ul>
+    <!-- Main Content Layer -->
+    <div class="relative z-10">
+        <nav class="w-full max-w-4xl mx-auto py-6 px-4 flex justify-between items-center">
+    <a href="./index.html" class="font-serif text-xl font-bold hover:text-accent-light dark:hover:text-accent-dark transition-colors">
+        Alexandre Quemy
+    </a>
+    <div class="flex items-center space-x-6">
+        <div class="hidden md:flex items-center space-x-6 text-sm font-semibold tracking-wider uppercase">
+            <a href="./research.html" class="nav-link" data-page="research">Research</a>
+            <a href="./cv.html" class="nav-link" data-page="cv">CV</a>
+            <a href="./blog.html" class="nav-link" data-page="blog">Blog</a>
+        </div>
+        <button id="theme-toggle" class="w-8 h-8 flex items-center justify-center rounded-full text-ink dark:text-dark-ink hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+             <i id="theme-toggle-dark-icon" class="fas fa-moon hidden"></i>
+             <i id="theme-toggle-light-icon" class="fas fa-sun hidden"></i>
+        </button>
+        <button id="mobile-menu-button" class="md:hidden text-2xl">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div id="mobile-menu" class="hidden md:hidden fixed inset-0 bg-paper/80 dark:bg-dark-bg/80 backdrop-blur-sm z-50">
+    <div class="flex justify-end p-4">
+        <button id="mobile-menu-close" class="text-3xl">×</button>
+    </div>
+    <div class="flex flex-col items-center justify-center h-full space-y-8 text-2xl font-semibold tracking-wider uppercase">
+        <a href="./index.html" class="nav-link" data-page="index">Home</a>
+        <a href="./research.html" class="nav-link" data-page="research">Research</a>
+        <a href="./cv.html" class="nav-link" data-page="cv">CV</a>
+        <a href="./blog.html" class="nav-link" data-page="blog">Blog</a>
+    </div>
+</div>
+        <main>  <!-- class="fade-in"> -->
+            
+<div class="w-full max-w-6xl mx-auto py-12 px-4">
+    <h1 class="page-title">Research</h1>
+    
+    <div class="lg:grid lg:grid-cols-4 lg:gap-12">
+        <!-- Sticky Sidebar Navigation -->
+        <aside class="hidden lg:block lg:col-span-1">
+            <div class="sticky top-24">
+                <h3 class="font-semibold text-sm uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-4">ON THIS PAGE</h3>
+                <ul id="research-sidebar-nav" class="space-y-1">
+                    <li><a href="#summary" class="sidebar-link" data-target="summary">Summary</a></li>
+                    <li><a href="#thesis" class="sidebar-link" data-target="thesis">Thesis</a></li>
+                    <li><a href="#publications" class="sidebar-link" data-target="publications">Publications</a></li>
+                    <li><a href="#awards" class="sidebar-link" data-target="awards">Awards</a></li>
+                    <li><a href="#supervision" class="sidebar-link" data-target="supervision">Teaching & Supervision</a></li>
+                    <li><a href="#talks" class="sidebar-link" data-target="talks">Talks</a></li>
+                </ul>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <div class="lg:col-span-3">
+            <section id="summary" class="scroll-section summary-block mb-16 text-base">
+                <h2 class="section-title"><i class="fas fa-book-open text-accent-light dark:text-accent-dark"></i> Summary</h2>
+                <p>My doctoral thesis is entitled "<b>End-to-end approach to classification in unstructured spaces with application to judicial decisions</b>" and focused both on theoretical and practical Machine Learning. I try to reduce the need for expertise required in the usual Machine Learning workflow as it is the first obstacle to the adoption of artificial intelligence solutions.</p>
+                <p>A detailed summary of my doctoral thesis is available <a href="./static/others/phd_summary.pdf" target="_blank">here</a>.</p>
+                <h3 class="summary-heading">My main contributions are:</h3>
+                <ul class="summary-list">
+                    <li>A new mathematical theory for classification, with "good" properties (explainability, no metric required, no hyperparameter,...) based on hypergraphs and metric learning,</li>
+                    <li>A generic method to automate most of data preparation using standard hyperparameter tuning techniques,</li>
+                    <li>The largest curated datasets about the legal domain, on which I reached over 94% accuracy predicting the outcome of a judgment.</li>
+                </ul>
+                <h3 class="summary-heading">My current research interests span different areas of Machine Learning and Artificial Intelligence:</h3>
+                <ul class="summary-list">
                     <li>Stochastic Sequence Hypergraphs for classification,</li>
                     <li>Explainability of Machine Learning models,</li>
                     <li>AutoML & Automated data preparation,</li>
                     <li>Application of AI to the justice domain.</li>
                 </ul>
-            </p>
-            <p>Previously I also worked on:
-                <ul>
+                <h3 class="summary-heading">Previously I also worked on:</h3>
+                <ul class="summary-list">
                     <li>Online hyperparameter tuning,</li>
                     <li>Multiobjective discrete optimization.</li>
                 </ul>
-            </p>
-            <p>I serve or served as reviewers for the following journals and conferences:
-                <ul>
-                    
+                <h3 class="summary-heading">I serve or served as reviewers for the following journals and conferences:</h3>
+                <ul class="summary-list">
+                
                     <li>
-                        <a href="https://www.tandfonline.com/loi/tfie20">Fuzzy Information and Engineering, Taylor & Francis</a>
+                        <a href="https://www.tandfonline.com/loi/tfie20" target="_blank" class="font-semibold">Fuzzy Information and Engineering</a>, Taylor & Francis.
                         
-                            
                         
                     </li>
                 
                     <li>
-                        <a href="https://www.journals.elsevier.com/data-and-knowledge-engineering">Data & Knowledge Engineering, Elsevier</a>
+                        <a href="https://www.journals.elsevier.com/data-and-knowledge-engineering" target="_blank" class="font-semibold">Data & Knowledge Engineering</a>, Elsevier.
                         
-                            
-                        
-                    </li>
-                
-                    <li>
-                        <a href="https://www.springer.com/computer/journal/607">Computing, Springer</a>
-                        
-                            
                         
                     </li>
                 
                     <li>
-                        <a href="https://www.journals.elsevier.com/expert-systems-with-applications">Expert Systems With Applications, Elsevier</a>
+                        <a href="https://www.springer.com/computer/journal/607" target="_blank" class="font-semibold">Computing</a>, Springer.
                         
-                            [<a href="./static/others/certificate_esa.pdf">Certificate</a>]
                         
                     </li>
                 
                     <li>
-                        Data Analytics solutions for Real-Life APlications (DARLI-AP), workshop collocated with EDBT/ICDT Joint Conference
+                        <a href="https://www.journals.elsevier.com/expert-systems-with-applications" target="_blank" class="font-semibold">Expert Systems With Applications</a>, Elsevier.
+                        <a href="./static/others/certificate_esa.pdf" class="text-sm ml-2">[Certificate]</a>
                         
-                            
+                    </li>
+                
+                    <li>
+                        <span class="font-semibold">Data Analytics solutions for Real-Life APlications (DARLI-AP)</span>, workshop collocated with EDBT/ICDT Joint Conference.
                         
-                        <nav>
-                            <ul>
-                                
-                                <li style="display: inline-block;"><a href="https://dbdmg.polito.it/darli-ap2020/">[2020]</a></li>
-                                
-                                <li style="display: inline-block;"><a href="https://dbdmg.polito.it/darli-ap2019">[2019]</a></li>
-                                
-                            </ul>
-                        </nav> 
+                        
+                        <span class="ml-2 text-sm">
+                        
+                            <a href="https://dbdmg.polito.it/darli-ap2020/" target="_blank">[2020]</a>
+                        
+                            <a href="https://dbdmg.polito.it/darli-ap2019" target="_blank">[2019]</a>
+                        
+                        </span>
                         
                     </li>
                 
                 </ul>
-            </p>
-        </div><!--//summary-->
-        </section><!--//section-->
-
-
-
-         
-                <section class="section summary-section">
-                    <h2 class="section-title"><i class="fa fa-scroll"></i>Thesis</h2>
-                    <div class="summary">
-                        <ol id="talks">
-                           
-                <li>
-                    <cite>End-to-end approach to classification in unstructured spaces with application to judicial decisions</cite>
-                    <span class="author">Supervisor: Robert Wrembel (Poznan University of Technology)</span>
-                    <span class="in">Ph.D. thesis</span>
-                    <nav>
-                    <ul>
-                        <li><a href="./static/thesis/PhD_dissertation.pdf">[<i class="fas fa-file-pdf"></i> pdf]</a></li>
-
-                   </ul>
-               </nav
-                </li> 
+            </section>
             
-                <li>
-                    <cite>Insertion of adaptive modalities in the mono or multi objectives evolutionary planner Divide-and-Evolve</cite>
-                    <span class="author">Supervisor: Marc Schoenauer (Inria), Christian Gout (INSA)</span>
-                    <span class="in">Master thesis</span>
-                    <nav>
-                    <ul>
-                        <li><a href="./static/thesis/Rapport_Projet_Fin_Etude.pdf">[<i class="fas fa-file-pdf"></i> pdf]</a></li>
+            <section id="thesis" class="scroll-section mb-16">
+                <h2 class="section-title"><i class="fas fa-scroll text-accent-light dark:text-accent-dark"></i> Thesis</h2>
+                <ul class="space-y-2">
+                    
+                    <li class="list-item-hover">
+                        <p class="font-semibold text-ink dark:text-dark-ink">“End-to-end approach to classification in unstructured spaces with application to judicial decisions”</p>
+                        <p class="text-sm text-stone-600 dark:text-stone-400">Supervisor: Robert Wrembel (Poznan University of Technology)</p>
+                        <p class="text-sm text-stone-500 dark:text-stone-400 italic">Ph.D. thesis</p>
+                        
+                        <div class="flex flex-wrap gap-x-4 mt-2">
+                            
+                            <a href="./static/thesis/PhD_dissertation.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                <i class="fas fa-file-pdf"></i> Pdf
+                            </a>
+                            
+                        </div>
+                        
+                    </li>
+                    
+                    <li class="list-item-hover">
+                        <p class="font-semibold text-ink dark:text-dark-ink">“Insertion of adaptive modalities in the mono or multi objectives evolutionary planner Divide-and-Evolve”</p>
+                        <p class="text-sm text-stone-600 dark:text-stone-400">Supervisor: Marc Schoenauer (Inria), Christian Gout (INSA)</p>
+                        <p class="text-sm text-stone-500 dark:text-stone-400 italic">Master thesis</p>
+                        
+                        <div class="flex flex-wrap gap-x-4 mt-2">
+                            
+                            <a href="./static/thesis/Rapport_Projet_Fin_Etude.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                <i class="fas fa-file-pdf"></i> Pdf
+                            </a>
+                            
+                        </div>
+                        
+                    </li>
+                    
+                </ul>
+            </section>
 
-                   </ul>
-               </nav
-                </li> 
-            
-                        </ol>
+            <section id="publications" class="scroll-section mb-16">
+                <h2 class="section-title"><i class="fas fa-book text-accent-light dark:text-accent-dark"></i> Publications</h2>
+                
+                
+                
+                
+                <div class="space-y-2">
+                
+                    
+                    
+                        
+                        <div class="flex items-start gap-x-6">
+                            <div class="year-badge">
+                                2021
+                            </div>
+                            <div class="flex-1 list-item-hover">
+                                <p class="font-semibold text-ink dark:text-dark-ink">“True Pareto Fronts for Realistic Multi-Objective AI Planning Instances”</p>
+                                <p class="text-sm text-stone-600 dark:text-stone-400">Alexandre Quemy</p>
+                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">To be submitted to International Conference on Automated Planning and Scheduling (ICAPS)</p>
+                                
+                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                    
+                                    <a href="https://github.com/aquemy/ZenoSolver" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fab fa-github"></i> Code
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+                    
+                        
+                        <div class="flex items-start gap-x-6">
+                            <div class="year-badge">
+                                 
+                            </div>
+                            <div class="flex-1 list-item-hover">
+                                <p class="font-semibold text-ink dark:text-dark-ink">“A Physical Approach to Classification”</p>
+                                <p class="text-sm text-stone-600 dark:text-stone-400">Alexandre Quemy</p>
+                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">To be submitted to International Conference on Machine Learning (ICML)</p>
+                                
+                            </div>
+                        </div>
+                        
+                    
+                        
+                        <div class="flex items-start gap-x-6">
+                            <div class="year-badge">
+                                 
+                            </div>
+                            <div class="flex-1 list-item-hover">
+                                <p class="font-semibold text-ink dark:text-dark-ink">“Cautiously Making Friends with AI: Machine Learning for human rights research and practice”</p>
+                                <p class="text-sm text-stone-600 dark:text-stone-400">Helga Molbæk-Steensig, Alexandre Quemy</p>
+                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">AI & Human Rights: Friend or Foe?, The Erasmus School of Law, together with the Jean Monnet Centre of Excellence on Digital Governance</p>
+                                
+                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                    
+                                    <a href="./static/publications/quemy2021c.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-file-pdf"></i> Pdf
+                                    </a>
+                                    
+                                    <a href="./static/slides/powerpointSteensigQuemy.pptx" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-file-powerpoint"></i> Slides
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+                    
+                        
+                        <div class="flex items-start gap-x-6">
+                            <div class="year-badge">
+                                 
+                            </div>
+                            <div class="flex-1 list-item-hover">
+                                <p class="font-semibold text-ink dark:text-dark-ink">“Paradiseo: From a Modular Framework for Evolutionary Computation to the Automated Design of Metaheuristics”</p>
+                                <p class="text-sm text-stone-600 dark:text-stone-400">Johann Dreo, Arnaud Liefooghe, Sébastien Verel, Marc Schoenauer, Juan Merelo, Alexandre Quemy, Benjamin Bouvier, Jan Gmys</p>
+                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">Genetic and Evolutionary Computation Conference (GECCO)</p>
+                                
+                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                    
+                                    <a href="./static/publications/quemy2021b.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-file-pdf"></i> Pdf
+                                    </a>
+                                    
+                                    <a href="./static/slides/2021_GECCO_EvoSoft_ParadisEO.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-file-powerpoint"></i> Slides
+                                    </a>
+                                    
+                                    <a href="https://github.com/nojhan/paradiseo" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fab fa-github"></i> Code
+                                    </a>
+                                    
+                                    <a href="https://nojhan.github.io/paradiseo/" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-link"></i> Website
+                                    </a>
+                                    
+                                    <a href="http://johann.dreo.fr/doc/2021-06_GECCO-EVOSOFT_Dreo-al__ParadisEO.mp4" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-video"></i> Video
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+                    
+                        
+                        <div class="flex items-start gap-x-6">
+                            <div class="year-badge">
+                                 
+                            </div>
+                            <div class="flex-1 list-item-hover">
+                                <p class="font-semibold text-ink dark:text-dark-ink">“ECHR-OD: On Building an Integrated Open Repository of Legal Documents for Machine Learning Applications”</p>
+                                <p class="text-sm text-stone-600 dark:text-stone-400">Alexandre Quemy and Robert Wrembel</p>
+                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">Information Systems</p>
+                                
+                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                    
+                                    <a href="./static/publications/quemy2021.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-file-pdf"></i> Pdf
+                                    </a>
+                                    
+                                    <a href="https://github.com/echr-od/ECHR-OD_predictions" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fab fa-github"></i> Code
+                                    </a>
+                                    
+                                    <a href="https://github.com/echr-od/ECHR-OD_project_supplementary_material" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-mail-bulk"></i> Supplementary material
+                                    </a>
+                                    
+                                    <a href="https://echr-opendata.eu" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-link"></i> Website
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                        <div class="flex items-start gap-x-6">
+                            <div class="year-badge">
+                                2020
+                            </div>
+                            <div class="flex-1 list-item-hover">
+                                <p class="font-semibold text-ink dark:text-dark-ink">“GBEx, towards Graph-Based Explainations”</p>
+                                <p class="text-sm text-stone-600 dark:text-stone-400">Paweł Mróz and Alexandre Quemy and Mateusz Ślażyński and Krzysztof Kluza and Paweł Jemioło</p>
+                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">International Conference Tools with Artificial Intelligence (ICTAI)</p>
+                                
+                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                    
+                                    <a href="./static/publications/ictai2020xai.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-file-pdf"></i> Pdf
+                                    </a>
+                                    
+                                    <a href="./static/slides/ictai2020xai_slides.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-file-powerpoint"></i> Slides
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+                    
+                        
+                        <div class="flex items-start gap-x-6">
+                            <div class="year-badge">
+                                 
+                            </div>
+                            <div class="flex-1 list-item-hover">
+                                <p class="font-semibold text-ink dark:text-dark-ink">“On Integrating and Classifying Legal Text Documents”</p>
+                                <p class="text-sm text-stone-600 dark:text-stone-400">Alexandre Quemy and Robert Wrembel</p>
+                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">International Conference on Database and Expert Systems Applications (DEXA)</p>
+                                
+                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                    
+                                    <a href="https://dblp.org/rec/conf/dexa/QuemyW20.html?view=bibtex" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-quote-right"></i> Bibtex
+                                    </a>
+                                    
+                                    <a href="./static/publications/quemy2020e.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-file-pdf"></i> Pdf
+                                    </a>
+                                    
+                                    <a href="./static/slides/DEXA_2020.pptx" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-file-powerpoint"></i> Slides
+                                    </a>
+                                    
+                                    <a href="https://echr-opendata.eu" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-link"></i> Website
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+                    
+                        
+                        <div class="flex items-start gap-x-6">
+                            <div class="year-badge">
+                                 
+                            </div>
+                            <div class="flex-1 list-item-hover">
+                                <p class="font-semibold text-ink dark:text-dark-ink">“Two-stage Optimization for Machine Learning Workflow”</p>
+                                <p class="text-sm text-stone-600 dark:text-stone-400">Alexandre Quemy</p>
+                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">Information Systems</p>
+                                
+                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                    
+                                    <a href="https://dblp.org/rec/journals/is/Quemy20.html?view=bibtex" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-quote-right"></i> Bibtex
+                                    </a>
+                                    
+                                    <a href="./static/publications/quemy2020.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-file-pdf"></i> Pdf
+                                    </a>
+                                    
+                                    <a href="https://github.com/aquemy/DOLAP_2019_supplementary_material" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-mail-bulk"></i> Supplementary material
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                        <div class="flex items-start gap-x-6">
+                            <div class="year-badge">
+                                2019
+                            </div>
+                            <div class="flex-1 list-item-hover">
+                                <p class="font-semibold text-ink dark:text-dark-ink">“Binary Classification In Unstructured Space With Hypergraph Case-Based Reasoning”</p>
+                                <p class="text-sm text-stone-600 dark:text-stone-400">Alexandre Quemy</p>
+                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">Information Systems</p>
+                                
+                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                    
+                                    <a href="https://dblp.org/rec/journals/is/Quemy19.html?view=bibtex" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-quote-right"></i> Bibtex
+                                    </a>
+                                    
+                                    <a href="./static/publications/quemy2019.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-file-pdf"></i> Pdf
+                                    </a>
+                                    
+                                    <a href="http://www.cs.put.poznan.pl/events/AQuemy-additional-material.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-mail-bulk"></i> Additional material
+                                    </a>
+                                    
+                                    <a href="https://github.com/aquemy/HCBR" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fab fa-github"></i> Code
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+                    
+                        
+                        <div class="flex items-start gap-x-6">
+                            <div class="year-badge">
+                                 
+                            </div>
+                            <div class="flex-1 list-item-hover">
+                                <p class="font-semibold text-ink dark:text-dark-ink">“Data Pipeline Selection and Optimization”</p>
+                                <p class="text-sm text-stone-600 dark:text-stone-400">Alexandre Quemy</p>
+                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">International Workshop on Design, Optimization, Languages and Analytical Processing of Big Data (DOLAP) @ International Conference on Extending Database Technology/International Conference on Database Theory (EDBT/ICDT) Joint Conference</p>
+                                
+                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                    
+                                    <a href="https://dblp.org/rec/conf/dolap/Quemy19.html?view=bibtex" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-quote-right"></i> Bibtex
+                                    </a>
+                                    
+                                    <a href="./static/publications/quemy2019b.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-file-pdf"></i> Pdf
+                                    </a>
+                                    
+                                    <a href="./static/slides/DOLAP_2019.pptx" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-file-powerpoint"></i> Slides
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                        <div class="flex items-start gap-x-6">
+                            <div class="year-badge">
+                                2018
+                            </div>
+                            <div class="flex-1 list-item-hover">
+                                <p class="font-semibold text-ink dark:text-dark-ink">“Binary Classification With Hypergraph Case-Based Reasoning”</p>
+                                <p class="text-sm text-stone-600 dark:text-stone-400">Alexandre Quemy</p>
+                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">International Workshop on Design, Optimization, Languages and Analytical Processing of Big Data (DOLAP) @ International Conference on Extending Database Technology/International Conference on Database Theory (EDBT/ICDT) Joint Conference</p>
+                                
+                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                    
+                                    <a href="https://dblp.org/rec/conf/dolap/Quemy19.html?view=bibtex" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-quote-right"></i> Bibtex
+                                    </a>
+                                    
+                                    <a href="./static/publications/quemy2018.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-file-pdf"></i> Pdf
+                                    </a>
+                                    
+                                    <a href="./static/slides/DOLAP_extended.pptx" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-file-powerpoint"></i> Slides
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+                    
+                        
+                        <div class="flex items-start gap-x-6">
+                            <div class="year-badge">
+                                 
+                            </div>
+                            <div class="flex-1 list-item-hover">
+                                <p class="font-semibold text-ink dark:text-dark-ink">“AI for the legal domain: an explainability challenge”</p>
+                                <p class="text-sm text-stone-600 dark:text-stone-400">Alexandre Quemy</p>
+                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">PhD Student Research Competition, IFIP World Computer Congress</p>
+                                
+                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                    
+                                    <a href="./static/publications/quemy2018c.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-file-pdf"></i> Pdf
+                                    </a>
+                                    
+                                    <a href="./static/slides/IFIP_extended.pptx" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-file-powerpoint"></i> Slides
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+                    
+                        
+                        <div class="flex items-start gap-x-6">
+                            <div class="year-badge">
+                                 
+                            </div>
+                            <div class="flex-1 list-item-hover">
+                                <p class="font-semibold text-ink dark:text-dark-ink">“Unsupervised Video Semantic Partitioning Using IBM Watson and Topic Modelling”</p>
+                                <p class="text-sm text-stone-600 dark:text-stone-400">Alexandre Quemy and Krzysztof Jamrog and Marcin Janiszewski</p>
+                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">International Workshop on Data Analytics solutions for Real-LIfe APplications (DARLI-AP) @ International Conference on Extending Database Technology/International Conference on Database Theory (EDBT/ICDT) Joint Conference</p>
+                                
+                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                    
+                                    <a href="https://dblp.org/rec/conf/edbt/QuemyJJ18.html?view=bibtex" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-quote-right"></i> Bibtex
+                                    </a>
+                                    
+                                    <a href="./static/publications/quemy2018b.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-file-pdf"></i> Pdf
+                                    </a>
+                                    
+                                    <a href="./static/slides/DARLI-AP.pptx" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-file-powerpoint"></i> Slides
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                        <div class="flex items-start gap-x-6">
+                            <div class="year-badge">
+                                2017
+                            </div>
+                            <div class="flex-1 list-item-hover">
+                                <p class="font-semibold text-ink dark:text-dark-ink">“Data Science Techniques for Law and Justice: Current State of Research and Open Problems”</p>
+                                <p class="text-sm text-stone-600 dark:text-stone-400">Alexandre Quemy</p>
+                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">Advances in Databases and Information Systems (ADBIS) Workshops and Short papers</p>
+                                
+                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                    
+                                    <a href="https://dblp.org/rec/conf/adbis/Quemy17.html?view=bibtex" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-quote-right"></i> Bibtex
+                                    </a>
+                                    
+                                    <a href="./static/publications/quemy2017.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-file-pdf"></i> Pdf
+                                    </a>
+                                    
+                                    <a href="./static/slides/2017_DAS.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-file-powerpoint"></i> Slides
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+                    
+                        
+                    
+                        
+                    
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                        <div class="flex items-start gap-x-6">
+                            <div class="year-badge">
+                                2015
+                            </div>
+                            <div class="flex-1 list-item-hover">
+                                <p class="font-semibold text-ink dark:text-dark-ink">“Solving Large MultiZenoTravel Benchmarks with Divide-and-Evolve”</p>
+                                <p class="text-sm text-stone-600 dark:text-stone-400">Alexandre Quemy and Marc Schoenauer and Vincent Vidal and Johann Dréo and Pierre Savéant</p>
+                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">Learning and Intelligent Optimization (LION)</p>
+                                
+                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                    
+                                    <a href=" https://dblp.org/rec/conf/lion/QuemySVDS15.html?view=bibtex" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-quote-right"></i> Bibtex
+                                    </a>
+                                    
+                                    <a href="./static/publications/quemy2015b.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-file-pdf"></i> Pdf
+                                    </a>
+                                    
+                                    <a href="./static/slides/2015_LION.odp" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-file-powerpoint"></i> Slides
+                                    </a>
+                                    
+                                    <a href="https://github.com/aquemy/ZenoSolver" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fab fa-github"></i> Code
+                                    </a>
+                                    
+                                    <a href="https://github.com/aquemy/dae" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fab fa-github"></i> Code
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+                    
+                        
+                        <div class="flex items-start gap-x-6">
+                            <div class="year-badge">
+                                 
+                            </div>
+                            <div class="flex-1 list-item-hover">
+                                <p class="font-semibold text-ink dark:text-dark-ink">“True Pareto Fronts for Multi-objective AI Planning Instances”</p>
+                                <p class="text-sm text-stone-600 dark:text-stone-400">Alexandre Quemy and Marc Schoenauer</p>
+                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">Evolutionary Computation in Combinatorial Optimization (EvoCOP)</p>
+                                
+                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                    
+                                    <a href="https://dblp.org/rec/conf/evoW/QuemyS15.html?view=bibtex" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-quote-right"></i> Bibtex
+                                    </a>
+                                    
+                                    <a href="./static/publications/quemy2015.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-file-pdf"></i> Pdf
+                                    </a>
+                                    
+                                    <a href="https://github.com/aquemy/ZenoSolver" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fab fa-github"></i> Code
+                                    </a>
+                                    
+                                    <a href="https://gforge.inria.fr/frs/?group_id=5907" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-plane-arrival"></i> Instances
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+                    
+                
+                </div>
+            </section>
+
+            <section id="awards" class="scroll-section mb-16">
+                <h2 class="section-title"><i class="fas fa-award text-accent-light dark:text-accent-dark"></i> Awards</h2>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+                    
+                    <div class="award-card">
+                        <div class="award-icon"><i class="fas fa-award"></i></div>
+                        <div class="flex-1">
+                            <p class="font-bold text-ink dark:text-dark-ink leading-tight">IBM Innovation Award</p>
+                            <p class="text-sm text-stone-600 dark:text-stone-400 mt-1">Restlessly reinvent – our company and ourselves</p>
+                            <p class="text-xs text-stone-400 dark:text-stone-500 mt-2">2019</p>
+                        </div>
                     </div>
-                </section>
-             
-                <section class="section summary-section">
-                    <h2 class="section-title"><i class="fa fa-book"></i>Publications</h2>
-                    <div class="summary">
-                        <ol id="talks">
-                           
-                <li>
-                    <cite>True Pareto Fronts for Realistic Multi-Objective AI Planning Instances</cite>
-                    <span class="author">Alexandre Quemy</span>
-                    <span class="in">To be submitted to International Conference on Automated Planning and Scheduling (ICAPS), 2021</span>
-                    <nav>
-                    <ul>
-                        <li><a href="https://github.com/aquemy/ZenoSolver">[<i class="fab fa-github"></i> code]</a></li>
-
-                   </ul>
-               </nav
-                </li> 
-            
-                <li>
-                    <cite>A Physical Approach to Classification</cite>
-                    <span class="author">Alexandre Quemy</span>
-                    <span class="in">To be submitted to International Conference on Machine Learning (ICML), 2021</span>
                     
-                </li> 
-            
-                <li>
-                    <cite>Cautiously Making Friends with AI: Machine Learning for human rights research and practice</cite>
-                    <span class="author">Helga Molbæk-Steensig, Alexandre Quemy</span>
-                    <span class="in">AI & Human Rights: Friend or Foe?, The Erasmus School of Law, together with the Jean Monnet Centre of Excellence on Digital Governance, 2021</span>
-                    <nav>
-                    <ul>
-                        <li><a href="./static/publications/quemy2021c.pdf">[<i class="fas fa-file-pdf"></i> pdf]</a></li>
-<li><a href="./static/slides/powerpointSteensigQuemy.pptx">[<i class="fas fa-file-powerpoint"></i> slides]</a></li>
-
-                   </ul>
-               </nav
-                </li> 
-            
-                <li>
-                    <cite>Paradiseo: From a Modular Framework for Evolutionary Computation to the Automated Design of Metaheuristics</cite>
-                    <span class="author">Johann Dreo, Arnaud Liefooghe, Sébastien Verel, Marc Schoenauer, Juan Merelo, Alexandre Quemy, Benjamin Bouvier, Jan Gmys</span>
-                    <span class="in">Genetic and Evolutionary Computation Conference (GECCO), 2021</span>
-                    <nav>
-                    <ul>
-                        <li><a href="./static/publications/quemy2021b.pdf">[<i class="fas fa-file-pdf"></i> pdf]</a></li>
-<li><a href="./static/slides/2021_GECCO_EvoSoft_ParadisEO.pdf">[<i class="fas fa-file-powerpoint"></i> slides]</a></li>
-<li><a href="https://github.com/nojhan/paradiseo">[<i class="fab fa-github"></i> code]</a></li>
-<li><a href="https://nojhan.github.io/paradiseo/">[<i class="fas fa-link"></i> website]</a></li>
-<li><a href="http://johann.dreo.fr/doc/2021-06_GECCO-EVOSOFT_Dreo-al__ParadisEO.mp4">[<i class="fas fa-video"></i> video]</a></li>
-
-                   </ul>
-               </nav
-                </li> 
-            
-                <li>
-                    <cite>ECHR-OD: On Building an Integrated Open Repository of Legal Documents for Machine Learning Applications</cite>
-                    <span class="author">Alexandre Quemy and Robert Wrembel</span>
-                    <span class="in">Information Systems, 2021</span>
-                    <nav>
-                    <ul>
-                        <li><a href="./static/publications/quemy2021.pdf">[<i class="fas fa-file-pdf"></i> pdf]</a></li>
-<li><a href="https://github.com/echr-od/ECHR-OD_predictions">[<i class="fab fa-github"></i> code]</a></li>
-<li><a href="https://github.com/echr-od/ECHR-OD_project_supplementary_material">[<i class="fas fa-mail-bulk"></i> supplementary material]</a></li>
-<li><a href="https://echr-opendata.eu">[<i class="fas fa-link"></i> website]</a></li>
-
-                   </ul>
-               </nav
-                </li> 
-            
-                <li>
-                    <cite>GBEx, towards Graph-Based Explainations</cite>
-                    <span class="author">Paweł Mróz and Alexandre Quemy and Mateusz Ślażyński and Krzysztof Kluza and Paweł Jemioło</span>
-                    <span class="in">International Conference Tools with Artificial Intelligence (ICTAI), 2020</span>
-                    <nav>
-                    <ul>
-                        <li><a href="./static/publications/ictai2020xai.pdf">[<i class="fas fa-file-pdf"></i> pdf]</a></li>
-<li><a href="./static/slides/ictai2020xai_slides.pdf">[<i class="fas fa-file-powerpoint"></i> slides]</a></li>
-
-                   </ul>
-               </nav
-                </li> 
-            
-                <li>
-                    <cite>On Integrating and Classifying Legal Text Documents</cite>
-                    <span class="author">Alexandre Quemy and Robert Wrembel</span>
-                    <span class="in">International Conference on Database and Expert Systems Applications (DEXA), 2020</span>
-                    <nav>
-                    <ul>
-                        <li><a href="https://dblp.org/rec/conf/dexa/QuemyW20.html?view=bibtex">[<i class="fas fa-quote-right"></i> bibtex]</a></li>
-<li><a href="./static/publications/quemy2020e.pdf">[<i class="fas fa-file-pdf"></i> pdf]</a></li>
-<li><a href="./static/slides/DEXA_2020.pptx">[<i class="fas fa-file-powerpoint"></i> slides]</a></li>
-<li><a href="https://echr-opendata.eu">[<i class="fas fa-link"></i> website]</a></li>
-
-                   </ul>
-               </nav
-                </li> 
-            
-                <li>
-                    <cite>Two-stage Optimization for Machine Learning Workflow</cite>
-                    <span class="author">Alexandre Quemy</span>
-                    <span class="in">Information Systems, 2020</span>
-                    <nav>
-                    <ul>
-                        <li><a href="https://dblp.org/rec/journals/is/Quemy20.html?view=bibtex">[<i class="fas fa-quote-right"></i> bibtex]</a></li>
-<li><a href="./static/publications/quemy2020.pdf">[<i class="fas fa-file-pdf"></i> pdf]</a></li>
-<li><a href="https://github.com/aquemy/DOLAP_2019_supplementary_material">[<i class="fas fa-mail-bulk"></i> supplementary material]</a></li>
-
-                   </ul>
-               </nav
-                </li> 
-            
-                <li>
-                    <cite>Binary Classification In Unstructured Space With Hypergraph Case-Based Reasoning</cite>
-                    <span class="author">Alexandre Quemy</span>
-                    <span class="in">Information Systems, 2019</span>
-                    <nav>
-                    <ul>
-                        <li><a href="https://dblp.org/rec/journals/is/Quemy19.html?view=bibtex">[<i class="fas fa-quote-right"></i> bibtex]</a></li>
-<li><a href="./static/publications/quemy2019.pdf">[<i class="fas fa-file-pdf"></i> pdf]</a></li>
-<li><a href="http://www.cs.put.poznan.pl/events/AQuemy-additional-material.pdf">[<i class="fas fa-mail-bulk"></i> additional material]</a></li>
-<li><a href="https://github.com/aquemy/HCBR">[<i class="fab fa-github"></i> code]</a></li>
-
-                   </ul>
-               </nav
-                </li> 
-            
-                <li>
-                    <cite>Data Pipeline Selection and Optimization</cite>
-                    <span class="author">Alexandre Quemy</span>
-                    <span class="in">International Workshop on Design, Optimization, Languages and Analytical Processing of Big Data (DOLAP) @ International Conference on Extending Database Technology/International Conference on Database Theory (EDBT/ICDT) Joint Conference, 2019</span>
-                    <nav>
-                    <ul>
-                        <li><a href="https://dblp.org/rec/conf/dolap/Quemy19.html?view=bibtex">[<i class="fas fa-quote-right"></i> bibtex]</a></li>
-<li><a href="./static/publications/quemy2019b.pdf">[<i class="fas fa-file-pdf"></i> pdf]</a></li>
-<li><a href="./static/slides/DOLAP_2019.pptx">[<i class="fas fa-file-powerpoint"></i> slides]</a></li>
-
-                   </ul>
-               </nav
-                </li> 
-            
-                <li>
-                    <cite>Binary Classification With Hypergraph Case-Based Reasoning</cite>
-                    <span class="author">Alexandre Quemy</span>
-                    <span class="in">International Workshop on Design, Optimization, Languages and Analytical Processing of Big Data (DOLAP) @ International Conference on Extending Database Technology/International Conference on Database Theory (EDBT/ICDT) Joint Conference, 2018</span>
-                    <nav>
-                    <ul>
-                        <li><a href="https://dblp.org/rec/conf/dolap/Quemy19.html?view=bibtex">[<i class="fas fa-quote-right"></i> bibtex]</a></li>
-<li><a href="./static/publications/quemy2018.pdf">[<i class="fas fa-file-pdf"></i> pdf]</a></li>
-<li><a href="./static/slides/DOLAP_extended.pptx">[<i class="fas fa-file-powerpoint"></i> slides]</a></li>
-
-                   </ul>
-               </nav
-                </li> 
-            
-                <li>
-                    <cite>AI for the legal domain: an explainability challenge</cite>
-                    <span class="author">Alexandre Quemy</span>
-                    <span class="in">PhD Student Research Competition, IFIP World Computer Congress, 2018</span>
-                    <nav>
-                    <ul>
-                        <li><a href="./static/publications/quemy2018c.pdf">[<i class="fas fa-file-pdf"></i> pdf]</a></li>
-<li><a href="./static/slides/IFIP_extended.pptx">[<i class="fas fa-file-powerpoint"></i> slides]</a></li>
-
-                   </ul>
-               </nav
-                </li> 
-            
-                <li>
-                    <cite>Unsupervised Video Semantic Partitioning Using IBM Watson and Topic Modelling</cite>
-                    <span class="author">Alexandre Quemy and Krzysztof Jamrog and Marcin Janiszewski</span>
-                    <span class="in">International Workshop on Data Analytics solutions for Real-LIfe APplications (DARLI-AP) @ International Conference on Extending Database Technology/International Conference on Database Theory (EDBT/ICDT) Joint Conference, 2018</span>
-                    <nav>
-                    <ul>
-                        <li><a href="https://dblp.org/rec/conf/edbt/QuemyJJ18.html?view=bibtex">[<i class="fas fa-quote-right"></i> bibtex]</a></li>
-<li><a href="./static/publications/quemy2018b.pdf">[<i class="fas fa-file-pdf"></i> pdf]</a></li>
-<li><a href="./static/slides/DARLI-AP.pptx">[<i class="fas fa-file-powerpoint"></i> slides]</a></li>
-
-                   </ul>
-               </nav
-                </li> 
-            
-                <li>
-                    <cite>Data Science Techniques for Law and Justice: Current State of Research and Open Problems</cite>
-                    <span class="author">Alexandre Quemy</span>
-                    <span class="in">Advances in Databases and Information Systems (ADBIS) Workshops and Short papers, 2017</span>
-                    <nav>
-                    <ul>
-                        <li><a href="https://dblp.org/rec/conf/adbis/Quemy17.html?view=bibtex">[<i class="fas fa-quote-right"></i> bibtex]</a></li>
-<li><a href="./static/publications/quemy2017.pdf">[<i class="fas fa-file-pdf"></i> pdf]</a></li>
-<li><a href="./static/slides/2017_DAS.pdf">[<i class="fas fa-file-powerpoint"></i> slides]</a></li>
-
-                   </ul>
-               </nav
-                </li> 
-            
-                <li>
-                    <cite>Solving Large MultiZenoTravel Benchmarks with Divide-and-Evolve</cite>
-                    <span class="author">Alexandre Quemy and Marc Schoenauer and Vincent Vidal and Johann Dréo and Pierre Savéant</span>
-                    <span class="in">Learning and Intelligent Optimization (LION), 2015</span>
-                    <nav>
-                    <ul>
-                        <li><a href=" https://dblp.org/rec/conf/lion/QuemySVDS15.html?view=bibtex">[<i class="fas fa-quote-right"></i> bibtex]</a></li>
-<li><a href="./static/publications/quemy2015b.pdf">[<i class="fas fa-file-pdf"></i> pdf]</a></li>
-<li><a href="./static/slides/2015_LION.odp">[<i class="fas fa-file-powerpoint"></i> slides]</a></li>
-<li><a href="https://github.com/aquemy/ZenoSolver">[<i class="fab fa-github"></i> code]</a></li>
-<li><a href="https://github.com/aquemy/dae">[<i class="fab fa-github"></i> code]</a></li>
-
-                   </ul>
-               </nav
-                </li> 
-            
-                <li>
-                    <cite>True Pareto Fronts for Multi-objective AI Planning Instances</cite>
-                    <span class="author">Alexandre Quemy and Marc Schoenauer</span>
-                    <span class="in">Evolutionary Computation in Combinatorial Optimization (EvoCOP), 2015</span>
-                    <nav>
-                    <ul>
-                        <li><a href="https://dblp.org/rec/conf/evoW/QuemyS15.html?view=bibtex">[<i class="fas fa-quote-right"></i> bibtex]</a></li>
-<li><a href="./static/publications/quemy2015.pdf">[<i class="fas fa-file-pdf"></i> pdf]</a></li>
-<li><a href="https://github.com/aquemy/ZenoSolver">[<i class="fab fa-github"></i> code]</a></li>
-<li><a href="https://gforge.inria.fr/frs/?group_id=5907">[<i class="fas fa-plane-arrival"></i> instances]</a></li>
-
-                   </ul>
-               </nav
-                </li> 
-            
-                        </ol>
+                    <div class="award-card">
+                        <div class="award-icon"><i class="fas fa-award"></i></div>
+                        <div class="flex-1">
+                            <p class="font-bold text-ink dark:text-dark-ink leading-tight">Best Paper, International Workshop On Design, Optimization</p>
+                            <p class="text-sm text-stone-600 dark:text-stone-400 mt-1">Languages and Analytical Processing of Big Data</p>
+                            <p class="text-xs text-stone-400 dark:text-stone-500 mt-2">2018, Lisbon</p>
+                        </div>
                     </div>
-                </section>
-             
-                <section class="section summary-section">
-                    <h2 class="section-title"><i class="fa fa-award"></i>Awards</h2>
-                    <div class="summary">
-                        <ol id="talks">
-                           
-                <li>
-                    <cite>IBM Innovation Award</cite>
-                    <span class="in">Restlessly reinvent – our company and ourselves, 2019</span>
                     
-                </li> 
-            
-                <li>
-                    <cite>Best Paper, International Workshop On Design, Optimization</cite>
-                    <span class="in">Languages and Analytical Processing of Big Data, Lisbon, 2018</span>
-                    
-                </li> 
-            
-                <li>
-                    <cite>Grant from the Polish Academy of Science</cite>
-                    <span class="in">IFIP World Computer Congress PhD Student Research Competition, 2018</span>
-                    
-                </li> 
-            
-                <li>
-                    <cite>IBM Analytics Hero Award</cite>
-                    <span class="in">Restlessly reinvent – our company and ourselves, 2018</span>
-                    
-                </li> 
-            
-                <li>
-                    <cite>Best Paper, International Workshop On Design, Optimization</cite>
-                    <span class="in">Languages and Analytical Processing of Big Data, Vienna, 2018</span>
-                    
-                </li> 
-            
-                <li>
-                    <cite>IBM Manager’s Choice Award x2</cite>
-                    <span class="in">Dare to Create Original Ideas, 2016</span>
-                    
-                </li> 
-            
-                        </ol>
+                    <div class="award-card">
+                        <div class="award-icon"><i class="fas fa-award"></i></div>
+                        <div class="flex-1">
+                            <p class="font-bold text-ink dark:text-dark-ink leading-tight">Grant from the Polish Academy of Science</p>
+                            <p class="text-sm text-stone-600 dark:text-stone-400 mt-1">IFIP World Computer Congress PhD Student Research Competition</p>
+                            <p class="text-xs text-stone-400 dark:text-stone-500 mt-2">2018</p>
+                        </div>
                     </div>
-                </section>
-             
-        <section class="section summary-section">
-            <h2 class="section-title"><i class="fa fa-chalkboard-teacher"></i>Teaching & Supervision</h2>
-            <div class="summary">
-        <p>Students and interns under my supervision:</p><ol id="talks">
-                <li>
-                    <cite>Graph-based linear explanation for supervised machine learning models</cite>
-                    <span class="in">Pawel Mroz, Master Thesis, 2018 - 2019</span>
                     
-                </li> 
-            
-                <li>
-                    <cite>Design and implementation of a technique to assess regressions associated to GitHub Pull Request</cite>
-                    <span class="in">Laetitia Beignon, Internship, Sum. 2019</span>
-                    
-                </li> 
-            
-                <li>
-                    <cite>Improving predictions of the European Court of Human Rights decisions</cite>
-                    <span class="in">Amadeusz Masny, Internship, Spr. 2019</span>
-                    
-                </li> 
-            
-                <li>
-                    <cite>Hyperparameter Tuning: state-of-the-art and benchmarking</cite>
-                    <span class="in">Sylwia Wronia, Internship, Spr. 2019</span>
-                    
-                </li> 
-            
-                <li>
-                    <cite>Hyperparameter optimization of Split-and-Merge, a semantic partitioning algorithm</cite>
-                    <span class="in">Pawel Rzonca, Internship, Sum. 2018</span>
-                    
-                </li> 
-            </ol><p>I have participated in the following graduate and undergraduate courses:</p><ol id="talks">
-                <li>
-                    <cite>Theoretical Machine Learning</cite>
-                    <span class="in">Lectures at IBM Krakow Software Lab, 2018 - 2019</span>
-                    <nav>
-                    <ul>
-                        <li><a href="./static/slides/Lecture_1_.pptx">[<i class="fas fa-file-powerpoint"></i> slides]</a></li>
-
-                   </ul>
-               </nav
-                </li> 
-            
-                <li>
-                    <cite>IBM Watson Services Overview</cite>
-                    <span class="in">Regular presentation at polish universities, 2016 - 2019</span>
-                    <nav>
-                    <ul>
-                        <li><a href="./static/slides/Watson_Introduction_PW.pptx">[<i class="fas fa-file-powerpoint"></i> slides]</a></li>
-<li><a href="./static/slides/Watson_Introduction_revised.pptx">[<i class="fas fa-file-powerpoint"></i> slides]</a></li>
-<li><a href="./static/slides/Watson_OLD.pdf">[<i class="fas fa-file-powerpoint"></i> slides]</a></li>
-
-                   </ul>
-               </nav
-                </li> 
-            </ol>       
-            </div>
-        </section>
-     
-                <section class="section summary-section">
-                    <h2 class="section-title"><i class="fa fa-comments"></i>Talks</h2>
-                    <div class="summary">
-                        <ol id="talks">
-                           
-                <li>
-                    <cite>A Better Approach to Data Science: the example of COVID 19</cite>
-                    <span class="in">HackYeah, Online Webinar, 2020</span>
-                    <nav>
-                    <ul>
-                        <li><a href="./static/slides/COVID19.pptx">[<i class="fas fa-file-powerpoint"></i> slides]</a></li>
-<li><a href="https://medium.com/ibm-watson/a-better-approach-to-data-science-the-example-of-covid-19-b87cd1c8f8df">[<i class="far fa-newspaper"></i> article]</a></li>
-<li><a href="https://www.facebook.com/watch/live/?v=504383473569174&ref=watch_permalink">[<i class="fas fa-video"></i> video]</a></li>
-
-                   </ul>
-               </nav
-                </li> 
-            
-                <li>
-                    <cite>PCI Passthrough with Consumer GPU</cite>
-                    <span class="in">IBM Vitality Talks Cracow, Poland, 2020</span>
-                    <nav>
-                    <ul>
-                        <li><a href="./static/slides/pci_passthrough.pptx">[<i class="fas fa-file-powerpoint"></i> slides]</a></li>
-
-                   </ul>
-               </nav
-                </li> 
-            
-                <li>
-                    <cite>Is practical AutoML more than CASH?</cite>
-                    <span class="in">GHOST Day: a practical machine learning conference Poznan, Poland, 2019</span>
-                    <nav>
-                    <ul>
-                        <li><a href="./static/slides/2019_GHOST.pptx">[<i class="fas fa-file-powerpoint"></i> slides]</a></li>
-
-                   </ul>
-               </nav
-                </li> 
-            
-                <li>
-                    <cite>Towards Data Pipeline Selection and Optimization</cite>
-                    <span class="in">IBM CEE Regional Technical Exchange Budapest, Hungary, 2019</span>
-                    
-                </li> 
-            
-                <li>
-                    <cite>Towards Data Pipeline Optimization</cite>
-                    <span class="in">PyData Warsaw Cracow, Poland, 2018</span>
-                    <nav>
-                    <ul>
-                        <li><a href="./static/slides/PyData_Warsaw.pptx">[<i class="fas fa-file-powerpoint"></i> slides]</a></li>
-<li><a href="https://www.youtube.com/watch?v=mmoYYACFX0c">[<i class="fas fa-video"></i> video]</a></li>
-
-                   </ul>
-               </nav
-                </li> 
-            
-                <li>
-                    <cite>AI for the legal domain: an explainability challenge (extended)</cite>
-                    <span class="in">IBM Vitality Talks Cracow, Poland, 2018</span>
-                    <nav>
-                    <ul>
-                        <li><a href="./static/slides/IFIP_extended.pptx">[<i class="fas fa-file-powerpoint"></i> slides]</a></li>
-
-                   </ul>
-               </nav
-                </li> 
-            
-                <li>
-                    <cite>Artificial Intelligence Microservices for NLP</cite>
-                    <span class="in">IBM Vitality Talks Cracow, Poland, 2018</span>
-                    
-                </li> 
-            
-                <li>
-                    <cite>Can we really compare our algorithms? Beyond worst-case time complexity</cite>
-                    <span class="in">IBM Vitality Talks Cracow, Poland, 2017</span>
-                    
-                </li> 
-            
-                <li>
-                    <cite>IBM Watson Services in Scala</cite>
-                    <span class="in">ScalaSphere Cracow, Poland, 2017</span>
-                    <nav>
-                    <ul>
-                        <li><a href="./static/slides/ScalaSpherePresentation.pptx">[<i class="fas fa-file-powerpoint"></i> slides]</a></li>
-<li><a href="https://www.youtube.com/watch?v=80YDuNGhSmk">[<i class="fas fa-video"></i> video]</a></li>
-
-                   </ul>
-               </nav
-                </li> 
-            
-                <li>
-                    <cite>Data Science Techniques for Law and Justice: Current State of Research and Open Problems</cite>
-                    <span class="in">IBM Vitality Talks Cracow, Poland, 2017</span>
-                    <nav>
-                    <ul>
-                        <li><a href="./static/slides/SotA.pdf">[<i class="fas fa-file-powerpoint"></i> slides]</a></li>
-
-                   </ul>
-               </nav
-                </li> 
-            
-                <li>
-                    <cite>Intelligent Home Automation, combining IoT and Machine Learning</cite>
-                    <span class="in">KrakYourNet 7 Cracow, Poland, 2016</span>
-                    <nav>
-                    <ul>
-                        <li><a href="./static/slides/krakyournet.pdf">[<i class="fas fa-file-powerpoint"></i> slides]</a></li>
-
-                   </ul>
-               </nav
-                </li> 
-            
-                <li>
-                    <cite>CESTAC: Stochastic estimation and control of rounding floatting point errors</cite>
-                    <span class="in">IBM Vitality Talks Cracow, Poland, 2016</span>
-                    <nav>
-                    <ul>
-                        <li><a href="./static/slides/CESTAC.pptx">[<i class="fas fa-file-powerpoint"></i> slides]</a></li>
-<li><a href="https://github.com/aquemy/CESTAC">[<i class="fab fa-github"></i> code]</a></li>
-
-                   </ul>
-               </nav
-                </li> 
-            
-                <li>
-                    <cite>General Parallel File System (GPFS) presentation and administration</cite>
-                    <span class="in">IBM Vitality Talks Cracow, Poland, 2016</span>
-                    <nav>
-                    <ul>
-                        <li><a href="./static/slides/gpfs.pdf">[<i class="fas fa-file-powerpoint"></i> slides]</a></li>
-
-                   </ul>
-               </nav
-                </li> 
-            
-                        </ol>
+                    <div class="award-card">
+                        <div class="award-icon"><i class="fas fa-award"></i></div>
+                        <div class="flex-1">
+                            <p class="font-bold text-ink dark:text-dark-ink leading-tight">IBM Analytics Hero Award</p>
+                            <p class="text-sm text-stone-600 dark:text-stone-400 mt-1">Restlessly reinvent – our company and ourselves</p>
+                            <p class="text-xs text-stone-400 dark:text-stone-500 mt-2">2018</p>
+                        </div>
                     </div>
-                </section>
-            
-        
-    </div><!--//main-body-->
+                    
+                    <div class="award-card">
+                        <div class="award-icon"><i class="fas fa-award"></i></div>
+                        <div class="flex-1">
+                            <p class="font-bold text-ink dark:text-dark-ink leading-tight">Best Paper, International Workshop On Design, Optimization</p>
+                            <p class="text-sm text-stone-600 dark:text-stone-400 mt-1">Languages and Analytical Processing of Big Data</p>
+                            <p class="text-xs text-stone-400 dark:text-stone-500 mt-2">2018, Vienna</p>
+                        </div>
+                    </div>
+                    
+                    <div class="award-card">
+                        <div class="award-icon"><i class="fas fa-award"></i></div>
+                        <div class="flex-1">
+                            <p class="font-bold text-ink dark:text-dark-ink leading-tight">IBM Manager’s Choice Award x2</p>
+                            <p class="text-sm text-stone-600 dark:text-stone-400 mt-1">Dare to Create Original Ideas</p>
+                            <p class="text-xs text-stone-400 dark:text-stone-500 mt-2">2016</p>
+                        </div>
+                    </div>
+                    
+                </div>
+            </section>
+
+            <section id="supervision" class="scroll-section mb-16">
+                 <h2 class="section-title"><i class="fas fa-chalkboard-teacher text-accent-light dark:text-accent-dark"></i> Teaching & Supervision</h2>
+                 <div class="space-y-8">
+                     <div>
+                         <h3 class="text-lg font-bold mb-4">Supervision</h3>
+                         <ul class="space-y-2">
+                         
+                             <li class="list-item-hover">
+                                <div class="flex justify-between items-baseline">
+                                    <p class="font-semibold text-ink dark:text-dark-ink">“Graph-based linear explanation for supervised machine learning models”</p>
+                                    <p class="text-sm text-stone-500 dark:text-stone-400 pl-4 whitespace-nowrap">2018 - 2019</p>
+                                </div>
+                                <p class="text-sm text-stone-600 dark:text-stone-400">Pawel Mroz, Master Thesis</p>
+                             </li>
+                         
+                             <li class="list-item-hover">
+                                <div class="flex justify-between items-baseline">
+                                    <p class="font-semibold text-ink dark:text-dark-ink">“Design and implementation of a technique to assess regressions associated to GitHub Pull Request”</p>
+                                    <p class="text-sm text-stone-500 dark:text-stone-400 pl-4 whitespace-nowrap">Sum. 2019</p>
+                                </div>
+                                <p class="text-sm text-stone-600 dark:text-stone-400">Laetitia Beignon, Internship</p>
+                             </li>
+                         
+                             <li class="list-item-hover">
+                                <div class="flex justify-between items-baseline">
+                                    <p class="font-semibold text-ink dark:text-dark-ink">“Improving predictions of the European Court of Human Rights decisions”</p>
+                                    <p class="text-sm text-stone-500 dark:text-stone-400 pl-4 whitespace-nowrap">Spr. 2019</p>
+                                </div>
+                                <p class="text-sm text-stone-600 dark:text-stone-400">Amadeusz Masny, Internship</p>
+                             </li>
+                         
+                             <li class="list-item-hover">
+                                <div class="flex justify-between items-baseline">
+                                    <p class="font-semibold text-ink dark:text-dark-ink">“Hyperparameter Tuning: state-of-the-art and benchmarking”</p>
+                                    <p class="text-sm text-stone-500 dark:text-stone-400 pl-4 whitespace-nowrap">Spr. 2019</p>
+                                </div>
+                                <p class="text-sm text-stone-600 dark:text-stone-400">Sylwia Wronia, Internship</p>
+                             </li>
+                         
+                             <li class="list-item-hover">
+                                <div class="flex justify-between items-baseline">
+                                    <p class="font-semibold text-ink dark:text-dark-ink">“Hyperparameter optimization of Split-and-Merge, a semantic partitioning algorithm”</p>
+                                    <p class="text-sm text-stone-500 dark:text-stone-400 pl-4 whitespace-nowrap">Sum. 2018</p>
+                                </div>
+                                <p class="text-sm text-stone-600 dark:text-stone-400">Pawel Rzonca, Internship</p>
+                             </li>
+                         
+                         </ul>
+                     </div>
+                      <div>
+                         <h3 class="text-lg font-bold mb-4">Teaching</h3>
+                         <ul class="space-y-2">
+                         
+                             <li class="list-item-hover">
+                                <div class="flex justify-between items-baseline">
+                                    <p class="font-semibold text-ink dark:text-dark-ink">“Theoretical Machine Learning”</p>
+                                    <p class="text-sm text-stone-500 dark:text-stone-400 pl-4 whitespace-nowrap">2018 - 2019</p>
+                                </div>
+                                <p class="text-sm text-stone-600 dark:text-stone-400">Lectures at IBM Krakow Software Lab</p>
+                             </li>
+                         
+                             <li class="list-item-hover">
+                                <div class="flex justify-between items-baseline">
+                                    <p class="font-semibold text-ink dark:text-dark-ink">“IBM Watson Services Overview”</p>
+                                    <p class="text-sm text-stone-500 dark:text-stone-400 pl-4 whitespace-nowrap">2016 - 2019</p>
+                                </div>
+                                <p class="text-sm text-stone-600 dark:text-stone-400">Regular presentation at polish universities</p>
+                             </li>
+                         
+                         </ul>
+                     </div>
+                 </div>
+            </section>
+
+            <section id="talks" class="scroll-section mb-16">
+                <h2 class="section-title"><i class="fas fa-comments text-accent-light dark:text-accent-dark"></i> Talks</h2>
+                
+                
+                
+                
+                <div class="space-y-2">
+                
+                    
+                    
+                        
+                        <div class="flex items-start gap-x-6 list-item-hover">
+                            <div class="year-badge">
+                                2020
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-semibold text-ink dark:text-dark-ink">“A Better Approach to Data Science: the example of COVID 19”</p>
+                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">HackYeah, Online Webinar</p>
+                                
+                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                    
+                                    <a href="./static/slides/COVID19.pptx" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-file-powerpoint"></i> Slides
+                                    </a>
+                                    
+                                    <a href="https://medium.com/ibm-watson/a-better-approach-to-data-science-the-example-of-covid-19-b87cd1c8f8df" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="far fa-newspaper"></i> Article
+                                    </a>
+                                    
+                                    <a href="https://www.facebook.com/watch/live/?v=504383473569174&ref=watch_permalink" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-video"></i> Video
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+                    
+                        
+                        <div class="flex items-start gap-x-6 list-item-hover">
+                            <div class="year-badge">
+                                 
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-semibold text-ink dark:text-dark-ink">“PCI Passthrough with Consumer GPU”</p>
+                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">IBM Vitality Talks Cracow, Poland</p>
+                                
+                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                    
+                                    <a href="./static/slides/pci_passthrough.pptx" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-file-powerpoint"></i> Slides
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                        <div class="flex items-start gap-x-6 list-item-hover">
+                            <div class="year-badge">
+                                2019
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-semibold text-ink dark:text-dark-ink">“Is practical AutoML more than CASH?”</p>
+                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">GHOST Day: a practical machine learning conference Poznan, Poland</p>
+                                
+                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                    
+                                    <a href="./static/slides/2019_GHOST.pptx" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-file-powerpoint"></i> Slides
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+                    
+                        
+                        <div class="flex items-start gap-x-6 list-item-hover">
+                            <div class="year-badge">
+                                 
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-semibold text-ink dark:text-dark-ink">“Towards Data Pipeline Selection and Optimization”</p>
+                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">IBM CEE Regional Technical Exchange Budapest, Hungary</p>
+                                
+                            </div>
+                        </div>
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                        <div class="flex items-start gap-x-6 list-item-hover">
+                            <div class="year-badge">
+                                2018
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-semibold text-ink dark:text-dark-ink">“Towards Data Pipeline Optimization”</p>
+                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">PyData Warsaw Cracow, Poland</p>
+                                
+                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                    
+                                    <a href="./static/slides/PyData_Warsaw.pptx" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-file-powerpoint"></i> Slides
+                                    </a>
+                                    
+                                    <a href="https://www.youtube.com/watch?v=mmoYYACFX0c" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-video"></i> Video
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+                    
+                        
+                        <div class="flex items-start gap-x-6 list-item-hover">
+                            <div class="year-badge">
+                                 
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-semibold text-ink dark:text-dark-ink">“AI for the legal domain: an explainability challenge (extended)”</p>
+                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">IBM Vitality Talks Cracow, Poland</p>
+                                
+                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                    
+                                    <a href="./static/slides/IFIP_extended.pptx" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-file-powerpoint"></i> Slides
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+                    
+                        
+                        <div class="flex items-start gap-x-6 list-item-hover">
+                            <div class="year-badge">
+                                 
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-semibold text-ink dark:text-dark-ink">“Artificial Intelligence Microservices for NLP”</p>
+                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">IBM Vitality Talks Cracow, Poland</p>
+                                
+                            </div>
+                        </div>
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                        <div class="flex items-start gap-x-6 list-item-hover">
+                            <div class="year-badge">
+                                2017
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-semibold text-ink dark:text-dark-ink">“Can we really compare our algorithms? Beyond worst-case time complexity”</p>
+                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">IBM Vitality Talks Cracow, Poland</p>
+                                
+                            </div>
+                        </div>
+                        
+                    
+                        
+                        <div class="flex items-start gap-x-6 list-item-hover">
+                            <div class="year-badge">
+                                 
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-semibold text-ink dark:text-dark-ink">“IBM Watson Services in Scala”</p>
+                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">ScalaSphere Cracow, Poland</p>
+                                
+                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                    
+                                    <a href="./static/slides/ScalaSpherePresentation.pptx" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-file-powerpoint"></i> Slides
+                                    </a>
+                                    
+                                    <a href="https://www.youtube.com/watch?v=80YDuNGhSmk" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-video"></i> Video
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+                    
+                        
+                        <div class="flex items-start gap-x-6 list-item-hover">
+                            <div class="year-badge">
+                                 
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-semibold text-ink dark:text-dark-ink">“Data Science Techniques for Law and Justice: Current State of Research and Open Problems”</p>
+                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">IBM Vitality Talks Cracow, Poland</p>
+                                
+                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                    
+                                    <a href="./static/slides/SotA.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-file-powerpoint"></i> Slides
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                        <div class="flex items-start gap-x-6 list-item-hover">
+                            <div class="year-badge">
+                                2016
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-semibold text-ink dark:text-dark-ink">“Intelligent Home Automation, combining IoT and Machine Learning”</p>
+                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">KrakYourNet 7 Cracow, Poland</p>
+                                
+                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                    
+                                    <a href="./static/slides/krakyournet.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-file-powerpoint"></i> Slides
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+                    
+                        
+                        <div class="flex items-start gap-x-6 list-item-hover">
+                            <div class="year-badge">
+                                 
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-semibold text-ink dark:text-dark-ink">“CESTAC: Stochastic estimation and control of rounding floatting point errors”</p>
+                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">IBM Vitality Talks Cracow, Poland</p>
+                                
+                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                    
+                                    <a href="./static/slides/CESTAC.pptx" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-file-powerpoint"></i> Slides
+                                    </a>
+                                    
+                                    <a href="https://github.com/aquemy/CESTAC" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fab fa-github"></i> Code
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+                    
+                        
+                        <div class="flex items-start gap-x-6 list-item-hover">
+                            <div class="year-badge">
+                                 
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-semibold text-ink dark:text-dark-ink">“General Parallel File System (GPFS) presentation and administration”</p>
+                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">IBM Vitality Talks Cracow, Poland</p>
+                                
+                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                    
+                                    <a href="./static/slides/gpfs.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="fas fa-file-powerpoint"></i> Slides
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+                    
+                
+                </div>
+            </section>
+        </div>
+    </div>
 </div>
 
-
-    <footer class="footer">
+        </main>
+        <footer class="w-full max-w-4xl mx-auto text-center py-16 px-4 mt-16 border-t border-black/10 dark:border-white/10">
+    <div class="flex justify-center space-x-6 mb-4">
         
-    </footer><!--//footer-->
-    <script type="text/javascript" src="js/jquery-1.11.3.min.js"></script>
-    <script type="text/javascript" src="js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="js/main.js"></script>
+        <a href="mailto:alexandre@quemy.info" title="Email" class="footer-icon"><i class="fas fa-envelope"></i></a>
+        
+        
+        <a href="https://linkedin.com/in/aquemy" title="LinkedIn" target="_blank" class="footer-icon"><i class="fab fa-linkedin"></i></a>
+        
+        
+        <a href="http://github.com/aquemy" title="GitHub" target="_blank" class="footer-icon"><i class="fab fa-github"></i></a>
+        
+        
+        <a href="https://twitter.com/@alexandre_quemy" title="Twitter" target="_blank" class="footer-icon"><i class="fab fa-twitter"></i></a>
+        
+        <a href="https://orcid.org/0000-0002-5865-6403" title="ORCID" target="_blank" class="footer-icon"><i class="fab fa-orcid"></i></a>
+    </div>
+    <p class="text-xs text-stone-500 dark:text-stone-400">
+        © <span id="current-year"></span> Alexandre Quemy. All rights reserved.
+    </p>
+</footer> <!-- This is the footer -->
+    </div>
+    
 
+    <!-- Custom JavaScript -->
+    <script src="http://localhost:8000/js/main.js"></script>
 </body>
 </html>
