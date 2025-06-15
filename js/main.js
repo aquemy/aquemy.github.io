@@ -240,6 +240,36 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     }
 
+    
+
+    // Add to your main.js DOMContentLoaded event listener
+    const fullscreenBtn = document.getElementById('fullscreen-notebook');
+    const notebookModal = document.getElementById('notebook-modal');
+    const closeModalBtn = document.getElementById('close-modal');
+    const fullscreenIframe = document.getElementById('notebook-iframe-fullscreen');
+
+    if (fullscreenBtn && notebookModal && closeModalBtn && fullscreenIframe) {
+        const notebookUrl = document.getElementById('notebook-iframe').src;
+        
+        fullscreenBtn.addEventListener('click', () => {
+            fullscreenIframe.src = notebookUrl;
+            notebookModal.classList.remove('hidden');
+            document.body.style.overflow = 'hidden';
+        });
+        
+        closeModalBtn.addEventListener('click', () => {
+            notebookModal.classList.add('hidden');
+            document.body.style.overflow = 'auto';
+            fullscreenIframe.src = '';
+        });
+        
+        // Close on escape key
+        document.addEventListener('keydown', (e) => {
+            if (e.key === 'Escape' && !notebookModal.classList.contains('hidden')) {
+                closeModalBtn.click();
+            }
+        });
+    }
 
     
     // --- Generic Sticky Sidebar Logic for Research & CV pages ---
