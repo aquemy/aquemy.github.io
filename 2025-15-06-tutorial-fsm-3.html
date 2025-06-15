@@ -6,7 +6,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="author" content="Alexandre Quemy" />
     <meta name="description" content="Personal website of Alexandre Quemy, Tech Staff and Researcher in AI." />
-    <title>Alexandre Quemy - Home</title>
+    <title>Alexandre Quemy - Blog - Signature Model Tutorial Part 3 - Introduction to the Signature Model</title>
 
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -64,9 +64,6 @@
     <!-- Background Animation Layer (only populated on index.html) -->
     <div class="fixed inset-0 z-0">
         
-<!-- This div is the container for the particle animation -->
-<div id="particles-js" class="w-full h-full"></div>
-
     </div>
 
     <!-- Main Content Layer -->
@@ -105,47 +102,92 @@
 </div>
         <main>  <!-- class="fade-in"> -->
             
-<div class="w-full max-w-4xl mx-auto py-12 px-4">
-    <section class="text-center py-16 md:py-24">
-        <img id="profile-picture" class="profile-glow w-32 h-32 rounded-full mx-auto mb-6 shadow-lg cursor-pointer" src="https://quemy.info/images/profile.jpeg" alt="Profile picture">
-        <h1 class="font-sans text-4xl md:text-6xl font-black mb-4 animate-slide-in-up">Alexandre Quemy<div style="display: inline;" class="text-3xl md:text-4xl">, Ph.D.</div></h1>
-        <p class="text-lg font-semibold text-stone-700 dark:text-stone-200 animate-slide-in-up" style="animation-delay: 0.1s;">
-            Tech Staff @ Proof.io & Freelance @ Hother.io.
-        </p>
-        <p id="typing-subtitle" class="text-lg md:text-xl text-stone-600 dark:text-stone-300 max-w-3xl mx-auto mt-2 h-8 font-mono">
-            <!-- Content injected via JavaScript for typing effect -->
-        </p>
-    </section>
+<div class="w-full max-w-7xl mx-auto py-12 px-4">
+    <!-- Header moved outside the grid for proper alignment -->
+    <header class="max-w-5xl mx-auto mb-12 text-center lg:text-left">
+        <a href="https://quemy.info/blog.html" class="text-sm text-accent-light dark:text-accent-dark hover:underline mb-4 inline-block">← Back to all posts</a>
+        <h1 class="font-sans text-4xl md:text-5xl font-black text-ink dark:text-dark-ink leading-tight">Signature Model Tutorial Part 3 - Introduction to the Signature Model</h1>
+        <p class="mt-4 text-stone-500 dark:text-stone-400">2025-15-06 · LLM</p>
+    </header>
 
-    <section class="py-12 md:py-16">
-        <div class="grid md:grid-cols-2 gap-12">
-            <div class="scroll-fade-in">
-                <h2 class="font-sans text-3xl font-black mb-8 border-b-2 border-accent-light/50 dark:border-accent-dark/50 pb-2 flex items-center"><i class="fas fa-feather-alt mr-3 text-accent-light dark:text-accent-dark"></i>Recent Publication</h2>
-                
-                <div class="p-6 bg-paper/80 dark:bg-dark-bg/80 backdrop-blur-sm rounded-lg border border-black/5 dark:border-white/10">
-                    <p class="font-semibold text-ink dark:text-dark-ink">“True Pareto Fronts for Realistic Multi-Objective AI Planning Instances”</p>
-                    <p class="text-sm text-stone-600 dark:text-stone-400 mt-2">Alexandre Quemy</p>
-                    <p class="text-sm text-stone-500 dark:text-stone-400 italic mt-1">To be submitted to International Conference on Automated Planning and Scheduling (ICAPS), 2021</p>
-                    <a href="https://quemy.info/research.html#publications" class="text-sm font-bold text-accent-light dark:text-accent-dark mt-4 inline-block hover:underline">View all publications →</a>
+    <div class="lg:grid lg:grid-cols-5 lg:gap-16">
+        <!-- Sticky Sidebar for Table of Contents (now wider) -->
+        <aside class="hidden lg:block lg:col-span-1">
+            <div class="sticky top-24">
+                <h3 class="font-semibold text-sm uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-4">ON THIS PAGE</h3>
+                <div id="toc-sidebar">
+                    <!-- ToC will be moved here by JavaScript -->
                 </div>
             </div>
-            <div class="scroll-fade-in">
-                <h2 class="font-sans text-3xl font-black mb-8 border-b-2 border-accent-light/50 dark:border-accent-dark/50 pb-2 flex items-center"><i class="fas fa-pen-nib mr-3 text-accent-light dark:text-accent-dark"></i>Latest on the Blog</h2>
-                 
-                <div class="p-6 bg-paper/80 dark:bg-dark-bg/80 backdrop-blur-sm rounded-lg border border-black/5 dark:border-white/10">
-                    <p class="font-semibold text-ink dark:text-dark-ink">“Signature Model Tutorial Part 4 - SFM and Dependency Resolution”</p>
-                     <p class="text-sm text-stone-600 dark:text-stone-400 mt-2">2025-16-06</p>
-                    <p class="text-sm text-stone-500 dark:text-stone-400 italic mt-1">LLM</p>
-                    <a href="https://quemy.info/2025-15-06-tutorial-fsm-4.html" class="text-sm font-bold text-accent-light dark:text-accent-dark mt-4 inline-block hover:underline">Read Article →</a>
-                </div>
-            </div>
-        </div>
-    </section>
+        </aside>
+        
+        <!-- Main Article Content -->
+        <div class="lg:col-span-4">
+            <article class="fade-in">
+                <div id="prose-content" class="prose lg:prose-lg dark:prose-invert max-w-none">
+                    <div class="admonition example">
+<p class="admonition-title">About this entry</p>
+<p>This blog post is the part 3 of the tutorial on the Signature Model approach to function calling. <br />
+The following interactive tutorial is embedded directly from the <a href="https://github.com/hotherio/FSM/blob/main/tutorial/02%20-%20Introduction%20to%20Signature%20Function%20Model.ipynb">FSM Repository on GitHub</a>.</p>
+<p>All parts can be found at:</p>
+<p><center>
+<a href="https://github.com/hotherio/FSM"><img alt="" src="https://gh-card.dev/repos/hotherio/FSM.svg" /></a>
+</center></p>
+</div>
+<div class="notebook-container" style="margin-left:-40%">
+    <div class="notebook-controls">
+        <a href="https://notebooks.githubusercontent.com/view/ipynb?browser=chrome&bypass_fastly=true&color_mode=dark&commit=f597666fced816c0e854e5e6b8d9d66ea6a05c01&device=unknown_device&docs_host=https%3A%2F%2Fdocs.github.com&enc_url=68747470733a2f2f7261772e67697468756275736572636f6e74656e742e636f6d2f686f74686572696f2f46534d2f663539373636366663656438313663306538353465356536623864396436366561366130356330312f7475746f7269616c2f30322532302d253230496e74726f64756374696f6e253230746f2532305369676e617475726525323046756e6374696f6e2532304d6f64656c2e6970796e62&logged_in=true&nwo=hotherio%2FFSM&path=tutorial%2F02+-+Introduction+to+Signature+Function+Model.ipynb&platform=mac&repository_id=973065353&repository_type=Repository&version=137" 
+           target="_blank" class="external-link-btn">🔗 Open in New Tab</a>
+    </div>
+    <iframe 
+        id="notebook-iframe"
+        src="https://notebooks.githubusercontent.com/view/ipynb?browser=chrome&bypass_fastly=true&color_mode=dark&commit=f597666fced816c0e854e5e6b8d9d66ea6a05c01&device=unknown_device&docs_host=https%3A%2F%2Fdocs.github.com&enc_url=68747470733a2f2f7261772e67697468756275736572636f6e74656e742e636f6d2f686f74686572696f2f46534d2f663539373636366663656438313663306538353465356536623864396436366561366130356330312f7475746f7269616c2f30322532302d253230496e74726f64756374696f6e253230746f2532305369676e617475726525323046756e6374696f6e2532304d6f64656c2e6970796e62&logged_in=true&nwo=hotherio%2FFSM&path=tutorial%2F02+-+Introduction+to+Signature+Function+Model.ipynb&platform=mac&repository_id=973065353&repository_type=Repository&version=137"
+        width="110%" 
+        height="11500px"
+        frameborder="0"
+        sandbox="allow-scripts allow-same-origin"
+        loading="lazy">
+    </iframe>
 </div>
 
-<!-- Scripts for the particle animation -->
-<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
-<script src="https://quemy.info/js/particles-config.js"></script>
+<!-- Full-screen modal -->
+<div id="notebook-modal" class="notebook-modal hidden">
+    <div class="notebook-modal-content">
+        <button id="close-modal" class="close-modal-btn">✕</button>
+        <iframe 
+            id="notebook-iframe-fullscreen"
+            width="100%" 
+            height="100%"
+            frameborder="0"
+            sandbox="allow-scripts allow-same-origin">
+        </iframe>
+    </div>
+</div>
+                </div>
+            </article>
+
+            <!-- Giscus Comments Section -->
+            <div class="mt-16 pt-8 border-t border-stone-200 dark:border-stone-700">
+                <script src="https://giscus.app/client.js"
+                    data-repo="aquemy/aquemy.github.io"
+                    data-repo-id="MDEwOlJlcG9zaXRvcnkzMTM5NTY4OTU="
+                    data-category="Ideas"
+                    data-category-id="DIC_kwDOEraaH84CdPT4"
+                    data-mapping="pathname"
+                    data-strict="0"
+                    data-reactions-enabled="1"
+                    data-emit-metadata="1"
+                    data-input-position="top"
+                    data-theme="preferred_color_scheme"
+                    data-lang="en"
+                    data-loading="lazy"
+                    crossorigin="anonymous"
+                    async>
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
 
         </main>
         <footer class="w-full max-w-4xl mx-auto text-center py-16 px-4 mt-16 border-t border-black/10 dark:border-white/10">
