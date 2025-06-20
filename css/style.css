@@ -2,44 +2,30 @@
 
 /* FONT & BASE STYLES
 --------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Source+Sans+Pro:wght@400;600;700&family=Roboto+Mono&display=swap');
+
+/* Main page layout helpers */
 .page-title {
-    font-family: 'Inter', sans-serif;
-    font-size: 2.25rem; /* 36px */
-    line-height: 2.5rem; /* 40px */
-    font-weight: 900;
-    text-align: center;
-    margin-bottom: 3rem;
+    @apply font-serif text-4xl md:text-5xl font-bold text-center mb-12;
 }
-@media (min-width: 768px) {
-    .page-title {
-        font-size: 3rem; /* 48px */
-        line-height: 1;
-    }
-}
-
 .section-title {
-    font-family: 'Inter', sans-serif;
-    font-size: 1.875rem; /* 30px */
-    line-height: 2.25rem; /* 36px */
-    font-weight: 900;
-    margin-bottom: 2rem;
-    padding-bottom: 0.5rem;
-    border-bottom-width: 2px;
-    border-color: rgba(217, 119, 6, 0.5); /* accent-light/50 */
-    display: flex;
-    align-items: center;
-    gap: 0.75rem;
+    @apply font-serif text-3xl font-bold mb-8 border-b-2 border-accent-light/50 dark:border-accent-dark/50 pb-2;
 }
-html.dark .section-title {
-    border-color: rgba(251, 191, 36, 0.5); /* accent-dark/50 */
-}
-
 
 /* ANIMATIONS
 --------------------------------------------- */
-@keyframes fadeIn { from { opacity: 0; } to { opacity: 1; } }
-@keyframes slideInUp { from { opacity: 0; transform: translateY(20px); } to { opacity: 1; transform: translateY(0); } }
-@keyframes blink-caret { from, to { opacity: 1; } 50% { opacity: 0; } }
+@keyframes fadeIn {
+    from { opacity: 0; }
+    to { opacity: 1; }
+}
+@keyframes slideInUp {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+@keyframes blink-caret {
+    from, to { opacity: 1; }
+    50% { opacity: 0; }
+}
 
 .fade-in { animation: fadeIn 0.8s ease-out forwards; }
 .animate-slide-in-up { animation: slideInUp 0.6s ease-out forwards; }
@@ -56,123 +42,89 @@ html.dark .section-title {
 
 .blinking-cursor {
     animation: blink-caret .75s step-end infinite;
-    font-weight: 300;
-    color: #D97706; /* accent-light */
-}
-html.dark .blinking-cursor {
-    color: #FBBF24; /* accent-dark */
+    @apply text-accent-light dark:text-accent-dark font-light;
 }
 
 /* NAVIGATION & FOOTER
 --------------------------------------------- */
 .nav-link {
-    position: relative;
-    color: #57534e; /* stone-600 */
-    transition: color 0.3s ease;
-}
-html.dark .nav-link {
-    color: #d6d3d1; /* stone-300 */
-}
-.nav-link:hover {
-    color: #D97706; /* accent-light */
-}
-html.dark .nav-link:hover {
-    color: #FBBF24; /* accent-dark */
+    @apply relative text-stone-600 dark:text-stone-300 transition-colors duration-300 hover:text-accent-light dark:hover:text-accent-dark;
 }
 .nav-link[data-page-active="true"] {
-    color: #D97706;
-}
-html.dark .nav-link[data-page-active="true"] {
-    color: #FBBF24;
+    @apply text-accent-light dark:text-accent-dark;
 }
 
 .footer-icon {
-    font-size: 1.5rem; /* 24px */
-    color: #a8a29e; /* stone-400 */
-    transition: color 0.3s ease, transform 0.3s ease;
-}
-html.dark .footer-icon {
-    color: #57534e; /* stone-500 */
-}
-.footer-icon:hover {
-    color: #D97706; /* accent-light */
-    transform: translateY(-4px);
-}
-html.dark .footer-icon:hover {
-    color: #FBBF24; /* accent-dark */
+    @apply text-2xl text-stone-400 dark:text-stone-500 hover:text-accent-light dark:hover:text-accent-dark transition-transform duration-300 transform hover:-translate-y-1;
 }
 
-/* RESEARCH PAGE SPECIFIC STYLES */
-.sidebar-link {
-    display: block;
-    padding: 0.25rem 0.75rem;
-    border-left: 2px solid transparent;
-    transition: all 0.2s ease-in-out;
+/* BLOG & PROSE STYLES
+--------------------------------------------- */
+.prose {
+    @apply text-stone-800 dark:text-stone-200;
 }
-.sidebar-link:hover {
-    color: #D97706;
-    border-left-color: #D97706;
+.prose a {
+    @apply text-accent-light dark:text-accent-dark font-semibold no-underline hover:underline;
 }
-html.dark .sidebar-link:hover {
-    color: #FBBF24;
-    border-left-color: #FBBF24;
+.prose strong {
+    @apply text-ink dark:text-dark-ink;
 }
-.sidebar-link.active {
-    font-weight: 600;
-    color: #2A2927;
-    border-left-color: #D97706;
+.prose blockquote {
+    @apply border-l-4 border-accent-light/50 dark:border-accent-dark/50 pl-4 italic text-stone-600 dark:text-stone-400;
 }
-html.dark .sidebar-link.active {
-    color: #F8F6F1;
-    border-left-color: #FBBF24;
+.prose code {
+    @apply font-mono bg-stone-200 dark:bg-slate-800 rounded-md px-1.5 py-1 text-sm;
 }
+.prose pre {
+    @apply font-mono bg-slate-900 dark:bg-slate-800 text-sm text-paper rounded-lg shadow-md p-4 overflow-x-auto;
+}
+.prose pre code {
+    @apply bg-transparent p-0;
+}
+.prose .toc {
+    @apply bg-stone-100 dark:bg-slate-800 border border-stone-200 dark:border-slate-700 rounded-lg p-6 my-8;
+}
+.prose .toc .toctitle {
+    @apply font-serif text-xl font-bold mb-4;
+}
+.prose .admonition {
+    @apply py-4 px-5 my-6 border-l-4 rounded-r-md;
+}
+.prose .admonition-title {
+    @apply font-bold mb-2 block text-lg;
+}
+.prose .admonition.note {
+    @apply bg-sky-50 dark:bg-sky-900/20 border-sky-500 text-sky-800 dark:text-sky-200;
+}
+.prose .admonition.warning {
+    @apply bg-amber-50 dark:bg-amber-900/20 border-amber-500 text-amber-800 dark:text-amber-200;
+}
+.prose .admonition.danger {
+    @apply bg-red-50 dark:bg-red-900/20 border-red-500 text-red-800 dark:text-red-200;
+}
+.katex { font-size: 1.1em !important; }
+html.dark .katex { color: var(--tw-prose-body); }
 
-.year-group-heading {
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-    font-weight: 700;
-    font-size: 1.25rem;
-    color: #78716c;
-}
-html.dark .year-group-heading {
-    color: #a8a29e;
-}
+/* SYNTAX HIGHLIGHTING
+--------------------------------------------- */
+/* Light Theme: Atom One Light */
+.highlight { background: #fafafa; color: #383a42; }
+.highlight .c, .highlight .c .p, .highlight .c .c1, .highlight .c .cm { color: #a0a1a7; font-style: italic; }
+.highlight .k, .highlight .k .kd { color: #a626a4; }
+.highlight .n, .highlight .n .nc { color: #c18401; }
+.highlight .s, .highlight .s .s1, .highlight .s .s2 { color: #50a14f; }
+.highlight .o, .highlight .o .ow, .highlight .m, .highlight .m .mi, .highlight .m .mf { color: #986801; }
+.highlight .p { color: #383a42; }
+.highlight .n .nf { color: #4078f1; }
+.highlight .n .nv { color: #e45649; }
 
-.publication-item {
-    padding-bottom: 1rem;
-    border-bottom: 1px solid #e7e5e4;
-}
-html.dark .publication-item {
-    border-bottom-color: #44403c;
-}
-
-.publication-item-grouped {
-    padding-bottom: 1.5rem;
-}
-
-.award-card {
-    display: flex;
-    align-items: center; /* Corrected alignment */
-    gap: 1rem;
-    padding: 1.25rem;
-    background-color: #fafaf9;
-    border-radius: 0.5rem;
-    border: 1px solid #e7e5e4;
-    transition: all 0.2s ease-in-out;
-}
-html.dark .award-card {
-    background-color: #2c384a;
-    border-color: #44403c;
-}
-.award-card:hover {
-    transform: translateY(-4px);
-    box-shadow: 0 4px 6px -1px rgba(0,0,0,0.1), 0 2px 4px -1px rgba(0,0,0,0.06);
-}
-.award-icon {
-    font-size: 1.5rem;
-    color: #D97706;
-    flex-shrink: 0;
-}
-html.dark .award-icon {
-    color: #FBBF24;
-}
+/* Dark Theme: Atom One Dark */
+html.dark .highlight { background-color: #282c34; color: #abb2bf; }
+html.dark .highlight .c, html.dark .highlight .c .p, html.dark .highlight .c .c1, html.dark .highlight .c .cm { color: #5c6370; font-style: italic; }
+html.dark .highlight .k, html.dark .highlight .k .kd { color: #c678dd; }
+html.dark .highlight .n, html.dark .highlight .n .nc { color: #e5c07b; }
+html.dark .highlight .s, html.dark .highlight .s .s1, html.dark .highlight .s .s2 { color: #98c379; }
+html.dark .highlight .o, html.dark .highlight .o .ow, html.dark .highlight .m, html.dark .highlight .m .mi, html.dark .highlight .m .mf { color: #d19a66; }
+html.dark .highlight .p { color: #abb2bf; }
+html.dark .highlight .n .nf { color: #61afef; }
+html.dark .highlight .n .nv { color: #e06c75; }
