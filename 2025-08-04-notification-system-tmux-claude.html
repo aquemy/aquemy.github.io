@@ -1,0 +1,1233 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PWL24785Z6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-PWL24785Z6');
+    </script>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Alexandre Quemy" />
+    <meta name="description" content="Personal website of Alexandre Quemy, Tech Staff and Researcher in AI." />
+    <title>Alexandre Quemy - Blog - Notification System for Tmux and Claude Code</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Source Sans Pro', 'sans-serif'],
+              serif: ['Lora', 'serif'],
+            },
+            colors: {
+              paper: '#F8F6F1',
+              ink: '#2A2927',
+              accent: {
+                light: '#D97706', // amber-600
+                dark: '#FBBF24'   // amber-400
+              },
+              'dark-bg': '#192231',
+              'dark-ink': '#E2E0DB',
+            }
+          }
+        }
+      }
+    </script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Source+Sans+Pro:wght@400;600;700&family=Roboto+Mono&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX for Math Rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, { delimiters: [ {left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}, {left: '\\(', right: '\\)', display: false}, {left: '\\[', right: '\\]', display: true} ]});"></script>
+    
+    <!-- Custom Styles and Theming -->
+    <link rel="stylesheet" href="https://quemy.info/css/custom.css">
+    <link rel="stylesheet" href="https://quemy.info/css/friendly.css">
+
+    <script>
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+</head>
+<body class="bg-paper dark:bg-dark-bg text-ink dark:text-dark-ink font-sans transition-colors duration-500 antialiased">
+    
+    <!-- Background Animation Layer (only populated on index.html) -->
+    <div class="fixed inset-0 z-0">
+        
+    </div>
+
+    <!-- Main Content Layer -->
+    <div class="relative z-10">
+        <nav class="w-full max-w-4xl mx-auto py-6 px-4 flex justify-between items-center">
+    <a href="./index.html" class="font-serif text-xl font-bold hover:text-accent-light dark:hover:text-accent-dark transition-colors">
+        Alexandre Quemy
+    </a>
+    <div class="flex items-center space-x-6">
+        <div class="hidden md:flex items-center space-x-6 text-sm font-semibold tracking-wider uppercase">
+            <a href="./research.html" class="nav-link" data-page="research">Research</a>
+            <a href="./cv.html" class="nav-link" data-page="cv">CV</a>
+            <a href="./blog.html" class="nav-link" data-page="blog">Blog</a>
+        </div>
+        <button id="theme-toggle" class="w-8 h-8 flex items-center justify-center rounded-full text-ink dark:text-dark-ink hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+             <i id="theme-toggle-dark-icon" class="fas fa-moon hidden"></i>
+             <i id="theme-toggle-light-icon" class="fas fa-sun hidden"></i>
+        </button>
+        <button id="mobile-menu-button" class="md:hidden text-2xl">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div id="mobile-menu" class="hidden md:hidden fixed inset-0 bg-paper/80 dark:bg-dark-bg/80 backdrop-blur-sm z-50">
+    <div class="flex justify-end p-4">
+        <button id="mobile-menu-close" class="text-3xl">×</button>
+    </div>
+    <div class="flex flex-col items-center justify-center h-full space-y-8 text-2xl font-semibold tracking-wider uppercase">
+        <a href="./index.html" class="nav-link" data-page="index">Home</a>
+        <a href="./research.html" class="nav-link" data-page="research">Research</a>
+        <a href="./cv.html" class="nav-link" data-page="cv">CV</a>
+        <a href="./blog.html" class="nav-link" data-page="blog">Blog</a>
+    </div>
+</div>
+        <main>  <!-- class="fade-in"> -->
+            
+<div class="w-full max-w-7xl mx-auto py-12 px-4">
+    <!-- Header moved outside the grid for proper alignment -->
+    <header class="max-w-5xl mx-auto mb-12 text-center lg:text-left">
+        <a href="https://quemy.info/blog.html" class="text-sm text-accent-light dark:text-accent-dark hover:underline mb-4 inline-block">← Back to all posts</a>
+        <h1 class="font-sans text-4xl md:text-5xl font-black text-ink dark:text-dark-ink leading-tight">Notification System for Tmux and Claude Code</h1>
+        <p class="mt-4 text-stone-500 dark:text-stone-400">2025-08-04 · DevOps</p>
+    </header>
+
+    <div class="lg:grid lg:grid-cols-5 lg:gap-16">
+        <!-- Sticky Sidebar for Table of Contents (now wider) -->
+        <aside class="hidden lg:block lg:col-span-1">
+            <div class="sticky top-24">
+                <h3 class="font-semibold text-sm uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-4">ON THIS PAGE</h3>
+                <div id="toc-sidebar">
+                    <!-- ToC will be moved here by JavaScript -->
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Main Article Content -->
+        <div class="lg:col-span-4">
+            <article class="fade-in">
+                <div id="prose-content" class="prose lg:prose-lg dark:prose-invert max-w-none">
+                    <div class="toc">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#the-flow">The Flow</a></li>
+<li><a href="#the-implementation">The Implementation</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+</div>
+<h3 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h3>
+<p>As a lot of technical people nowadays, I am using Claude Code on a daily basis. In fact, I am using a lot of parallel Claude Code sessions, either to work on the same project but different features, or to work in parallel on different projects.</p>
+<p>Designing a proper workflow is essential in order to keep track of everything. There are some orchestrators such as <a href="https://www.vibekanban.com/">vibe-kanban</a> and some nice webui such as <a href="https://github.com/siteboon/claudecodeui">claudecodeui</a> or <a href="https://claudiacode.com/">Claudia</a>. My opinion is that these web UI are interesting mostly to have an overview of the sessions rather than orchestrate it. They are also helpful for high level tasks or tasks that are not too technical and for which the current state-of-the-art LLM and agentic workflow can reasonably perform well.</p>
+<p>However, my experience is that Claude and all LLMs are not to be trusted in most cases to perform the job I am doing. No matter how much effort is put in the prompt, in the definition of the agents, etc. there is always a moment where, if not fully supervised, something will go wrong unless I move step by step.</p>
+<p>Because of that, these orchestrators or web UI are not suitable for my daily workflow because I need to be in a terminal all the time and using these web UI is often a friction that makes me lose too much time. Therefore, I decided to design my own notification mechanism for Claude Code with some requirements:</p>
+<ol>
+<li>It must work on MacOS and Linux with minimal modifications,</li>
+<li>It must work with Claude-Code but also any other terminal-based agents such as Codex or Gemini CLI and the next best tool that will be available next week,</li>
+<li>The notifications must have the possibility to be forwarded to many clients (e.g. my phone, a light bulb controlled by Home Assistant for a visual feedback).</li>
+<li>On my machine, the notification must be native and when clicking on it, it must bring me to where the session of the tool is immediately.</li>
+<li>My environment is specific: I use ghostty with the dropdown mode, but all my terminal sessions are using tmux. There is no alternative. I have sessions (e.g. Work), windows (one per project/features) and usually 1 to 4 panes per window.</li>
+<li>I need to keep the possibility to create additional components in the future such as a web UI with all the notifications, some event DB for the notifications, etc.</li>
+<li>I want to build <strong>around</strong> Claude-code and <strong>not with</strong> Claude-code. As a result, I expect to be able to have Claude-code using the notification system that we will develop here. This is probably the most exciting use-case because it then because possible to have several claude-instance communicating with each other (spoiler alert, this is not going to end well!).</li>
+</ol>
+<p>The components that I have chosen because I already use most of them personally:</p>
+<ol>
+<li>The trigger: Claude hooks</li>
+<li>The orchestrator: n8n</li>
+<li>The notification center: gotify</li>
+<li>The local script executor: webhook (<a href="https://github.com/adnanh/webhook">https://github.com/adnanh/webhook</a>)</li>
+<li>The actions: <ol>
+<li>notifier script, with <code>terminal-notifier</code> in my case</li>
+<li><code>ghostty</code> + <code>tmux</code> manipulator: bring <code>ghostty</code> in the forefront and move to the corresponding <code>tmux</code> location.</li>
+</ol>
+</li>
+</ol>
+<h3 id="the-flow">The Flow<a class="headerlink" href="#the-flow" title="Permanent link">&para;</a></h3>
+<p>Let&rsquo;s briefly discuss the flow:</p>
+<ol>
+<li>A claude-code session started in a tmux pane (e.g. 1:0.1) is done or needs my input.</li>
+<li>A claude hook is triggered which calls a n8n workflow.</li>
+<li>The n8n send a message to an instance of gotify and to a local instance of webhook.</li>
+<li>Gotify notify all the registered clients and at the same time, webhook triggers a terminal-notifier.</li>
+<li>If clicked on, the notification call another webhook from the local webhook server that execute the script to shows the original claude-code session in its tmux pane.</li>
+</ol>
+<p>An example of system notification. If I click on Show, it will brings me to the correct tmux location.</p>
+<p>
+<figure><img src="images/2025-08-04-notification-system-tmux-claude/notification-example.png" /><figcaption>Notification Example</figcaption>
+</figure>
+</p>
+<div class="admonition question">
+<p class="admonition-title">Why not using n8n alone instead of gotify?</p>
+<p>While technically possible and probably easier to achieve notifications on specific applications such as Telegram, I wanted to decouple the orchestrator from the notification mechanism. 
+Gotify is my messaging center for many different applications and it is actually hosted on a server and on the machine where claude-code is started. Gotify also has the concepts of users, applications and clients which offer more flexibility than n8n to manage notifications properly.</p>
+</div>
+<div class="admonition question">
+<p class="admonition-title">Why not using n8n to execute some script on the host?</p>
+<p>This would work if n8n was started on the same machine as where claude-code runs which is not my case. My n8n instance is hosted, as Gotify, on a different server and it used for different machines.
+Separating the orchestrator from the executor is still a good idea regardless and it offers the possibility to extend our notification system to receive notifications from different machines (e.g. a remote server) and execute actions there.</p>
+</div>
+<div class="admonition warning">
+<p class="admonition-title">Warning</p>
+<p>To make it easy for people to try it, I will consider that all components are started on the same machine and I will provide the instructions for MacOS.</p>
+</div>
+<div style="position: relative; padding-bottom: 56.25%; height: 0;"><iframe src="https://www.loom.com/embed/0cfa8a73f3f74c19a82f11b51d772fa6?sid=e05b1cd9-3671-4e5f-a6bd-a891c7948a78" frameborder="0" webkitallowfullscreen mozallowfullscreen allowfullscreen style="position: absolute; top: 0; left: 0; width: 100%; height: 100%;"></iframe></div>
+
+<h3 id="the-implementation">The Implementation<a class="headerlink" href="#the-implementation" title="Permanent link">&para;</a></h3>
+<h4 id="the-services">The Services<a class="headerlink" href="#the-services" title="Permanent link">&para;</a></h4>
+<p>First, let&rsquo;s prepare the services, namely n8n, gotify and webhooks.</p>
+<p>First n8n:
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code>docker volume create n8n_data
+
+docker run --name n8n -p <span class="m">5678</span>:5678 -v n8n_data:/home/node/.n8n docker.n8n.io/n8nio/n8n
+</code></pre></div></td></tr></table></div></p>
+<p>You check that n8n is properly started at <a href="http://localhost:5678">http://localhost:5678</a> - at this stage configure your n8n account.</p>
+<p>Then gotify:
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code>docker volume create gotify_data
+docker run -p <span class="m">8456</span>:80 --name<span class="o">=</span>gotify -v gotify_data:/app/data gotify/server
+</code></pre></div></td></tr></table></div></p>
+<p>You check that gotify is properly started at <a href="http://localhost:8456">http://localhost:8456</a></p>
+<p>For webhook, we need first to install it and then add it as launch agent:
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>brew install webhook
+</code></pre></div></td></tr></table></div></p>
+<p>Create a file <code>~/Library/LaunchAgents/com.github.adnanh.webhook.plist</code> with the following content (adjust the path to your <code>.hooks.json</code> and <code>.webhook_log.txt</code>):</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="cp">&lt;?xml version=&quot;1.0&quot; encoding=&quot;UTF-8&quot;?&gt;</span>
+<span class="cp">&lt;!DOCTYPE plist PUBLIC &quot;-//Apple//DTD PLIST 1.0//EN&quot;</span>
+<span class="cp">  &quot;http://www.apple.com/DTDs/PropertyList-1.0.dtd&quot;&gt;</span>
+<span class="nt">&lt;plist</span> <span class="na">version=</span><span class="s">&quot;1.0&quot;</span><span class="nt">&gt;</span>
+<span class="nt">&lt;dict&gt;</span>
+  <span class="nt">&lt;key&gt;</span>Label<span class="nt">&lt;/key&gt;</span>           <span class="nt">&lt;string&gt;</span>com.github.adnanh.webhook<span class="nt">&lt;/string&gt;</span>
+  <span class="nt">&lt;key&gt;</span>ProgramArguments<span class="nt">&lt;/key&gt;</span>
+  <span class="nt">&lt;array&gt;</span>
+    <span class="nt">&lt;string&gt;</span>/opt/homebrew/bin/webhook<span class="nt">&lt;/string&gt;</span>
+    <span class="nt">&lt;string&gt;</span>-hooks<span class="nt">&lt;/string&gt;</span>
+    <span class="nt">&lt;string&gt;</span>/Users/aquemy/.hooks.json<span class="nt">&lt;/string&gt;</span>
+    <span class="nt">&lt;string&gt;</span>-port<span class="nt">&lt;/string&gt;</span>
+    <span class="nt">&lt;string&gt;</span>9000<span class="nt">&lt;/string&gt;</span>
+    <span class="nt">&lt;string&gt;</span>-hotreload<span class="nt">&lt;/string&gt;</span>
+    <span class="nt">&lt;string&gt;</span>-logfile<span class="nt">&lt;/string&gt;</span>
+    <span class="nt">&lt;string&gt;</span>/Users/aquemy/.webhook_log.txt<span class="nt">&lt;/string&gt;</span>
+  <span class="nt">&lt;/array&gt;</span>
+  <span class="nt">&lt;key&gt;</span>RunAtLoad<span class="nt">&lt;/key&gt;</span>       <span class="nt">&lt;true/&gt;</span>
+  <span class="nt">&lt;key&gt;</span>KeepAlive<span class="nt">&lt;/key&gt;</span>       <span class="nt">&lt;true/&gt;</span>
+  <span class="nt">&lt;key&gt;</span>StandardOutPath<span class="nt">&lt;/key&gt;</span>  <span class="nt">&lt;string&gt;</span>/opt/homebrew/var/log/webhook.log<span class="nt">&lt;/string&gt;</span>
+  <span class="nt">&lt;key&gt;</span>StandardErrorPath<span class="nt">&lt;/key&gt;&lt;string&gt;</span>/opt/homebrew/var/log/webhook.log<span class="nt">&lt;/string&gt;</span>
+<span class="nt">&lt;/dict&gt;</span>
+<span class="nt">&lt;/plist&gt;</span>
+</code></pre></div></td></tr></table></div>
+<p>Then start it using:
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>launchctl bootstrap gui/<span class="k">$(</span>id -u<span class="k">)</span> ~/Library/LaunchAgents/com.github.adnanh.webhook.plist
+</code></pre></div></td></tr></table></div></p>
+<p>You can check that it has properly started by checking the logs in <code>~/.webhook_log.txt</code>:
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code>[webhook] 2025/08/04 15:15:07 version 2.8.2 starting
+[webhook] 2025/08/04 15:15:07 setting up os signal watcher
+[webhook] 2025/08/04 15:15:07 attempting to load hooks from /Users/aquemy/.hooks.json
+[webhook] 2025/08/04 15:15:07 os signal watcher ready
+</code></pre></div></td></tr></table></div></p>
+<h4 id="preparing-tmux">Preparing tmux<a class="headerlink" href="#preparing-tmux" title="Permanent link">&para;</a></h4>
+<p>What triggers a notification is a claude hook on the event Stop and Notification.</p>
+<p>Because I assume claude-code starts in a tmux pane, it is important to have the information about that tmux pane available to claude-code for the hook to send that information.</p>
+<p>To do so automatically, add this to your <code>.zshrc</code>:
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="c1"># Automatically set these variables for new processes in tmux</span>
+<span class="k">if</span> <span class="o">[</span> -n <span class="s2">&quot;</span><span class="nv">$TMUX</span><span class="s2">&quot;</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="o">[</span> -z <span class="s2">&quot;</span><span class="nv">$WS_TMUX_LOCATION</span><span class="s2">&quot;</span> <span class="o">]</span><span class="p">;</span> <span class="k">then</span>
+  <span class="nb">export</span> <span class="nv">WS_TMUX_LOCATION</span><span class="o">=</span><span class="k">$(</span>tmux display-message -p <span class="s1">&#39;#{session_name}:#{window_index}.#{pane_index}&#39;</span><span class="k">)</span>
+  <span class="nb">export</span> <span class="nv">WS_TMUX_SESSION_NAME</span><span class="o">=</span><span class="k">$(</span>tmux display-message -p <span class="s1">&#39;#{session_name}&#39;</span><span class="k">)</span>
+  <span class="nb">export</span> <span class="nv">WS_TMUX_WINDOW_NAME</span><span class="o">=</span><span class="k">$(</span>tmux display-message -p <span class="s1">&#39;#{window_name}&#39;</span><span class="k">)</span>
+<span class="k">fi</span>
+</code></pre></div></td></tr></table></div></p>
+<p>This will export environment variables at the moment the tmux pane is created. Therefore, when any process is started, it will have these environment variables available.</p>
+<p>To check that it worked, reload <code>zsh</code> and run:
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nb">echo</span> <span class="nv">$WS_TMUX_LOCATION</span> <span class="nv">$WS_TMUX_SESSION_NAME</span> <span class="nv">$WS_TMUX_WINDOW_NAME</span>
+</code></pre></div></td></tr></table></div></p>
+<p>You should see something like:
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>1:0.1 1 node # content varies depending on your tmux session and window name
+</code></pre></div></td></tr></table></div></p>
+<h4 id="gotify-app-and-clients">Gotify App and Clients<a class="headerlink" href="#gotify-app-and-clients" title="Permanent link">&para;</a></h4>
+<p>We will create the most basic settings for demonstration purposes only.</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code>curl -u admin:ADMIN_PASSWORD <span class="se">\</span>
+     -F <span class="s2">&quot;name=Claude Code&quot;</span> <span class="se">\</span>
+     -F <span class="s2">&quot;description=Notifications from Claude Code&quot;</span> <span class="se">\</span>
+     http://localhost:8456/application
+</code></pre></div></td></tr></table></div>
+<p>The default admin password is <code>admin</code>. </p>
+<p>This should output something like:
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="p">{</span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="mi">2</span><span class="p">,</span><span class="nt">&quot;token&quot;</span><span class="p">:</span><span class="s2">&quot;Abis_ERmy-hxAx5&quot;</span><span class="p">,</span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="s2">&quot;Claude Code&quot;</span><span class="p">,</span><span class="nt">&quot;description&quot;</span><span class="p">:</span><span class="s2">&quot;description=Notifications from Claude Code&quot;</span><span class="p">,</span><span class="nt">&quot;internal&quot;</span><span class="p">:</span><span class="kc">false</span><span class="p">,</span><span class="nt">&quot;image&quot;</span><span class="p">:</span><span class="s2">&quot;static/defaultapp.png&quot;</span><span class="p">,</span><span class="nt">&quot;defaultPriority&quot;</span><span class="p">:</span><span class="mi">0</span><span class="p">,</span><span class="nt">&quot;lastUsed&quot;</span><span class="p">:</span><span class="kc">null</span><span class="p">}</span><span class="w"></span>
+</code></pre></div></td></tr></table></div></p>
+<div class="admonition warning">
+<p class="admonition-title">Important</p>
+<p>Note the token as we will need it for n8n to send notifications!</p>
+</div>
+<p>You can always get the token in the web UI (<a href="http://localhost:8456/#/applications">http://localhost:8456/#/applications</a>).
+You can eventually create the clients that you want, starting by your browser.</p>
+<h4 id="webhooks-scripts">Webhooks Scripts<a class="headerlink" href="#webhooks-scripts" title="Permanent link">&para;</a></h4>
+<p>We will create two scripts:</p>
+<ol>
+<li><code>ghostty-notify-wrapper.sh</code>: generates the notification using <code>terminal-notifier</code> based on contextual information.</li>
+<li><code>go-tmux.sh</code> : takes a <code>tmux</code> location and open the ghostty on it.</li>
+</ol>
+<p>Both scripts will be registered as webhook and the notification generated by the first one will trigger the second one. Because webhook has been started with the flag <code>autoreload</code>, we do not have to reload it when we add new hooks or modify the underlying scripts.
+Also, because the parts of the system that are specifically tailored for my workspace (<code>ghostty</code>, <code>terminal-notifier</code>) are isolated in these small scripts, it is really easy to adapt it for another environment.</p>
+<div class="admonition note">
+<p class="admonition-title">Note</p>
+<p>If you are to modify these scripts, you <strong>must</strong> use absolute path for all the executable such as <code>terminal-notify</code> or <code>tmux</code>.</p>
+</div>
+<h5 id="ghostty-notify-wrappersh">ghostty-notify-wrapper.sh<a class="headerlink" href="#ghostty-notify-wrappersh" title="Permanent link">&para;</a></h5>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="ch">#!/bin/bash</span>
+<span class="c1"># $1 = tmux_location</span>
+<span class="c1"># $2 = tmux_session_name</span>
+<span class="c1"># $3 = tmux_window_name</span>
+<span class="c1"># $4 = project</span>
+<span class="c1"># $5 = cwd</span>
+<span class="c1"># $6 = transcript_path</span>
+<span class="c1"># $7 = hook_event_name</span>
+<span class="c1"># $8 = session_id</span>
+/opt/homebrew/bin/terminal-notifier <span class="se">\</span>
+  -subtitle <span class="s2">&quot;🤖 Claude is </span><span class="k">$(</span><span class="o">[</span> <span class="s2">&quot;</span><span class="nv">$7</span><span class="s2">&quot;</span> <span class="o">=</span> <span class="s2">&quot;Stop&quot;</span> <span class="o">]</span> <span class="o">&amp;&amp;</span> <span class="nb">echo</span> <span class="s2">&quot;done&quot;</span> <span class="o">||</span> <span class="nb">echo</span> <span class="s2">&quot;waiting&quot;</span><span class="k">)</span><span class="s2">.&quot;</span> <span class="se">\</span>
+  -title <span class="s2">&quot;tmux s:</span><span class="nv">$2</span><span class="s2"> w:</span><span class="nv">$3</span><span class="s2">&quot;</span> <span class="se">\</span>
+  -message <span class="s2">&quot;Project </span><span class="nv">$4</span><span class="s2"> - Session </span><span class="nv">$8</span><span class="s2">&quot;</span> <span class="se">\</span>
+  -execute <span class="s2">&quot;/usr/bin/curl -X POST &#39;http://localhost:9000/hooks/show-ghostty?tmux_location=</span><span class="nv">$1</span><span class="s2">&#39;&quot;</span> <span class="se">\</span>
+  -sound default
+</code></pre></div></td></tr></table></div>
+<h5 id="go-tmuxsh">go-tmux.sh<a class="headerlink" href="#go-tmuxsh" title="Permanent link">&para;</a></h5>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span>
+<span class="normal">28</span>
+<span class="normal">29</span>
+<span class="normal">30</span>
+<span class="normal">31</span>
+<span class="normal">32</span>
+<span class="normal">33</span>
+<span class="normal">34</span>
+<span class="normal">35</span>
+<span class="normal">36</span>
+<span class="normal">37</span>
+<span class="normal">38</span>
+<span class="normal">39</span>
+<span class="normal">40</span>
+<span class="normal">41</span>
+<span class="normal">42</span>
+<span class="normal">43</span>
+<span class="normal">44</span>
+<span class="normal">45</span>
+<span class="normal">46</span>
+<span class="normal">47</span>
+<span class="normal">48</span>
+<span class="normal">49</span>
+<span class="normal">50</span>
+<span class="normal">51</span>
+<span class="normal">52</span>
+<span class="normal">53</span>
+<span class="normal">54</span>
+<span class="normal">55</span>
+<span class="normal">56</span>
+<span class="normal">57</span>
+<span class="normal">58</span>
+<span class="normal">59</span>
+<span class="normal">60</span>
+<span class="normal">61</span>
+<span class="normal">62</span>
+<span class="normal">63</span>
+<span class="normal">64</span>
+<span class="normal">65</span>
+<span class="normal">66</span>
+<span class="normal">67</span>
+<span class="normal">68</span>
+<span class="normal">69</span>
+<span class="normal">70</span>
+<span class="normal">71</span>
+<span class="normal">72</span>
+<span class="normal">73</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="ch">#!/bin/zsh</span>
+
+<span class="c1"># Log ALL output</span>
+<span class="nv">LOG</span><span class="o">=</span><span class="s2">&quot;/tmp/tmux-notifier.log&quot;</span>
+<span class="nb">exec</span> &gt;&gt; <span class="nv">$LOG</span> <span class="m">2</span>&gt;<span class="p">&amp;</span><span class="m">1</span>
+
+<span class="nb">echo</span> <span class="s2">&quot;=== CLICK EVENT: </span><span class="k">$(</span>date<span class="k">)</span><span class="s2"> ===&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;PWD: </span><span class="k">$(</span><span class="nb">pwd</span><span class="k">)</span><span class="s2">&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;SHELL: </span><span class="nv">$SHELL</span><span class="s2">&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;PATH: </span><span class="nv">$PATH</span><span class="s2">&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;USER: </span><span class="nv">$USER</span><span class="s2">&quot;</span>
+<span class="nb">echo</span> <span class="s2">&quot;LOCATION: </span><span class="nv">$1</span><span class="s2">&quot;</span>
+
+<span class="c1"># Source zsh environment</span>
+<span class="nb">source</span> <span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.zshenv&quot;</span> <span class="m">2</span>&gt;/dev/null
+<span class="nb">source</span> <span class="s2">&quot;</span><span class="nv">$HOME</span><span class="s2">/.zshrc&quot;</span> <span class="m">2</span>&gt;/dev/null
+
+<span class="nb">export</span> <span class="nv">PATH</span><span class="o">=</span><span class="s2">&quot;/usr/local/bin:/opt/homebrew/bin:/usr/bin:/bin:/usr/sbin:/sbin:</span><span class="nv">$HOME</span><span class="s2">/bin&quot;</span>
+
+<span class="nb">echo</span> <span class="s2">&quot;FINAL PATH: </span><span class="nv">$PATH</span><span class="s2">&quot;</span>
+
+<span class="nv">TMUX</span><span class="o">=</span><span class="k">$(</span>whence -p tmux <span class="o">||</span> <span class="nb">echo</span> <span class="s2">&quot;/usr/local/bin/tmux&quot;</span><span class="k">)</span>
+<span class="nb">echo</span> <span class="s2">&quot;TMUX binary: </span><span class="nv">$TMUX</span><span class="s2">&quot;</span>
+
+<span class="k">if</span> <span class="o">[[</span> ! -x <span class="s2">&quot;</span><span class="nv">$TMUX</span><span class="s2">&quot;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+  <span class="nb">echo</span> <span class="s2">&quot;ERROR: tmux not found or not executable at </span><span class="nv">$TMUX</span><span class="s2">&quot;</span>
+  <span class="nb">exit</span> <span class="m">1</span>
+<span class="k">fi</span>
+
+<span class="nv">LOCATION</span><span class="o">=</span><span class="s2">&quot;</span><span class="nv">$1</span><span class="s2">&quot;</span>
+
+<span class="k">if</span> <span class="o">[[</span> -z <span class="s2">&quot;</span><span class="nv">$LOCATION</span><span class="s2">&quot;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+  <span class="nb">echo</span> <span class="s2">&quot;ERROR: No location provided&quot;</span>
+  <span class="nb">exit</span> <span class="m">1</span>
+<span class="k">fi</span>
+
+<span class="k">if</span> <span class="o">[[</span> <span class="s2">&quot;</span><span class="nv">$LOCATION</span><span class="s2">&quot;</span> <span class="o">=</span>~ ^<span class="o">([</span>^:<span class="o">]</span>+<span class="o">)</span>:<span class="o">([</span><span class="m">0</span>-9<span class="o">]</span>+<span class="o">)(</span><span class="se">\.</span><span class="o">([</span><span class="m">0</span>-9<span class="o">]</span>+<span class="o">))</span>?$ <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+  <span class="nv">SESSION</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">match</span><span class="p">[1]</span><span class="si">}</span><span class="s2">&quot;</span>
+  <span class="nv">WINDOW</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">match</span><span class="p">[2]</span><span class="si">}</span><span class="s2">&quot;</span>
+  <span class="nv">PANE</span><span class="o">=</span><span class="s2">&quot;</span><span class="si">${</span><span class="nv">match</span><span class="p">[4]</span><span class="si">}</span><span class="s2">&quot;</span>
+<span class="k">else</span>
+  <span class="nb">echo</span> <span class="s2">&quot;ERROR: Invalid format: </span><span class="nv">$LOCATION</span><span class="s2">&quot;</span>
+  <span class="nb">exit</span> <span class="m">1</span>
+<span class="k">fi</span>
+
+<span class="nb">echo</span> <span class="s2">&quot;Switching to: session=</span><span class="nv">$SESSION</span><span class="s2">, window=</span><span class="nv">$WINDOW</span><span class="s2">, pane=</span><span class="nv">$PANE</span><span class="s2">&quot;</span>
+
+<span class="c1"># Run tmux commands</span>
+<span class="s2">&quot;</span><span class="nv">$TMUX</span><span class="s2">&quot;</span> <span class="k">select</span>-window -t <span class="s2">&quot;</span><span class="nv">$SESSION</span><span class="s2">:</span><span class="nv">$WINDOW</span><span class="s2">&quot;</span>
+<span class="k">if</span> <span class="o">[[</span> <span class="nv">$?</span> -ne <span class="m">0</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+  <span class="nb">echo</span> <span class="s2">&quot;ERROR: tmux select-window failed&quot;</span>
+<span class="k">else</span>
+  <span class="nb">echo</span> <span class="s2">&quot;OK: select-window succeeded&quot;</span>
+<span class="k">fi</span>
+
+<span class="k">if</span> <span class="o">[[</span> -n <span class="s2">&quot;</span><span class="nv">$PANE</span><span class="s2">&quot;</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+  <span class="s2">&quot;</span><span class="nv">$TMUX</span><span class="s2">&quot;</span> <span class="k">select</span>-pane -t <span class="s2">&quot;</span><span class="nv">$SESSION</span><span class="s2">:</span><span class="nv">$WINDOW</span><span class="s2">.</span><span class="nv">$PANE</span><span class="s2">&quot;</span>
+  <span class="k">if</span> <span class="o">[[</span> <span class="nv">$?</span> -ne <span class="m">0</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+    <span class="nb">echo</span> <span class="s2">&quot;WARNING: select-pane failed&quot;</span>
+  <span class="k">else</span>
+    <span class="nb">echo</span> <span class="s2">&quot;OK: select-pane succeeded&quot;</span>
+  <span class="k">fi</span>
+<span class="k">fi</span>
+
+<span class="c1"># Try to focus Ghostty</span>
+osascript -e <span class="s1">&#39;tell application &quot;Ghostty&quot; to activate&#39;</span>
+<span class="k">if</span> <span class="o">[[</span> <span class="nv">$?</span> -eq <span class="m">0</span> <span class="o">]]</span><span class="p">;</span> <span class="k">then</span>
+  <span class="nb">echo</span> <span class="s2">&quot;OK: osascript ran successfully&quot;</span>
+<span class="k">else</span>
+  <span class="nb">echo</span> <span class="s2">&quot;ERROR: osascript failed with code </span><span class="nv">$?</span><span class="s2">&quot;</span>
+<span class="k">fi</span>
+
+<span class="nb">echo</span> <span class="s2">&quot;=== END ===&quot;</span>
+</code></pre></div></td></tr></table></div>
+<p>Make these scripts executable with:
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code>chmod +x ghostty-notify-wrapper.sh
+chmod +x go-tmux.sh
+</code></pre></div></td></tr></table></div></p>
+<p>Finally, here is the full content of my <code>.hooks.json</code> file. Make sure to adjust the path to the scripts according to your system.</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="p">[</span><span class="w"></span>
+<span class="w">  </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;show-ghostty&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;execute-command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/Users/aquemy/bin/go-tmux.sh&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;pass-arguments-to-command&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;url&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tmux_location&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">]</span><span class="w"></span>
+<span class="w">  </span><span class="p">},</span><span class="w"></span>
+<span class="w">  </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;ghostty-notify&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;execute-command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;/Users/aquemy/bin/ghostty-notify-wrapper.sh&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;pass-arguments-to-command&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;payload&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tmux_location&quot;</span><span class="w"> </span><span class="p">},</span><span class="w"></span>
+<span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;payload&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tmux_session_name&quot;</span><span class="w"> </span><span class="p">},</span><span class="w"></span>
+<span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;payload&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tmux_window_name&quot;</span><span class="w"> </span><span class="p">},</span><span class="w"></span>
+<span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;payload&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;project&quot;</span><span class="w"> </span><span class="p">},</span><span class="w"></span>
+<span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;payload&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cwd&quot;</span><span class="w"> </span><span class="p">},</span><span class="w"></span>
+<span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;payload&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;transcript_path&quot;</span><span class="w"> </span><span class="p">},</span><span class="w"></span>
+<span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;payload&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;hook_event_name&quot;</span><span class="w"> </span><span class="p">},</span><span class="w"></span>
+<span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="nt">&quot;source&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;payload&quot;</span><span class="p">,</span><span class="w"> </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;session_id&quot;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">]</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">]</span><span class="w"></span>
+</code></pre></div></td></tr></table></div>
+<p>You can test the script directly with a command like:
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>./ghostty-notify-wrapper.sh <span class="s2">&quot;1:0.1&quot;</span> <span class="s2">&quot;Session&quot;</span> <span class="s2">&quot;Windows&quot;</span> <span class="s2">&quot;My project&quot;</span> <span class="s2">&quot;/Users/aquemy&quot;</span> <span class="s2">&quot;/Users/aquemy/.claude/projects/-Users-aquemy/291a78f4-8b7e-4c74-9d09-3abd06dc7f56.jsonl&quot;</span> <span class="s2">&quot;Stop&quot;</span> <span class="s2">&quot;291a78f4-8b7e-4c74-9d09-3abd06dc7f56&quot;</span>
+</code></pre></div></td></tr></table></div></p>
+<p>It should generate a notification and if you click on it, it should bring you to <code>1:0.1</code> if you have such pane.</p>
+<h4 id="claude-hooks">Claude Hooks<a class="headerlink" href="#claude-hooks" title="Permanent link">&para;</a></h4>
+<p>Claude hooks have a payload that we want to preserve as we can leverage it for additional information for the notifications such as the hook type, cwd, or session id. We want to add the environment variables to the payload to be forwarded to n8n webhook.</p>
+<p>To do that, we just have to use <code>jq</code> and pipe it to a <code>curl</code> call to the n8n webhook that triggers our workflow.</p>
+<p>Here is an example on how to add new fields to an existing payload:
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="nb">echo</span> <span class="s1">&#39;{&quot;original&quot;: &quot;payload&quot;}&#39;</span> <span class="p">|</span> jq --arg tmux_location <span class="s2">&quot;</span><span class="nv">$WS_TMUX_LOCATION</span><span class="s2">&quot;</span> --arg tmux_session_name <span class="s2">&quot;</span><span class="nv">$WS_TMUX_SESSION_NAME</span><span class="s2">&quot;</span> --arg tmux_window_name <span class="s2">&quot;</span><span class="nv">$WS_TMUX_WINDOW_NAME</span><span class="s2">&quot;</span> <span class="s1">&#39;. + {tmux_location: $tmux_location, tmux_session_name: $tmux_session_name, tmux_window_name: $tmux_window_name}&#39;</span>
+</code></pre></div></td></tr></table></div></p>
+<p>This should output the following:
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span>
+<span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;original&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;payload&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;tmux_location&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;0:1.2&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;tmux_session_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Work&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;tmux_window_name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;window name&quot;</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div></td></tr></table></div></p>
+<p>Therefore, with the following command, we forward the enhanced payload to a n8n webhook called <code>claude-code-notification</code>:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code>jq --arg tmux_location <span class="s2">&quot;</span><span class="nv">$TMUX_LOCATION</span><span class="s2">&quot;</span> --arg tmux_session_name <span class="s2">&quot;</span><span class="nv">$TMUX_SESSION_NAME</span><span class="s2">&quot;</span> --arg tmux_window_name <span class="s2">&quot;</span><span class="nv">$TMUX_WINDOW_NAME</span><span class="s2">&quot;</span> <span class="s1">&#39;. + {tmux_location: $tmux_location, tmux_session_name: $tmux_session_name, tmux_window_name: $tmux_window_name}&#39;</span> <span class="p">|</span> curl -X POST -H <span class="s2">&quot;Content-Type: application/json&quot;</span> -d @- http://localhost:5679/webhook/claude-code-notification
+</code></pre></div></td></tr></table></div>
+<p>The final hooks to place in <code>~/.claude/settings.json</code>:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
+<span class="normal"> 2</span>
+<span class="normal"> 3</span>
+<span class="normal"> 4</span>
+<span class="normal"> 5</span>
+<span class="normal"> 6</span>
+<span class="normal"> 7</span>
+<span class="normal"> 8</span>
+<span class="normal"> 9</span>
+<span class="normal">10</span>
+<span class="normal">11</span>
+<span class="normal">12</span>
+<span class="normal">13</span>
+<span class="normal">14</span>
+<span class="normal">15</span>
+<span class="normal">16</span>
+<span class="normal">17</span>
+<span class="normal">18</span>
+<span class="normal">19</span>
+<span class="normal">20</span>
+<span class="normal">21</span>
+<span class="normal">22</span>
+<span class="normal">23</span>
+<span class="normal">24</span>
+<span class="normal">25</span>
+<span class="normal">26</span>
+<span class="normal">27</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="err">...</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;hooks&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;Notification&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">      </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;matcher&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;hooks&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">          </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;command&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;jq --arg tmux_location \&quot;$WS_TMUX_LOCATION\&quot; --arg tmux_session_name \&quot;$WS_TMUX_SESSION_NAME\&quot; --arg tmux_window_name \&quot;$WS_TMUX_WINDOW_NAME\&quot; &#39;. + {tmux_location: $tmux_location, tmux_session_name: $tmux_session_name, tmux_window_name: $tmux_window_name}&#39; | curl -X POST -H \&quot;Content-Type: application/json\&quot; -d @- http://localhost:5679/webhook/claude-code-notification&quot;</span><span class="w"></span>
+<span class="w">          </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="p">]</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">],</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;Stop&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">      </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;matcher&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;hooks&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">          </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;command&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;command&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;jq --arg tmux_location \&quot;$WS_TMUX_LOCATION\&quot; --arg tmux_session_name \&quot;$WS_TMUX_SESSION_NAME\&quot; --arg tmux_window_name \&quot;$WS_TMUX_WINDOW_NAME\&quot; &#39;. + {tmux_location: $tmux_location, tmux_session_name: $tmux_session_name, tmux_window_name: $tmux_window_name}&#39; | curl -X POST -H \&quot;Content-Type: application/json\&quot; -d @- http://localhost:5678/webhook-test/claude-code-notification&quot;</span><span class="w"></span>
+<span class="w">          </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="p">]</span><span class="w"></span>
+<span class="w">      </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="p">]</span><span class="w"></span>
+<span class="w">  </span><span class="p">}</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div></td></tr></table></div>
+<p>Perfect, we now need to create the n8n workflow!</p>
+<h4 id="n8n-workflow">n8n Workflow<a class="headerlink" href="#n8n-workflow" title="Permanent link">&para;</a></h4>
+<p>The workflow is really simple:</p>
+<ol>
+<li>One trigger: a webhook receiving claude-code hook&rsquo;s forwarded payload</li>
+<li>A node to remap and transformed the fields from the payload</li>
+<li>A HTTP request to Gotify and a HTTP request to the webhook server</li>
+</ol>
+<p>I will provide the full JSON of the workflow at the end but because it is relatively easy to configure, it might be faster to actually do it manually.</p>
+<p>
+<figure><img src="images/2025-08-04-notification-system-tmux-claude/n8n-workflow.png" /><figcaption>n8n Workflow Overview</figcaption>
+</figure>
+</p>
+<h5 id="trigger-configuration">Trigger Configuration<a class="headerlink" href="#trigger-configuration" title="Permanent link">&para;</a></h5>
+<p>Make sure to name it according to the endpoint we defined in the hook:</p>
+<p>
+<figure><img src="images/2025-08-04-notification-system-tmux-claude/webhook-trigger.png" /><figcaption>Webhook Trigger Configuration</figcaption>
+</figure>
+</p>
+<h5 id="edit-fields">Edit Fields<a class="headerlink" href="#edit-fields" title="Permanent link">&para;</a></h5>
+<p>The fields to remap the fields is technically not necessary if you do not want to modify some of the fields. In our case, I would like to add a field <code>project</code> that is obtained by taking the last folder in the <code>cwd</code> path because it usually indicates the name of the project Claude is working on.</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="p">{{</span><span class="w"> </span><span class="err">$jso</span><span class="kc">n</span><span class="err">.body.cwd.spli</span><span class="kc">t</span><span class="err">(&#39;/&#39;).las</span><span class="kc">t</span><span class="err">()</span><span class="w"> </span><span class="p">}}</span><span class="w"></span>
+</code></pre></div></td></tr></table></div>
+<p>
+<figure><img src="images/2025-08-04-notification-system-tmux-claude/edit-fields.png" /><figcaption>Edit Fields Configuration</figcaption>
+</figure>
+</p>
+<h5 id="gotify-notification">Gotify Notification<a class="headerlink" href="#gotify-notification" title="Permanent link">&para;</a></h5>
+<p>As we have our Gotify and n8n in two separate docker containers without specific network configuration, we have to use <code>http://host.docker.internal:8456/message</code> as URL.
+In addition, you have to provide your Gotify app token obtained earlier.</p>
+<p>
+<figure><img src="images/2025-08-04-notification-system-tmux-claude/gotify-notification.png" /><figcaption>Gotify Notification Configuration</figcaption>
+</figure>
+</p>
+<p>With my browser as client, this is the type of notification I obtain:</p>
+<p>
+<figure><img src="images/2025-08-04-notification-system-tmux-claude/browser-notification.png" /><figcaption>Browser Notification Example</figcaption>
+</figure>
+</p>
+<p>And this is how it looks in Gotify UI:</p>
+<p>
+<figure><img src="images/2025-08-04-notification-system-tmux-claude/gotify-ui.png" /><figcaption>Gotify UI View</figcaption>
+</figure>
+</p>
+<h5 id="webhook-system-notification">Webhook System Notification<a class="headerlink" href="#webhook-system-notification" title="Permanent link">&para;</a></h5>
+<p>This node needs to call the webhooks:</p>
+<p>
+<figure><img src="images/2025-08-04-notification-system-tmux-claude/webhook-system-notification.png" /><figcaption>Webhook System Notification Configuration</figcaption>
+</figure>
+</p>
+<h5 id="complete-workflow-json">Complete Workflow JSON<a class="headerlink" href="#complete-workflow-json" title="Permanent link">&para;</a></h5>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">  1</span>
+<span class="normal">  2</span>
+<span class="normal">  3</span>
+<span class="normal">  4</span>
+<span class="normal">  5</span>
+<span class="normal">  6</span>
+<span class="normal">  7</span>
+<span class="normal">  8</span>
+<span class="normal">  9</span>
+<span class="normal"> 10</span>
+<span class="normal"> 11</span>
+<span class="normal"> 12</span>
+<span class="normal"> 13</span>
+<span class="normal"> 14</span>
+<span class="normal"> 15</span>
+<span class="normal"> 16</span>
+<span class="normal"> 17</span>
+<span class="normal"> 18</span>
+<span class="normal"> 19</span>
+<span class="normal"> 20</span>
+<span class="normal"> 21</span>
+<span class="normal"> 22</span>
+<span class="normal"> 23</span>
+<span class="normal"> 24</span>
+<span class="normal"> 25</span>
+<span class="normal"> 26</span>
+<span class="normal"> 27</span>
+<span class="normal"> 28</span>
+<span class="normal"> 29</span>
+<span class="normal"> 30</span>
+<span class="normal"> 31</span>
+<span class="normal"> 32</span>
+<span class="normal"> 33</span>
+<span class="normal"> 34</span>
+<span class="normal"> 35</span>
+<span class="normal"> 36</span>
+<span class="normal"> 37</span>
+<span class="normal"> 38</span>
+<span class="normal"> 39</span>
+<span class="normal"> 40</span>
+<span class="normal"> 41</span>
+<span class="normal"> 42</span>
+<span class="normal"> 43</span>
+<span class="normal"> 44</span>
+<span class="normal"> 45</span>
+<span class="normal"> 46</span>
+<span class="normal"> 47</span>
+<span class="normal"> 48</span>
+<span class="normal"> 49</span>
+<span class="normal"> 50</span>
+<span class="normal"> 51</span>
+<span class="normal"> 52</span>
+<span class="normal"> 53</span>
+<span class="normal"> 54</span>
+<span class="normal"> 55</span>
+<span class="normal"> 56</span>
+<span class="normal"> 57</span>
+<span class="normal"> 58</span>
+<span class="normal"> 59</span>
+<span class="normal"> 60</span>
+<span class="normal"> 61</span>
+<span class="normal"> 62</span>
+<span class="normal"> 63</span>
+<span class="normal"> 64</span>
+<span class="normal"> 65</span>
+<span class="normal"> 66</span>
+<span class="normal"> 67</span>
+<span class="normal"> 68</span>
+<span class="normal"> 69</span>
+<span class="normal"> 70</span>
+<span class="normal"> 71</span>
+<span class="normal"> 72</span>
+<span class="normal"> 73</span>
+<span class="normal"> 74</span>
+<span class="normal"> 75</span>
+<span class="normal"> 76</span>
+<span class="normal"> 77</span>
+<span class="normal"> 78</span>
+<span class="normal"> 79</span>
+<span class="normal"> 80</span>
+<span class="normal"> 81</span>
+<span class="normal"> 82</span>
+<span class="normal"> 83</span>
+<span class="normal"> 84</span>
+<span class="normal"> 85</span>
+<span class="normal"> 86</span>
+<span class="normal"> 87</span>
+<span class="normal"> 88</span>
+<span class="normal"> 89</span>
+<span class="normal"> 90</span>
+<span class="normal"> 91</span>
+<span class="normal"> 92</span>
+<span class="normal"> 93</span>
+<span class="normal"> 94</span>
+<span class="normal"> 95</span>
+<span class="normal"> 96</span>
+<span class="normal"> 97</span>
+<span class="normal"> 98</span>
+<span class="normal"> 99</span>
+<span class="normal">100</span>
+<span class="normal">101</span>
+<span class="normal">102</span>
+<span class="normal">103</span>
+<span class="normal">104</span>
+<span class="normal">105</span>
+<span class="normal">106</span>
+<span class="normal">107</span>
+<span class="normal">108</span>
+<span class="normal">109</span>
+<span class="normal">110</span>
+<span class="normal">111</span>
+<span class="normal">112</span>
+<span class="normal">113</span>
+<span class="normal">114</span>
+<span class="normal">115</span>
+<span class="normal">116</span>
+<span class="normal">117</span>
+<span class="normal">118</span>
+<span class="normal">119</span>
+<span class="normal">120</span>
+<span class="normal">121</span>
+<span class="normal">122</span>
+<span class="normal">123</span>
+<span class="normal">124</span>
+<span class="normal">125</span>
+<span class="normal">126</span>
+<span class="normal">127</span>
+<span class="normal">128</span>
+<span class="normal">129</span>
+<span class="normal">130</span>
+<span class="normal">131</span>
+<span class="normal">132</span>
+<span class="normal">133</span>
+<span class="normal">134</span>
+<span class="normal">135</span>
+<span class="normal">136</span>
+<span class="normal">137</span>
+<span class="normal">138</span>
+<span class="normal">139</span>
+<span class="normal">140</span>
+<span class="normal">141</span>
+<span class="normal">142</span>
+<span class="normal">143</span>
+<span class="normal">144</span>
+<span class="normal">145</span>
+<span class="normal">146</span>
+<span class="normal">147</span>
+<span class="normal">148</span>
+<span class="normal">149</span>
+<span class="normal">150</span>
+<span class="normal">151</span>
+<span class="normal">152</span>
+<span class="normal">153</span>
+<span class="normal">154</span>
+<span class="normal">155</span>
+<span class="normal">156</span>
+<span class="normal">157</span>
+<span class="normal">158</span>
+<span class="normal">159</span>
+<span class="normal">160</span>
+<span class="normal">161</span>
+<span class="normal">162</span>
+<span class="normal">163</span>
+<span class="normal">164</span>
+<span class="normal">165</span>
+<span class="normal">166</span>
+<span class="normal">167</span>
+<span class="normal">168</span>
+<span class="normal">169</span>
+<span class="normal">170</span>
+<span class="normal">171</span>
+<span class="normal">172</span>
+<span class="normal">173</span>
+<span class="normal">174</span>
+<span class="normal">175</span>
+<span class="normal">176</span>
+<span class="normal">177</span>
+<span class="normal">178</span>
+<span class="normal">179</span>
+<span class="normal">180</span>
+<span class="normal">181</span>
+<span class="normal">182</span>
+<span class="normal">183</span>
+<span class="normal">184</span>
+<span class="normal">185</span>
+<span class="normal">186</span>
+<span class="normal">187</span>
+<span class="normal">188</span>
+<span class="normal">189</span>
+<span class="normal">190</span>
+<span class="normal">191</span>
+<span class="normal">192</span>
+<span class="normal">193</span>
+<span class="normal">194</span>
+<span class="normal">195</span>
+<span class="normal">196</span>
+<span class="normal">197</span>
+<span class="normal">198</span>
+<span class="normal">199</span>
+<span class="normal">200</span>
+<span class="normal">201</span>
+<span class="normal">202</span>
+<span class="normal">203</span>
+<span class="normal">204</span>
+<span class="normal">205</span>
+<span class="normal">206</span>
+<span class="normal">207</span>
+<span class="normal">208</span>
+<span class="normal">209</span>
+<span class="normal">210</span>
+<span class="normal">211</span>
+<span class="normal">212</span>
+<span class="normal">213</span>
+<span class="normal">214</span>
+<span class="normal">215</span>
+<span class="normal">216</span>
+<span class="normal">217</span>
+<span class="normal">218</span>
+<span class="normal">219</span>
+<span class="normal">220</span>
+<span class="normal">221</span>
+<span class="normal">222</span>
+<span class="normal">223</span>
+<span class="normal">224</span>
+<span class="normal">225</span>
+<span class="normal">226</span>
+<span class="normal">227</span>
+<span class="normal">228</span>
+<span class="normal">229</span>
+<span class="normal">230</span>
+<span class="normal">231</span>
+<span class="normal">232</span>
+<span class="normal">233</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="p">{</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Claude Code Notification&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;nodes&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;parameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;httpMethod&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;POST&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;path&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;claude-code-notification&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;options&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+<span class="w">      </span><span class="p">},</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;n8n-nodes-base.webhook&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;typeVersion&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">2</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;position&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">        </span><span class="mi">-240</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="mi">0</span><span class="w"></span>
+<span class="w">      </span><span class="p">],</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;1be841e6-6b9b-4da3-86f9-3b53cf482487&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Claude Code Notification Event&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;webhookId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;be4faefc-31b0-4603-afdc-f4ec5e5e659a&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="p">},</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;parameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;POST&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://host.docker.internal:8456/message&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;sendQuery&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;queryParameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">          </span><span class="nt">&quot;parameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">            </span><span class="p">{</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;token&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;&lt;your token&gt;&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="w">          </span><span class="p">]</span><span class="w"></span>
+<span class="w">        </span><span class="p">},</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;sendBody&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;contentType&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;form-urlencoded&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;bodyParameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">          </span><span class="nt">&quot;parameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">            </span><span class="p">{</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;title&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;=🤖 Claude is {{ $if($json.hook_event_name == &#39;Stop&#39;, &#39;done&#39;, &#39;waiting&#39;) }} for project {{ $json.project }}&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="p">{</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;message&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;=Session: {{ $json.session_id }}\nTMUX: {{ $json.tmux_location }}&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="p">{</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;priority&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;5&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="w">          </span><span class="p">]</span><span class="w"></span>
+<span class="w">        </span><span class="p">},</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;options&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+<span class="w">      </span><span class="p">},</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;n8n-nodes-base.httpRequest&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;typeVersion&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">4.2</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;position&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">        </span><span class="mi">256</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="mi">-96</span><span class="w"></span>
+<span class="w">      </span><span class="p">],</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;6c56d660-1fd9-4d17-8676-b57ddefeaf73&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Gotify Notification&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;notesInFlow&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">false</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;onError&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;continueRegularOutput&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="p">},</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;parameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;method&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;POST&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;url&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;http://host.docker.internal:9000/hooks/ghostty-notify&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;sendBody&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;bodyParameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">          </span><span class="nt">&quot;parameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">            </span><span class="p">{</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tmux_location&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;={{ $json.tmux_location }}&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="p">{</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;project&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;={{ $json.project }}&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="p">{</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cwd&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;={{ $json.cwd }}&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="p">{</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;transcript_path&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;={{ $json.transcript_path }}&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="p">{</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;hook_event_name&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;={{ $json.hook_event_name }}&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="p">{</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;session_id&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;={{ $json.session_id }}&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="p">{</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tmux_session_name&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;={{ $json.tmux_session_name }}&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="p">{</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tmux_window_name&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;={{ $json.tmux_window_name }}&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="w">          </span><span class="p">]</span><span class="w"></span>
+<span class="w">        </span><span class="p">},</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;options&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+<span class="w">      </span><span class="p">},</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;n8n-nodes-base.httpRequest&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;typeVersion&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">4.2</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;position&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">        </span><span class="mi">256</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="mi">112</span><span class="w"></span>
+<span class="w">      </span><span class="p">],</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;21a150b8-2df5-43fd-9bcc-d6f40f90cb6a&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Webhook System Notification&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="p">},</span><span class="w"></span>
+<span class="w">    </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;parameters&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;assignments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">          </span><span class="nt">&quot;assignments&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">            </span><span class="p">{</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;3e7ba227-14c8-4e54-ad6a-41a79789958f&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tmux_location&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;={{ $json.body.tmux_location }}&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="p">{</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;44f0cddd-a138-471c-99a1-e22d194fc029&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;session_id&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;={{ $json.body.session_id }}&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="p">{</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;863d1968-bf50-4e97-b509-ae4e1f39442f&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;transcript_path&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;={{ $json.body.transcript_path }}&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="p">{</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;f1405671-5df7-40d3-8fa4-09a18fe83870&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;cwd&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;={{ $json.body.cwd }}&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="p">{</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;c8c0d5b3-49b2-4127-8f49-a190b17225b8&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;hook_event_name&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;={{ $json.body.hook_event_name }}&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="p">{</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;82dea28b-6f3e-4f1b-8b06-d4f832bad0bc&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;stop_hook_active&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;={{ $json.body.stop_hook_active }}&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;boolean&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="p">{</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;e428e02d-ae8a-4917-9ff5-6c01fbc7c3a9&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;project&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;={{ $json.body.cwd.split(&#39;/&#39;).last() }}&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="p">{</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;f3057b4a-cfb2-45f6-a844-7f2c65fd7401&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tmux_session_name&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;={{ $json.body.tmux_session_name }}&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">},</span><span class="w"></span>
+<span class="w">            </span><span class="p">{</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;c5ad8c63-6c70-4ac3-9b6a-697e2d5fc6c1&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;tmux_window_name&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;value&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;={{ $json.body.tmux_window_name }}&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">              </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;string&quot;</span><span class="w"></span>
+<span class="w">            </span><span class="p">}</span><span class="w"></span>
+<span class="w">          </span><span class="p">]</span><span class="w"></span>
+<span class="w">        </span><span class="p">},</span><span class="w"></span>
+<span class="w">        </span><span class="nt">&quot;options&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{}</span><span class="w"></span>
+<span class="w">      </span><span class="p">},</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;n8n-nodes-base.set&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;typeVersion&quot;</span><span class="p">:</span><span class="w"> </span><span class="mf">3.4</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;position&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">        </span><span class="mi">16</span><span class="p">,</span><span class="w"></span>
+<span class="w">        </span><span class="mi">0</span><span class="w"></span>
+<span class="w">      </span><span class="p">],</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;694be38f-9a17-46a2-a04d-eacbffe74cc7&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;name&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Edit Fields&quot;</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">],</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;pinData&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{},</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;connections&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;Claude Code Notification Event&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;main&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">        </span><span class="p">[</span><span class="w"></span>
+<span class="w">          </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;node&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Edit Fields&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;main&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;index&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">          </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="p">]</span><span class="w"></span>
+<span class="w">      </span><span class="p">]</span><span class="w"></span>
+<span class="w">    </span><span class="p">},</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;Webhook System Notification&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;main&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">        </span><span class="p">[]</span><span class="w"></span>
+<span class="w">      </span><span class="p">]</span><span class="w"></span>
+<span class="w">    </span><span class="p">},</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;Edit Fields&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">      </span><span class="nt">&quot;main&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
+<span class="w">        </span><span class="p">[</span><span class="w"></span>
+<span class="w">          </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;node&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Gotify Notification&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;main&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;index&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">          </span><span class="p">},</span><span class="w"></span>
+<span class="w">          </span><span class="p">{</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;node&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;Webhook System Notification&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;type&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;main&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">            </span><span class="nt">&quot;index&quot;</span><span class="p">:</span><span class="w"> </span><span class="mi">0</span><span class="w"></span>
+<span class="w">          </span><span class="p">}</span><span class="w"></span>
+<span class="w">        </span><span class="p">]</span><span class="w"></span>
+<span class="w">      </span><span class="p">]</span><span class="w"></span>
+<span class="w">    </span><span class="p">}</span><span class="w"></span>
+<span class="w">  </span><span class="p">},</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;active&quot;</span><span class="p">:</span><span class="w"> </span><span class="kc">true</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;settings&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;executionOrder&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;v1&quot;</span><span class="w"></span>
+<span class="w">  </span><span class="p">},</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;versionId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;61e9c91d-4d09-4cbb-bddd-7d926e6eaaa7&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;meta&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
+<span class="w">    </span><span class="nt">&quot;instanceId&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;f19f35bb222ea20af0ecef72c39527c7789858f0d5593e15213f895b711cdaf9&quot;</span><span class="w"></span>
+<span class="w">  </span><span class="p">},</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;id&quot;</span><span class="p">:</span><span class="w"> </span><span class="s2">&quot;E4dh9ILzuo8Dzr4D&quot;</span><span class="p">,</span><span class="w"></span>
+<span class="w">  </span><span class="nt">&quot;tags&quot;</span><span class="p">:</span><span class="w"> </span><span class="p">[]</span><span class="w"></span>
+<span class="p">}</span><span class="w"></span>
+</code></pre></div></td></tr></table></div>
+<h3 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h3>
+<p>This notification system provides a powerful way to manage multiple Claude Code sessions efficiently. By leveraging tmux, n8n, Gotify, and native macOS notifications, we&rsquo;ve created a system that:</p>
+<ul>
+<li>Provides instant notifications when Claude Code needs attention</li>
+<li>Allows one-click navigation to the correct tmux pane</li>
+<li>Supports multiple notification channels</li>
+<li>Builds around Claude Code without modifying it</li>
+<li>Can be extended to other terminal-based tools</li>
+</ul>
+<h4 id="whats-next">What&rsquo;s Next?<a class="headerlink" href="#whats-next" title="Permanent link">&para;</a></h4>
+<ul>
+<li>Web UI with tmux controls, showing the layout, notifications per windows and panes and allow to move by clicking on button (why not touch screen or macropad shortcuts)</li>
+<li>Allowing Claude-code to interact with tmux panes and then allowing Claude-code to control and discuss with other claude-code instances</li>
+<li>Integration with more notification services (Home Assistant, Discord, etc.)</li>
+<li>Event database for tracking and analyzing notification patterns</li>
+<li>Support for other terminal multiplexers beyond tmux</li>
+</ul>
+                </div>
+            </article>
+
+            <!-- Giscus Comments Section -->
+            <div class="mt-16 pt-8 border-t border-stone-200 dark:border-stone-700">
+                <script src="https://giscus.app/client.js"
+                    data-repo="aquemy/aquemy.github.io"
+                    data-repo-id="MDEwOlJlcG9zaXRvcnkzMTM5NTY4OTU="
+                    data-category="Ideas"
+                    data-category-id="DIC_kwDOEraaH84CdPT4"
+                    data-mapping="pathname"
+                    data-strict="0"
+                    data-reactions-enabled="1"
+                    data-emit-metadata="1"
+                    data-input-position="top"
+                    data-theme="preferred_color_scheme"
+                    data-lang="en"
+                    data-loading="lazy"
+                    crossorigin="anonymous"
+                    async>
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+
+        </main>
+        <footer class="w-full max-w-4xl mx-auto text-center py-8 px-4 mt-6 border-t border-black/10 dark:border-white/10">
+    <div class="flex justify-center space-x-6 mb-4">
+        
+        <a href="mailto:alexandre@quemy.info" title="Email" class="footer-icon"><i class="fas fa-envelope"></i></a>
+        
+        
+        <a href="https://linkedin.com/in/aquemy" title="LinkedIn" target="_blank" class="footer-icon"><i class="fab fa-linkedin"></i></a>
+        
+        
+        <a href="http://github.com/aquemy" title="GitHub" target="_blank" class="footer-icon"><i class="fab fa-github"></i></a>
+        
+        
+        <a href="https://twitter.com/@alexandre_quemy" title="Twitter" target="_blank" class="footer-icon"><i class="fab fa-twitter"></i></a>
+        
+        <a href="https://orcid.org/0000-0002-5865-6403" title="ORCID" target="_blank" class="footer-icon"><i class="fab fa-orcid"></i></a>
+    </div>
+    <p class="text-xs text-stone-500 dark:text-stone-400">
+        © <span id="current-year"></span> Alexandre Quemy. All rights reserved.
+    </p>
+</footer> <!-- This is the footer -->
+    </div>
+    
+
+    <!-- Custom JavaScript -->
+    <script src="https://quemy.info/js/main.js"></script>
+
+    
+</body>
+</html>
