@@ -55,8 +55,8 @@
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, { delimiters: [ {left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}, {left: '\\(', right: '\\)', display: false}, {left: '\\[', right: '\\]', display: true} ]});"></script>
     
     <!-- Custom Styles and Theming -->
-    <link rel="stylesheet" href="https://quemy.info/css/custom.css">
-    <link rel="stylesheet" href="https://quemy.info/css/friendly.css">
+    <link rel="stylesheet" href="http://localhost:8000/css/custom.css">
+    <link rel="stylesheet" href="http://localhost:8000/css/friendly.css">
 
     <script>
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -112,7 +112,7 @@
 <div class="w-full max-w-7xl mx-auto py-12 px-4">
     <!-- Header moved outside the grid for proper alignment -->
     <header class="max-w-5xl mx-auto mb-12 text-center lg:text-left">
-        <a href="https://quemy.info/blog.html" class="text-sm text-accent-light dark:text-accent-dark hover:underline mb-4 inline-block">← Back to all posts</a>
+        <a href="http://localhost:8000/blog.html" class="text-sm text-accent-light dark:text-accent-dark hover:underline mb-4 inline-block">← Back to all posts</a>
         <h1 class="font-sans text-4xl md:text-5xl font-black text-ink dark:text-dark-ink leading-tight">Notion de liaison et liaisons usuelles en C++</h1>
         <p class="mt-4 text-stone-500 dark:text-stone-400">2013-10-10 · Computer Science</p>
     </header>
@@ -141,19 +141,19 @@
 <li><a href="#references">Références</a></li>
 </ul>
 </div>
-<h3 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h3>
-<p>L&rsquo;objectif de cet article est de présenter les différents types de liaisons en C++. Pour cela, nous introduirons la notion de liaisons et donnerons quelques exemples des mécanismes de liaisons proposés par le C++ et, à titre d&rsquo;information supplémentaire, comment émuler des mécanismes absents du C++.</p>
-<p>Nous présenterons enfin une technique dite du <em>Tag Dispatching</em>, que l&rsquo;on pourrait traduire par « Liaison par Tag » permettant la sélection de méthodes en <em>compile time</em>.</p>
-<p>Cependant, même si l&rsquo;ensemble des exemples et techniques sont réalisés en C++, le lecteur trouvera des informations plus générales et pourra tout aussi bien adapter le code à son langage favori, en faisant attention aux caractéristiques propres de ce langage.</p>
-<p>À noter que cet article ne se veut pas exhaustif sur les différents types de liaisons qui peuvent exister mais essaye simplement de renseigner sur les notions basiques gravitant autour du concept de liaison, d&rsquo;où l&rsquo;appellation d&rsquo;« usuelles » pour les liaisons traitées ici. Pour de plus amples détails, la lecture de la thèse de <strong>Coplien</strong> est un bon point de départ.</p>
-<h3 id="notion-de-liaison">Notion de liaison<a class="headerlink" href="#notion-de-liaison" title="Permanent link">&para;</a></h3>
-<p>La liaison est la capacité d&rsquo;un langage à sélectionner l&rsquo;implémentation d&rsquo;une méthode polymorphique qui est appelée. On distingue plusieurs types de liaisons, en fonction des caractéristiques du langage mais également du contexte d&rsquo;appel de la méthode ou fonction considérée.</p>
-<p>La liaison, <em>dispatch</em> en anglais ne doit pas être confondu avec le <em>binding</em>, malgré que dans beaucoup d&rsquo;articles ou de livres le terme de <em>binding</em> remplace et / ou aggrège celui de <em>dispatch</em> et que la traduction française de liaison soit plus proche de la traduction de <em>binding</em>. Le <em>binding</em> est en effet la capacité à associer à un appel le nom d&rsquo;une méthode, tandis que le <em>dispatch</em> sélectionne l&rsquo;implémentation d&rsquo;une méthode parmi plusieurs proposant le même nom. Le <em>dispatch</em> intervient donc après le <em>binding</em> et un <em>binding</em> peut être statique là où le dispatch sera dynamique. L&rsquo;inverse est évidemment impossible puisqu&rsquo;avant de choisir une implémentation d&rsquo;une méthode il faut évidemment en choisir son nom.</p>
-<p>Cependant, selon le langage ainsi que la communauté et les habitudes de chacun, le terme <em>dispatch</em> peut être ou non confondu avec le terme <em>binding</em>, l&rsquo;un désignant le concept général de sélection de la méthode à appeler et le second l&rsquo;implémentation des mécanismes.</p>
-<h4 id="liaison-statique-ou-dynamique">Liaison statique ou dynamique<a class="headerlink" href="#liaison-statique-ou-dynamique" title="Permanent link">&para;</a></h4>
-<p>Dans un premier temps, on peut caractériser la liaison selon que toute l&rsquo;information nécessaire à l&rsquo;appel puisse être déduite en <em>compile time</em> &ndash; on parlera alors de liaison statique &ndash; ou qu&rsquo;il faille un contexte donné en <em>run time</em>.</p>
-<p>Il y a un liaison dynamique lorsque la sélection d&rsquo;une méthode à utiliser dépend d&rsquo;un type qui ne sera connu qu&rsquo;à l&rsquo;exécution, comme celui du paramètre d&rsquo;une méthode par exemple.</p>
-<p>Le C++ propose ces deux types de liaisons, la liaison statique étant le comportement par défaut et la liaison dynamique étant obtenue grâce à l&rsquo;utilisation du mot clef <code>virtual</code>.</p>
+<h3 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">¶</a></h3>
+<p>L’objectif de cet article est de présenter les différents types de liaisons en C++. Pour cela, nous introduirons la notion de liaisons et donnerons quelques exemples des mécanismes de liaisons proposés par le C++ et, à titre d’information supplémentaire, comment émuler des mécanismes absents du C++.</p>
+<p>Nous présenterons enfin une technique dite du <em>Tag Dispatching</em>, que l’on pourrait traduire par « Liaison par Tag » permettant la sélection de méthodes en <em>compile time</em>.</p>
+<p>Cependant, même si l’ensemble des exemples et techniques sont réalisés en C++, le lecteur trouvera des informations plus générales et pourra tout aussi bien adapter le code à son langage favori, en faisant attention aux caractéristiques propres de ce langage.</p>
+<p>À noter que cet article ne se veut pas exhaustif sur les différents types de liaisons qui peuvent exister mais essaye simplement de renseigner sur les notions basiques gravitant autour du concept de liaison, d’où l’appellation d’« usuelles » pour les liaisons traitées ici. Pour de plus amples détails, la lecture de la thèse de <strong>Coplien</strong> est un bon point de départ.</p>
+<h3 id="notion-de-liaison">Notion de liaison<a class="headerlink" href="#notion-de-liaison" title="Permanent link">¶</a></h3>
+<p>La liaison est la capacité d’un langage à sélectionner l’implémentation d’une méthode polymorphique qui est appelée. On distingue plusieurs types de liaisons, en fonction des caractéristiques du langage mais également du contexte d’appel de la méthode ou fonction considérée.</p>
+<p>La liaison, <em>dispatch</em> en anglais ne doit pas être confondu avec le <em>binding</em>, malgré que dans beaucoup d’articles ou de livres le terme de <em>binding</em> remplace et / ou aggrège celui de <em>dispatch</em> et que la traduction française de liaison soit plus proche de la traduction de <em>binding</em>. Le <em>binding</em> est en effet la capacité à associer à un appel le nom d’une méthode, tandis que le <em>dispatch</em> sélectionne l’implémentation d’une méthode parmi plusieurs proposant le même nom. Le <em>dispatch</em> intervient donc après le <em>binding</em> et un <em>binding</em> peut être statique là où le dispatch sera dynamique. L’inverse est évidemment impossible puisqu’avant de choisir une implémentation d’une méthode il faut évidemment en choisir son nom.</p>
+<p>Cependant, selon le langage ainsi que la communauté et les habitudes de chacun, le terme <em>dispatch</em> peut être ou non confondu avec le terme <em>binding</em>, l’un désignant le concept général de sélection de la méthode à appeler et le second l’implémentation des mécanismes.</p>
+<h4 id="liaison-statique-ou-dynamique">Liaison statique ou dynamique<a class="headerlink" href="#liaison-statique-ou-dynamique" title="Permanent link">¶</a></h4>
+<p>Dans un premier temps, on peut caractériser la liaison selon que toute l’information nécessaire à l’appel puisse être déduite en <em>compile time</em> – on parlera alors de liaison statique – ou qu’il faille un contexte donné en <em>run time</em>.</p>
+<p>Il y a un liaison dynamique lorsque la sélection d’une méthode à utiliser dépend d’un type qui ne sera connu qu’à l’exécution, comme celui du paramètre d’une méthode par exemple.</p>
+<p>Le C++ propose ces deux types de liaisons, la liaison statique étant le comportement par défaut et la liaison dynamique étant obtenue grâce à l’utilisation du mot clef <code>virtual</code>.</p>
 <p>Exemple de static dispatch :</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
@@ -176,12 +176,12 @@
 <span class="normal">19</span>
 <span class="normal">20</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">struct</span><span class="w"> </span><span class="nc">Foo</span><span class="w"></span>
 <span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">f</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Foo::f()&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">f</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">"Foo::f()"</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 <span class="p">}</span><span class="w"> </span><span class="p">;</span><span class="w"></span>
 
 <span class="k">struct</span><span class="w"> </span><span class="nc">Bar</span><span class="w"></span>
 <span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">f</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Bar::f()&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">f</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">"Bar::f()"</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 <span class="p">}</span><span class="w"> </span><span class="p">;</span><span class="w"></span>
 
 <span class="kt">int</span><span class="w"> </span><span class="nf">main</span><span class="p">()</span><span class="w"></span>
@@ -195,7 +195,7 @@
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
-<p>Il est évident ici que le compilateur peut extraire de manière certaine du contexte, la méthode à appeler. L&rsquo;ensemble des types utilisés par le programme principal est connu à l&rsquo;avance.</p>
+<p>Il est évident ici que le compilateur peut extraire de manière certaine du contexte, la méthode à appeler. L’ensemble des types utilisés par le programme principal est connu à l’avance.</p>
 <p>Nous avons donc pour sortie :</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code>Foo::f
@@ -240,12 +240,12 @@ Bar::f
 
 <span class="k">struct</span><span class="w"> </span><span class="nc">Foo</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">Base</span><span class="w"></span>
 <span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">f</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Foo::f()&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">f</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">"Foo::f()"</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 <span class="p">};</span><span class="w"></span>
 
 <span class="k">struct</span><span class="w"> </span><span class="nc">Bar</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">Base</span><span class="w"></span>
 <span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">f</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Bar::f()&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">f</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">"Bar::f()"</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="w"> </span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 <span class="p">};</span><span class="w"></span>
 
 <span class="kt">void</span><span class="w"> </span><span class="nf">dispatch</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">Base</span><span class="o">&amp;</span><span class="w"> </span><span class="n">base</span><span class="p">)</span><span class="w"></span>
@@ -264,18 +264,18 @@ Bar::f
 <span class="w">    </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
-<p>Remarquez le type du paramètre de la fonction <code>dispatch</code> : il s&rsquo;agit d&rsquo;un objet polymorphique de type <code>Base</code>. Comment savoir quelle méthode membre <code>f</code> appeler avant l&rsquo;appel explicite à la fonction <code>dispatch</code> ? La liaison est donc faite en fonction du contexte d&rsquo;exécution.</p>
+<p>Remarquez le type du paramètre de la fonction <code>dispatch</code> : il s’agit d’un objet polymorphique de type <code>Base</code>. Comment savoir quelle méthode membre <code>f</code> appeler avant l’appel explicite à la fonction <code>dispatch</code> ? La liaison est donc faite en fonction du contexte d’exécution.</p>
 <p>La sortie est la suivante :</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code>Foo::f
 Bar::f
 </code></pre></div></td></tr></table></div>
-<h4 id="liaison-simple-ou-multiple">Liaison simple ou multiple<a class="headerlink" href="#liaison-simple-ou-multiple" title="Permanent link">&para;</a></h4>
-<p>On peut également caractériser davantage la liaison dynamique, en fonction de sa capacité à s&rsquo;appliquer au regard du nombre d&rsquo;objets polymorphiques qu&rsquo;une méthode prend en paramètre.</p>
-<p>Si le langage est capable de correctement choisir l&rsquo;implémentation d&rsquo;une fonction appelée contenant un seul objet polymorphique, on parle de liaison simple ou <em>Single Dispatch</em>, s&rsquo;il peut en traiter deux, on parle de <em>Double Dispatch</em> et pour un nombre quelconque de <em>Multiple Dispatch</em> de manière générale.</p>
-<p>Le C++ ne permet, nativement, que le <em>Single Dispatch</em> mais nous verrons qu&rsquo;il est possible d&rsquo;émuler du <em>Double Dispatch</em> assez facilement.</p>
-<p>Avant de donner quelques exemples, rappeler que lorsque l&rsquo;on appelle une méthode depuis une instance de classe, il y a <strong>toujours</strong> un paramètre : l&rsquo;instance de la classe qui appelle la méthode. L&rsquo;écriture courante utilisant un point (ou autre selon les langages) pour séparer visuellement l&rsquo;instance appelante des autres paramètres n&rsquo;est que du sucre syntaxique permettant une plus grande lisibilité. Il faut donc en tenir compte lorsque l&rsquo;on parle de liaison puisque dans le cas du <em>Single Dispatch</em>, le seul paramètre prit en compte est l&rsquo;instance appelante.</p>
-<p>Nous avons donc déjà rencontré un exemple de <em>Single Dispatch</em> : l&rsquo;exemple de la liaison dynamique donné à la section précédente.</p>
+<h4 id="liaison-simple-ou-multiple">Liaison simple ou multiple<a class="headerlink" href="#liaison-simple-ou-multiple" title="Permanent link">¶</a></h4>
+<p>On peut également caractériser davantage la liaison dynamique, en fonction de sa capacité à s’appliquer au regard du nombre d’objets polymorphiques qu’une méthode prend en paramètre.</p>
+<p>Si le langage est capable de correctement choisir l’implémentation d’une fonction appelée contenant un seul objet polymorphique, on parle de liaison simple ou <em>Single Dispatch</em>, s’il peut en traiter deux, on parle de <em>Double Dispatch</em> et pour un nombre quelconque de <em>Multiple Dispatch</em> de manière générale.</p>
+<p>Le C++ ne permet, nativement, que le <em>Single Dispatch</em> mais nous verrons qu’il est possible d’émuler du <em>Double Dispatch</em> assez facilement.</p>
+<p>Avant de donner quelques exemples, rappeler que lorsque l’on appelle une méthode depuis une instance de classe, il y a <strong>toujours</strong> un paramètre : l’instance de la classe qui appelle la méthode. L’écriture courante utilisant un point (ou autre selon les langages) pour séparer visuellement l’instance appelante des autres paramètres n’est que du sucre syntaxique permettant une plus grande lisibilité. Il faut donc en tenir compte lorsque l’on parle de liaison puisque dans le cas du <em>Single Dispatch</em>, le seul paramètre prit en compte est l’instance appelante.</p>
+<p>Nous avons donc déjà rencontré un exemple de <em>Single Dispatch</em> : l’exemple de la liaison dynamique donné à la section précédente.</p>
 <p>Voici un exemple qui montre le comportement limité de la liaison en C++ . Considérons les classes suivantes :</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
@@ -299,24 +299,24 @@ Bar::f
 <span class="normal">20</span>
 <span class="normal">21</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">struct</span><span class="w"> </span><span class="nc">Vehicle</span><span class="w"></span>
 <span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">print</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Je suis juste un vehicule ! :&#39;(&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
+<span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">print</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">"Je suis juste un vehicule ! :'("</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
 <span class="p">};</span><span class="w"></span>
 
 <span class="k">struct</span><span class="w"> </span><span class="nc">Plane</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">Vehicle</span><span class="w"></span>
 <span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">print</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Je suis un avion ! :)&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">print</span><span class="p">()</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">"Je suis un avion ! :)"</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 <span class="p">};</span><span class="w"></span>
 
 <span class="k">struct</span><span class="w"> </span><span class="nc">Parking</span><span class="w"></span>
 <span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">park</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">Vehicle</span><span class="o">&amp;</span><span class="w"> </span><span class="n">v</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Bienvenue au garage !&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">print</span><span class="p">();</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
-<span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">park</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">Plane</span><span class="o">&amp;</span><span class="w"> </span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w">  </span><span class="s">&quot;Pas assez de place pour garer un avion !&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">print</span><span class="p">();};</span><span class="w"></span>
+<span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">park</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">Vehicle</span><span class="o">&amp;</span><span class="w"> </span><span class="n">v</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">"Bienvenue au garage !"</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">print</span><span class="p">();</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
+<span class="w">    </span><span class="k">virtual</span><span class="w"> </span><span class="kt">void</span><span class="w"> </span><span class="nf">park</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">Plane</span><span class="o">&amp;</span><span class="w"> </span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w">  </span><span class="s">"Pas assez de place pour garer un avion !"</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">print</span><span class="p">();};</span><span class="w"></span>
 <span class="p">};</span><span class="w"></span>
 
 <span class="k">struct</span><span class="w"> </span><span class="nc">WideParking</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="k">public</span><span class="w"> </span><span class="n">Parking</span><span class="w"></span>
 <span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">park</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">Vehicle</span><span class="o">&amp;</span><span class="w"> </span><span class="n">v</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Bienvenue au garage extra-large !&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">print</span><span class="p">();</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
-<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">park</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">Plane</span><span class="o">&amp;</span><span class="w"> </span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w">  </span><span class="s">&quot;Il y a toute la place qu&#39;il faut pour un avion !&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">print</span><span class="p">();};</span><span class="w"></span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">park</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">Vehicle</span><span class="o">&amp;</span><span class="w"> </span><span class="n">v</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">"Bienvenue au garage extra-large !"</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"> </span><span class="n">v</span><span class="p">.</span><span class="n">print</span><span class="p">();</span><span class="w"> </span><span class="p">};</span><span class="w"></span>
+<span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">park</span><span class="p">(</span><span class="k">const</span><span class="w"> </span><span class="n">Plane</span><span class="o">&amp;</span><span class="w"> </span><span class="n">p</span><span class="p">)</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="p">{</span><span class="w"> </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w">  </span><span class="s">"Il y a toute la place qu'il faut pour un avion !"</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"> </span><span class="n">p</span><span class="p">.</span><span class="n">print</span><span class="p">();};</span><span class="w"></span>
 <span class="p">};</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
 <p>Et voici quelques fonctions <code>main</code> accompagnées de leur sortie :</p>
@@ -360,17 +360,17 @@ Bar::f
 <span class="normal">7</span>
 <span class="normal">8</span>
 <span class="normal">9</span></pre></div></td><td class="code"><div><pre><span></span><code>Bienvenue au garage !
-Je suis juste un vehicule ! :&#39;(
+Je suis juste un vehicule ! :'(
 Bienvenue au garage extra-large !
-Je suis juste un vehicule ! :&#39;(
+Je suis juste un vehicule ! :'(
 
 Pas assez de place pour garer un avion !
 Je suis un avion ! :)
-Il y a toute la place qu&#39;il faut pour un avion !
+Il y a toute la place qu'il faut pour un avion !
 Je suis un avion ! :)
 </code></pre></div></td></tr></table></div>
 <p>Ici, aucun soucis, nous avons bien le comportement désiré. En effet, tous les types sont bien caractérisés et peuvent être déduit en <em>compile time</em>,</p>
-<p>Un autre essai en utilisant un pointeur sur vehicule en lieu et place de notre instance d&rsquo;avion caractérisée :</p>
+<p>Un autre essai en utilisant un pointeur sur vehicule en lieu et place de notre instance d’avion caractérisée :</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
@@ -406,7 +406,7 @@ Je suis un avion ! :)
 Bienvenue au garage extra-large !
 Je suis un avion ! :)
 </code></pre></div></td></tr></table></div>
-<p>Il s&rsquo;agit toujours du comportement attendu et pourtant cette fois il y a eu liaison dynamique. En effet, on ne pouvait déterminer qu&rsquo;en <em>run time</em> que l&rsquo;objet passé aux parkings était un avion et non pas un simple véhicule. Par ailleurs, si l&rsquo;on avait retiré la virtualité à la méthode <code>print</code>, nous n&rsquo;aurions évidemment pas eu le message indiquant qu&rsquo;il s&rsquo;agit d&rsquo;un avion.</p>
+<p>Il s’agit toujours du comportement attendu et pourtant cette fois il y a eu liaison dynamique. En effet, on ne pouvait déterminer qu’en <em>run time</em> que l’objet passé aux parkings était un avion et non pas un simple véhicule. Par ailleurs, si l’on avait retiré la virtualité à la méthode <code>print</code>, nous n’aurions évidemment pas eu le message indiquant qu’il s’agit d’un avion.</p>
 <p>Un dernier exemple au comportement attendu avant de montrer les limites du <em>Single Dispatch</em> :</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
@@ -439,12 +439,12 @@ Je suis un avion ! :)
 <span class="normal">2</span>
 <span class="normal">3</span>
 <span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code>Bienvenue au garage extra-large !
-Je suis juste un vehicule ! :&#39;(
-Il y a toute la place qu&#39;il faut pour un avion !
+Je suis juste un vehicule ! :'(
+Il y a toute la place qu'il faut pour un avion !
 Je suis un avion ! :)
 </code></pre></div></td></tr></table></div>
-<p>Cette fois, c&rsquo;est un pointeur sur <code>Parking</code> qui pointe sur un objet <code>WideParking</code>. Les types des véhicules sont pleinement caractérisés. On pourrait alors croire qu&rsquo;il y a eu une liaison statique alors qu&rsquo;en réalité la liaison c&rsquo;est effectuée en <em>run time</em>. En effet, l&rsquo;instance de l&rsquo;objet est un paramètre de la méthode <code>park</code>. Ainsi, pour appeler la bonne méthode <code>park</code>, il a fallu attendre l&rsquo;appel effectif pour que le contexte permette de savoir qu&rsquo;il s&rsquo;agissait bien d&rsquo;un <code>WideParking</code> !</p>
-<p>Pour vous convaincre que l&rsquo;instance est bien un paramètre, voici le cas pathologique :</p>
+<p>Cette fois, c’est un pointeur sur <code>Parking</code> qui pointe sur un objet <code>WideParking</code>. Les types des véhicules sont pleinement caractérisés. On pourrait alors croire qu’il y a eu une liaison statique alors qu’en réalité la liaison c’est effectuée en <em>run time</em>. En effet, l’instance de l’objet est un paramètre de la méthode <code>park</code>. Ainsi, pour appeler la bonne méthode <code>park</code>, il a fallu attendre l’appel effectif pour que le contexte permette de savoir qu’il s’agissait bien d’un <code>WideParking</code> !</p>
+<p>Pour vous convaincre que l’instance est bien un paramètre, voici le cas pathologique :</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
@@ -486,31 +486,31 @@ Je suis un avion ! :)
 <span class="normal">6</span>
 <span class="normal">7</span>
 <span class="normal">8</span>
-<span class="normal">9</span></pre></div></td><td class="code"><div><pre><span></span><code>Il y a toute la place qu&#39;il faut pour un avion !
+<span class="normal">9</span></pre></div></td><td class="code"><div><pre><span></span><code>Il y a toute la place qu'il faut pour un avion !
 Je suis un avion ! :)
 Bienvenue au garage extra-large !
 Je suis un avion ! :)
 
-Il y a toute la place qu&#39;il faut pour un avion !
+Il y a toute la place qu'il faut pour un avion !
 Je suis un avion ! :)
 Bienvenue au garage extra-large !
 Je suis un avion ! :)
 </code></pre></div></td></tr></table></div>
 <p>Les 3 premiers appels ont été traités dans les exemples précédents. Le dernier ne donne cependant pas le résultat correct ! En effet, nous aurions aimé avoir :</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
-<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code>Il y a toute la place qu&#39;il faut pour un avion !
+<span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code>Il y a toute la place qu'il faut pour un avion !
 Je suis un avion ! :)
 </code></pre></div></td></tr></table></div>
-<p>Le <em>Single Dispatch</em> fait que la résolution ne permet pas de trouver la bonne implémentation entre <code>WideParking::park(const Vehicle&amp;) const</code> et <code>WideParking::(const Plane&amp;) const</code> ainsi, c&rsquo;est la première qui est appelée puisque c&rsquo;est le type légitime de <code>plr</code>. On voit bien que le premier argument traité pour le dispatching est l&rsquo;instance de l&rsquo;objet qui appelle la méthode, puisqu&rsquo;on appelle bien une méthode de l&rsquo;objet <code>WideParking</code> et non pas <code>Parking</code>.</p>
-<p>D&rsquo;où provient cette limitation en nombre qui peut sembler surprenante ?</p>
-<p>La raison est assez simple et n&rsquo;est pourtant pas liée directement au C++. Le mécanisme de résolution des appels virtuels se fait au travers d&rsquo;une structure de données appelée la <em>vtable</em> qui ne permet pas directement de faire de la liaison multiple. La <em>vtable</em> se charge de stocker dans un tableau interne et invisible au programmeur, des pointeurs vers les instances de classes allouées. Typiquement, une <em>vtable</em> sera créée pour chaque classe.
-Là où le bat blesse, c&rsquo;est que l&rsquo;implémentation de la <em>vtable</em> est dépendante du compilateur, de même que les mécanismes nécessaires à son bon fonctionnement (notamment l&rsquo;ajout de code dans le constructeur des objets, pointeurs internes à l&rsquo;instance). Pire encore, le standard ne spécifie pas l&rsquo;usage d&rsquo;une <em>vtable</em> pour la liaison dynamique et donc, en théorie, il serait possible d&rsquo;utiliser des alternatives. Cependant, le standard guide suffisemment pour que l&rsquo;approche <em>vtable</em> soit celle retenue par tous les compilateurs.</p>
-<p>Pour information, diverses autres solutions existent, notamment des arbres binaires de recherche ou des tables de hashages. L&rsquo;avantage de la <em>vtable</em> est sa simplicité d&rsquo;implémentation et ses performances plutôt bonnes.</p>
-<p>Notons que sous gcc, l&rsquo;option <code>-fdump-class-hierarchy</code> permet d&rsquo;afficher la vtable.</p>
-<h5 id="double-dispatch-en-c-patron-de-conception-visiteur">Double Dispatch en C++ : patron de conception Visiteur<a class="headerlink" href="#double-dispatch-en-c-patron-de-conception-visiteur" title="Permanent link">&para;</a></h5>
-<p>Le besoin de liaison double est un besoin relativement courant en développement logiciel et c&rsquo;est donc tout naturellement qu&rsquo;un patron de conception visant à résoudre le problème a vu le jour. Connu sous le nom de Visiteur, il permet de simuler une liaison double lorsque le nombre de classes est relativement restreint (sinon le surcoût en terme de code et donc de maintenabilité devient problématique).</p>
+<p>Le <em>Single Dispatch</em> fait que la résolution ne permet pas de trouver la bonne implémentation entre <code>WideParking::park(const Vehicle&amp;) const</code> et <code>WideParking::(const Plane&amp;) const</code> ainsi, c’est la première qui est appelée puisque c’est le type légitime de <code>plr</code>. On voit bien que le premier argument traité pour le dispatching est l’instance de l’objet qui appelle la méthode, puisqu’on appelle bien une méthode de l’objet <code>WideParking</code> et non pas <code>Parking</code>.</p>
+<p>D’où provient cette limitation en nombre qui peut sembler surprenante ?</p>
+<p>La raison est assez simple et n’est pourtant pas liée directement au C++. Le mécanisme de résolution des appels virtuels se fait au travers d’une structure de données appelée la <em>vtable</em> qui ne permet pas directement de faire de la liaison multiple. La <em>vtable</em> se charge de stocker dans un tableau interne et invisible au programmeur, des pointeurs vers les instances de classes allouées. Typiquement, une <em>vtable</em> sera créée pour chaque classe.
+Là où le bat blesse, c’est que l’implémentation de la <em>vtable</em> est dépendante du compilateur, de même que les mécanismes nécessaires à son bon fonctionnement (notamment l’ajout de code dans le constructeur des objets, pointeurs internes à l’instance). Pire encore, le standard ne spécifie pas l’usage d’une <em>vtable</em> pour la liaison dynamique et donc, en théorie, il serait possible d’utiliser des alternatives. Cependant, le standard guide suffisemment pour que l’approche <em>vtable</em> soit celle retenue par tous les compilateurs.</p>
+<p>Pour information, diverses autres solutions existent, notamment des arbres binaires de recherche ou des tables de hashages. L’avantage de la <em>vtable</em> est sa simplicité d’implémentation et ses performances plutôt bonnes.</p>
+<p>Notons que sous gcc, l’option <code>-fdump-class-hierarchy</code> permet d’afficher la vtable.</p>
+<h5 id="double-dispatch-en-c-patron-de-conception-visiteur">Double Dispatch en C++ : patron de conception Visiteur<a class="headerlink" href="#double-dispatch-en-c-patron-de-conception-visiteur" title="Permanent link">¶</a></h5>
+<p>Le besoin de liaison double est un besoin relativement courant en développement logiciel et c’est donc tout naturellement qu’un patron de conception visant à résoudre le problème a vu le jour. Connu sous le nom de Visiteur, il permet de simuler une liaison double lorsque le nombre de classes est relativement restreint (sinon le surcoût en terme de code et donc de maintenabilité devient problématique).</p>
 <p>Si techniquement il permet la simulation de la liaison double dynamique, les problèmes rencontrés qui amènent à se tourner vers cette solution relèvent plutôt de la séparation entre algorithme et structure de données.</p>
-<p>Le principe est d&rsquo;avoir une méthode publique pour chaque objet devant être visité, prenant un objet Visiteur devant effectuer un traitement en utilisant des données internes à l&rsquo;objet visité. Cette méthode publique va appeler la méthode effectuer ce traitement sur l&rsquo;instance du Visiteur, tout en lui donnant une réference sur lui même.</p>
+<p>Le principe est d’avoir une méthode publique pour chaque objet devant être visité, prenant un objet Visiteur devant effectuer un traitement en utilisant des données internes à l’objet visité. Cette méthode publique va appeler la méthode effectuer ce traitement sur l’instance du Visiteur, tout en lui donnant une réference sur lui même.</p>
 <p>Concrètement, admettons que nous ayons ces quelques classes :</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
@@ -548,19 +548,19 @@ Là où le bat blesse, c&rsquo;est que l&rsquo;implémentation de la <em>vtable<
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="kt">void</span><span class="w"> </span><span class="nf">Visitor::visitB</span><span class="p">(</span><span class="n">B</span><span class="w"> </span><span class="o">*</span><span class="w"> </span><span class="n">object</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
-<span class="w">    </span><span class="c1">// Le traitement de l&#39;objet de type B en utilisant une instance pleinement caractérisée</span>
+<span class="w">    </span><span class="c1">// Le traitement de l'objet de type B en utilisant une instance pleinement caractérisée</span>
 <span class="w">  </span><span class="p">}</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
-<p>On comprendra donc pourquoi le visiteur n&rsquo;est une solution efficace et élégante qu&rsquo;en présente d&rsquo;un nombre restreint de classes.</p>
+<p>On comprendra donc pourquoi le visiteur n’est une solution efficace et élégante qu’en présente d’un nombre restreint de classes.</p>
 <p>La littérature sur les patrons de conception étant vaste et très bien fournie, je me contenterai ici de ce strict minimum pour parler du <em>tag</em> <em>dispatching</em>, beaucoup moins représenté.</p>
-<h3 id="tag-dispatching">Tag Dispatching<a class="headerlink" href="#tag-dispatching" title="Permanent link">&para;</a></h3>
-<h4 id="presentation-mise-en-place">Présentation &amp; Mise en place<a class="headerlink" href="#presentation-mise-en-place" title="Permanent link">&para;</a></h4>
+<h3 id="tag-dispatching">Tag Dispatching<a class="headerlink" href="#tag-dispatching" title="Permanent link">¶</a></h3>
+<h4 id="presentation-mise-en-place">Présentation &amp; Mise en place<a class="headerlink" href="#presentation-mise-en-place" title="Permanent link">¶</a></h4>
 <p>Le <em>Tag Dispatching</em> est une technique de métaprogrammation permettant de choisir en <em>compile time</em> un algorithme ou plus généralement une fonction polymorphique en fonction des besoins. Cette technique est donc souvent couplée aux classes de politique ou <em>Type Traits</em>.</p>
-<p>Concrètement, il s&rsquo;agit de surcharger une fonction en rajoutant un paramètre invisible pour l&rsquo;utilisateur : le tag. Seule la version sans tag est laissée publique et c&rsquo;est cette version qui va appeler la version correcte au travers du tag correspondant. Un tag est une structure de donnée vide, qui porte généralement l&rsquo;information utile grâce à son ou ses templates.</p>
-<p>Imaginons une politique de gestion du parallélisme constituée de deux classes : <code>MonoThread</code> et <code>MultiThread</code>. Dans le premier cas, aucun mécanisme de vérification d&rsquo;accès concurrent ne sera fourni, tandis que la seconde fourni toute l&rsquo;interface nécessaire au parallélisme.</p>
-<p>J&rsquo;ai un algorithme qui dépend d&rsquo;une heuristique, qui pourra être changée à la volée en fonction du contexte. Cependant, si je peux paralléliser le traitement de mon heuristique avec d&rsquo;autres étapes de mon algorithme, l&rsquo;algorithme et l&rsquo;heuristique vont accéder à des données en commun et il est donc important de s&rsquo;assurer que l&rsquo;heuristique est <em>thread-safe</em> (elle a le niveau de granularité le plus fin, c&rsquo;est donc à elle d&rsquo;assurer ce rôle).
-Cependant, il existe des cas où l&rsquo;on ne veut pas exécuter en parallèle l&rsquo;heuristique (parce que les accès concurrents feraient perdre trop de temps pour un gain non significatif, parce que la machine cible ne sera capable de gérer le multithread correctement, etc).</p>
-<p>Le <em>Tag Dispatching</em> va nous permettre d&rsquo;appeler la bonne version de l&rsquo;algorithme selon la politique de l&rsquo;heuristique.</p>
+<p>Concrètement, il s’agit de surcharger une fonction en rajoutant un paramètre invisible pour l’utilisateur : le tag. Seule la version sans tag est laissée publique et c’est cette version qui va appeler la version correcte au travers du tag correspondant. Un tag est une structure de donnée vide, qui porte généralement l’information utile grâce à son ou ses templates.</p>
+<p>Imaginons une politique de gestion du parallélisme constituée de deux classes : <code>MonoThread</code> et <code>MultiThread</code>. Dans le premier cas, aucun mécanisme de vérification d’accès concurrent ne sera fourni, tandis que la seconde fourni toute l’interface nécessaire au parallélisme.</p>
+<p>J’ai un algorithme qui dépend d’une heuristique, qui pourra être changée à la volée en fonction du contexte. Cependant, si je peux paralléliser le traitement de mon heuristique avec d’autres étapes de mon algorithme, l’algorithme et l’heuristique vont accéder à des données en commun et il est donc important de s’assurer que l’heuristique est <em>thread-safe</em> (elle a le niveau de granularité le plus fin, c’est donc à elle d’assurer ce rôle).
+Cependant, il existe des cas où l’on ne veut pas exécuter en parallèle l’heuristique (parce que les accès concurrents feraient perdre trop de temps pour un gain non significatif, parce que la machine cible ne sera capable de gérer le multithread correctement, etc).</p>
+<p>Le <em>Tag Dispatching</em> va nous permettre d’appeler la bonne version de l’algorithme selon la politique de l’heuristique.</p>
 <p>Voici les politiques :</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
@@ -596,12 +596,12 @@ Cependant, il existe des cas où l&rsquo;on ne veut pas exécuter en parallèle 
 <span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">Lock</span><span class="p">()</span><span class="w"></span>
 <span class="w">    </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Rien à locker, je suis en monothread !&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">"Rien à locker, je suis en monothread !"</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
 
 <span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">Unlock</span><span class="p">()</span><span class="w"></span>
 <span class="w">    </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Rien à unlocker !&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">"Rien à unlocker !"</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
 <span class="p">};</span><span class="w"></span>
 
@@ -611,12 +611,12 @@ Cependant, il existe des cas où l&rsquo;on ne veut pas exécuter en parallèle 
 <span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">Lock</span><span class="p">()</span><span class="w"></span>
 <span class="w">    </span><span class="p">{</span><span class="w"></span>
 <span class="w">        </span><span class="n">m</span><span class="p">.</span><span class="n">lock</span><span class="p">();</span><span class="w"></span>
-<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Je lock le scope, des accès concurrents sont possibles. &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">"Je lock le scope, des accès concurrents sont possibles. "</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
 
 <span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="n">Unlock</span><span class="p">()</span><span class="w"></span>
 <span class="w">    </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;On delock le scope !&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">"On delock le scope !"</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
 <span class="w">        </span><span class="n">m</span><span class="p">.</span><span class="n">unlock</span><span class="p">();</span><span class="w"></span>
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
 
@@ -624,7 +624,7 @@ Cependant, il existe des cas où l&rsquo;on ne veut pas exécuter en parallèle 
 <span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">mutex</span><span class="w"> </span><span class="n">m</span><span class="p">;</span><span class="w"></span>
 <span class="p">};</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
-<p>Et voici l&rsquo;heuristique. Il faut bien comprendre que l&rsquo;heuristique ne fait pas forcément ses traitements en parallèle. Le <em>lock</em> effectué s&rsquo;assure juste l&rsquo;exclusivité sur l&rsquo;accès des données partagées (non représentées ici).</p>
+<p>Et voici l’heuristique. Il faut bien comprendre que l’heuristique ne fait pas forcément ses traitements en parallèle. Le <em>lock</em> effectué s’assure juste l’exclusivité sur l’accès des données partagées (non représentées ici).</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
@@ -640,19 +640,19 @@ Cependant, il existe des cas où l&rsquo;on ne veut pas exécuter en parallèle 
 <span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="nf">operator</span><span class="p">()()</span><span class="w"></span>
 <span class="w">    </span><span class="p">{</span><span class="w"></span>
 <span class="w">        </span><span class="n">ThreadPolicy</span><span class="o">::</span><span class="n">Lock</span><span class="p">();</span><span class="w"></span>
-<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;On lance l&#39;heuristique !&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">"On lance l'heuristique !"</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
 <span class="w">        </span><span class="n">ThreadPolicy</span><span class="o">::</span><span class="n">Unlock</span><span class="p">();</span><span class="w"></span>
 <span class="w">    </span><span class="p">};</span><span class="w"></span>
 <span class="p">};</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
-<p>Enfin, voici les tags et l&rsquo;algorithme :</p>
+<p>Enfin, voici les tags et l’algorithme :</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="kt">bool</span><span class="o">&gt;</span><span class="w"> </span><span class="k">struct</span><span class="w"> </span><span class="nc">isMultiThread</span><span class="w"> </span><span class="p">{};</span><span class="w"></span>
 <span class="k">using</span><span class="w"> </span><span class="n">multi_tag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">isMultiThread</span><span class="o">&lt;</span><span class="nb">true</span><span class="o">&gt;</span><span class="p">;</span><span class="w"></span>
 <span class="k">using</span><span class="w"> </span><span class="n">mono_tag</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">isMultiThread</span><span class="o">&lt;</span><span class="nb">false</span><span class="o">&gt;</span><span class="p">;</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
-<p>Tout d&rsquo;abord, nous définissons le tag général : l&rsquo;information utile est portée par le template booléen. Soit nous sommes en <em>multithread</em>, soit nous sommes en <em>monothread</em> et ainsi nous spécialisons les tags. A noter que dans un cas plus complexe, il est possible de laisser un cas par défaut.</p>
+<p>Tout d’abord, nous définissons le tag général : l’information utile est portée par le template booléen. Soit nous sommes en <em>multithread</em>, soit nous sommes en <em>monothread</em> et ainsi nous spécialisons les tags. A noter que dans un cas plus complexe, il est possible de laisser un cas par défaut.</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
 <span class="normal"> 3</span>
@@ -686,8 +686,8 @@ Cependant, il existe des cas où l&rsquo;on ne veut pas exécuter en parallèle 
 <span class="w">    </span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span><span class="w"></span>
 <span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="k">operator</span><span class="p">()(</span><span class="n">Heuristic</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">h</span><span class="p">)</span><span class="w"></span>
 <span class="w">    </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;On lance l&#39;algorithme !&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
-<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Quelques étapes d&#39;initiatialisation&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">"On lance l'algorithme !"</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">"Quelques étapes d'initiatialisation"</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
 <span class="w">        </span><span class="k">operator</span><span class="p">()(</span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="n">isMultiThread</span><span class="o">&lt;</span><span class="n">is_same</span><span class="o">&lt;</span><span class="n">T</span><span class="p">,</span><span class="w"> </span><span class="n">MultiThread</span><span class="o">&gt;::</span><span class="n">value</span><span class="o">&gt;</span><span class="p">());</span><span class="w"></span>
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
 
@@ -695,22 +695,22 @@ Cependant, il existe des cas où l&rsquo;on ne veut pas exécuter en parallèle 
 <span class="w">    </span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span><span class="w"></span>
 <span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="k">operator</span><span class="p">()(</span><span class="n">Heuristic</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">multi_tag</span><span class="o">&amp;</span><span class="p">)</span><span class="w"></span>
 <span class="w">    </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Chouette, mon heuristique est protégée, je peux la lancer en parallèle&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">"Chouette, mon heuristique est protégée, je peux la lancer en parallèle"</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
 <span class="w">        </span><span class="kr">thread</span><span class="w"> </span><span class="n">t</span><span class="p">(</span><span class="n">ref</span><span class="p">(</span><span class="n">h</span><span class="p">));</span><span class="w"></span>
-<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Quelques opérations en parallèle de mon heuristique.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">"Quelques opérations en parallèle de mon heuristique."</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
 <span class="w">        </span><span class="n">t</span><span class="p">.</span><span class="n">join</span><span class="p">();</span><span class="w"></span>
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
 
 <span class="w">    </span><span class="k">template</span><span class="w"> </span><span class="o">&lt;</span><span class="k">class</span><span class="w"> </span><span class="nc">T</span><span class="o">&gt;</span><span class="w"></span>
 <span class="w">    </span><span class="kt">void</span><span class="w"> </span><span class="k">operator</span><span class="p">()(</span><span class="n">Heuristic</span><span class="o">&lt;</span><span class="n">T</span><span class="o">&gt;&amp;</span><span class="w"> </span><span class="n">h</span><span class="p">,</span><span class="w"> </span><span class="k">const</span><span class="w"> </span><span class="n">mono_tag</span><span class="o">&amp;</span><span class="p">)</span><span class="w"></span>
 <span class="w">    </span><span class="p">{</span><span class="w"></span>
-<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;Mince, mon heuristique n&#39;est pas parallèle.&quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
+<span class="w">        </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">"Mince, mon heuristique n'est pas parallèle."</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">endl</span><span class="p">;</span><span class="w"></span>
 <span class="w">        </span><span class="n">h</span><span class="p">();</span><span class="w"></span>
 <span class="w">    </span><span class="p">}</span><span class="w"></span>
 <span class="p">};</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
-<p>Seule la version sans tag de l&rsquo;opérateur <code>()</code> est laissée publique. Les templates étant résolus à la compilation, lorsque le compilateur arrive sur la ligne <code>operator()(h, isMultiThread&lt;is_same&lt;T, MultiThread&gt;::value&gt;());</code>, il va remplacer l&rsquo;appel par le résultat du <em>type trait</em> de la bibliothèque standard <code>is_same</code> qui renvoie la valeur vrai si les types des deux templates spécifiés sont les même et faux autrement.</p>
-<p>Ainsi, si la politique <em>T</em> de l&rsquo;heuristique est <code>MultiThread</code>, cette ligne sera équivalente à <code>operator()(h, multi_tag)</code> qui correspond au prototype de l&rsquo;appel parallèle puisque <code>multi_tag</code> est un alias sur <code>isMultiThread&lt;true&gt;</code>. Dans le cas contraire, c&rsquo;est l&rsquo;appel séquentiel qui sera engagé.</p>
+<p>Seule la version sans tag de l’opérateur <code>()</code> est laissée publique. Les templates étant résolus à la compilation, lorsque le compilateur arrive sur la ligne <code>operator()(h, isMultiThread&lt;is_same&lt;T, MultiThread&gt;::value&gt;());</code>, il va remplacer l’appel par le résultat du <em>type trait</em> de la bibliothèque standard <code>is_same</code> qui renvoie la valeur vrai si les types des deux templates spécifiés sont les même et faux autrement.</p>
+<p>Ainsi, si la politique <em>T</em> de l’heuristique est <code>MultiThread</code>, cette ligne sera équivalente à <code>operator()(h, multi_tag)</code> qui correspond au prototype de l’appel parallèle puisque <code>multi_tag</code> est un alias sur <code>isMultiThread&lt;true&gt;</code>. Dans le cas contraire, c’est l’appel séquentiel qui sera engagé.</p>
 <p>Avec le main suivant :</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
@@ -737,40 +737,95 @@ Cependant, il existe des cas où l&rsquo;on ne veut pas exécuter en parallèle 
 <span class="normal">4</span>
 <span class="normal">5</span>
 <span class="normal">6</span>
-<span class="normal">7</span></pre></div></td><td class="code"><div><pre><span></span><code>On lance l&#39;algorithme !
-Quelques étapes d&#39;initiatialisation
+<span class="normal">7</span></pre></div></td><td class="code"><div><pre><span></span><code>On lance l'algorithme !
+Quelques étapes d'initiatialisation
 Chouette, mon heuristique est protégée, je peux la lancer en parallèle
 Quelques opérations en parallèle de mon heuristique.
 Je lock le scope, des accès concurrents sont possibles.
-On lance l&#39;heuristique !
+On lance l'heuristique !
 On delock le scope !
 </code></pre></div></td></tr></table></div>
-<p>Et si l&rsquo;on change la politique de l&rsquo;heuristique pour MonoThread :</p>
+<p>Et si l’on change la politique de l’heuristique pour MonoThread :</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
 <span class="normal">4</span>
 <span class="normal">5</span>
-<span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code>On lance l&#39;algorithme !
-Quelques étapes d&#39;initiatialisation
-Mince, mon heuristique n&#39;est pas parallèle.
+<span class="normal">6</span></pre></div></td><td class="code"><div><pre><span></span><code>On lance l'algorithme !
+Quelques étapes d'initiatialisation
+Mince, mon heuristique n'est pas parallèle.
 Rien à locker, je suis en monothread !
-On lance l&#39;heuristique !
+On lance l'heuristique !
 Rien à unlocker !
 </code></pre></div></td></tr></table></div>
-<p>Précisions tout de même que cette implémentation n&rsquo;est pas <em>exception</em> <em>safe</em> mais laissée en l&rsquo;état pour des raisons pédagogiques.</p>
-<h4 id="cout">Coût<a class="headerlink" href="#cout" title="Permanent link">&para;</a></h4>
-<p>Le coût du <em>Tag Dispatching</em> est très faible puisqu&rsquo;il ne représente qu&rsquo;un temps de compilation plus élevé et l&rsquo;appel d&rsquo;une fonction supplémentaire. En terme de place mémoire, le compilateur optimise normalement les tags qui disparaitront, étant vides et non utilisés en <em>run time</em>.</p>
-<h3 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h3>
-<p>Au cours de cet article nous avons pu aborder une bonne partie des mécanismes de liaisons, qu&rsquo;ils soient statiques ou dynamiques, simples ou multiples. Nous avons également donné des pistes pour émuler une liaison dynamique double en C++ avec le patron de conception Visiteur, et d&rsquo;une technique de programmation générique permettant la sélection de fonction en compile time, à savoir le <em>Tag Dispatching</em>.</p>
-<p>Pour conclure, notons qu&rsquo;il existe diverses méthodes pour implémenter de manière plus élégante que le Visiteur la liaison dynamique mais nous laissons cela en référence pour le lecteur qui voudrait aller plus loin. Est également présent dans les références, un article sur des structures de données liées aux liaisons dynamiques.</p>
-<h3 id="references">Références<a class="headerlink" href="#references" title="Permanent link">&para;</a></h3>
+<p>Précisions tout de même que cette implémentation n’est pas <em>exception</em> <em>safe</em> mais laissée en l’état pour des raisons pédagogiques.</p>
+<h4 id="cout">Coût<a class="headerlink" href="#cout" title="Permanent link">¶</a></h4>
+<p>Le coût du <em>Tag Dispatching</em> est très faible puisqu’il ne représente qu’un temps de compilation plus élevé et l’appel d’une fonction supplémentaire. En terme de place mémoire, le compilateur optimise normalement les tags qui disparaitront, étant vides et non utilisés en <em>run time</em>.</p>
+<h3 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">¶</a></h3>
+<p>Au cours de cet article nous avons pu aborder une bonne partie des mécanismes de liaisons, qu’ils soient statiques ou dynamiques, simples ou multiples. Nous avons également donné des pistes pour émuler une liaison dynamique double en C++ avec le patron de conception Visiteur, et d’une technique de programmation générique permettant la sélection de fonction en compile time, à savoir le <em>Tag Dispatching</em>.</p>
+<p>Pour conclure, notons qu’il existe diverses méthodes pour implémenter de manière plus élégante que le Visiteur la liaison dynamique mais nous laissons cela en référence pour le lecteur qui voudrait aller plus loin. Est également présent dans les références, un article sur des structures de données liées aux liaisons dynamiques.</p>
+<h3 id="references">Références<a class="headerlink" href="#references" title="Permanent link">¶</a></h3>
 <ul>
 <li><a href="http://www.stroustrup.com/multimethods.pdf">Open Multi-Methods for C++</a>, P. Pirkelbauer Y. Solodkyy B. Stroustrup</li>
 <li><a href="http://hal.inria.fr/inria-00072218/PDF/RR-4370.pdf">Evaluation of Control Structures for Dynamic Dispatching</a>, O. Zendra K.Driesen</li>
 <li><a href="http://www.netobjectives.com/files/CoplienThesis.pdf">Multi-Paradigm Design</a>, de James O. Coplien</li>
 </ul>
                 </div>
+                
+                <!-- Mermaid Script -->
+                <script type="module">
+                    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+                    
+                    // Configure and initialize mermaid
+                    const initMermaid = async () => {
+                        try {
+                            await mermaid.initialize({ 
+                                startOnLoad: true,
+                                theme: document.documentElement.classList.contains('dark') ? 'dark' : 'default',
+                                securityLevel: 'loose',
+                                flowchart: {
+                                    useMaxWidth: false,
+                                    htmlLabels: true,
+                                    curve: 'basis',
+                                    padding: 20,
+                                    nodeSpacing: 50,
+                                    rankSpacing: 50
+                                },
+                                themeVariables: {
+                                    primaryColor: '#D97706',
+                                    primaryTextColor: '#2A2927',
+                                    primaryBorderColor: '#D97706',
+                                    lineColor: '#78716c',
+                                    secondaryColor: '#f5f5f4',
+                                    tertiaryColor: '#fafaf9',
+                                    background: '#ffffff',
+                                    mainBkg: '#ffffff',
+                                    secondBkg: '#f5f5f4',
+                                    tertiaryBkg: '#fafaf9'
+                                }
+                            });
+                            
+                            // Log any mermaid elements found
+                            const elements = document.querySelectorAll('.mermaid');
+                            console.log(`Mermaid initialized. Found ${elements.length} diagram(s)`);
+                            
+                            // Force render if elements exist
+                            if (elements.length > 0) {
+                                mermaid.contentLoaded();
+                            }
+                        } catch (error) {
+                            console.error('Mermaid initialization error:', error);
+                        }
+                    };
+                    
+                    // Initialize when DOM is ready
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', initMermaid);
+                    } else {
+                        // DOM already loaded
+                        await initMermaid();
+                    }
+                </script>
             </article>
 
             <!-- Giscus Comments Section -->
@@ -821,7 +876,7 @@ Rien à unlocker !
     
 
     <!-- Custom JavaScript -->
-    <script src="https://quemy.info/js/main.js"></script>
+    <script src="http://localhost:8000/js/main.js"></script>
 
     
 </body>

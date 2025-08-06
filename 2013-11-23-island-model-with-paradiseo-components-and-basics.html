@@ -55,8 +55,8 @@
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, { delimiters: [ {left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}, {left: '\\(', right: '\\)', display: false}, {left: '\\[', right: '\\]', display: true} ]});"></script>
     
     <!-- Custom Styles and Theming -->
-    <link rel="stylesheet" href="https://quemy.info/css/custom.css">
-    <link rel="stylesheet" href="https://quemy.info/css/friendly.css">
+    <link rel="stylesheet" href="http://localhost:8000/css/custom.css">
+    <link rel="stylesheet" href="http://localhost:8000/css/friendly.css">
 
     <script>
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -112,7 +112,7 @@
 <div class="w-full max-w-7xl mx-auto py-12 px-4">
     <!-- Header moved outside the grid for proper alignment -->
     <header class="max-w-5xl mx-auto mb-12 text-center lg:text-left">
-        <a href="https://quemy.info/blog.html" class="text-sm text-accent-light dark:text-accent-dark hover:underline mb-4 inline-block">← Back to all posts</a>
+        <a href="http://localhost:8000/blog.html" class="text-sm text-accent-light dark:text-accent-dark hover:underline mb-4 inline-block">← Back to all posts</a>
         <h1 class="font-sans text-4xl md:text-5xl font-black text-ink dark:text-dark-ink leading-tight">Island Model with ParadisEO: components and basics</h1>
         <p class="mt-4 text-stone-500 dark:text-stone-400">2013-11-23 · Mathematics</p>
     </header>
@@ -140,12 +140,12 @@
 <li><a href="#wrapper-for-homogeneous-island-model">Wrapper for homogeneous island model</a></li>
 </ul>
 </div>
-<h3 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h3>
+<h3 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">¶</a></h3>
 <p>The purpose of this article is to present how to create an homogeneous island model, that is to say with the same Evolutionary Algorithm (EA) on each island, with the module SMP from the framework ParadisEO. To do so, we will present all its components: integration policy, immigration policy, islands, topology and the model by itself.</p>
 <p>The need to speed up the runtime of EAs drove towards a new model of parallelism called island model where several EAs in the same time. It could be viewed like a multi start on an EA, however there is a fundamental change.</p>
 <p>In a multi start model we merely run our EAs on different populations and then wait for the result, hoping that one of the EAs would get better results than another. No exchange of useful information is considered and the full context of execution is lost between two runs.</p>
 <p>On the contrary, the island model takes benefit from the useful information discovered during the search process by an EA, by spreading this information in runtime to the other EAs according to a pre-defined topology and exchange policy.</p>
-<h4 id="explanations">Explanations<a class="headerlink" href="#explanations" title="Permanent link">&para;</a></h4>
+<h4 id="explanations">Explanations<a class="headerlink" href="#explanations" title="Permanent link">¶</a></h4>
 <p>A representation of an arbitrary topological model with migrations between the islands is shown below:
 {% img center /images/im.png %}
 Let us consider the following scenario emigrations/immigrations should occur every ten generations. In addition we would like to control the selection of the individuals to emigrate as well as the replacement process of the current individuals with the immigrant ones. In other words, constructing an insular migration model consists in:</p>
@@ -154,9 +154,9 @@ Let us consider the following scenario emigrations/immigrations should occur eve
 <li>Defining the migration frequency as well as the size of the migration (i.e. the number of individuals that emigrate).</li>
 <li>The selection and replacement strategies or the velocity strategy.</li>
 </ol>
-<h4 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">&para;</a></h4>
+<h4 id="requirements">Requirements<a class="headerlink" href="#requirements" title="Permanent link">¶</a></h4>
 <p>You are supposed to be able to build the algorithms that you want to run on multicores architecture using ParadisEO framework.</p>
-<h3 id="generic-use">Generic use<a class="headerlink" href="#generic-use" title="Permanent link">&para;</a></h3>
+<h3 id="generic-use">Generic use<a class="headerlink" href="#generic-use" title="Permanent link">¶</a></h3>
 <p>Before giving a practical example, let us see the generic way to create an homogeneous island model. For more details, refer to the source file <code>/smp/tutorial/Lesson2/islandmodel.cpp</code>.</p>
 <p>First of all, you need to create the elements shared by all islands.
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
@@ -236,22 +236,22 @@ Let us consider the following scenario emigrations/immigrations should occur eve
 
 <span class="n">model</span><span class="p">();</span><span class="w"></span>
 </code></pre></div></td></tr></table></div></p>
-<h3 id="components">Components<a class="headerlink" href="#components" title="Permanent link">&para;</a></h3>
+<h3 id="components">Components<a class="headerlink" href="#components" title="Permanent link">¶</a></h3>
 <p>Let us now present the design of each component.</p>
-<h4 id="policies">Policies<a class="headerlink" href="#policies" title="Permanent link">&para;</a></h4>
+<h4 id="policies">Policies<a class="headerlink" href="#policies" title="Permanent link">¶</a></h4>
 <p>An island has two different kind of policy: one for the integration of individuals, the other to know who and when sending some individuals, namely the integration policy.</p>
 <p>The integration policy is just an <code>eoReplacement</code> in order to know how to integrate the population: elitist policy by integrating the best individuals or, on the contrary, integrate all individuals for diversification.</p>
 <p>For instance:
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">eoPlusReplacement</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span><span class="w"> </span><span class="n">intPolicy</span><span class="p">;</span><span class="w"></span>
 </code></pre></div></td></tr></table></div></p>
 <p>The migration policy is a little bit different. One could see it like a container of policy rule. Each policy rule is compound of two elements:
-&ldquo;Who&rdquo; which corresponds to the way to select individuals to send.
+“Who” which corresponds to the way to select individuals to send.
 This is an <code>eoReplacement</code> and in our example we define it as follow:
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">eoDetTournamentSelect</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span><span class="w"> </span><span class="n">selectOne</span><span class="p">(</span><span class="mi">20</span><span class="p">);</span><span class="w"> </span><span class="c1">// Tournament between 20 individuals</span>
 <span class="n">eoSelectNumber</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span><span class="w"> </span><span class="n">who</span><span class="p">(</span><span class="n">selectOne</span><span class="p">,</span><span class="w"> </span><span class="mi">3</span><span class="p">);</span><span class="w">    </span><span class="c1">// Select 3 elements using the deterministic tournament</span>
 </code></pre></div></td></tr></table></div></p>
-<p>&ldquo;When&rdquo; which answers the question: &ldquo;when to send individuals?&rdquo;.
+<p>“When” which answers the question: “when to send individuals?”.
 This is an <code>eoContinue</code> such as <code>eoGenContinue</code> or <code>eoFitContinue</code>.
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">eoPeriodicContinue</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span><span class="w"> </span><span class="n">criteria</span><span class="p">(</span><span class="mi">5</span><span class="p">);</span><span class="w"> </span><span class="c1">// Will send individuals all five generations</span>
 </code></pre></div></td></tr></table></div>
@@ -264,13 +264,13 @@ Finally, we need to push the policy rule into the policy :
 <span class="n">migPolicy</span><span class="p">.</span><span class="n">push_back</span><span class="p">(</span><span class="n">PolicyElement</span><span class="o">&lt;</span><span class="n">Indi</span><span class="o">&gt;</span><span class="p">(</span><span class="n">who_2</span><span class="p">,</span><span class="w"> </span><span class="n">criteria_2</span><span class="p">));</span><span class="w"> </span><span class="c1">// Second criteria</span>
 <span class="p">...</span><span class="w"></span>
 </code></pre></div></td></tr></table></div></p>
-<h4 id="islands">Islands<a class="headerlink" href="#islands" title="Permanent link">&para;</a></h4>
+<h4 id="islands">Islands<a class="headerlink" href="#islands" title="Permanent link">¶</a></h4>
 <p>The island is simply a wrapper over any algorithm to extent it with communications mecanisms.
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">Island</span><span class="o">&lt;</span><span class="n">eoEasyEA</span><span class="p">,</span><span class="n">Indi</span><span class="o">&gt;</span><span class="w"> </span><span class="n">island1</span><span class="p">(</span><span class="n">pop</span><span class="p">,</span><span class="w"> </span><span class="n">intPolicy</span><span class="p">,</span><span class="w"> </span><span class="n">migPolicy</span><span class="p">,</span><span class="w"> </span><span class="n">genCont</span><span class="p">,</span><span class="w"> </span><span class="n">plainEval</span><span class="p">,</span><span class="w"> </span><span class="n">select</span><span class="p">,</span><span class="w"> </span><span class="n">transform</span><span class="p">,</span><span class="w"> </span><span class="n">replace</span><span class="p">);</span><span class="w"></span>
 </code></pre></div></td></tr></table></div></p>
 <p>This island will be an <code>eoEasyEA</code> working on individuals of type <code>Indi</code>. It is required to specify the population on which the algorithm will work, policies and others parameters depending on the API of the wrapped algorithm.
 The only restriction is that the algorithm needs to inherite from <code>eoAlgo&lt;EOT&gt;</code>, that is to say, it must be a population based algorithm.</p>
-<h4 id="model">Model<a class="headerlink" href="#model" title="Permanent link">&para;</a></h4>
+<h4 id="model">Model<a class="headerlink" href="#model" title="Permanent link">¶</a></h4>
 <p>The model is the combination of an island container and a topology. Thus, it is quite straightforward to use it:
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="n">Topology</span><span class="o">&lt;</span><span class="n">Complete</span><span class="o">&gt;</span><span class="w"> </span><span class="n">topo</span><span class="p">;</span><span class="w"></span>
@@ -282,7 +282,7 @@ The only restriction is that the algorithm needs to inherite from <code>eoAlgo&l
 <span class="n">model</span><span class="p">.</span><span class="n">setTopology</span><span class="p">(</span><span class="n">topo_2</span><span class="p">);</span><span class="w"></span>
 </code></pre></div></td></tr></table></div></p>
 <p>It is important to note that the island does not know its neighbours for scalability reasons. It always sends populations to the model which is responsible for dispatching populations to the right islands.</p>
-<h4 id="topology">Topology<a class="headerlink" href="#topology" title="Permanent link">&para;</a></h4>
+<h4 id="topology">Topology<a class="headerlink" href="#topology" title="Permanent link">¶</a></h4>
 <p>The topology defines the links between islands. Since an island does not know its neighbours and the topology does not know neither the islands nor the number of islands, a topology just defines a general way of communications such as Ring, Complete, Hypercubic and more (refer to the documentation for an exhaustive list).</p>
 <p>The topology builds the matricial representation, used by the model, only when the model starts. As all topologies can not be built with any number of edges, please, check that the number of islands matches the topology requirements. In the other case an exception will be thrown.</p>
 <p>Defining a topology can be done as follow:
@@ -297,7 +297,7 @@ The only restriction is that the algorithm needs to inherite from <code>eoAlgo&l
 <p>Note the possiblity a cutom topology by its matricial representation (written in a JSON file), using the Custom topology object.
 In addition, it is possible to create stochastic topologies that will return a list neighbors depending on probabilities.
 Those mecanisms will be presented in an article about advanced features of the island model.</p>
-<h3 id="wrapper-for-homogeneous-island-model">Wrapper for homogeneous island model<a class="headerlink" href="#wrapper-for-homogeneous-island-model" title="Permanent link">&para;</a></h3>
+<h3 id="wrapper-for-homogeneous-island-model">Wrapper for homogeneous island model<a class="headerlink" href="#wrapper-for-homogeneous-island-model" title="Permanent link">¶</a></h3>
 <p>In order to create an homogeneous model easily, it is possible to use the function <code>HomogeneousModelWrapper</code>.
 Please, note that all <code>eoContinue</code> will be shared between islands ! For instance, if one defines a <code>eoGenContinue</code> for 300 generations, and a model with 3 islands, only 300 generations will be performed, not 300 for each one !
 Moreover, as islands run in parallel, we can not assume that each island will perform exactly 100 generations.</p>
@@ -309,6 +309,61 @@ Moreover, as islands run in parallel, we can not assume that each island will pe
 </code></pre></div></td></tr></table></div></p>
 <p>The function needs to know how many islands you would like to create, the topology, and how to create populations (that is to say the size per population and the <code>eoInit</code>). The other parameters depend on the API of the algorithm to wrap inside each island.</p>
                 </div>
+                
+                <!-- Mermaid Script -->
+                <script type="module">
+                    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+                    
+                    // Configure and initialize mermaid
+                    const initMermaid = async () => {
+                        try {
+                            await mermaid.initialize({ 
+                                startOnLoad: true,
+                                theme: document.documentElement.classList.contains('dark') ? 'dark' : 'default',
+                                securityLevel: 'loose',
+                                flowchart: {
+                                    useMaxWidth: false,
+                                    htmlLabels: true,
+                                    curve: 'basis',
+                                    padding: 20,
+                                    nodeSpacing: 50,
+                                    rankSpacing: 50
+                                },
+                                themeVariables: {
+                                    primaryColor: '#D97706',
+                                    primaryTextColor: '#2A2927',
+                                    primaryBorderColor: '#D97706',
+                                    lineColor: '#78716c',
+                                    secondaryColor: '#f5f5f4',
+                                    tertiaryColor: '#fafaf9',
+                                    background: '#ffffff',
+                                    mainBkg: '#ffffff',
+                                    secondBkg: '#f5f5f4',
+                                    tertiaryBkg: '#fafaf9'
+                                }
+                            });
+                            
+                            // Log any mermaid elements found
+                            const elements = document.querySelectorAll('.mermaid');
+                            console.log(`Mermaid initialized. Found ${elements.length} diagram(s)`);
+                            
+                            // Force render if elements exist
+                            if (elements.length > 0) {
+                                mermaid.contentLoaded();
+                            }
+                        } catch (error) {
+                            console.error('Mermaid initialization error:', error);
+                        }
+                    };
+                    
+                    // Initialize when DOM is ready
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', initMermaid);
+                    } else {
+                        // DOM already loaded
+                        await initMermaid();
+                    }
+                </script>
             </article>
 
             <!-- Giscus Comments Section -->
@@ -359,7 +414,7 @@ Moreover, as islands run in parallel, we can not assume that each island will pe
     
 
     <!-- Custom JavaScript -->
-    <script src="https://quemy.info/js/main.js"></script>
+    <script src="http://localhost:8000/js/main.js"></script>
 
     
 </body>

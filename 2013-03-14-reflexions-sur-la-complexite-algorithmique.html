@@ -55,8 +55,8 @@
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, { delimiters: [ {left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}, {left: '\\(', right: '\\)', display: false}, {left: '\\[', right: '\\]', display: true} ]});"></script>
     
     <!-- Custom Styles and Theming -->
-    <link rel="stylesheet" href="https://quemy.info/css/custom.css">
-    <link rel="stylesheet" href="https://quemy.info/css/friendly.css">
+    <link rel="stylesheet" href="http://localhost:8000/css/custom.css">
+    <link rel="stylesheet" href="http://localhost:8000/css/friendly.css">
 
     <script>
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -112,7 +112,7 @@
 <div class="w-full max-w-7xl mx-auto py-12 px-4">
     <!-- Header moved outside the grid for proper alignment -->
     <header class="max-w-5xl mx-auto mb-12 text-center lg:text-left">
-        <a href="https://quemy.info/blog.html" class="text-sm text-accent-light dark:text-accent-dark hover:underline mb-4 inline-block">← Back to all posts</a>
+        <a href="http://localhost:8000/blog.html" class="text-sm text-accent-light dark:text-accent-dark hover:underline mb-4 inline-block">← Back to all posts</a>
         <h1 class="font-sans text-4xl md:text-5xl font-black text-ink dark:text-dark-ink leading-tight">Réflexions sur la complexité algorithmique</h1>
         <p class="mt-4 text-stone-500 dark:text-stone-400">2013-07-26 · Mathematics</p>
     </header>
@@ -141,12 +141,12 @@
 <li><a href="#conclusion">Conclusion</a></li>
 </ul>
 </div>
-<h3 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h3>
+<h3 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">¶</a></h3>
 <p>L’article qui suit présuppose quelques notions basiques d’algorithmique et de calcul de complexité (temporelle). Il vise à aborder deux grandes erreurs commises par les novices dans ces domaines et à en constater les effets.</p>
 <p>Une première partie sera dédiée à une erreur classique d’évaluation de la classe de complexité d’un problème à partir de la complexité calculée d’un algorithme, ce qui aura des conséquences désastreuses en termes de performances. La seconde partie présentera une erreur liée à l’erreur d’évaluation directe de la classe de complexité d’un problème, qui va cette fois avoir des conséquences sur la manière d’aborder un problème pour tenter de le résoudre.</p>
 <p>Les notions utiles à la compréhension de cet article seront expliquées dans une première partie et la totalité des démonstrations sera omise (mais on peut évidemment grassement payer l’auteur pour qu’il les fasse sur le forum).</p>
-<h3 id="rappels-sur-la-complexite-temporelle">Rappels sur la complexité temporelle<a class="headerlink" href="#rappels-sur-la-complexite-temporelle" title="Permanent link">&para;</a></h3>
-<h4 id="complexite-en-temps">Complexité en temps<a class="headerlink" href="#complexite-en-temps" title="Permanent link">&para;</a></h4>
+<h3 id="rappels-sur-la-complexite-temporelle">Rappels sur la complexité temporelle<a class="headerlink" href="#rappels-sur-la-complexite-temporelle" title="Permanent link">¶</a></h3>
+<h4 id="complexite-en-temps">Complexité en temps<a class="headerlink" href="#complexite-en-temps" title="Permanent link">¶</a></h4>
 <p>Il est coutume que de manière informelle, on enseigne aux novices de l’algorithmique que la complexité d’un algorithme correspond au nombre  d’étapes (élémentaires) de l’algorithme, qui est fonction de la taille des données du problème. Cette définition a l’avantage d’être très facile à appliquer, facilement compréhensible et de donner une borne assez fidèle dans la plupart des applications.</p>
 <p>Cependant, cette définition est problématique, comme nous allons le voir, lorsque l’on donne la définition formelle des classes d’équivalence de complexité algorithmique. On présente souvent les classes de complexité principales :  <span class="arithmatex">\(P\)</span> et <span class="arithmatex">\(NP\)</span>, respectivement pour <em>Polynomial</em> et <em>Non-<strong>Déterministe</strong> Polynomial</em>. Le terme « non déterministe » est important puisqu’à l’heure actuelle, nous ne savons pas si <span class="arithmatex">\(P = NP\)</span> (et pour l’anecdote, il s’agit d’un des problèmes du prix du millénaire, récompensé par la coquette somme d’un million de dollars par le <em>Clay Mathematical Institute</em>).</p>
 <p>De manière formelle, un algorithme <span class="arithmatex">\(A\)</span> de <strong>machine de Turing déterministe</strong> est polynomial s’il existe un polynôme <span class="arithmatex">\(p_A\)</span> tel que <span class="arithmatex">\(\forall x \in \Sigma^*, |x|=n, t_A(x) \leq p_A(n)\)</span> où <span class="arithmatex">\(x\)</span> est un mot de l’alphabet <span class="arithmatex">\(\Sigma\)</span> (ensemble des symboles différents pour coder l’entrée), <span class="arithmatex">\(t_A(x)\)</span> le nombre de pas jusqu’à l’arrêt de <span class="arithmatex">\(A\)</span> et <span class="arithmatex">\(n\)</span>, la longueur de l’entrée, qui est arbitrairement fixée.</p>
@@ -156,7 +156,7 @@
 <p>Un certificat est une aide permettant, pour une entrée donnée, de déterminer si <span class="arithmatex">\(x\)</span> est reconnu par un algorithme <span class="arithmatex">\(A\)</span>. De manière conceptuelle, il peut être vu comme une intervention divine ou une indication, comme en donnerait un professeur lors d’un examen, pour guider l’étudiant à démontrer un résultat difficile. La vérification est un algorithme permettant de savoir si l’entrée est reconnue sachant le certificat.</p>
 <p>On dira qu’un algorithme <span class="arithmatex">\(A\)</span> est non-déterministe polynomial s’il existe un polynôme <span class="arithmatex">\(p_A\)</span> tel que <span class="arithmatex">\(\forall x \in \Sigma^n\)</span>, <span class="arithmatex">\(t_A(x) \leq p_A(n)\)</span> où <span class="arithmatex">\(t_A(x)\)</span> est le temps de reconnaissance de <span class="arithmatex">\(x\)</span> (c’est-à-dire le temps minimal de reconnaissance de <span class="arithmatex">\(x\)</span> parmi l’ensemble des temps de reconnaissance de <span class="arithmatex">\(x\)</span>, qui peuvent varier selon le certificat).</p>
 <p>De même, un problème <span class="arithmatex">\(\Pi\)</span> est non-déterministe polynomial s’il existe un algorithme <span class="arithmatex">\(A\)</span> non-déterministe polynomial qui résout <span class="arithmatex">\(\Pi\)</span>.</p>
-<h4 id="reduction-polynomiale-et-classes-dequivalence">Réduction polynomiale et classes d’équivalence<a class="headerlink" href="#reduction-polynomiale-et-classes-dequivalence" title="Permanent link">&para;</a></h4>
+<h4 id="reduction-polynomiale-et-classes-dequivalence">Réduction polynomiale et classes d’équivalence<a class="headerlink" href="#reduction-polynomiale-et-classes-dequivalence" title="Permanent link">¶</a></h4>
 <p>Une dernière partie théorique permettant d’introduire la notion de <strong>réduction polynomiale</strong> et ainsi la notion de <strong>classes de complexité</strong>, de manière plus formelle.</p>
 <p>Soit <span class="arithmatex">\(\Pi_1\)</span> et <span class="arithmatex">\(\Pi_2\)</span>, deux problèmes de décision. On dit que <span class="arithmatex">\(\Pi_1\)</span> se réduit polynomialement en <span class="arithmatex">\(\Pi_2\)</span> noté <span class="arithmatex">\(\Pi_1 \propto \Pi_2\)</span> s’il existe une fonction <span class="arithmatex">\(f:D_{\Pi_1} \rightarrow D_{\Pi_2}\)</span> telle que : </p>
 <ul>
@@ -168,7 +168,7 @@
 <p>Cette relation possède quelques propriétés intéressantes, mais ce n’est pas le propos de cet article. Par contre, il s’agit d’une relation d’ordre partiel sur l’ensemble des problèmes de décision, à laquelle on peut ajouter une notion de <em>symétrie</em> permettant de construire une relation d’équivalence, et par là même, définir des classes d’équivalence au sens de cette relation.</p>
 <p>La classe <span class="arithmatex">\(P\)</span> est la plus petite classe au sens de cette relation et la classe <span class="arithmatex">\(NP\)</span>-complet est la plus grande.</p>
 <p>Enfin, pour éclaircir le vocabulaire, on parle de problème <span class="arithmatex">\(NP\)</span>-difficile dans le cadre des problèmes de décision. Cela signifie qu’un problème est aussi difficile que les problèmes de la classe <span class="arithmatex">\(NP\)</span>-complet.</p>
-<h4 id="en-resume">En résumé<a class="headerlink" href="#en-resume" title="Permanent link">&para;</a></h4>
+<h4 id="en-resume">En résumé<a class="headerlink" href="#en-resume" title="Permanent link">¶</a></h4>
 <p>Que faut-il retenir de cette introduction très formelle ?</p>
 <ul>
 <li>Un problème <span class="arithmatex">\(\Pi\)</span> est polynomial s’il existe un algorithme <span class="arithmatex">\(A\)</span> polynomial qui résout <span class="arithmatex">\(\Pi\)</span>.</li>
@@ -176,12 +176,12 @@
 <li><span class="arithmatex">\(P \subseteq NP\)</span>.</li>
 <li>Tous les problèmes d’une classe donnée sont équivalents (au sens de la réduction polynomiale).</li>
 </ul>
-<h3 id="erreur-1-evaluation-de-la-complexite-dun-algorithme">Erreur 1 :  Évaluation de la complexité d’un algorithme<a class="headerlink" href="#erreur-1-evaluation-de-la-complexite-dun-algorithme" title="Permanent link">&para;</a></h3>
-<h4 id="le-propos">Le propos<a class="headerlink" href="#le-propos" title="Permanent link">&para;</a></h4>
+<h3 id="erreur-1-evaluation-de-la-complexite-dun-algorithme">Erreur 1 :  Évaluation de la complexité d’un algorithme<a class="headerlink" href="#erreur-1-evaluation-de-la-complexite-dun-algorithme" title="Permanent link">¶</a></h3>
+<h4 id="le-propos">Le propos<a class="headerlink" href="#le-propos" title="Permanent link">¶</a></h4>
 <p>Rappelez-vous de la définition formelle de la complexité temporelle. Que ce soit pour l’ensemble <span class="arithmatex">\(P\)</span> ou <span class="arithmatex">\(NP\)</span> nous avons l’inégalité suivante : 
 <span class="arithmatex">\(t_A(x) \leq p_A(n)\)</span> où <span class="arithmatex">\(x\)</span> est un mot de l’alphabet <span class="arithmatex">\(\Sigma\)</span> (ensemble des symboles en pour coder l’entrée), <span class="arithmatex">\(t_A(x)\)</span> le nombre de pas jusqu’à l’arrêt de <span class="arithmatex">\(A\)</span>, <span class="arithmatex">\(n\)</span>, longueur de l’entrée est arbitrairement fixé et <span class="arithmatex">\(p_A(n)\)</span>, un polynôme fonction de <span class="arithmatex">\(n\)</span>.</p>
 <p>C’est bien ici qu’est le propos de cette première erreur : le polynôme qui borne le temps d’exécution n’est pas fonction de l’entrée mais de la taille de codage ou d’écriture du problème. Quelle différence ? Voyons sur un exemple très simple.</p>
-<h4 id="exemple-nombre-compose">Exemple :  Nombre composé<a class="headerlink" href="#exemple-nombre-compose" title="Permanent link">&para;</a></h4>
+<h4 id="exemple-nombre-compose">Exemple :  Nombre composé<a class="headerlink" href="#exemple-nombre-compose" title="Permanent link">¶</a></h4>
 <p>Un nombre est composé s’il n’est pas premier.
 Donnons nous le problème de décision suivant : <em>Soit un entier n. Est-il composé ?</em></p>
 <p>Un algorithme naïf serait le suivant : </p>
@@ -209,10 +209,10 @@ Retourne Faux
 </code></pre></div></td></tr></table></div>
 <p>Dans la vérification, on ne s’intéresse qu’à savoir si <span class="arithmatex">\(x\)</span> est vérifié, comme son nom l’indique. Nous avons bien un algorithme dont la complexité est cette fois borné par un polynôme et notre problème admet donc un algorithme de la classe <span class="arithmatex">\(NP\)</span> qui le résout. Il s’agit donc d’un problème <span class="arithmatex">\(NP\)</span>.</p>
 <p>Pour la petite histoire, ce problème est effectivement dans la classe <span class="arithmatex">\(P\)</span>. Le co-problème associé est le test de primalité, dont la preuve de l’appartenance à la classe <span class="arithmatex">\(P\)</span> n’a été trouvée qu’en 2002, avec les algorithmes AKS (au pluriel, car de nombreuses variantes se sont développées).</p>
-<h4 id="en-resume_1">En résumé<a class="headerlink" href="#en-resume_1" title="Permanent link">&para;</a></h4>
+<h4 id="en-resume_1">En résumé<a class="headerlink" href="#en-resume_1" title="Permanent link">¶</a></h4>
 <p>Ainsi s’achève cette première partie qui consistait à pointer du doigt un piège courant de l’évaluation de la classe de complexité d’un algorithme. La conclusion à en tirer est que la notion de complexité est certes relative au nombre d’étapes d’un algorithme, mais elle représente surtout la garantie que  le temps de calcul n’explose pas lorsque la taille du problème augmente.</p>
-<h3 id="erreur-2-erreur-sur-la-classe-dun-probleme">Erreur 2 :  Erreur sur la classe d’un problème<a class="headerlink" href="#erreur-2-erreur-sur-la-classe-dun-probleme" title="Permanent link">&para;</a></h3>
-<h4 id="le-propos_1">Le propos<a class="headerlink" href="#le-propos_1" title="Permanent link">&para;</a></h4>
+<h3 id="erreur-2-erreur-sur-la-classe-dun-probleme">Erreur 2 :  Erreur sur la classe d’un problème<a class="headerlink" href="#erreur-2-erreur-sur-la-classe-dun-probleme" title="Permanent link">¶</a></h3>
+<h4 id="le-propos_1">Le propos<a class="headerlink" href="#le-propos_1" title="Permanent link">¶</a></h4>
 <p>Lorsque l’on fait face à un problème d’optimisation combinatoire ou de décision (les deux ensembles de problèmes sont équivalents), on procède généralement de la sorte : </p>
 <ul>
 <li>Trouver un modèle mathématique du problème (hypothèses, données, limites du modèle)</li>
@@ -221,7 +221,7 @@ Retourne Faux
 </ul>
 <p>Une technique usuelle est de se ramener à un problème modèle, dont on connait d’une part la classe mais d’autre part des algorithmes de résolution plus ou moins efficaces.</p>
 <p>Une erreur classique est de confondre énoncé et donnée. Cette distinction est parfois peu perceptible du fait que la formulation du problème va très peu changer, pouvant induire en erreur sur la nature du problème (et potentiellement sa classe de complexité).</p>
-<h4 id="exemple-sat">Exemple : SAT<a class="headerlink" href="#exemple-sat" title="Permanent link">&para;</a></h4>
+<h4 id="exemple-sat">Exemple : SAT<a class="headerlink" href="#exemple-sat" title="Permanent link">¶</a></h4>
 <p>Nous allons à présent parler d’un problème historique de décision. Il s’agit du problème SAT pour <strong>Satisfaction de Contraintes Logiques</strong>. Voici son énoncé formel : </p>
 <p><strong>Données</strong> : </p>
 <ul>
@@ -240,7 +240,7 @@ Retourne Faux
 <li>3-SAT est <span class="arithmatex">\(NP\)</span>-complet.</li>
 </ul>
 <p>On peut par ailleurs montrer que SAT <span class="arithmatex">\(\propto\)</span> 3-SAT pour montrer que 3-SAT est <span class="arithmatex">\(NP\)</span>-complet.</p>
-<h4 id="exemple-arbre-couvrant-de-poids-minimal">Exemple : Arbre couvrant de poids minimal<a class="headerlink" href="#exemple-arbre-couvrant-de-poids-minimal" title="Permanent link">&para;</a></h4>
+<h4 id="exemple-arbre-couvrant-de-poids-minimal">Exemple : Arbre couvrant de poids minimal<a class="headerlink" href="#exemple-arbre-couvrant-de-poids-minimal" title="Permanent link">¶</a></h4>
 <p>Pour clore cet article sur une touche moins technique, on peut citer un second problème dont la modification d’un petit élément d’énoncé peut changer la classe du problème.</p>
 <p>Le problème de l’arbre couvrant de poids minimal est un problème que l’on peut formuler de la manière suivante :  étant donné un graphe valué, trouver l’arbre contenant l’ensemble des sommets, pour lequel, la somme des valeurs des arcs est minimale.</p>
 <p>Il s’agit d’un problème avec de nombreuses applications concrètes. On peut citer par exemple l’optimisation de la longueur de câblage dans un avion ou tout autre appareil.</p>
@@ -248,10 +248,65 @@ Retourne Faux
 <p>Voici une variante de ce problème :  étant donné un graphe valué, trouver un arbre couvrant de poids minimal dont le degré des sommets de l’arbre est borné par <span class="arithmatex">\(k\)</span> fixé (c’est-à-dire que pour chaque sommet, il ne peut arriver ou partir que <span class="arithmatex">\(k\)</span> arcs).</p>
 <p>Cette variante peut modéliser une situation réelle, dans le cas du câblage d’un établissement où les différents commutateurs réseaux ne disposent que de <span class="arithmatex">\(k\)</span> ports.</p>
 <p>Cela peut paraître étonnant, mais ce problème n’est plus polynomial, ce qui va entrainer de lourdes répercussions sur le temps de calcul qui va très certainement exploser avec la taille du problème si l’on se contente d’un des algorithmes cités ci-dessus.</p>
-<h3 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h3>
+<h3 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">¶</a></h3>
 <p>J’espère que cet article vous aura convaincu de l’intérêt de posséder des notions basiques sur le calcul de complexité algorithmique et surtout sur la connaissance des différentes classes de complexité qui conditionnent le choix des méthodes de résolution d’un problème (et également ses performances).</p>
 <p>Un algorithme d’apparence polynomiale n’en est pas forcément un, et un problème apparent à un autre problème par son énoncé n’est pas forcément dans la même classe de complexité. Seule une étude formelle de la taille d’écriture permet de répondre au premier piège et quelques techniques permettent de s’assurer que l’on peut réduire un problème à un autre (réduction polynomiale ou notion de sous-problème) afin de se prémunir du second.</p>
                 </div>
+                
+                <!-- Mermaid Script -->
+                <script type="module">
+                    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+                    
+                    // Configure and initialize mermaid
+                    const initMermaid = async () => {
+                        try {
+                            await mermaid.initialize({ 
+                                startOnLoad: true,
+                                theme: document.documentElement.classList.contains('dark') ? 'dark' : 'default',
+                                securityLevel: 'loose',
+                                flowchart: {
+                                    useMaxWidth: false,
+                                    htmlLabels: true,
+                                    curve: 'basis',
+                                    padding: 20,
+                                    nodeSpacing: 50,
+                                    rankSpacing: 50
+                                },
+                                themeVariables: {
+                                    primaryColor: '#D97706',
+                                    primaryTextColor: '#2A2927',
+                                    primaryBorderColor: '#D97706',
+                                    lineColor: '#78716c',
+                                    secondaryColor: '#f5f5f4',
+                                    tertiaryColor: '#fafaf9',
+                                    background: '#ffffff',
+                                    mainBkg: '#ffffff',
+                                    secondBkg: '#f5f5f4',
+                                    tertiaryBkg: '#fafaf9'
+                                }
+                            });
+                            
+                            // Log any mermaid elements found
+                            const elements = document.querySelectorAll('.mermaid');
+                            console.log(`Mermaid initialized. Found ${elements.length} diagram(s)`);
+                            
+                            // Force render if elements exist
+                            if (elements.length > 0) {
+                                mermaid.contentLoaded();
+                            }
+                        } catch (error) {
+                            console.error('Mermaid initialization error:', error);
+                        }
+                    };
+                    
+                    // Initialize when DOM is ready
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', initMermaid);
+                    } else {
+                        // DOM already loaded
+                        await initMermaid();
+                    }
+                </script>
             </article>
 
             <!-- Giscus Comments Section -->
@@ -302,7 +357,7 @@ Retourne Faux
     
 
     <!-- Custom JavaScript -->
-    <script src="https://quemy.info/js/main.js"></script>
+    <script src="http://localhost:8000/js/main.js"></script>
 
     
 </body>

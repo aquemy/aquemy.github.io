@@ -55,8 +55,8 @@
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, { delimiters: [ {left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}, {left: '\\(', right: '\\)', display: false}, {left: '\\[', right: '\\]', display: true} ]});"></script>
     
     <!-- Custom Styles and Theming -->
-    <link rel="stylesheet" href="https://quemy.info/css/custom.css">
-    <link rel="stylesheet" href="https://quemy.info/css/friendly.css">
+    <link rel="stylesheet" href="http://localhost:8000/css/custom.css">
+    <link rel="stylesheet" href="http://localhost:8000/css/friendly.css">
 
     <script>
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -112,7 +112,7 @@
 <div class="w-full max-w-7xl mx-auto py-12 px-4">
     <!-- Header moved outside the grid for proper alignment -->
     <header class="max-w-5xl mx-auto mb-12 text-center lg:text-left">
-        <a href="https://quemy.info/blog.html" class="text-sm text-accent-light dark:text-accent-dark hover:underline mb-4 inline-block">← Back to all posts</a>
+        <a href="http://localhost:8000/blog.html" class="text-sm text-accent-light dark:text-accent-dark hover:underline mb-4 inline-block">← Back to all posts</a>
         <h1 class="font-sans text-4xl md:text-5xl font-black text-ink dark:text-dark-ink leading-tight">ECHR Open Data - Build and Deployment Process for an open source data project</h1>
         <p class="mt-4 text-stone-500 dark:text-stone-400">2020-12-31 · Engineering</p>
     </header>
@@ -142,9 +142,9 @@
 </div>
 <div class="admonition example">
 <p class="admonition-title">About this entry</p>
-<p><img alt="" src="https://echr-opendata.eu/assets/images/logo.png" /> This entry is part of a serie on the engineering part behind the <strong><a href="http://echr-opendata.eu/">European Court of Human Rights Open Project (ECHR-OD)</a></strong>.</p>
+<p><img alt="" src="https://echr-opendata.eu/assets/images/logo.png"/> This entry is part of a serie on the engineering part behind the <strong><a href="http://echr-opendata.eu/">European Court of Human Rights Open Project (ECHR-OD)</a></strong>.</p>
 </div>
-<h3 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h3>
+<h3 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">¶</a></h3>
 <p>The <strong><a href="http://echr-opendata.eu/">European Court of Human Rights Open Project (ECHR-OD)</a></strong> aims at providing data about the European Court of Human Rights. To reach this objective, the project follows few standards to ensure the highest possible data quality. In particular, </p>
 <ol>
 <li>no data is manipulated by hand,</li>
@@ -160,7 +160,7 @@
 <li>The only point of failure must be connectivity or hardware (i.e. not the code, QA must be enforced properly, which is outside the scope of this entry),</li>
 <li>A build failure should not be released but also not impact future build attempt nor production.</li>
 </ol>
-<h3 id="high-level-picture">High Level Picture<a class="headerlink" href="#high-level-picture" title="Permanent link">&para;</a></h3>
+<h3 id="high-level-picture">High Level Picture<a class="headerlink" href="#high-level-picture" title="Permanent link">¶</a></h3>
 <p>The projects is composed of two main components:</p>
 <ul>
 <li>The <strong><a href="https://github.com/echr-od/ECHR-OD_process">process</a></strong> of collecting and processing the data from scratch,</li>
@@ -177,14 +177,14 @@
 <p>The whole <strong>build and deployment strategy</strong> relies on three elements:</p>
 <ol>
 <li><strong>GitHub Workflows</strong>, that is our starting point for automations and most QA related tasks,</li>
-<li><strong>ECHR-OD Workflows</strong>, designed similarily to GitHub&rsquo;s one, that enable modular build for tight resources,</li>
-<li>A <strong>Runner</strong>, which in this case is a small dedicated server with only 2Gb RAM, and serves both to host the explorer but also to build the data. <br />
+<li><strong>ECHR-OD Workflows</strong>, designed similarily to GitHub’s one, that enable modular build for tight resources,</li>
+<li>A <strong>Runner</strong>, which in this case is a small dedicated server with only 2Gb RAM, and serves both to host the explorer but also to build the data. <br/>
 The explorer component runs behind a NGINX reverse-proxy.</li>
 </ol>
 </div>
 <p>The release (build and deployment) process is is illustrated by the following sequence diagram:</p>
 <p><center>
-<a href="https://mermaid-js.github.io/mermaid-live-editor/#/edit/eyJjb2RlIjoic2VxdWVuY2VEaWFncmFtXG4gICAgR2l0SHViLT4-K0dpdEh1YjogV29ya2Zsb3cgTW9udGhseSBSZWxlYXNlXG4gICAgR2l0SHViLS0-PlByb2Nlc3M6IFRyaWdnZXIgV29ya2Zsb3cgXCJEYXRhYmFzZVwiXG4gICAgcmVjdCByZ2IoNjYsIDEyOCwgMTkyLCAwLjIpXG4gICAgUHJvY2Vzcy0tPj5FeHBsb3JlcjogQ2FsbCAvYXBpL2J1aWxkL3VwZGF0ZVxuICAgIEV4cGxvcmVyLT4-K0V4cGxvcmVyOiBSZXN0YXJ0IERvY2tlclxuICAgIGVuZCAgICAgICAgIiwibWVybWFpZCI6eyJ0aGVtZSI6ImRlZmF1bHQifSwidXBkYXRlRWRpdG9yIjpmYWxzZX0"><img alt="" src="https://mermaid.ink/img/eyJjb2RlIjoic2VxdWVuY2VEaWFncmFtXG4gICAgR2l0SHViLT4-K0dpdEh1YjogV29ya2Zsb3cgTW9udGhseSBSZWxlYXNlXG4gICAgR2l0SHViLS0-PlByb2Nlc3M6IFRyaWdnZXIgV29ya2Zsb3cgXCJEYXRhYmFzZVwiXG4gICAgcmVjdCByZ2IoNjYsIDEyOCwgMTkyLCAwLjIpXG4gICAgUHJvY2Vzcy0tPj5FeHBsb3JlcjogQ2FsbCAvYXBpL2J1aWxkL3VwZGF0ZVxuICAgIEV4cGxvcmVyLT4-K0V4cGxvcmVyOiBSZXN0YXJ0IERvY2tlclxuICAgIGVuZCAgICAgICAgIiwibWVybWFpZCI6eyJ0aGVtZSI6ImRlZmF1bHQifSwidXBkYXRlRWRpdG9yIjpmYWxzZX0" /></a>
+<a href="https://mermaid-js.github.io/mermaid-live-editor/#/edit/eyJjb2RlIjoic2VxdWVuY2VEaWFncmFtXG4gICAgR2l0SHViLT4-K0dpdEh1YjogV29ya2Zsb3cgTW9udGhseSBSZWxlYXNlXG4gICAgR2l0SHViLS0-PlByb2Nlc3M6IFRyaWdnZXIgV29ya2Zsb3cgXCJEYXRhYmFzZVwiXG4gICAgcmVjdCByZ2IoNjYsIDEyOCwgMTkyLCAwLjIpXG4gICAgUHJvY2Vzcy0tPj5FeHBsb3JlcjogQ2FsbCAvYXBpL2J1aWxkL3VwZGF0ZVxuICAgIEV4cGxvcmVyLT4-K0V4cGxvcmVyOiBSZXN0YXJ0IERvY2tlclxuICAgIGVuZCAgICAgICAgIiwibWVybWFpZCI6eyJ0aGVtZSI6ImRlZmF1bHQifSwidXBkYXRlRWRpdG9yIjpmYWxzZX0"><img alt="" src="https://mermaid.ink/img/eyJjb2RlIjoic2VxdWVuY2VEaWFncmFtXG4gICAgR2l0SHViLT4-K0dpdEh1YjogV29ya2Zsb3cgTW9udGhseSBSZWxlYXNlXG4gICAgR2l0SHViLS0-PlByb2Nlc3M6IFRyaWdnZXIgV29ya2Zsb3cgXCJEYXRhYmFzZVwiXG4gICAgcmVjdCByZ2IoNjYsIDEyOCwgMTkyLCAwLjIpXG4gICAgUHJvY2Vzcy0tPj5FeHBsb3JlcjogQ2FsbCAvYXBpL2J1aWxkL3VwZGF0ZVxuICAgIEV4cGxvcmVyLT4-K0V4cGxvcmVyOiBSZXN0YXJ0IERvY2tlclxuICAgIGVuZCAgICAgICAgIiwibWVybWFpZCI6eyJ0aGVtZSI6ImRlZmF1bHQifSwidXBkYXRlRWRpdG9yIjpmYWxzZX0"/></a>
 </center></p>
 <p>The <strong>three steps</strong> can be described as follows:</p>
 <ol>
@@ -193,10 +193,10 @@ The explorer component runs behind a NGINX reverse-proxy.</li>
 <li>Trigger test and coverage</li>
 <li>Build a small database with only 100 documents</li>
 <li>Push the image to <a href="https://hub.docker.com/repository/docker/aquemy1/echr_build/">docker.io</a></li>
-<li>Trigger ECHR-OD Workflow <strong>&ldquo;Deploy&rdquo;</strong></li>
+<li>Trigger ECHR-OD Workflow <strong>“Deploy”</strong></li>
 </ul>
 </li>
-<li>The ECHR-OD Workflow <strong>&ldquo;Database&rdquo;</strong> is then started</li>
+<li>The ECHR-OD Workflow <strong>“Database”</strong> is then started</li>
 <li>The endpoint <code>/api/build/update</code> of the explorer API is called which trigger the update and the container reboot</li>
 </ol>
 <div class="admonition danger">
@@ -204,12 +204,12 @@ The explorer component runs behind a NGINX reverse-proxy.</li>
 <p>Because the server we use had only 2Gb RAM, it is impossible to regenerate the NLP models, including entity extraction, Bag-of-Words and associated models. For this reason, the monthly release includes only the database creation. The NLP models are regenerated once in a while manually. </p>
 <p>You can support this project through my GitHub sponsor page. A larger sponsor value would eneable me to pay for a server capable of regenerating the language models on a regular basis.</p>
 <p><center>
-<iframe src="https://github.com/sponsors/aquemy/card" title="Sponsor aquemy" height="225" width="600" style="border: 0;"></iframe>
+<iframe height="225" src="https://github.com/sponsors/aquemy/card" style="border: 0;" title="Sponsor aquemy" width="600"></iframe>
 </center></p>
 </div>
-<h3 id="deployment-and-update">Deployment and Update<a class="headerlink" href="#deployment-and-update" title="Permanent link">&para;</a></h3>
-<h4 id="deploy-workflow">Deploy Workflow<a class="headerlink" href="#deploy-workflow" title="Permanent link">&para;</a></h4>
-<p>The <strong>workflow &ldquo;Deploy&rdquo;</strong> consists of a single action that does the following:</p>
+<h3 id="deployment-and-update">Deployment and Update<a class="headerlink" href="#deployment-and-update" title="Permanent link">¶</a></h3>
+<h4 id="deploy-workflow">Deploy Workflow<a class="headerlink" href="#deploy-workflow" title="Permanent link">¶</a></h4>
+<p>The <strong>workflow “Deploy”</strong> consists of a single action that does the following:</p>
 <ol>
 <li>Open a SSH connection to a given server,</li>
 <li>Clone a repository in a given location if it does not exist,</li>
@@ -218,12 +218,12 @@ The explorer component runs behind a NGINX reverse-proxy.</li>
 <li>Trigger the workflow specified in the parameters of the Deploy workflow, including the final endpoint call specified (in our case <code>/api/v1/build/update</code>),</li>
 <li>Detach the process</li>
 </ol>
-<p><mark>The source code for the action &ldquo;Deploy&rdquo; can be found <a href="https://github.com/echr-od/ECHR-OD_process/blob/develop/echr/steps/deploy.py">here</a>.</mark></p>
+<p><mark>The source code for the action “Deploy” can be found <a href="https://github.com/echr-od/ECHR-OD_process/blob/develop/echr/steps/deploy.py">here</a>.</mark></p>
 <div class="admonition danger">
 <p class="admonition-title">GitHub Action usage limits</p>
-<p>At this stage, the GitHub Workflow &ldquo;Cyclic Database Release&rdquo; will finish. This means that there is <em>no way</em> for GitHub to alert us if a build fails. The reason the process is detached is because each job is limited to 6h, and 72h for a workflow, which is not enough for our purposes. However, if a build fails, we are still informed by the badge produced thanks to the API described thereafter. On top of that, a failing build does not impact production as it will not be deployed, thus an acceptable unconvenience at our level.</p>
+<p>At this stage, the GitHub Workflow “Cyclic Database Release” will finish. This means that there is <em>no way</em> for GitHub to alert us if a build fails. The reason the process is detached is because each job is limited to 6h, and 72h for a workflow, which is not enough for our purposes. However, if a build fails, we are still informed by the badge produced thanks to the API described thereafter. On top of that, a failing build does not impact production as it will not be deployed, thus an acceptable unconvenience at our level.</p>
 </div>
-<h4 id="build-history-build-api-and-build-upgrade">Build History, Build API and Build upgrade<a class="headerlink" href="#build-history-build-api-and-build-upgrade" title="Permanent link">&para;</a></h4>
+<h4 id="build-history-build-api-and-build-upgrade">Build History, Build API and Build upgrade<a class="headerlink" href="#build-history-build-api-and-build-upgrade" title="Permanent link">¶</a></h4>
 <p>For the explorer container to know that there is a new build, we introduced the build history and build info. Whenever a build is finished, a short summary is appended to the build <code>build/.build_history</code> and a descriptive file <code>build_info.yml</code> is added to <code>build/&lt;build_name&gt;</code>. </p>
 <div class="admonition note">
 <p class="admonition-title">Current and Latest build</p>
@@ -232,16 +232,16 @@ The explorer component runs behind a NGINX reverse-proxy.</li>
 <p>The explorer provides a simple API, mostly for internal usage, to manage build status:</p>
 <ul>
 <li>
-<p><strong>Latest build status for badge</strong> <code>/api/v1/build/status</code>:<br />
-<code>{"schemaVersion":1,"label":"Database Update","message":"2020/12/19 23:04:48","color":"green"}</code><br />
-<img alt="" src="https://camo.githubusercontent.com/fff13eaf507f8d59dd228a6f06a85ad381576b638518e117ca25267944e0cf15/68747470733a2f2f696d672e736869656c64732e696f2f656e64706f696e743f75726c3d6874747073253341253246253246656368722d6f70656e646174612e657525324661706925324676312532466275696c64253246737461747573" /></p>
+<p><strong>Latest build status for badge</strong> <code>/api/v1/build/status</code>:<br/>
+<code>{"schemaVersion":1,"label":"Database Update","message":"2020/12/19 23:04:48","color":"green"}</code><br/>
+<img alt="" src="https://camo.githubusercontent.com/fff13eaf507f8d59dd228a6f06a85ad381576b638518e117ca25267944e0cf15/68747470733a2f2f696d672e736869656c64732e696f2f656e64706f696e743f75726c3d6874747073253341253246253246656368722d6f70656e646174612e657525324661706925324676312532466275696c64253246737461747573"/></p>
 </li>
 <li>
-<p><strong>Current build status</strong> <code>/api/v1/build/current</code>:<br />
+<p><strong>Current build status</strong> <code>/api/v1/build/current</code>:<br/>
 <code>{"build_time":"2020/12/19 23:04:48"}</code></p>
 </li>
 <li>
-<p><strong>Check if a new build is available</strong> <code>/api/v1/build/new_build_available</code>:<br />
+<p><strong>Check if a new build is available</strong> <code>/api/v1/build/new_build_available</code>:<br/>
 <code>[false,null]</code>
 or <code>[true,&lt;build_name&gt;]</code></p>
 </li>
@@ -258,11 +258,66 @@ or <code>[true,&lt;build_name&gt;]</code></p>
 </ul>
 <p>The last operation is slightly technical, because we need to restart the container from the container.
 But ultimately, the container is restarted and the new SQLite database is loaded such that the explorer can serve the updated data.</p>
-<h3 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h3>
+<h3 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">¶</a></h3>
 <p>As we have seen, the main challenges faced by ECHR-OD are the <strong>lack of resources</strong> and the <strong>time constraint</strong> on GitHub Workflows. Initially, GitHub Workflows are made for pure software DevOps, and therefore, a time limit of 72h might be reasonable. However, for data science projects with a need to (pre)process large amount of data on a regular basis, this limit is easy to reach. We get around this limit by using our own server and a flexible and modular workflow system, inspired by GitHub and that we will describe in another entry.</p>
 <p>Another engineering challenge was the properly <strong>synchronized the process container with the explorer container</strong> such that the explorer container is aware of the existence a new build and can restart itself.</p>
 <p>Finally, we ensure that the production data is not disturbed by a <strong>failing build</strong>, which should happen only in case of problem with the runner (most likely connectivity or hardware issue).</p>
                 </div>
+                
+                <!-- Mermaid Script -->
+                <script type="module">
+                    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+                    
+                    // Configure and initialize mermaid
+                    const initMermaid = async () => {
+                        try {
+                            await mermaid.initialize({ 
+                                startOnLoad: true,
+                                theme: document.documentElement.classList.contains('dark') ? 'dark' : 'default',
+                                securityLevel: 'loose',
+                                flowchart: {
+                                    useMaxWidth: false,
+                                    htmlLabels: true,
+                                    curve: 'basis',
+                                    padding: 20,
+                                    nodeSpacing: 50,
+                                    rankSpacing: 50
+                                },
+                                themeVariables: {
+                                    primaryColor: '#D97706',
+                                    primaryTextColor: '#2A2927',
+                                    primaryBorderColor: '#D97706',
+                                    lineColor: '#78716c',
+                                    secondaryColor: '#f5f5f4',
+                                    tertiaryColor: '#fafaf9',
+                                    background: '#ffffff',
+                                    mainBkg: '#ffffff',
+                                    secondBkg: '#f5f5f4',
+                                    tertiaryBkg: '#fafaf9'
+                                }
+                            });
+                            
+                            // Log any mermaid elements found
+                            const elements = document.querySelectorAll('.mermaid');
+                            console.log(`Mermaid initialized. Found ${elements.length} diagram(s)`);
+                            
+                            // Force render if elements exist
+                            if (elements.length > 0) {
+                                mermaid.contentLoaded();
+                            }
+                        } catch (error) {
+                            console.error('Mermaid initialization error:', error);
+                        }
+                    };
+                    
+                    // Initialize when DOM is ready
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', initMermaid);
+                    } else {
+                        // DOM already loaded
+                        await initMermaid();
+                    }
+                </script>
             </article>
 
             <!-- Giscus Comments Section -->
@@ -313,7 +368,7 @@ But ultimately, the container is restarted and the new SQLite database is loaded
     
 
     <!-- Custom JavaScript -->
-    <script src="https://quemy.info/js/main.js"></script>
+    <script src="http://localhost:8000/js/main.js"></script>
 
     
 </body>

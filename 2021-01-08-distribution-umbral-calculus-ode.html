@@ -55,8 +55,8 @@
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, { delimiters: [ {left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}, {left: '\\(', right: '\\)', display: false}, {left: '\\[', right: '\\]', display: true} ]});"></script>
     
     <!-- Custom Styles and Theming -->
-    <link rel="stylesheet" href="https://quemy.info/css/custom.css">
-    <link rel="stylesheet" href="https://quemy.info/css/friendly.css">
+    <link rel="stylesheet" href="http://localhost:8000/css/custom.css">
+    <link rel="stylesheet" href="http://localhost:8000/css/friendly.css">
 
     <script>
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -112,7 +112,7 @@
 <div class="w-full max-w-7xl mx-auto py-12 px-4">
     <!-- Header moved outside the grid for proper alignment -->
     <header class="max-w-5xl mx-auto mb-12 text-center lg:text-left">
-        <a href="https://quemy.info/blog.html" class="text-sm text-accent-light dark:text-accent-dark hover:underline mb-4 inline-block">← Back to all posts</a>
+        <a href="http://localhost:8000/blog.html" class="text-sm text-accent-light dark:text-accent-dark hover:underline mb-4 inline-block">← Back to all posts</a>
         <h1 class="font-sans text-4xl md:text-5xl font-black text-ink dark:text-dark-ink leading-tight">Distributions, Laplace Transform and Initial Value Problem</h1>
         <p class="mt-4 text-stone-500 dark:text-stone-400">2021-01-09 · Mathematics</p>
     </header>
@@ -136,16 +136,16 @@
 <ul>
 <li><a href="#introduction">Introduction</a></li>
 <li><a href="#space-of-distributions">Space of Distributions</a></li>
-<li><a href="#laplace-transform-and-the-algebra-over-d_">Laplace Transform and the algebra over \(D_+&rsquo;\)</a></li>
+<li><a href="#laplace-transform-and-the-algebra-over-d_">Laplace Transform and the algebra over \(D_+’\)</a></li>
 <li><a href="#application-to-the-initial-value-problem-ivp">Application to the Initial Value Problem (IVP)</a></li>
 <li><a href="#conclusion">Conclusion</a></li>
 </ul>
 </div>
-<h3 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h3>
+<h3 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">¶</a></h3>
 <p>In this article, we are interested in solving Initial Value Problem (IVP) using a special isomorphism between the algebraic fractions in <span class="arithmatex">\(\delta'\)</span> and the usual algebraic fractions. For that, we will use the space of distributions with compact and positive support and observe that the convolution of two distributions behaves like the multiplication over a field.</p>
 <p>Usually, this approach to solve an IVP simply presents Laplace transforms as a tool, without much explanation about where it comes from and why it works. I took a different approach with the point of view of distributions which is the natural space to perform convolution. In my opinion, it leads to naturally observe the similar structure between this particular subspace of distributions and the polynomials. On top of that, the concrete example presented which is solving a non-homogenous ordinary differential system with constant coefficients, would not even require the mention of Laplace transform, nor to compute explicitely the transformation, but using only a symbolic table derivated directly from a simple convolution equation and observing the effect of convolving with the derivatives of the dirac distribution.</p>
 <p>This article starts by presenting the space of distributions and in particular the regular distributions, as well as the convolution operator.</p>
-<h3 id="space-of-distributions">Space of Distributions<a class="headerlink" href="#space-of-distributions" title="Permanent link">&para;</a></h3>
+<h3 id="space-of-distributions">Space of Distributions<a class="headerlink" href="#space-of-distributions" title="Permanent link">¶</a></h3>
 <p>We denote by <span class="arithmatex">\(\mathcal D\)</span> the set of test functions.
 A test function <span class="arithmatex">\(\phi \in \mathcal D\)</span> is a function from <span class="arithmatex">\(\phi: \mathbb{R}^n \mapsto \mathbb{R}\)</span>. The set of test functions is associated with an extremely strong notion of convergence:</p>
 <div class="arithmatex">\[
@@ -168,12 +168,12 @@ A test function <span class="arithmatex">\(\phi \in \mathcal D\)</span> is a fun
 <li>Si <span class="arithmatex">\(\phi_n \to \phi\)</span> alors <span class="arithmatex">\(&lt;T, \phi_n&gt; \to &lt;T, \phi&gt;\)</span></li>
 </ul>
 <p>We say that <span class="arithmatex">\(T_n \overset{\mathcal{D}'}{\to} T\)</span> if and only if <span class="arithmatex">\(\forall \phi \in \mathcal{D}, ~~ &lt;T_n, \phi&gt; \to &lt;T,\phi&gt;\)</span>.</p>
-<h4 id="regular-distributions">Regular Distributions<a class="headerlink" href="#regular-distributions" title="Permanent link">&para;</a></h4>
+<h4 id="regular-distributions">Regular Distributions<a class="headerlink" href="#regular-distributions" title="Permanent link">¶</a></h4>
 <p>We denote by  <span class="arithmatex">\(L^1_{\text{loc}}\)</span>  the set of measurable and locally integrable functions, i.e. <span class="arithmatex">\(\forall a &lt; b \in \mathbb{R},~~ \int_a^b \vert f(x) \vert dx &lt; \infty\)</span>.</p>
 <p>It is relatively easy to see that if <span class="arithmatex">\(f \in L^1_{\text{loc}}\)</span> et <span class="arithmatex">\(\phi \in \mathcal D\)</span> then the product <span class="arithmatex">\(f\phi\)</span> is integrable. Then, any function <span class="arithmatex">\(f \in L^1_{\text{loc}}\)</span> uniquely defines a distribution, denoted <span class="arithmatex">\(f\)</span> by abuse of notation:</p>
 <div class="arithmatex">\[f \colon \phi \in \mathcal{D} \to &lt;f,\phi&gt; \overset{def}{=} \int_{-\infty}^{+\infty} f(x)\phi(x)dx\]</div>
 <p>Therefore, we can identify <span class="arithmatex">\(L^1_{\text{loc}}\)</span> as a subset of the space of distributions <span class="arithmatex">\(\mathcal{D}'\)</span>. This subset defines <em>regular</em> distributions. A distribution that is not regular is singular.</p>
-<h4 id="convolution-the-multiplication-of-distributions">Convolution, the <em>multiplication</em> of distributions<a class="headerlink" href="#convolution-the-multiplication-of-distributions" title="Permanent link">&para;</a></h4>
+<h4 id="convolution-the-multiplication-of-distributions">Convolution, the <em>multiplication</em> of distributions<a class="headerlink" href="#convolution-the-multiplication-of-distributions" title="Permanent link">¶</a></h4>
 <p>Given <span class="arithmatex">\(f\)</span> and <span class="arithmatex">\(g\)</span>, two measurable functions, then the <span class="arithmatex">\(f\)</span> and <span class="arithmatex">\(g\)</span> can be convolved if and only if for almost all <span class="arithmatex">\(x\)</span></p>
 <div class="arithmatex">\[h(x) = \int \vert f(u)g(x-u)\vert du &lt; +\infty\]</div>
 <p>Then, we define convolution between two functions by:</p>
@@ -188,7 +188,7 @@ In particular, the dirac distribution is the neutral element for <span class="ar
 <div class="arithmatex">\[&lt;T\star \delta', \phi&gt; = &lt;T_x,&lt;\delta'_y, \phi(x+y)&gt;&gt; = &lt;T_x, -&lt;\delta_y, \phi'(x+y)&gt;&gt; = &lt;T', \phi&gt; \]</div>
 <p>That is to say <span class="arithmatex">\(T\star \delta' = T'\)</span> and <span class="arithmatex">\(T \star \delta^{(k)} = T^{(k)}\)</span>.</p>
 <p>The convolution of a distribution <span class="arithmatex">\(T\)</span> by the <span class="arithmatex">\(k\)</span>-th derivative of the dirac distribution is the <span class="arithmatex">\(k\)</span>-th derivative of the distribution!</p>
-<h3 id="laplace-transform-and-the-algebra-over-d_">Laplace Transform and the algebra over <span class="arithmatex">\(D_+'\)</span><a class="headerlink" href="#laplace-transform-and-the-algebra-over-d_" title="Permanent link">&para;</a></h3>
+<h3 id="laplace-transform-and-the-algebra-over-d_">Laplace Transform and the algebra over <span class="arithmatex">\(D_+'\)</span><a class="headerlink" href="#laplace-transform-and-the-algebra-over-d_" title="Permanent link">¶</a></h3>
 <p><span class="arithmatex">\((D_+', +, \times, \star)\)</span> is an associative, commutative and unitary algebra. Precisely, it is a Banach *-algebra usually denoted <span class="arithmatex">\(L^1(G)\)</span>.
 <span class="arithmatex">\(\times\)</span> denotes the scalar multiplication. We denote by <span class="arithmatex">\(T^{\star n}\)</span> the <span class="arithmatex">\(n\)</span> times composition of the convolution of <span class="arithmatex">\(T\)</span> by itself.
 For any locally integrable function <span class="arithmatex">\(f\)</span>, <span class="arithmatex">\(Hf\)</span> belongs to <span class="arithmatex">\(D_+'\)</span> where <span class="arithmatex">\(H\)</span> is the Heavyside distribution<sup id="fnref:3"><a class="footnote-ref" href="#fn:3">1</a></sup>.</p>
@@ -217,7 +217,7 @@ P(\delta') &amp; \leftrightarrow &amp; P(p)
 but <span class="arithmatex">\(\delta e^{\lambda t} = 1\)</span> and therefore <span class="arithmatex">\(\delta' \star He^{\lambda t} - \lambda He^{\lambda t} = 1\)</span></p>
 <p>And therefore, <span class="arithmatex">\(He^{\lambda t} = (\delta'-\lambda \delta)^{\star -1}\)</span> which can be directly transformed into <span class="arithmatex">\(\frac 1 {p - \lambda}\)</span>.</p>
 </div>
-<h4 id="some-examples-of-correspondance">Some examples of correspondance<a class="headerlink" href="#some-examples-of-correspondance" title="Permanent link">&para;</a></h4>
+<h4 id="some-examples-of-correspondance">Some examples of correspondance<a class="headerlink" href="#some-examples-of-correspondance" title="Permanent link">¶</a></h4>
 <p>From the previous relation, we can deduce the following one:</p>
 <p><span class="arithmatex">\(H\frac {t^{n-1}}{(n-1)!} e^{\lambda t} \leftrightarrow \frac 1 {(p - \lambda)^n}\)</span></p>
 <p>In particular <span class="arithmatex">\(\lambda = 0\)</span> : <span class="arithmatex">\(H\frac {t^{n-1}}{(n-1)!} \leftrightarrow \frac 1 {p^n}\)</span></p>
@@ -229,7 +229,7 @@ but <span class="arithmatex">\(\delta e^{\lambda t} = 1\)</span> and therefore <
 <li><span class="arithmatex">\(H ch (\omega t) \leftrightarrow \frac p {p^2 - \omega^2}\)</span></li>
 </ul>
 <p>A list of Laplace transform for some usual functions can be found <a href="https://en.wikipedia.org/wiki/List_of_Laplace_transforms">here</a>.</p>
-<h3 id="application-to-the-initial-value-problem-ivp">Application to the Initial Value Problem (IVP)<a class="headerlink" href="#application-to-the-initial-value-problem-ivp" title="Permanent link">&para;</a></h3>
+<h3 id="application-to-the-initial-value-problem-ivp">Application to the Initial Value Problem (IVP)<a class="headerlink" href="#application-to-the-initial-value-problem-ivp" title="Permanent link">¶</a></h3>
 <p>Consider the following system of ordinary differential equations:</p>
 <div class="arithmatex">\[\left\{\begin{aligned}
 x'+y' = f\\
@@ -290,19 +290,74 @@ For <span class="arithmatex">\(x\)</span>:
 <p>Using a partial fracton decomposition, we obtain <span class="arithmatex">\(y(t) = -x(0)(ch(t) -1)+y'(0)sh(t)+\int_0^tg(s)sh(t-s)-f(s)(ch(t-s)-1)ds\)</span>.</p>
 <p>A basic verification consists in taking <span class="arithmatex">\(t=0\)</span> to observe that we verify the initial conditions.</p>
 <p>To summarize, the method consists in rewriting the problem in <span class="arithmatex">\(D_+'\)</span>, then expressing the system in a symbolic form, which is implicitely applying Laplace transform. The new problem is basically a linear system that can easily be solved for <span class="arithmatex">\(p\)</span>. Once the solution obtained, the solution to the original problem can be found thanks to the inverse transformation.</p>
-<h3 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">&para;</a></h3>
+<h3 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">¶</a></h3>
 <p>In this article, I tried to show another point of view on Laplace transform, and in particular, how it is possible to leverage the convolution algebra to avoid to have to explicitely compute Laplace transforms (or to refer to tables).
 The isomorphism between the algebraic fractions in <span class="arithmatex">\(\delta'\)</span> and the usual algebraic fractions is absolutely remarkable and beautiful because it allows to solve analytically complex non-homogeneous, coupled and linear systems of ordinary differential equation without manipulating a single integral, but with basic algebra.</p>
 <p>Notice that the method holds for systems without constant coefficient, but requires to solve more complex convolution equations to determine the correspondance. In some cases, it might be easier to refer to tables of Laplace transform. But it is obviously less beautiful!</p>
 <div class="footnote">
-<hr />
+<hr/>
 <ol>
 <li id="fn:3">
-<p>If the product of two distribution is not defined in general, the product of a distribution by a <span class="arithmatex">\(C^{\infty}\)</span> function is not a problem.&#160;<a class="footnote-backref" href="#fnref:3" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+<p>If the product of two distribution is not defined in general, the product of a distribution by a <span class="arithmatex">\(C^{\infty}\)</span> function is not a problem. <a class="footnote-backref" href="#fnref:3" title="Jump back to footnote 1 in the text">↩</a></p>
 </li>
 </ol>
 </div>
                 </div>
+                
+                <!-- Mermaid Script -->
+                <script type="module">
+                    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+                    
+                    // Configure and initialize mermaid
+                    const initMermaid = async () => {
+                        try {
+                            await mermaid.initialize({ 
+                                startOnLoad: true,
+                                theme: document.documentElement.classList.contains('dark') ? 'dark' : 'default',
+                                securityLevel: 'loose',
+                                flowchart: {
+                                    useMaxWidth: false,
+                                    htmlLabels: true,
+                                    curve: 'basis',
+                                    padding: 20,
+                                    nodeSpacing: 50,
+                                    rankSpacing: 50
+                                },
+                                themeVariables: {
+                                    primaryColor: '#D97706',
+                                    primaryTextColor: '#2A2927',
+                                    primaryBorderColor: '#D97706',
+                                    lineColor: '#78716c',
+                                    secondaryColor: '#f5f5f4',
+                                    tertiaryColor: '#fafaf9',
+                                    background: '#ffffff',
+                                    mainBkg: '#ffffff',
+                                    secondBkg: '#f5f5f4',
+                                    tertiaryBkg: '#fafaf9'
+                                }
+                            });
+                            
+                            // Log any mermaid elements found
+                            const elements = document.querySelectorAll('.mermaid');
+                            console.log(`Mermaid initialized. Found ${elements.length} diagram(s)`);
+                            
+                            // Force render if elements exist
+                            if (elements.length > 0) {
+                                mermaid.contentLoaded();
+                            }
+                        } catch (error) {
+                            console.error('Mermaid initialization error:', error);
+                        }
+                    };
+                    
+                    // Initialize when DOM is ready
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', initMermaid);
+                    } else {
+                        // DOM already loaded
+                        await initMermaid();
+                    }
+                </script>
             </article>
 
             <!-- Giscus Comments Section -->
@@ -353,7 +408,7 @@ The isomorphism between the algebraic fractions in <span class="arithmatex">\(\d
     
 
     <!-- Custom JavaScript -->
-    <script src="https://quemy.info/js/main.js"></script>
+    <script src="http://localhost:8000/js/main.js"></script>
 
     
 </body>

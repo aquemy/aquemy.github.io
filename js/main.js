@@ -305,4 +305,43 @@ document.addEventListener('DOMContentLoaded', function() {
             sectionObserver.observe(section);
         });
     }
+
+    // --- Collapsible Sections Logic (GitHub Details style) ---
+    // Simple and bulletproof implementation
+    window.addEventListener('load', function() {
+        // Find all collapse blocks
+        var blocks = document.getElementsByClassName('collapse-block');
+        
+        for (var i = 0; i < blocks.length; i++) {
+            (function(block) {
+                var header = block.getElementsByClassName('collapse-header')[0];
+                var content = block.getElementsByClassName('collapse-content')[0];
+                var toggle = block.getElementsByClassName('collapse-toggle')[0];
+                
+                if (header && content && toggle) {
+                    // Set cursor style
+                    header.style.cursor = 'pointer';
+                    
+                    // Add click handler
+                    header.addEventListener('click', function(e) {
+                        // Prevent any bubbling issues
+                        e.stopPropagation();
+                        
+                        // Check current state
+                        var isExpanded = content.className.indexOf('expanded') !== -1;
+                        
+                        if (isExpanded) {
+                            // Collapse
+                            content.className = content.className.replace(' expanded', '');
+                            toggle.className = toggle.className.replace(' expanded', '');
+                        } else {
+                            // Expand
+                            content.className += ' expanded';
+                            toggle.className += ' expanded';
+                        }
+                    });
+                }
+            })(blocks[i]);
+        }
+    });
 });

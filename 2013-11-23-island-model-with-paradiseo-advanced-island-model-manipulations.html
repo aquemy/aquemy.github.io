@@ -55,8 +55,8 @@
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, { delimiters: [ {left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}, {left: '\\(', right: '\\)', display: false}, {left: '\\[', right: '\\]', display: true} ]});"></script>
     
     <!-- Custom Styles and Theming -->
-    <link rel="stylesheet" href="https://quemy.info/css/custom.css">
-    <link rel="stylesheet" href="https://quemy.info/css/friendly.css">
+    <link rel="stylesheet" href="http://localhost:8000/css/custom.css">
+    <link rel="stylesheet" href="http://localhost:8000/css/friendly.css">
 
     <script>
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -112,7 +112,7 @@
 <div class="w-full max-w-7xl mx-auto py-12 px-4">
     <!-- Header moved outside the grid for proper alignment -->
     <header class="max-w-5xl mx-auto mb-12 text-center lg:text-left">
-        <a href="https://quemy.info/blog.html" class="text-sm text-accent-light dark:text-accent-dark hover:underline mb-4 inline-block">← Back to all posts</a>
+        <a href="http://localhost:8000/blog.html" class="text-sm text-accent-light dark:text-accent-dark hover:underline mb-4 inline-block">← Back to all posts</a>
         <h1 class="font-sans text-4xl md:text-5xl font-black text-ink dark:text-dark-ink leading-tight">Island Model with ParadisEO: advanced island model manipulations</h1>
         <p class="mt-4 text-stone-500 dark:text-stone-400">2013-11-23 · Mathematics</p>
     </header>
@@ -140,9 +140,9 @@
 <li><a href="#creating-events-by-callback-method">Creating events by callback method</a></li>
 </ul>
 </div>
-<h3 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h3>
+<h3 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">¶</a></h3>
 <p>This article presents how to manage advanced mecanisms supplied by the island model. In the first part we will present the custom topology and stochastic topology. In a second part, we will see a fine-grained management of the island policies. Last but not least, we will demonstrate how to make the island performs any function each generation (in order to change topology with some conditions on a specific island for instance).</p>
-<h3 id="custom-and-stochastic-topology">Custom and stochastic topology<a class="headerlink" href="#custom-and-stochastic-topology" title="Permanent link">&para;</a></h3>
+<h3 id="custom-and-stochastic-topology">Custom and stochastic topology<a class="headerlink" href="#custom-and-stochastic-topology" title="Permanent link">¶</a></h3>
 <p>There are two types of custom topologies: boolean and stochastic. Both are built from a file containing the matrix. The file is parsed and each line must have the same number of values, equals to the number of lines (square matrix). The <code>CustomBooleanTopology</code>, contains integers (basically 0 and 1). Each zero value is considered to be false, and every other value is true. The <code>CustomStochasticTopology</code> contains double values between 0 and 1. The value at line <span class="arithmatex">\(i\)</span>, column <span class="arithmatex">\(j\)</span> is the probability to have a communication from island <span class="arithmatex">\(i\)</span> to island <span class="arithmatex">\(j\)</span>. Therefore, negative values are considered to be 0, and values above 1 are considered to be 1.</p>
 <p>Example for boolean topology:
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
@@ -153,7 +153,7 @@
 </code></pre></div></td></tr></table></div></p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
-<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="w">    </span><span class="n">CustomBooleanTopology</span><span class="w"> </span><span class="n">topo_bool</span><span class="p">(</span><span class="s">&quot;data_boolean&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="w">    </span><span class="n">CustomBooleanTopology</span><span class="w"> </span><span class="n">topo_bool</span><span class="p">(</span><span class="s">"data_boolean"</span><span class="p">);</span><span class="w"></span>
 <span class="w">    </span><span class="c1">//getting the neighbors of island 1</span>
 <span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">unsigned</span><span class="o">&gt;</span><span class="w"> </span><span class="n">neighbors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">topo_bool</span><span class="p">.</span><span class="n">getIdNeighbors</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w"> </span><span class="c1">//return a vector containing 0 and 2</span>
 </code></pre></div></td></tr></table></div>
@@ -167,12 +167,12 @@
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
 <span class="normal">2</span>
 <span class="normal">3</span>
-<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="w">    </span><span class="n">CustomBooleanTopology</span><span class="w"> </span><span class="n">topo_stoch</span><span class="p">(</span><span class="s">&quot;data_stochastic&quot;</span><span class="p">);</span><span class="w"></span>
+<span class="normal">4</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="w">    </span><span class="n">CustomBooleanTopology</span><span class="w"> </span><span class="n">topo_stoch</span><span class="p">(</span><span class="s">"data_stochastic"</span><span class="p">);</span><span class="w"></span>
 <span class="w">    </span><span class="c1">//getting the neighbors of island 1:</span>
 <span class="w">    </span><span class="n">std</span><span class="o">::</span><span class="n">vector</span><span class="o">&lt;</span><span class="kt">unsigned</span><span class="o">&gt;</span><span class="w"> </span><span class="n">neighbors</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="n">topo_bool</span><span class="p">.</span><span class="n">getIdNeighbors</span><span class="p">(</span><span class="mi">1</span><span class="p">);</span><span class="w"></span>
 <span class="w">    </span><span class="c1">//return a vector containing 0, and the probability 0.75 to contain the value 2.</span>
 </code></pre></div></td></tr></table></div>
-<h3 id="advanced-management-of-policy">Advanced management of policy<a class="headerlink" href="#advanced-management-of-policy" title="Permanent link">&para;</a></h3>
+<h3 id="advanced-management-of-policy">Advanced management of policy<a class="headerlink" href="#advanced-management-of-policy" title="Permanent link">¶</a></h3>
 <p>In this part, we will present a list of common cases that use the combination of <code>eoContinue</code> to build fine-grained policy rules.
 As explained in the previous article about components, a policy rule is compound of a temporal criteria - an <code>eoContinue</code> -, and a spatial criteria - an <code>eoSelect</code> -.</p>
 <p>To perform an OR condition, it is possible to use an <code>eoCheckPoint</code> as criteria. For instance:
@@ -241,7 +241,7 @@ As explained in the previous article about components, a policy rule is compound
 
 <span class="n">PolicyElement</span><span class="o">&lt;</span><span class="n">EOT</span><span class="o">&gt;</span><span class="w"> </span><span class="n">intensification_step</span><span class="p">(</span><span class="n">criterions</span><span class="p">,</span><span class="w"> </span><span class="n">who</span><span class="p">);</span><span class="w"></span>
 </code></pre></div></td></tr></table></div></p>
-<h3 id="creating-events-by-callback-method">Creating events by callback method<a class="headerlink" href="#creating-events-by-callback-method" title="Permanent link">&para;</a></h3>
+<h3 id="creating-events-by-callback-method">Creating events by callback method<a class="headerlink" href="#creating-events-by-callback-method" title="Permanent link">¶</a></h3>
 <p>When starting an island model it is possible to perform an action such as changing the topology at a precise moment.</p>
 <p>In that purpose SMP proposes a callback mecanism using the class <code>smp::Notifier</code> which inherites from <code>eoUpdater</code>.</p>
 <p>The notifier has to be added to the <code>eoContinue</code> of an island and you should not forget that the binded action will be performed each generation. Hence, you have to provide mecanism to check if you really would like to perform an action.</p>
@@ -286,6 +286,61 @@ As explained in the previous article about components, a policy rule is compound
 <p>In this example, we bind a function but it is possible to bind a lambda or class method which will be performed by a specific instance, etc.</p>
 <p>Another example of the use of the <code>Notifier</code> could be the modification of probabilities in stochastic topology in order to refine migration and integration policies during the computation.</p>
                 </div>
+                
+                <!-- Mermaid Script -->
+                <script type="module">
+                    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+                    
+                    // Configure and initialize mermaid
+                    const initMermaid = async () => {
+                        try {
+                            await mermaid.initialize({ 
+                                startOnLoad: true,
+                                theme: document.documentElement.classList.contains('dark') ? 'dark' : 'default',
+                                securityLevel: 'loose',
+                                flowchart: {
+                                    useMaxWidth: false,
+                                    htmlLabels: true,
+                                    curve: 'basis',
+                                    padding: 20,
+                                    nodeSpacing: 50,
+                                    rankSpacing: 50
+                                },
+                                themeVariables: {
+                                    primaryColor: '#D97706',
+                                    primaryTextColor: '#2A2927',
+                                    primaryBorderColor: '#D97706',
+                                    lineColor: '#78716c',
+                                    secondaryColor: '#f5f5f4',
+                                    tertiaryColor: '#fafaf9',
+                                    background: '#ffffff',
+                                    mainBkg: '#ffffff',
+                                    secondBkg: '#f5f5f4',
+                                    tertiaryBkg: '#fafaf9'
+                                }
+                            });
+                            
+                            // Log any mermaid elements found
+                            const elements = document.querySelectorAll('.mermaid');
+                            console.log(`Mermaid initialized. Found ${elements.length} diagram(s)`);
+                            
+                            // Force render if elements exist
+                            if (elements.length > 0) {
+                                mermaid.contentLoaded();
+                            }
+                        } catch (error) {
+                            console.error('Mermaid initialization error:', error);
+                        }
+                    };
+                    
+                    // Initialize when DOM is ready
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', initMermaid);
+                    } else {
+                        // DOM already loaded
+                        await initMermaid();
+                    }
+                </script>
             </article>
 
             <!-- Giscus Comments Section -->
@@ -336,7 +391,7 @@ As explained in the previous article about components, a policy rule is compound
     
 
     <!-- Custom JavaScript -->
-    <script src="https://quemy.info/js/main.js"></script>
+    <script src="http://localhost:8000/js/main.js"></script>
 
     
 </body>

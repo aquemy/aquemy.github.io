@@ -55,8 +55,8 @@
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, { delimiters: [ {left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}, {left: '\\(', right: '\\)', display: false}, {left: '\\[', right: '\\]', display: true} ]});"></script>
     
     <!-- Custom Styles and Theming -->
-    <link rel="stylesheet" href="https://quemy.info/css/custom.css">
-    <link rel="stylesheet" href="https://quemy.info/css/friendly.css">
+    <link rel="stylesheet" href="http://localhost:8000/css/custom.css">
+    <link rel="stylesheet" href="http://localhost:8000/css/friendly.css">
 
     <script>
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -112,7 +112,7 @@
 <div class="w-full max-w-7xl mx-auto py-12 px-4">
     <!-- Header moved outside the grid for proper alignment -->
     <header class="max-w-5xl mx-auto mb-12 text-center lg:text-left">
-        <a href="https://quemy.info/blog.html" class="text-sm text-accent-light dark:text-accent-dark hover:underline mb-4 inline-block">← Back to all posts</a>
+        <a href="http://localhost:8000/blog.html" class="text-sm text-accent-light dark:text-accent-dark hover:underline mb-4 inline-block">← Back to all posts</a>
         <h1 class="font-sans text-4xl md:text-5xl font-black text-ink dark:text-dark-ink leading-tight">Stop using "Correlation is not causation" and maybe stop using correlation</h1>
         <p class="mt-4 text-stone-500 dark:text-stone-400">2021-02-03 · Mathematics</p>
     </header>
@@ -146,11 +146,11 @@
 <li><a href="#conclusion-should-i-really-stop-using-the-correlation-coefficient">Conclusion: should I really stop using the correlation coefficient?</a></li>
 </ul>
 </div>
-<h3 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h3>
-<p>We went from a world where the slightest correlation was treated as causation to a world where anytime the light is put on any correlation, it attracts a horde wielding &ldquo;correlation is not causation&rdquo; as a mantra, preventing any further thinking. The common point between the two aforementioned situations is that people still do not know the definition of correlation, independence and causation. By definition I do not mean only the mathematical definition, but also what these terms imply and their limits in practice.</p>
-<p>In this article I will share some thoughts and examples to go further than the simple &ldquo;correlation is not causation&rdquo; slogan. I will also discuss if the concept of correlation is somehow useful, as observing directly a linear relationship is easier than interpreting the indicator itself. We will talk only about the problems related to the correlation coefficient: we will not discuss any model of causation<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>.</p>
+<h3 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">¶</a></h3>
+<p>We went from a world where the slightest correlation was treated as causation to a world where anytime the light is put on any correlation, it attracts a horde wielding “correlation is not causation” as a mantra, preventing any further thinking. The common point between the two aforementioned situations is that people still do not know the definition of correlation, independence and causation. By definition I do not mean only the mathematical definition, but also what these terms imply and their limits in practice.</p>
+<p>In this article I will share some thoughts and examples to go further than the simple “correlation is not causation” slogan. I will also discuss if the concept of correlation is somehow useful, as observing directly a linear relationship is easier than interpreting the indicator itself. We will talk only about the problems related to the correlation coefficient: we will not discuss any model of causation<sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup>.</p>
 <p>Future articles will cover more in depth the notions of independence, correlation, causality and the limits of <span class="arithmatex">\(p\)</span>-value based science without proper causation model. </p>
-<h3 id="linear-correlation-coefficient">Linear correlation coefficient<a class="headerlink" href="#linear-correlation-coefficient" title="Permanent link">&para;</a></h3>
+<h3 id="linear-correlation-coefficient">Linear correlation coefficient<a class="headerlink" href="#linear-correlation-coefficient" title="Permanent link">¶</a></h3>
 <p>Let us start with the definition of the correlation coefficient, or Pearson correlation coefficient, often simply referred as correlation. </p>
 <div class="admonition definition">
 <p class="admonition-title">Pearson correlation coefficient:</p>
@@ -165,14 +165,14 @@
 <div class="arithmatex">\[r = \frac{\sum_{i=1}^n (x_i -\bar x)(y_i - \bar y)}{\sqrt{\sum_{i=1}^n (x_i -\bar x)}\sqrt{\sum_{i=1}^n (y_i -\bar y)}}\]</div>
 <p>where <span class="arithmatex">\(\bar x\)</span> and <span class="arithmatex">\(\bar y\)</span> are the sample mean for <span class="arithmatex">\(X\)</span> and <span class="arithmatex">\(Y\)</span>.</p>
 <div class="admonition warning">
-<p>We will not talk about Spearman&rsquo;s rank correlation despite most remarks applies.</p>
+<p>We will not talk about Spearman’s rank correlation despite most remarks applies.</p>
 </div>
-<h3 id="zero-correlation-does-not-exclude-causation">Zero correlation does not exclude causation<a class="headerlink" href="#zero-correlation-does-not-exclude-causation" title="Permanent link">&para;</a></h3>
+<h3 id="zero-correlation-does-not-exclude-causation">Zero correlation does not exclude causation<a class="headerlink" href="#zero-correlation-does-not-exclude-causation" title="Permanent link">¶</a></h3>
 <blockquote>
 <p>Does the absence of correlation exclude causation?</p>
 </blockquote>
-<p>Let&rsquo;s start by something obvious but somehow often forgotten or unknown by the followers of the sect of correlation.
-The answer is no and let&rsquo;s give few theoretical and practical counter-examples.</p>
+<p>Let’s start by something obvious but somehow often forgotten or unknown by the followers of the sect of correlation.
+The answer is no and let’s give few theoretical and practical counter-examples.</p>
 <div class="admonition example">
 <p class="admonition-title">Example 1:</p>
 <p>Assume a random variable <span class="arithmatex">\(Z\)</span> following Rademacher law, that is to say taking values -1 and 1 with probability <span class="arithmatex">\(\frac 1 2\)</span>. Then define <span class="arithmatex">\(Y = ZX\)</span> where <span class="arithmatex">\(X\)</span> is any non-null random variable, independent from <span class="arithmatex">\(Z\)</span>. Then, correlation between <span class="arithmatex">\(X\)</span> and <span class="arithmatex">\(Y\)</span> is equal to <span class="arithmatex">\(0\)</span> while obviously <span class="arithmatex">\(Y\)</span> is not independent from <span class="arithmatex">\(X\)</span> and fully caused by <span class="arithmatex">\(X\)</span> and <span class="arithmatex">\(Z\)</span>.</p>
@@ -180,7 +180,7 @@ The answer is no and let&rsquo;s give few theoretical and practical counter-exam
 <div class="admonition example">
 <p class="admonition-title">Example 2:</p>
 <p>Another simple example: assume <span class="arithmatex">\(X\)</span> following a uniform law on <span class="arithmatex">\([-1;1]\)</span> and <span class="arithmatex">\(Y\)</span> such that <span class="arithmatex">\(Y = X^2\)</span>. While <span class="arithmatex">\(Y\)</span> is fully determined by <span class="arithmatex">\(X\)</span>, their correlation is 0. </p>
-<p><center><figure><img src="images/2021-02-03-correlation-is-not-causation-limits/Fig1.png" /><figcaption>Causal system with 0 correlation</figcaption>
+<p><center><figure><img src="images/2021-02-03-correlation-is-not-causation-limits/Fig1.png"/><figcaption>Causal system with 0 correlation</figcaption>
 </figure></center></p>
 <p><script src="https://gist.github.com/aquemy/8963c3fab1e719047ab002332fdcd759.js"></script></p>
 </div>
@@ -196,20 +196,20 @@ g(x) = \begin{pmatrix}
 \]</div>
 <p>That is to say, <span class="arithmatex">\(g\)</span> is a rotation by 90°. Now define <span class="arithmatex">\(Y = g(X)\)</span>. They cross-covariance is zero while again, both one sequence fully determines the second one.</p>
 </div>
-<h3 id="strictly-linear-relation-only-and-robustness">Strictly linear relation only and robustness<a class="headerlink" href="#strictly-linear-relation-only-and-robustness" title="Permanent link">&para;</a></h3>
+<h3 id="strictly-linear-relation-only-and-robustness">Strictly linear relation only and robustness<a class="headerlink" href="#strictly-linear-relation-only-and-robustness" title="Permanent link">¶</a></h3>
 <blockquote>
 <p>Can correlation be used to automatically assess a linear relationship between variables? Can correlation measures non-linear relationships?</p>
 </blockquote>
 <p>First of all, let us remind the reader that correlation usually refers to <em>linear</em> correlation, and therefore can only measure linear relations between variables. This is a hypothesis on the construction of the correlation coefficient itself. In other words, despite the fact that correlation can be calculated in any case, its validity in terms of interpretation is bounded by the fact that there is a linear relation between the variables.</p>
 <p>As a direct result, it is not enough to estimate the linear relationship by looking at the correlation coefficient: data must be visualized. <mark>This nullify the interest of using such coefficient to programmatically infer a linear relationship, and thus should be avoided in an AutoML setting</mark>. Indeed, it is easy to obtain a high correlation coefficient even with a non-linear relationship as illustrated by the following figure. The figure shows four datasets constructed by Francis Anscombe in 1973 to precisely demonstrate the importance of data visualization before analyzing it. This example goes beyond correlation because the mean and standard deviation are also all equal.
-<center><figure><img src="images/2021-02-03-correlation-is-not-causation-limits/Fig2.png" /><figcaption>Anscombe&rsquo;s quartet</figcaption>
+<center><figure><img src="images/2021-02-03-correlation-is-not-causation-limits/Fig2.png"/><figcaption>Anscombe’s quartet</figcaption>
 </figure></center></p>
 <script src="https://gist.github.com/aquemy/e71e347936c30034c00c8ad2251730f4.js"></script>
-<p>(Code originally from <a href="https://matplotlib.org/3.2.1/gallery/specialty_plots/anscombe.html">Matplotlib&rsquo;s documentation</a>)</p>
+<p>(Code originally from <a href="https://matplotlib.org/3.2.1/gallery/specialty_plots/anscombe.html">Matplotlib’s documentation</a>)</p>
 <p>Note again that the lack of linear relationship does not mean that there is no any other sort of non-linear relationship between the variable, and thus, potentially a causation relation, as demonstrated by quadrant II.</p>
 <p>Observe also quadrant III: the correlation coefficient is a non-robust indicator of a linear relationship because an outlier can easily drastically and artificially lower its value. <mark>As a result, it is possible to downplay the importance of a linear relationship because of a single outlier.</mark> More generally, every model built on squared loss will be at risk of adversarial attack because adding a single well-engineered outlier might bias the model toward a desired outcome. <a href="https://www.ecva.net/papers/eccv_2020/papers_ECCV/papers/123680477.pdf">Even without information about the gradient</a>!</p>
 <p>Of course, the impact of outliers is drastically reduced with large samples, or so-called <em>big data</em>. However, the complexity to visualize relationships increases with the dataset size and its dimensionality. So again, the conclusion here is that the correlation coefficient must be used carefully and discernment.</p>
-<h3 id="geometric-interpretation">Geometric interpretation<a class="headerlink" href="#geometric-interpretation" title="Permanent link">&para;</a></h3>
+<h3 id="geometric-interpretation">Geometric interpretation<a class="headerlink" href="#geometric-interpretation" title="Permanent link">¶</a></h3>
 <blockquote>
 <p>How can I geometrically interpret the correlation?</p>
 </blockquote>
@@ -224,7 +224,7 @@ g(x) = \begin{pmatrix}
 <li>if <span class="arithmatex">\(r=-1\)</span>, <span class="arithmatex">\(\alpha = 180\)</span></li>
 </ol>
 <p>Finally, the correlation coefficient can be interpreted not as a level of dependence between two variables but as their angular distance on the n-dimensional hypersphere. <mark>Way cooler to use, although probably inadequate to convince shareholders in a meeting about your future business plan.</mark></p>
-<h3 id="non-linear-interpretation-and-variance-explained">Non-linear interpretation and variance explained<a class="headerlink" href="#non-linear-interpretation-and-variance-explained" title="Permanent link">&para;</a></h3>
+<h3 id="non-linear-interpretation-and-variance-explained">Non-linear interpretation and variance explained<a class="headerlink" href="#non-linear-interpretation-and-variance-explained" title="Permanent link">¶</a></h3>
 <blockquote>
 <p>Assuming linear relationship between variables, is 0.5 to 0.6 the same as 0.8 to 0.9? </p>
 </blockquote>
@@ -236,7 +236,7 @@ g(x) = \begin{pmatrix}
 <p>Assuming a linear relationship, is 0.5 a <em>good</em> coefficient? </p>
 </blockquote>
 <p>There are several considerations. If we study known-to-be-causal and stationary<sup id="fnref:stationary"><a class="footnote-ref" href="#fn:stationary">2</a></sup> systems such as physical systems, then such correlation is insignificant because it is expected that the linear response to a linear system would lead to an almost perfect correlation coefficient (tainted by the uncertainty, measurement in particular).</p>
-<p>Now, if we consider non-natural science, it might be tempting to say that due to the intrinsic complexity of, let&rsquo;s say, social systems, with many variables, each with small individual impact, dynamics changing through time, most likely non-linear ones, with difficulties to isolate variables, etc. a lower correlation coefficient value of 0.5 or 0.6 is already something.</p>
+<p>Now, if we consider non-natural science, it might be tempting to say that due to the intrinsic complexity of, let’s say, social systems, with many variables, each with small individual impact, dynamics changing through time, most likely non-linear ones, with difficulties to isolate variables, etc. a lower correlation coefficient value of 0.5 or 0.6 is already something.</p>
 <table>
 <thead>
 <tr>
@@ -294,14 +294,13 @@ g(x) = \begin{pmatrix}
 <li>If the variable is the most impactful variable i.e. there is no variable that would explain more than 25%, then we have a mixed result: we have the most important variable (great!) but to explain more variance, as 25% is rather low, we would have to complexify our model. To reach a target of 75% variance explained, we would have to add at least three other variables, most likely more.</li>
 <li>If the variable is not the most impactful one, we are missing the big factor. Potentially from quite a lot since 75% of the variance remains to be explained. <mark>A scientist should NEVER be happy with a correlation coefficient close to 0.6 because of the possibility to fall in this category.</mark></li>
 </ol>
-<h3 id="non-random-subsampling-issue-correlation-is-subadditive">Non-random subsampling issue: correlation is subadditive<a class="headerlink" href="#non-random-subsampling-issue-correlation-is-subadditive" title="Permanent link">&para;</a></h3>
+<h3 id="non-random-subsampling-issue-correlation-is-subadditive">Non-random subsampling issue: correlation is subadditive<a class="headerlink" href="#non-random-subsampling-issue-correlation-is-subadditive" title="Permanent link">¶</a></h3>
 <p>Correlation is subadditive. Consider two random variables <span class="arithmatex">\(X\)</span> and <span class="arithmatex">\(Y\)</span> whose joint distribution takes value in <span class="arithmatex">\(U = [0,1]^2\)</span>, and a partition of this space, arbitrarily <span class="arithmatex">\(U_1 = [0, 1] \times [0, \frac 1 2]\)</span> and <span class="arithmatex">\(U_2 =[0, 1] \times [ \frac 1 2, 1]\)</span>. Then the following holds:</p>
 <div class="arithmatex">\[w_1 {corr(U_1)}+ w_2 {corr(U_2)} \leq {corr}(U)\]</div>
 <p>where <span class="arithmatex">\(w_i\)</span> is the proportion of points from the total sample, i.e. <span class="arithmatex">\(\sum_i w_i = 1\)</span>.</p>
-<p><center><figure><img src="images/2021-02-03-correlation-is-not-causation-limits/Fig3.png" /><figcaption>Non-random subsampling and correlation</figcaption>
+<p><center><figure><img src="images/2021-02-03-correlation-is-not-causation-limits/Fig3.png"/><figcaption>Non-random subsampling and correlation</figcaption>
 </figure></center></p>
 <script src="https://gist.github.com/aquemy/36c1f0310746fc525db3d4790900b171.js"></script>
-
 <p>In other words, computing the correlation on subspaces and summing the results will always lead to underestimate the correlation. One might think it is enough to perform random sampling of <span class="arithmatex">\((X, Y)\)</span> to get a proper estimation and avoid the weird idea to sample separate subspaces. The problem is that it works only for academic datasets and toy-models. In practice, </p>
 <ol>
 <li>We might not have enough information in advance to know the whole domain and data points mostly arrive sequentially.</li>
@@ -309,18 +308,18 @@ g(x) = \begin{pmatrix}
 <li>And even when it is possible to request a sample, it might be very costly to do so in some regions of the domain, therefore introducing de facto a subspace.</li>
 <li><mark>When I have access to external data, e.g. as a <em>fact checker</em> or journalist, I usually do not have information about whether the data are from a subsample or not.</mark></li>
 </ol>
-<h3 id="alternative-measure-for-dependencies-mutual-information">Alternative measure for dependencies: Mutual Information<a class="headerlink" href="#alternative-measure-for-dependencies-mutual-information" title="Permanent link">&para;</a></h3>
+<h3 id="alternative-measure-for-dependencies-mutual-information">Alternative measure for dependencies: Mutual Information<a class="headerlink" href="#alternative-measure-for-dependencies-mutual-information" title="Permanent link">¶</a></h3>
 <blockquote>
 <p>Can we measure nonlinear dependences?</p>
 </blockquote>
 <p>Usually, people uses correlation as a measure of dependence, even if they know correlation is not causation.</p>
-<p>Putting aside spurious correlations, their reasoning is as follows &ldquo;if variables are not independent, then it means that they are somehow linked and influence each other - potentially by a confounding variable&rdquo;. But as we have seen, the problem is that correlation measures only linear dependence.</p>
+<p>Putting aside spurious correlations, their reasoning is as follows “if variables are not independent, then it means that they are somehow linked and influence each other - potentially by a confounding variable”. But as we have seen, the problem is that correlation measures only linear dependence.</p>
 <p>There exist more general dependence measurements such as the Mutual Information, defined by </p>
 <div class="arithmatex">\[I(X;Y) = D_{\mathrm {KL} }(P_{(X,Y)}\|P_{X}\otimes P_{Y})\]</div>
 <p>where <span class="arithmatex">\(D_{\mathrm {KL} }\)</span> is the <a href="https://en.wikipedia.org/wiki/Kullback%E2%80%93Leibler_divergence">Kullback–Leibler</a> divergence.</p>
 <p>Computing it is not as easy as for the correlation, especially in practice where the joint distributions are not known and only a sample is available. Estimating the mutual information is currently actively being investigated. See for instance <a href="https://www.stat.berkeley.edu/~binyu/summer08/L2P2.pdf">here</a>, <a href="https://arxiv.org/pdf/1905.02034.pdf">here</a> or <a href="https://papers.nips.cc/paper/2017/file/ef72d53990bc4805684c9b61fa64a102-Paper.pdf">here</a>.
 As illustrated in the following figure, the Mutual Information measures also nonlinear relationships.</p>
-<p><center><figure><img src="images/2021-02-03-correlation-is-not-causation-limits/MI.png" /><figcaption>Mutual Information and correlation coefficient. It also displays the Spearman&rsquo;s rank correlation which is as limited as Pearson&rsquo;s correlation. <a href="https://acp.copernicus.org/articles/18/12699/2018/">Image source.</a></figcaption>
+<p><center><figure><img src="images/2021-02-03-correlation-is-not-causation-limits/MI.png"/><figcaption>Mutual Information and correlation coefficient. It also displays the Spearman’s rank correlation which is as limited as Pearson’s correlation. <a href="https://acp.copernicus.org/articles/18/12699/2018/">Image source.</a></figcaption>
 </figure></center></p>
 <p>It can actually be shown that the correlation coefficient can be directly connected to the Mutual Information in case <span class="arithmatex">\(X\)</span> and <span class="arithmatex">\(Y\)</span> is a bivariate normal distribution by:</p>
 <div class="arithmatex">\[I(X,Y) = -\frac 1 2 \log(1 - \text{corr}(X, Y)^2)\]</div>
@@ -329,7 +328,7 @@ As illustrated in the following figure, the Mutual Information measures also non
  r\sigma_1\sigma_2&amp; \sigma_2^2
 \end{pmatrix}\)</span></p>
 <p>More than the result itself, the actual information is that in general, one cannot infer the Mutual Information from the correlation or vice-versa.</p>
-<h3 id="on-the-independence-of-variables">On the independence of variables<a class="headerlink" href="#on-the-independence-of-variables" title="Permanent link">&para;</a></h3>
+<h3 id="on-the-independence-of-variables">On the independence of variables<a class="headerlink" href="#on-the-independence-of-variables" title="Permanent link">¶</a></h3>
 <p>The notion that a lot of people refer to when they think about correlation is actually the independence of two variables.
 We are getting further from the notion of causality, but roughly speaking, two events <span class="arithmatex">\(A\)</span> and <span class="arithmatex">\(B\)</span> are independent in the knowledge of one does not influence the second.</p>
 <p>Mathematically, given <span class="arithmatex">\(A\)</span> and <span class="arithmatex">\(B\)</span> two events, <span class="arithmatex">\(A\)</span> and <span class="arithmatex">\(B\)</span> are independent iff <span class="arithmatex">\(\mathbb{P}(A \cap B) = \mathbb{P}(A) \mathbb{P}(B)\)</span>. It is probably more intuitive by considering that <span class="arithmatex">\(B\)</span> is not null or not equals to one. Then <span class="arithmatex">\(A\)</span> and <span class="arithmatex">\(B\)</span> are independent implies that <span class="arithmatex">\(\mathbb{P}(A | B) = \mathbb{P}(A)\)</span>.</p>
@@ -340,9 +339,9 @@ We are getting further from the notion of causality, but roughly speaking, two e
 <li><mark>The absence of independence implies a zero correlation but zero correlation does not imply independence.</mark></li>
 <li><mark>Two variables being independent does not imply that there is an absence of causality between these variables.</mark></li>
 </ol>
-<h3 id="conclusion-should-i-really-stop-using-the-correlation-coefficient">Conclusion: should I really stop using the correlation coefficient?<a class="headerlink" href="#conclusion-should-i-really-stop-using-the-correlation-coefficient" title="Permanent link">&para;</a></h3>
+<h3 id="conclusion-should-i-really-stop-using-the-correlation-coefficient">Conclusion: should I really stop using the correlation coefficient?<a class="headerlink" href="#conclusion-should-i-really-stop-using-the-correlation-coefficient" title="Permanent link">¶</a></h3>
 <p>No. For a single and very good reason: it is a measure of the amplitude of an effect. A linear effect precisely.
- It has many drawbacks, most of them being non-obvious. However, one of the main problems with the current standard scientific method is precisely that it is based on <span class="arithmatex">\(p\)</span>-value which is NOT a measure of the amplitude of an effect but a purely binary threshold: either the effect is significant or not, with regards to an arbitrary threshold decided a priori. Contrarily to a common misconception, for a fixed threshold, let&rsquo;s say <span class="arithmatex">\(0.05\)</span>, a <span class="arithmatex">\(p\)</span>-value <span class="arithmatex">\(p_1 = 10^{-5}\)</span> is not worse than a <span class="arithmatex">\(p\)</span>-value <span class="arithmatex">\(p_2 = 10^{-10}\)</span>. It tells <strong>nothing</strong> about the amplitude of the effect. All it tells is that it would be far more surprising if the effect tested by <span class="arithmatex">\(p_2\)</span> would not exist or be at random, compared to the effect tested by <span class="arithmatex">\(p_1\)</span>. </p>
+ It has many drawbacks, most of them being non-obvious. However, one of the main problems with the current standard scientific method is precisely that it is based on <span class="arithmatex">\(p\)</span>-value which is NOT a measure of the amplitude of an effect but a purely binary threshold: either the effect is significant or not, with regards to an arbitrary threshold decided a priori. Contrarily to a common misconception, for a fixed threshold, let’s say <span class="arithmatex">\(0.05\)</span>, a <span class="arithmatex">\(p\)</span>-value <span class="arithmatex">\(p_1 = 10^{-5}\)</span> is not worse than a <span class="arithmatex">\(p\)</span>-value <span class="arithmatex">\(p_2 = 10^{-10}\)</span>. It tells <strong>nothing</strong> about the amplitude of the effect. All it tells is that it would be far more surprising if the effect tested by <span class="arithmatex">\(p_2\)</span> would not exist or be at random, compared to the effect tested by <span class="arithmatex">\(p_1\)</span>. </p>
 <p>As a result, any indicator that can help to understand the amplitude of an effect is more than welcomed. The problem being, that in practice, many people are not taking into account the intrinsic limitations of such indicator.</p>
 <p>In general, the correlation coefficient does not indicate whether:</p>
 <ol>
@@ -356,17 +355,72 @@ We are getting further from the notion of causality, but roughly speaking, two e
 </ol>
 <p>In summary, linear correlation is the starting point of a reasoning, nothing more. An observation that should help us to look for an explanation or further results. It is not a golden measurement, it is rather hard to interprete compared to simply observing the phenomena it tries to measure. A lack of correlation does not mean there is no causation effect and a good correlation does not imply a causation effect. But at least, it is a measurement of the amplitude of an effect rather than a measure of how surprising it would be if an effect is due to randomness, and just for this, you should continue to use it with parsimony.</p>
 <div class="footnote">
-<hr />
+<hr/>
 <ol>
 <li id="fn:1">
-<p>To be honest, I decided to write this article just before reading <em>The Book of Why</em> by Judea Pearl, as an exercise to compared my understanding of causation before and after.&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+<p>To be honest, I decided to write this article just before reading <em>The Book of Why</em> by Judea Pearl, as an exercise to compared my understanding of causation before and after. <a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">↩</a></p>
 </li>
 <li id="fn:stationary">
-<p>Systems such that their dynamic does not evolve in time. We could also include systems such that the dynamic might evolve by actions performed by the observers but not systems whose dynamic evolves according to an unobserved and unknown law.&#160;<a class="footnote-backref" href="#fnref:stationary" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+<p>Systems such that their dynamic does not evolve in time. We could also include systems such that the dynamic might evolve by actions performed by the observers but not systems whose dynamic evolves according to an unobserved and unknown law. <a class="footnote-backref" href="#fnref:stationary" title="Jump back to footnote 2 in the text">↩</a></p>
 </li>
 </ol>
 </div>
                 </div>
+                
+                <!-- Mermaid Script -->
+                <script type="module">
+                    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+                    
+                    // Configure and initialize mermaid
+                    const initMermaid = async () => {
+                        try {
+                            await mermaid.initialize({ 
+                                startOnLoad: true,
+                                theme: document.documentElement.classList.contains('dark') ? 'dark' : 'default',
+                                securityLevel: 'loose',
+                                flowchart: {
+                                    useMaxWidth: false,
+                                    htmlLabels: true,
+                                    curve: 'basis',
+                                    padding: 20,
+                                    nodeSpacing: 50,
+                                    rankSpacing: 50
+                                },
+                                themeVariables: {
+                                    primaryColor: '#D97706',
+                                    primaryTextColor: '#2A2927',
+                                    primaryBorderColor: '#D97706',
+                                    lineColor: '#78716c',
+                                    secondaryColor: '#f5f5f4',
+                                    tertiaryColor: '#fafaf9',
+                                    background: '#ffffff',
+                                    mainBkg: '#ffffff',
+                                    secondBkg: '#f5f5f4',
+                                    tertiaryBkg: '#fafaf9'
+                                }
+                            });
+                            
+                            // Log any mermaid elements found
+                            const elements = document.querySelectorAll('.mermaid');
+                            console.log(`Mermaid initialized. Found ${elements.length} diagram(s)`);
+                            
+                            // Force render if elements exist
+                            if (elements.length > 0) {
+                                mermaid.contentLoaded();
+                            }
+                        } catch (error) {
+                            console.error('Mermaid initialization error:', error);
+                        }
+                    };
+                    
+                    // Initialize when DOM is ready
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', initMermaid);
+                    } else {
+                        // DOM already loaded
+                        await initMermaid();
+                    }
+                </script>
             </article>
 
             <!-- Giscus Comments Section -->
@@ -417,7 +471,7 @@ We are getting further from the notion of causality, but roughly speaking, two e
     
 
     <!-- Custom JavaScript -->
-    <script src="https://quemy.info/js/main.js"></script>
+    <script src="http://localhost:8000/js/main.js"></script>
 
     
 </body>

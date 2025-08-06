@@ -55,8 +55,8 @@
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, { delimiters: [ {left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}, {left: '\\(', right: '\\)', display: false}, {left: '\\[', right: '\\]', display: true} ]});"></script>
     
     <!-- Custom Styles and Theming -->
-    <link rel="stylesheet" href="https://quemy.info/css/custom.css">
-    <link rel="stylesheet" href="https://quemy.info/css/friendly.css">
+    <link rel="stylesheet" href="http://localhost:8000/css/custom.css">
+    <link rel="stylesheet" href="http://localhost:8000/css/friendly.css">
 
     <script>
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -112,7 +112,7 @@
 <div class="w-full max-w-7xl mx-auto py-12 px-4">
     <!-- Header moved outside the grid for proper alignment -->
     <header class="max-w-5xl mx-auto mb-12 text-center lg:text-left">
-        <a href="https://quemy.info/blog.html" class="text-sm text-accent-light dark:text-accent-dark hover:underline mb-4 inline-block">← Back to all posts</a>
+        <a href="http://localhost:8000/blog.html" class="text-sm text-accent-light dark:text-accent-dark hover:underline mb-4 inline-block">← Back to all posts</a>
         <h1 class="font-sans text-4xl md:text-5xl font-black text-ink dark:text-dark-ink leading-tight">On controlling the propagation of numerical errors</h1>
         <p class="mt-4 text-stone-500 dark:text-stone-400">2021-01-05 · Computer Science</p>
     </header>
@@ -144,22 +144,22 @@
 <li><a href="#bibliography">Bibliography</a></li>
 </ul>
 </div>
-<h3 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h3>
+<h3 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">¶</a></h3>
 <p>Numerical computations are always tainted by errors. A typical example is when scientists simulate a physical system by a numerical method for which a mathematical study gives a bound on the error depending on some parameters. For example, with the <a href="https://en.wikipedia.org/wiki/Euler_method">Euler method</a>, the error compared to the real solution decreases with the time step. If we did the numerical computation by hand, a time step that goes towards <span class="arithmatex">\(0\)</span> would allow us to find the exact solution. Obviously, it is impossible, even for a machine, to have a time step of <span class="arithmatex">\(0\)</span>, but one might think that reducing it as much as our time budget or computing power allows is a good thing. <em>Absolutely not!</em></p>
-<p><center><figure><img src="images/2016-05-23-controler-la-propagation-des-erreurs-de-calculs-numeriques/1.png" /><figcaption><span class="arithmatex">\(\frac 1 3\)</span> cannot be represented exactly by a calculator.</figcaption>
+<p><center><figure><img src="images/2016-05-23-controler-la-propagation-des-erreurs-de-calculs-numeriques/1.png"/><figcaption><span class="arithmatex">\(\frac 1 3\)</span> cannot be represented exactly by a calculator.</figcaption>
 </figure></center></p>
 <p>Indeed, a second category of errors, not connected to the method but much more general, is the <a href="https://en.wikipedia.org/wiki/Floating-point_arithmetic">representation  error </a>. The problem is far more trivial, almost crude in the simplicity of its statement: it is impossible to represent an infinite quantity in memory space of finite size.</p>
-<p>This leads us to consider the fact that, whatever the representation we chose, i.e., the way of translating a real number for the hardware, there will always exist numbers for which the representation will not be possible. An army of engineers and researchers worked to find and formalize a practical and intelligent representation, as a compromise between precision and ease of handling. This standardization process resulted in the <a href="https://en.wikipedia.org/wiki/IEEE_754">IEEE-754 standard</a> followed by most of the world&rsquo;s computer hardware.</p>
+<p>This leads us to consider the fact that, whatever the representation we chose, i.e., the way of translating a real number for the hardware, there will always exist numbers for which the representation will not be possible. An army of engineers and researchers worked to find and formalize a practical and intelligent representation, as a compromise between precision and ease of handling. This standardization process resulted in the <a href="https://en.wikipedia.org/wiki/IEEE_754">IEEE-754 standard</a> followed by most of the world’s computer hardware.</p>
 <div class="admonition warning">
 <p class="admonition-title">Warning</p>
 <p>While a general reminder on the real numbers representation is provided, it is advised to have some notions about the representation of floating point numbers and basic notions of probabilities, in particular, on the construction of confidence intervals, in order to approach the theoretical part.</p>
 </div>
 <p>A question that naturally arises is: can I numerically control the errors which are induced by the representation error and then propagated during the calculation? This is what we will try to answer positively thanks to the CESTAC method, which stands for STochastic Control and Estimation of Rounding of Calculations (fr.: Contrôle et Estimation STochastique des Arrondis de Calculs).</p>
 <p><mark>An implementation of the method described in this article can be found in the following repository:</mark>
-    <center>
-    <a href="https://github.com/aquemy/CESTAC"><img alt="" src="https://gh-card.dev/repos/aquemy/CESTAC.svg" /></a>
-    </center></p>
-<h3 id="some-floating-point-arithmetic-reminders">Some floating point arithmetic reminders<a class="headerlink" href="#some-floating-point-arithmetic-reminders" title="Permanent link">&para;</a></h3>
+<center>
+<a href="https://github.com/aquemy/CESTAC"><img alt="" src="https://gh-card.dev/repos/aquemy/CESTAC.svg"/></a>
+</center></p>
+<h3 id="some-floating-point-arithmetic-reminders">Some floating point arithmetic reminders<a class="headerlink" href="#some-floating-point-arithmetic-reminders" title="Permanent link">¶</a></h3>
 <p>Let us first see how to represent a real number in <a href="https://en.wikipedia.org/wiki/Scientific_notation">scientific notation</a> and in a any <a href="https://en.wikipedia.org/wiki/Radix">base</a></p>
 <p>We denote by <span class="arithmatex">\(b\)</span> the base of the arithmetic in which we will work, with generally <span class="arithmatex">\(b=2\)</span> or <span class="arithmatex">\(b = 16\)</span> for modern computation units. Then, any number <span class="arithmatex">\(x \in \mathbb {R}\)</span> can be written by:</p>
 <div class="arithmatex">\[x = \pm mb^E\]</div>
@@ -173,7 +173,7 @@
 <p>This is how for a machine, a real number <span class="arithmatex">\(x\)</span> is represented by a floating number <span class="arithmatex">\(X\)</span> which can itself be written as follows:</p>
 <div class="arithmatex">\[X = \pm Mb^E\]</div>
 <p>With <span class="arithmatex">\(\frac{1}{b} \leq M &lt; 1\)</span> and <span class="arithmatex">\(M\)</span> the significand encoded on a <strong>finite</strong> number of digits <span class="arithmatex">\(n\)</span> and <span class="arithmatex">\(E\)</span> the exponent, also encoded on a <strong>finite</strong> number of digits. We can therefore write <span class="arithmatex">\(M\)</span> in base <span class="arithmatex">\(b\)</span> by: <span class="arithmatex">\(\sum_{i=1}^n M_ib^{-i}, 0 \leq M_i &lt; b\)</span>, where this time the number of elements to be summed is always finite.</p>
-<p><center><figure><img src="images/2016-05-23-controler-la-propagation-des-erreurs-de-calculs-numeriques/2.jpg" /><figcaption>Double precision encoding of a real number in the IEEE-754 standard: 52 significand bits, 11 exponent bits, 1 sign bit.</figcaption>
+<p><center><figure><img src="images/2016-05-23-controler-la-propagation-des-erreurs-de-calculs-numeriques/2.jpg"/><figcaption>Double precision encoding of a real number in the IEEE-754 standard: 52 significand bits, 11 exponent bits, 1 sign bit.</figcaption>
 </figure></center></p>
 <p>As these are only reminders, I am not going into all the intricacies of the IEEE-754 standard, and these explanations are sufficient to continue the article.</p>
 <p>We consider the assignment operation (<span class="arithmatex">\(:=\)</span>): <span class="arithmatex">\(\mathbb {R} \to \mathcal {F}\)</span>, where <span class="arithmatex">\(\mathcal{F}\)</span> is the set of floating point numbers. That is to say the operation which associates to a real number its machine representation.</p>
@@ -193,9 +193,9 @@
 <p>An essential property of the IEEE-754 standard is that it guarantees that the result of a floating point operation is equal to the result of the corresponding real operation to which the rounding mode is applied rightafter. In other words, if we choose a rounding mode <span class="arithmatex">\(\text{Arr}\)</span>, <span class="arithmatex">\(a\)</span> and <span class="arithmatex">\(b\)</span> two real numbers whose floating point representations are <span class="arithmatex">\(A\)</span> and <span class="arithmatex">\(B\)</span>, <span class="arithmatex">\(+\)</span> a real operation, and <span class="arithmatex">\(\oplus\)</span> its machine counterpart, then, the standard guarantees us that <span class="arithmatex">\(A \oplus B = Arr(a + b)\)</span>.</p>
 <p><mark>This property, known as <strong>correct rounding</strong>, is essential because it makes it possible to prove on a numerical algorithm or to obtain proven bounds for numerical results.</mark></p>
 <p>Finally, we can define the relative assignment error by the following formula: <span class="arithmatex">\(\alpha = \frac {X - x}{X}\)</span>. It is precisely this initial error of representation which propagates during the computation.</p>
-<h3 id="the-different-problems-faced-with-numerical-computation">The different problems faced with numerical computation<a class="headerlink" href="#the-different-problems-faced-with-numerical-computation" title="Permanent link">&para;</a></h3>
+<h3 id="the-different-problems-faced-with-numerical-computation">The different problems faced with numerical computation<a class="headerlink" href="#the-different-problems-faced-with-numerical-computation" title="Permanent link">¶</a></h3>
 <p>As mentioned earlier, any algorithm that performs floating point computations gives an error-ridden result. When an algorithm is finite<sup id="fnref:finite"><a class="footnote-ref" href="#fn:finite">2</a></sup>, then the numerical error is the result of the propagation of rounding or truncation errors during floating point operations.</p>
-<p>In the case of iterative algorithms, for example Newton&rsquo;s method, it is also necessary to stop the algorithm after a certain number of iterations, optimal if possible, which is a problem considering that:</p>
+<p>In the case of iterative algorithms, for example Newton’s method, it is also necessary to stop the algorithm after a certain number of iterations, optimal if possible, which is a problem considering that:</p>
 <ul>
 <li>if the algorithm is stopped too early, the solution obtained will not be a good approximation of the real solution. It is the <a href="https://en.wikipedia.org/wiki/Rate_of_convergence">rate of convergence</a> which informs us about this, that is to say the mathematics behind a specific method;</li>
 <li>if the algorithm is stopped too late, additional steps will not bring more precision to the solution obtained, and worse, the propagation of errors can degrade the solution, until, for pathological cases, returning a result which has no meaning.</li>
@@ -203,17 +203,17 @@
 <p>What is important here is that given an iterative numerical method, the objectives of the mathematician and the engineer are in a way opposed: the former would like to continue to iterate as much as possible (that is, as long as the time constraints allows it) because he knows that this leads to a better solution in theory, while the engineer tells us that we must stop at some point.</p>
 <p>In reality, there are at least four interesting and central issues:</p>
 <ol>
-<li>For the mathematician: given some hardware and a system of representation, how can I obtain a better approximation of the solution to my problem?<br />
-<strong>Answer:</strong> find algorithms with higher convergence rate or methods to speed up convergence! In this regard, one might cite the method of <a href="https://en.wikipedia.org/wiki/Aitken%27s_delta-squared_process">Aitken&rsquo;s Delta-2</a> or the <a href="https://en.wikipedia.org/wiki/Peter_Wynn_(mathematician)#cite_note-15"><span class="arithmatex">\(\epsilon\)</span>-algorithme</a>.</li>
-<li>For the engineer: for a given algorithm AND some hardware with a system of representation, how can we get a better solution approximation?<br />
-<strong>Answer:</strong> reorganize the operations within the algorithm to limit the error propagation while not changing the convergence rate! A generic technique of reorganizing the terms of a sum is called <a href="https://en.wikipedia.org/wiki/Kahan_summation_algorithm">Kahan&rsquo;s summation algorithm</a>.</li>
-<li>For everyone: for a given algorithm and its implementation, how can we get the best out of it?<br />
+<li>For the mathematician: given some hardware and a system of representation, how can I obtain a better approximation of the solution to my problem?<br/>
+<strong>Answer:</strong> find algorithms with higher convergence rate or methods to speed up convergence! In this regard, one might cite the method of <a href="https://en.wikipedia.org/wiki/Aitken%27s_delta-squared_process">Aitken’s Delta-2</a> or the <a href="https://en.wikipedia.org/wiki/Peter_Wynn_(mathematician)#cite_note-15"><span class="arithmatex">\(\epsilon\)</span>-algorithme</a>.</li>
+<li>For the engineer: for a given algorithm AND some hardware with a system of representation, how can we get a better solution approximation?<br/>
+<strong>Answer:</strong> reorganize the operations within the algorithm to limit the error propagation while not changing the convergence rate! A generic technique of reorganizing the terms of a sum is called <a href="https://en.wikipedia.org/wiki/Kahan_summation_algorithm">Kahan’s summation algorithm</a>.</li>
+<li>For everyone: for a given algorithm and its implementation, how can we get the best out of it?<br/>
 <strong>Answers:</strong> Choose the most suited representation of real numbers (<a href="https://fr.wikipedia.org/wiki/Calcul_formel">symbolic system</a>, <a href="https://en.wikipedia.org/wiki/Decimal32_floating-point_format"><code>decimal32</code></a>, etc. which generally requires better hardware performance) or increase the encoding size of reals (from <a href="https://en.wikipedia.org/wiki/Single-precision_floating-point_format">simple</a> to <a href="https://en.wikipedia.org/wiki/Double-precision_floating-point_format">double precision</a> or <a href="https://en.wikipedia.org/wiki/Quadruple-precision_floating-point_format">quadruple precision</a>, etc. which only consists in increasing the number of bits to encode the significand and the exponent to represent real numbers, which again requires better hardware performance).</li>
-<li>For the numericist: how to determine the optimal number of iterations to be performed by an algorithm, whatever the input data? How far is my numeric solution from its real equivalent?<br />
+<li>For the numericist: how to determine the optimal number of iterations to be performed by an algorithm, whatever the input data? How far is my numeric solution from its real equivalent?<br/>
 <strong>Answer:</strong> Find methods to estimate the numerical precision of a result, which involves estimating the propagation of rounding errors!</li>
 </ol>
 <p>CESTAC method attempts to solve the last problem and will be presented in the following section. However, as we will see below, we cannot do it without some knowledge about the other problems.</p>
-<p><strong>Question:</strong> Are you not exaggerating the computation errors a little and is it not ultimately just some considerations for researchers with long grey beards? Are mistakes so common and so important? From what I&rsquo;ve read, the IEEE-754 standard allows precision to the order of <span class="arithmatex">\(10^{-15}\)</span> in double precision so my results are at least as good right?</p>
+<p><strong>Question:</strong> Are you not exaggerating the computation errors a little and is it not ultimately just some considerations for researchers with long grey beards? Are mistakes so common and so important? From what I’ve read, the IEEE-754 standard allows precision to the order of <span class="arithmatex">\(10^{-15}\)</span> in double precision so my results are at least as good right?</p>
 <p>No, yes, and no. Let us take an extremely simple pathological case: <span class="arithmatex">\(x_n = ax_ {n-1} - b\)</span>, which is an extremely simple computation. Here is also a C++ implementation with a particular initialization:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
@@ -244,7 +244,7 @@
 
 <span class="w">     </span><span class="k">for</span><span class="w"> </span><span class="p">(</span><span class="kt">int</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;</span><span class="w"> </span><span class="mi">100</span><span class="p">;</span><span class="w"> </span><span class="o">++</span><span class="n">i</span><span class="p">)</span><span class="w"> </span><span class="p">{</span><span class="w"></span>
 <span class="w">          </span><span class="n">x</span><span class="w"> </span><span class="o">=</span><span class="w"> </span><span class="p">(</span><span class="n">a</span><span class="o">*</span><span class="n">x</span><span class="p">)</span><span class="w"> </span><span class="o">-</span><span class="w"> </span><span class="n">b</span><span class="p">;</span><span class="w"></span>
-<span class="w">          </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot;iter &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">&quot; - &quot;</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">setprecision</span><span class="p">(</span><span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;::</span><span class="n">max_digits10</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="sc">&#39;\n&#39;</span><span class="p">;</span><span class="w"></span>
+<span class="w">          </span><span class="n">cout</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">"iter "</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="s">" - "</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">setprecision</span><span class="p">(</span><span class="n">numeric_limits</span><span class="o">&lt;</span><span class="kt">double</span><span class="o">&gt;::</span><span class="n">max_digits10</span><span class="p">)</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="o">&lt;&lt;</span><span class="w"> </span><span class="sc">'\n'</span><span class="p">;</span><span class="w"></span>
 <span class="w">     </span><span class="p">}</span><span class="w"></span>
 <span class="w">     </span><span class="k">return</span><span class="w"> </span><span class="mi">0</span><span class="p">;</span><span class="w"></span>
 <span class="p">}</span><span class="w"></span>
@@ -273,8 +273,8 @@
 <span class="go">iter 89 - inf</span>
 </code></pre></div></td></tr></table></div></p>
 <p>While the expected mathematical result is <span class="arithmatex">\(1\)</span>, constant for each iteration, we observe that after a few iterations on the machine there is a fast divergence towards infinity. After only 4 iterations, the number of significant digits between the exact actual result and its floating bias is 0!</p>
-<h3 id="stochastic-control-and-estimation-of-rounding">Stochastic control and estimation of rounding<a class="headerlink" href="#stochastic-control-and-estimation-of-rounding" title="Permanent link">&para;</a></h3>
-<h4 id="cestac-core-and-error-propagation">CESTAC core and error propagation<a class="headerlink" href="#cestac-core-and-error-propagation" title="Permanent link">&para;</a></h4>
+<h3 id="stochastic-control-and-estimation-of-rounding">Stochastic control and estimation of rounding<a class="headerlink" href="#stochastic-control-and-estimation-of-rounding" title="Permanent link">¶</a></h3>
+<h4 id="cestac-core-and-error-propagation">CESTAC core and error propagation<a class="headerlink" href="#cestac-core-and-error-propagation" title="Permanent link">¶</a></h4>
 <p>The <a href="https://en.wikipedia.org/wiki/Algebra_over_a_field">algebra</a> <span class="arithmatex">\(\mathcal{F}\)</span> over the field of floating point numbers is not <a href="https://en.wikipedia.org/wiki/Associative_property">associative</a> nor distributive. In other words, the order in which we perform our arithmetic operations has an impact on the result.</p>
 <p><mark>The correct rounding property ensures the commutativity<a href="https://i.imgur.com/E2HbSVF.jpg">.</a></mark></p>
 <p>From now on, consider <span class="arithmatex">\(f\)</span>, a procedure acting on <span class="arithmatex">\(\mathbb {R}\)</span>, and its image <span class="arithmatex">\(F\)</span>, a procedure acting on <span class="arithmatex">\(\mathcal{F}\)</span>. Because of the non-associativity, the image of <span class="arithmatex">\(f\)</span> is actually not unique and there are several procedures which mathematically transcribe <span class="arithmatex">\(f\)</span> exactly. And obviously, these procedures, due to the roundings, will not return the same float.</p>
@@ -297,7 +297,7 @@ What happens when we add them?</p>
 </div>
 <p>In summary, from a procedure <span class="arithmatex">\(f\)</span> over the field of real numbers, there are several procedures <span class="arithmatex">\((F_i)_{0 \leq i &lt;K}\)</span> that we can obtain by permuting the elementary operations and, which theoretically offer in the worst case <span class="arithmatex">\(K\)</span> different results. On top of that, there is a perturbation of the result by the chosen rounding mode which further exacerbates the worst case <sup id="fnref:pire"><a class="footnote-ref" href="#fn:pire">3</a></sup>.</p>
 <p>The main idea behind CESTAC is to take advantage of the great variability of the results that can be obtained by a sequence of numerical computations. For this, we use some <strong>perturbations</strong> on the result of an operation and some <strong>permutations</strong> of the operands, in order to estimate the number of <strong><a href="https://en.wikipedia.org/wiki/Significant_figures">significant figures</a></strong> of a numerical result. By propagating the numerical errors in different random ways, we will be able to distinguish the variable part - the part stained with errors, or not representative -, from the fixed part - the exact part -.</p>
-<h4 id="finding-the-number-of-significant-digits">Finding the number of significant digits<a class="headerlink" href="#finding-the-number-of-significant-digits" title="Permanent link">&para;</a></h4>
+<h4 id="finding-the-number-of-significant-digits">Finding the number of significant digits<a class="headerlink" href="#finding-the-number-of-significant-digits" title="Permanent link">¶</a></h4>
 <p>If we have a procedure <span class="arithmatex">\(F\)</span> that we run <span class="arithmatex">\(N\)</span> times with a <strong>random</strong> perturbation and permutation each time, we get a <a href="https://en.wikipedia.org/wiki/Sample_(statistics)">sample</a> <span class="arithmatex">\(R = (R_0, R_1, ..., R_ {N-1})\)</span> of results. We can therefore consider <span class="arithmatex">\(F\)</span> as a <a href="https://en.wikipedia.org/wiki/Random_variable">random variable</a> with values in <span class="arithmatex">\(\mathcal{F}\)</span>, with an <a href="https://en.wikipedia.org/wiki/Expected_value">expected value</a> <span class="arithmatex">\(\mu\)</span> and a <a href="https://en.wikipedia.org/wiki/Standard_deviation">standard deviation</a> <span class="arithmatex">\(\sigma\)</span>. The expectated value <span class="arithmatex">\(\mu\)</span> can be interpreted as the expected result of the algorithm, i.e. the floating point number that encodes our real solution <span class="arithmatex">\(r\)</span>. The error compared to this expectation, that is to say <span class="arithmatex">\(\alpha = |r - \mu|\)</span> is the loss of precision that one is entitled to expect from performing numerical computations in floating point. The problem is that <span class="arithmatex">\(\mu\)</span> is not known, and therefore, we have to estimate it.</p>
 <p>In this context, with the hypothesis that the elements of <span class="arithmatex">\(R\)</span> come from a <a href="https://en.wikipedia.org/wiki/Normal_distribution">Gaussian distribution</a> (which is verified in practice), the best <a href="https://en.wikipedia.org/wiki/Estimator">estimator</a> of <span class="arithmatex">\(\mu\)</span> is the mean of the sample <span class="arithmatex">\(R\)</span>:
 $$\bar R = \frac 1 N \sum^N_i R_i $$</p>
@@ -328,7 +328,7 @@ $$S^2 = \frac 1 {N-1} \sum^N_i (R_i - R)^2 $$</p>
 </tbody>
 </table>
 <p>This may seem surprising but using a sample of size <span class="arithmatex">\(N = 3\)</span> results in <span class="arithmatex">\(K\)</span> being less than <span class="arithmatex">\(1\)</span>, i.e., on average, there is no significant digit loss for the sample <span class="arithmatex">\(R\)</span>. In fact, increasing this number is useless because the length of the interval evolving in <span class="arithmatex">\(\frac 1 N\)</span>, to obtain an additional significant figure, it would be necessary to multiply <span class="arithmatex">\(N\)</span> by 100 (because of the <span class="arithmatex">\(\log_{10}\)</span>)!</p>
-<h4 id="constructing-the-sample-r">Constructing the sample <span class="arithmatex">\(R\)</span><a class="headerlink" href="#constructing-the-sample-r" title="Permanent link">&para;</a></h4>
+<h4 id="constructing-the-sample-r">Constructing the sample <span class="arithmatex">\(R\)</span><a class="headerlink" href="#constructing-the-sample-r" title="Permanent link">¶</a></h4>
 <p>Now that we have the theory, we need to know how to construct a sample of results <span class="arithmatex">\(R\)</span> that is as representative as possible of the multitude of results obtainable from our procedure <span class="arithmatex">\(F\)</span>.</p>
 <p>For that, we have a <strong>perturbation</strong> function, <code>pert</code>, which for a particular float <span class="arithmatex">\(X\)</span>, returns a disturbed float <span class="arithmatex">\(X'\)</span> such that <span class="arithmatex">\(X'\)</span> is <span class="arithmatex">\(X\)</span> for which we modified the last bit of its significand in a random and uniform way. In other words, we add to the last bit of significand <span class="arithmatex">\(-1\)</span>, <span class="arithmatex">\(0\)</span> or <span class="arithmatex">\(1\)</span> with a probability of <span class="arithmatex">\(\frac 1 3\)</span>.</p>
 <p>This perturbation consists in choosing randomly among <span class="arithmatex">\(X^+\)</span> and <span class="arithmatex">\(X^-\)</span>, which we mentioned in the first part, in order to simulate the propagation of rounding errors.</p>
@@ -345,7 +345,7 @@ In practice, it is not done, in particular because it is very complicated for a 
 </div>
 <p>Thus, we will <strong>not</strong> consider permutations in the following.</p>
 <p>From there, there are two ways to use <code>pert</code> to create a sample <span class="arithmatex">\(R\)</span> and estimate the number of significant digits of a numeric result.</p>
-<h5 id="asynchronous-version">Asynchronous version<a class="headerlink" href="#asynchronous-version" title="Permanent link">&para;</a></h5>
+<h5 id="asynchronous-version">Asynchronous version<a class="headerlink" href="#asynchronous-version" title="Permanent link">¶</a></h5>
 <p>The asynchronous version consists in performing our perturbations at each assignment, and building our sample <span class="arithmatex">\(R\)</span> as the result of <span class="arithmatex">\(N\)</span> calls to the procedure <span class="arithmatex">\(F\)</span>. In other words, the <span class="arithmatex">\(N\)</span> calls are independent, hence the name asynchronous. Once the sample is at our disposal, we compute the number of significant digits <em>a posteriori</em>.</p>
 <p>Illustration of the asynchronous method with an iterative sequence defined by <span class="arithmatex">\(X_n = F(X_ {n-1})\)</span> and for initial term <span class="arithmatex">\(X_0\)</span> with <span class="arithmatex">\(N = 3\)</span>:</p>
 <div class="arithmatex">\[
@@ -361,7 +361,7 @@ X_0 &amp; \to X^1_1 = \text{pert}(F(X_0)) &amp;\to X^1_2 = \text{pert}(F(X^1_1))
 <li>From one execution to another, as there are certainly conditional branches, two results can come from a series of different branches because of rounding errors. Therefore it is not relevant to compare these results.</li>
 </ul>
 <p>For these two reasons, the asynchronous version is generally inapplicable.</p>
-<h5 id="synchronous-version">Synchronous version<a class="headerlink" href="#synchronous-version" title="Permanent link">&para;</a></h5>
+<h5 id="synchronous-version">Synchronous version<a class="headerlink" href="#synchronous-version" title="Permanent link">¶</a></h5>
 <p>Conversely, the synchronous version consists in modifyng the sample at each assignment operation and using the empirical average as value for the conditional branches[^practice]. It is possible to give an estimate of the number of significant digits at any time because the sample is available at all times during the execution. In fact, this answers the two problems of the asynchronous version:</p>
 <ul>
 <li>At each step, the result is consistent with itself, it cannot be different solutions since there is never only one value which is used for the conditional structures.</li>
@@ -376,7 +376,7 @@ X_0 &amp; \to X^1_1 = \text{pert}(F(X_0))&amp; \to &amp; \bar{X_1} &amp;\to X^1_
 \end{matrix}
 \]</div>
 <p>Notice the synchronization points after each step, hence the method name.</p>
-<h3 id="cestac-on-an-iterative-algorithm">CESTAC on an iterative algorithm<a class="headerlink" href="#cestac-on-an-iterative-algorithm" title="Permanent link">&para;</a></h3>
+<h3 id="cestac-on-an-iterative-algorithm">CESTAC on an iterative algorithm<a class="headerlink" href="#cestac-on-an-iterative-algorithm" title="Permanent link">¶</a></h3>
 <p>Now that we know how to determine the number of significant digits of a numerical result, we will focus on the optimal stopping problem. The exact solution to our problem is noted <span class="arithmatex">\(x^*\)</span>. We have an iterative algorithm, which gives at iteration <span class="arithmatex">\(k\)</span>, the approximate solution <span class="arithmatex">\(x_k\)</span>, and we know that this algorithm converges after a number of steps potentially infinite, that is to say that <span class="arithmatex">\(x_k \to x^*\)</span>.</p>
 <p>Finally, we have an implementation of our algorithm which at each iteration provides an approximate solution <span class="arithmatex">\(X_k\)</span> tainted by numerical errors.</p>
 <p>A classic stop criterion for iterative algorithms at a given precision is the test <span class="arithmatex">\(|| x_k - x_ {k-1}|| &lt;\epsilon\)</span>, where <span class="arithmatex">\(\epsilon\)</span> controls the precision. A variant is given by <span class="arithmatex">\(|| x_k - x_ {k-1} || &lt;|| x_k || \epsilon\)</span>. This test is extremely robust in usual arithmetic having infinite precision since it makes it possible to detect when an iteration no longer brings any significant gain in precision. Conversely, in floating point arithmetic, since all <span class="arithmatex">\(X_k\)</span> are tainted with errors, the subtraction of very close terms leads to small values ​​which may not be significant at all.</p>
@@ -395,10 +395,10 @@ X_0 &amp; \to X^1_1 = \text{pert}(F(X_0))&amp; \to &amp; \bar{X_1} &amp;\to X^1_
 <li>If <span class="arithmatex">\(|| X_n - X_{n-1} || = \bar 0\)</span>, we stop the algorithm since the difference between two iterations only represents computation errors.</li>
 <li>If the number of iterations exceeds a certain limit <span class="arithmatex">\(K\)</span>, the sequence is considered as non-convergent and the algorithm is stopped.</li>
 </ol>
-<h3 id="going-further-discussions-on-the-validity-of-cestac">Going further: discussions on the validity of CESTAC<a class="headerlink" href="#going-further-discussions-on-the-validity-of-cestac" title="Permanent link">&para;</a></h3>
+<h3 id="going-further-discussions-on-the-validity-of-cestac">Going further: discussions on the validity of CESTAC<a class="headerlink" href="#going-further-discussions-on-the-validity-of-cestac" title="Permanent link">¶</a></h3>
 <p><strong>Note:</strong> This section is intended to discuss in a more advanced way the validity hypothesis and can therefore be put aside for a first reading, especially as it can turn out to be a little more technical.</p>
-<p>There are several hypotheses which have been formulated in order to arrive at the formula for the number of significant digits and which lead to the following question: can we reasonably use a Student&rsquo;s test in order to obtain the confidence interval? This is equivalent to wonder whether the estimator <span class="arithmatex">\(\bar X\)</span> used is biased or not.</p>
-<h4 id="the-estimator-bias">The estimator bias<a class="headerlink" href="#the-estimator-bias" title="Permanent link">&para;</a></h4>
+<p>There are several hypotheses which have been formulated in order to arrive at the formula for the number of significant digits and which lead to the following question: can we reasonably use a Student’s test in order to obtain the confidence interval? This is equivalent to wonder whether the estimator <span class="arithmatex">\(\bar X\)</span> used is biased or not.</p>
+<h4 id="the-estimator-bias">The estimator bias<a class="headerlink" href="#the-estimator-bias" title="Permanent link">¶</a></h4>
 <p>Without making a proper demonstration (we refer the reader to the studies by the creators of the CESTAC method), we give the broad outlines justifying that the mean estimator is unbiased.</p>
 <div class="admonition theorem">
 <p class="admonition-title">Theorem:</p>
@@ -410,7 +410,7 @@ X_0 &amp; \to X^1_1 = \text{pert}(F(X_0))&amp; \to &amp; \bar{X_1} &amp;\to X^1_
 <div class="arithmatex">\[X' = x + \sum_{i = 1}^n d_i 2^{-t}(z_i)\]</div>
 <p>Where the <span class="arithmatex">\(z_i\)</span> are identically distributed and centered variables, so that <span class="arithmatex">\(E(X') = x\)</span>, i.e. the estimator is unbiased.</p>
 <p>The hypothesis of the distribution of <span class="arithmatex">\(\alpha_i\)</span> is validated when there are enough operations in the procedure <span class="arithmatex">\(F\)</span>, in other words that <span class="arithmatex">\(n\)</span> is large enough. In fact, very precisely, the bias is not zero but we can show that it is of the order of a few <span class="arithmatex">\(\sigma\)</span> which skews the final estimate by less than one significant figure.</p>
-<h4 id="validity-of-the-student-test">Validity of the Student test<a class="headerlink" href="#validity-of-the-student-test" title="Permanent link">&para;</a></h4>
+<h4 id="validity-of-the-student-test">Validity of the Student test<a class="headerlink" href="#validity-of-the-student-test" title="Permanent link">¶</a></h4>
 <p>As we have seen, the hypothesis about the distribution of <span class="arithmatex">\(\alpha_i\)</span> is satisfied in theory and in practice. But on the other hand, to conclude that the estimator is unbiased, we made an additional assumption: the higher order terms are negligible.</p>
 <p>However, while it is easy to see that addition or subtraction does not create an error of second order, this is not the case for multiplication or division, since by considering <span class="arithmatex">\(X_1 = x_1 + \epsilon_1\)</span> and <span class="arithmatex">\(X_2 = x_2 + \epsilon_2\)</span>, these operators are written:</p>
 <div class="arithmatex">\[X_1X_2 = x_1x_2 + x_1 \epsilon_2 + x_2 \epsilon_1 + \epsilon_1 \epsilon_2 \]</div>
@@ -422,39 +422,94 @@ X_0 &amp; \to X^1_1 = \text{pert}(F(X_0))&amp; \to &amp; \bar{X_1} &amp;\to X^1_
 <li>Limit the propagation of calculation errors as much as possible, i.e., apply the recipes in response to <strong>problem 2</strong>.</li>
 </ul>
 <p>One possible systematic approach is to include dynamic control over the outcome of multiplication or division operations, at a significant cost.</p>
-<h3 id="conclusion-cestac-but-for-what-and-for-who">Conclusion: CESTAC, but for what and for who?<a class="headerlink" href="#conclusion-cestac-but-for-what-and-for-who" title="Permanent link">&para;</a></h3>
+<h3 id="conclusion-cestac-but-for-what-and-for-who">Conclusion: CESTAC, but for what and for who?<a class="headerlink" href="#conclusion-cestac-but-for-what-and-for-who" title="Permanent link">¶</a></h3>
 <p>We have seen the different problems that appear when we perform floating point computations and we have given a robust technique to control the propagation of errors induced by these computations. After having presented the foundations of the method and the modalities of use, we applied CESTAC to the optimal stopping problem of an iterative algorithm. Finally, a last part was devoted to the discussion on the validity of the method and a sketch of proof.</p>
 <p>The only question that has not been addressed, and which will serve as a conclusion, is: when to use CESTAC? It is obvious that the method presents a significant cost in terms of computation time. Therefore, it must be justified by a gain at least as important. The need for evaluation and error control is crucial, for example, for critical systems such as airplanes. For this reason, the method is widely used in the field of aeronautics, to control both simulations but also directly computations within on-board systems.</p>
-<p><center><figure><img src="images/2016-05-23-controler-la-propagation-des-erreurs-de-calculs-numeriques/3.jpg" /><figcaption>The type of critical simulation that might require CESTAC.</figcaption>
+<p><center><figure><img src="images/2016-05-23-controler-la-propagation-des-erreurs-de-calculs-numeriques/3.jpg"/><figcaption>The type of critical simulation that might require CESTAC.</figcaption>
 </figure></center></p>
-<h3 id="bibliography">Bibliography<a class="headerlink" href="#bibliography" title="Permanent link">&para;</a></h3>
+<h3 id="bibliography">Bibliography<a class="headerlink" href="#bibliography" title="Permanent link">¶</a></h3>
 <ul>
 <li><a href="http://www.editionstechnip.com/fr/catalogue-detail/144/ingenierie-du-controle-de-la-precision-des-calculs-sur-ordinateur.html">Ingénierie du contrôle de la précision des calculs sur ordinateur</a>, Michèle Pichat et Jean Vignes.</li>
-<li><a href="http://www-pequan.lip6.fr/~jmc/polycopies/poly_vln.pdf">Validité du logiciel numérique</a>, Jean-Marie Chesnaux, support de cours dispensé à l&rsquo;UPMC.</li>
-<li><a href="http://www.techniques-ingenieur.fr/base-documentaire/sciences-fondamentales-th8/methodes-numeriques-42105210/validation-des-resultats-des-logiciels-scientifiques-af1471/approche-stochastique-de-l-analyse-des-erreurs-d-arrondi-methode-cestac-af1471niv10002.html">Approche stochastique de l&rsquo;analyse des erreurs d&rsquo;arrondi : méthode CESTAC</a>, Jean Vignes et René Alt.</li>
+<li><a href="http://www-pequan.lip6.fr/~jmc/polycopies/poly_vln.pdf">Validité du logiciel numérique</a>, Jean-Marie Chesnaux, support de cours dispensé à l’UPMC.</li>
+<li><a href="http://www.techniques-ingenieur.fr/base-documentaire/sciences-fondamentales-th8/methodes-numeriques-42105210/validation-des-resultats-des-logiciels-scientifiques-af1471/approche-stochastique-de-l-analyse-des-erreurs-d-arrondi-methode-cestac-af1471niv10002.html">Approche stochastique de l’analyse des erreurs d’arrondi : méthode CESTAC</a>, Jean Vignes et René Alt.</li>
 <li><a href="http://eu.wiley.com/WileyCDA/WileyTitle/productCd-0470035544.html">Handbook of Granular Computing</a>, Witold Pedrycz, Andrzej Skowron et Vladik Kreinovich.</li>
 </ul>
 <div class="footnote">
-<hr />
+<hr/>
 <ol>
 <li id="fn:normal">
-<p>Let us give a succinct proof. By definition, a normal number is a number such that any finite sequence of <em>bits</em> occurs an infinite number of times in the significand of this number, and the probability of occurrence of the sequences is uniform. It is said to be normal in any base if whatever the base it is normal. Thanks to <a href="https://en.wikipedia.org/wiki/Borel%E2%80%93Cantelli_lemma">Borel-Cantelli lemma</a> we prove that the set of non-normal numbers in any base has a null measure. Therefore, whatever the base, the probability that a number drawn at random on <span class="arithmatex">\(\mathbb{R}\)</span> is normal, is 1. <span class="arithmatex">\(\square\)</span>&#160;<a class="footnote-backref" href="#fnref:normal" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+<p>Let us give a succinct proof. By definition, a normal number is a number such that any finite sequence of <em>bits</em> occurs an infinite number of times in the significand of this number, and the probability of occurrence of the sequences is uniform. It is said to be normal in any base if whatever the base it is normal. Thanks to <a href="https://en.wikipedia.org/wiki/Borel%E2%80%93Cantelli_lemma">Borel-Cantelli lemma</a> we prove that the set of non-normal numbers in any base has a null measure. Therefore, whatever the base, the probability that a number drawn at random on <span class="arithmatex">\(\mathbb{R}\)</span> is normal, is 1. <span class="arithmatex">\(\square\)</span> <a class="footnote-backref" href="#fnref:normal" title="Jump back to footnote 1 in the text">↩</a></p>
 </li>
 <li id="fn:finite">
-<p>where finite is understood as a finite number of steps to find the solution to a problem.&#160;<a class="footnote-backref" href="#fnref:finite" title="Jump back to footnote 2 in the text">&#8617;</a></p>
+<p>where finite is understood as a finite number of steps to find the solution to a problem. <a class="footnote-backref" href="#fnref:finite" title="Jump back to footnote 2 in the text">↩</a></p>
 </li>
 <li id="fn:pire">
-<p>I stress that this is the worst case scenario, which is far from being the common practical scenario. However, standard deterministic studies reason mainly about the worst case scenario, which leads to an overestimation of the computation errors, sometimes rendering these methods obsolete. On the contrary, CESTAC makes it possible not to fall into this trap due to the very construction of the method.&#160;<a class="footnote-backref" href="#fnref:pire" title="Jump back to footnote 3 in the text">&#8617;</a></p>
+<p>I stress that this is the worst case scenario, which is far from being the common practical scenario. However, standard deterministic studies reason mainly about the worst case scenario, which leads to an overestimation of the computation errors, sometimes rendering these methods obsolete. On the contrary, CESTAC makes it possible not to fall into this trap due to the very construction of the method. <a class="footnote-backref" href="#fnref:pire" title="Jump back to footnote 3 in the text">↩</a></p>
 </li>
 <li id="fn:pratice">
-<p>In practice, can also systematically use <span class="arithmatex">\(X_i\)</span> for a given <span class="arithmatex">\(i\)</span>, which avoids having to calculate the average each time.&#160;<a class="footnote-backref" href="#fnref:pratice" title="Jump back to footnote 4 in the text">&#8617;</a></p>
+<p>In practice, can also systematically use <span class="arithmatex">\(X_i\)</span> for a given <span class="arithmatex">\(i\)</span>, which avoids having to calculate the average each time. <a class="footnote-backref" href="#fnref:pratice" title="Jump back to footnote 4 in the text">↩</a></p>
 </li>
 <li id="fn:interval">
-<p>This interval depends on whether we are in truncation or rounding mode.&#160;<a class="footnote-backref" href="#fnref:interval" title="Jump back to footnote 5 in the text">&#8617;</a></p>
+<p>This interval depends on whether we are in truncation or rounding mode. <a class="footnote-backref" href="#fnref:interval" title="Jump back to footnote 5 in the text">↩</a></p>
 </li>
 </ol>
 </div>
                 </div>
+                
+                <!-- Mermaid Script -->
+                <script type="module">
+                    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+                    
+                    // Configure and initialize mermaid
+                    const initMermaid = async () => {
+                        try {
+                            await mermaid.initialize({ 
+                                startOnLoad: true,
+                                theme: document.documentElement.classList.contains('dark') ? 'dark' : 'default',
+                                securityLevel: 'loose',
+                                flowchart: {
+                                    useMaxWidth: false,
+                                    htmlLabels: true,
+                                    curve: 'basis',
+                                    padding: 20,
+                                    nodeSpacing: 50,
+                                    rankSpacing: 50
+                                },
+                                themeVariables: {
+                                    primaryColor: '#D97706',
+                                    primaryTextColor: '#2A2927',
+                                    primaryBorderColor: '#D97706',
+                                    lineColor: '#78716c',
+                                    secondaryColor: '#f5f5f4',
+                                    tertiaryColor: '#fafaf9',
+                                    background: '#ffffff',
+                                    mainBkg: '#ffffff',
+                                    secondBkg: '#f5f5f4',
+                                    tertiaryBkg: '#fafaf9'
+                                }
+                            });
+                            
+                            // Log any mermaid elements found
+                            const elements = document.querySelectorAll('.mermaid');
+                            console.log(`Mermaid initialized. Found ${elements.length} diagram(s)`);
+                            
+                            // Force render if elements exist
+                            if (elements.length > 0) {
+                                mermaid.contentLoaded();
+                            }
+                        } catch (error) {
+                            console.error('Mermaid initialization error:', error);
+                        }
+                    };
+                    
+                    // Initialize when DOM is ready
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', initMermaid);
+                    } else {
+                        // DOM already loaded
+                        await initMermaid();
+                    }
+                </script>
             </article>
 
             <!-- Giscus Comments Section -->
@@ -505,7 +560,7 @@ X_0 &amp; \to X^1_1 = \text{pert}(F(X_0))&amp; \to &amp; \bar{X_1} &amp;\to X^1_
     
 
     <!-- Custom JavaScript -->
-    <script src="https://quemy.info/js/main.js"></script>
+    <script src="http://localhost:8000/js/main.js"></script>
 
     
 </body>

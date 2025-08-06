@@ -55,8 +55,8 @@
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, { delimiters: [ {left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}, {left: '\\(', right: '\\)', display: false}, {left: '\\[', right: '\\]', display: true} ]});"></script>
     
     <!-- Custom Styles and Theming -->
-    <link rel="stylesheet" href="https://quemy.info/css/custom.css">
-    <link rel="stylesheet" href="https://quemy.info/css/friendly.css">
+    <link rel="stylesheet" href="http://localhost:8000/css/custom.css">
+    <link rel="stylesheet" href="http://localhost:8000/css/friendly.css">
 
     <script>
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -112,7 +112,7 @@
 <div class="w-full max-w-7xl mx-auto py-12 px-4">
     <!-- Header moved outside the grid for proper alignment -->
     <header class="max-w-5xl mx-auto mb-12 text-center lg:text-left">
-        <a href="https://quemy.info/blog.html" class="text-sm text-accent-light dark:text-accent-dark hover:underline mb-4 inline-block">← Back to all posts</a>
+        <a href="http://localhost:8000/blog.html" class="text-sm text-accent-light dark:text-accent-dark hover:underline mb-4 inline-block">← Back to all posts</a>
         <h1 class="font-sans text-4xl md:text-5xl font-black text-ink dark:text-dark-ink leading-tight">Island Model with ParadisEO: heterogeneous island model</h1>
         <p class="mt-4 text-stone-500 dark:text-stone-400">2013-11-23 · Mathematics</p>
     </header>
@@ -139,13 +139,13 @@
 <li><a href="#concrete-example">Concrete example</a></li>
 </ul>
 </div>
-<h3 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">&para;</a></h3>
+<h3 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">¶</a></h3>
 <p>Depending on the problem, one might want to create a model that contains different types of algorithms such as Evolutionary Algorithms or Particle Swarm Optmization algorithms. Hopefully, SMP proposes a mechanism to create such a model.</p>
-<h3 id="base-individual-concept">Base individual concept<a class="headerlink" href="#base-individual-concept" title="Permanent link">&para;</a></h3>
+<h3 id="base-individual-concept">Base individual concept<a class="headerlink" href="#base-individual-concept" title="Permanent link">¶</a></h3>
 <p>The only difference between an heterogeneous and an homogeneous model is that it requires to define a <em>base individual</em> notion which is the <em>main</em> type of individuals to exchange. Most of the time, it will be the type used by the largest amount of islands, but it can be more specific, depending on the problem.</p>
 <p>When an island sends individuals, it converts individuals to the <em>base type</em> before sending them. In addition, when an island receives individuals, itconverts individuals from the <em>base type</em> to its own type.</p>
-<p>The API is strictly the same thanthe homogeneous model&rsquo;s one. The only difference is the need to specify to the islands running with different indidividual type than the <em>base type</em>, functions to convert <em>from</em> and <em>to</em> base type. Those functions can be lambda, functor, free function or method performed by an object.</p>
-<h3 id="concrete-example">Concrete example<a class="headerlink" href="#concrete-example" title="Permanent link">&para;</a></h3>
+<p>The API is strictly the same thanthe homogeneous model’s one. The only difference is the need to specify to the islands running with different indidividual type than the <em>base type</em>, functions to convert <em>from</em> and <em>to</em> base type. Those functions can be lambda, functor, free function or method performed by an object.</p>
+<h3 id="concrete-example">Concrete example<a class="headerlink" href="#concrete-example" title="Permanent link">¶</a></h3>
 <p>A complete example is available in the file <code>/smp/tutorial/Lesson3/heterogeneous.cpp</code>.</p>
 <p>Assuming we have a base type called <code>Indi</code>, and a second type called <code>Indi2</code>, we need to create our conversion functions:
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
@@ -190,6 +190,61 @@
 </code></pre></div></td></tr></table></div>
 <p>Obviously, the number of individual types is not limited to two.</p>
                 </div>
+                
+                <!-- Mermaid Script -->
+                <script type="module">
+                    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+                    
+                    // Configure and initialize mermaid
+                    const initMermaid = async () => {
+                        try {
+                            await mermaid.initialize({ 
+                                startOnLoad: true,
+                                theme: document.documentElement.classList.contains('dark') ? 'dark' : 'default',
+                                securityLevel: 'loose',
+                                flowchart: {
+                                    useMaxWidth: false,
+                                    htmlLabels: true,
+                                    curve: 'basis',
+                                    padding: 20,
+                                    nodeSpacing: 50,
+                                    rankSpacing: 50
+                                },
+                                themeVariables: {
+                                    primaryColor: '#D97706',
+                                    primaryTextColor: '#2A2927',
+                                    primaryBorderColor: '#D97706',
+                                    lineColor: '#78716c',
+                                    secondaryColor: '#f5f5f4',
+                                    tertiaryColor: '#fafaf9',
+                                    background: '#ffffff',
+                                    mainBkg: '#ffffff',
+                                    secondBkg: '#f5f5f4',
+                                    tertiaryBkg: '#fafaf9'
+                                }
+                            });
+                            
+                            // Log any mermaid elements found
+                            const elements = document.querySelectorAll('.mermaid');
+                            console.log(`Mermaid initialized. Found ${elements.length} diagram(s)`);
+                            
+                            // Force render if elements exist
+                            if (elements.length > 0) {
+                                mermaid.contentLoaded();
+                            }
+                        } catch (error) {
+                            console.error('Mermaid initialization error:', error);
+                        }
+                    };
+                    
+                    // Initialize when DOM is ready
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', initMermaid);
+                    } else {
+                        // DOM already loaded
+                        await initMermaid();
+                    }
+                </script>
             </article>
 
             <!-- Giscus Comments Section -->
@@ -240,7 +295,7 @@
     
 
     <!-- Custom JavaScript -->
-    <script src="https://quemy.info/js/main.js"></script>
+    <script src="http://localhost:8000/js/main.js"></script>
 
     
 </body>

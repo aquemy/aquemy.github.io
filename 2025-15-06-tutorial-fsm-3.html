@@ -55,8 +55,8 @@
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, { delimiters: [ {left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}, {left: '\\(', right: '\\)', display: false}, {left: '\\[', right: '\\]', display: true} ]});"></script>
     
     <!-- Custom Styles and Theming -->
-    <link rel="stylesheet" href="https://quemy.info/css/custom.css">
-    <link rel="stylesheet" href="https://quemy.info/css/friendly.css">
+    <link rel="stylesheet" href="http://localhost:8000/css/custom.css">
+    <link rel="stylesheet" href="http://localhost:8000/css/friendly.css">
 
     <script>
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -112,9 +112,9 @@
 <div class="w-full max-w-7xl mx-auto py-12 px-4">
     <!-- Header moved outside the grid for proper alignment -->
     <header class="max-w-5xl mx-auto mb-12 text-center lg:text-left">
-        <a href="https://quemy.info/blog.html" class="text-sm text-accent-light dark:text-accent-dark hover:underline mb-4 inline-block">← Back to all posts</a>
+        <a href="http://localhost:8000/blog.html" class="text-sm text-accent-light dark:text-accent-dark hover:underline mb-4 inline-block">← Back to all posts</a>
         <h1 class="font-sans text-4xl md:text-5xl font-black text-ink dark:text-dark-ink leading-tight">Signature Model Tutorial Part 3 - Introduction to the Signature Model</h1>
-        <p class="mt-4 text-stone-500 dark:text-stone-400">2025-15-06 · LLM</p>
+        <p class="mt-4 text-stone-500 dark:text-stone-400">2025-06-15 · LLM</p>
     </header>
 
     <div class="lg:grid lg:grid-cols-5 lg:gap-16">
@@ -134,43 +134,84 @@
                 <div id="prose-content" class="prose lg:prose-lg dark:prose-invert max-w-none">
                     <div class="admonition example">
 <p class="admonition-title">About this entry</p>
-<p>This blog post is the part 3 of the tutorial on the Signature Model approach to function calling. <br />
+<p>This blog post is the part 3 of the tutorial on the Signature Model approach to function calling. <br/>
 The following interactive tutorial is embedded directly from the <a href="https://github.com/hotherio/FSM/blob/main/tutorial/02%20-%20Introduction%20to%20Signature%20Function%20Model.ipynb">FSM Repository on GitHub</a>.</p>
 <p>All parts can be found at:</p>
 <p><center>
-<a href="https://github.com/hotherio/FSM"><img alt="" src="https://gh-card.dev/repos/hotherio/FSM.svg" /></a>
+<a href="https://github.com/hotherio/FSM"><img alt="" src="https://gh-card.dev/repos/hotherio/FSM.svg"/></a>
 </center></p>
 </div>
 <div class="notebook-container" style="margin-left:-40%">
-    <div class="notebook-controls">
-        <a href="https://notebooks.githubusercontent.com/view/ipynb?browser=chrome&bypass_fastly=true&color_mode=dark&commit=f597666fced816c0e854e5e6b8d9d66ea6a05c01&device=unknown_device&docs_host=https%3A%2F%2Fdocs.github.com&enc_url=68747470733a2f2f7261772e67697468756275736572636f6e74656e742e636f6d2f686f74686572696f2f46534d2f663539373636366663656438313663306538353465356536623864396436366561366130356330312f7475746f7269616c2f30322532302d253230496e74726f64756374696f6e253230746f2532305369676e617475726525323046756e6374696f6e2532304d6f64656c2e6970796e62&logged_in=true&nwo=hotherio%2FFSM&path=tutorial%2F02+-+Introduction+to+Signature+Function+Model.ipynb&platform=mac&repository_id=973065353&repository_type=Repository&version=137" 
-           target="_blank" class="external-link-btn">🔗 Open in New Tab</a>
-    </div>
-    <iframe 
-        id="notebook-iframe"
-        src="https://notebooks.githubusercontent.com/view/ipynb?browser=chrome&bypass_fastly=true&color_mode=dark&commit=f597666fced816c0e854e5e6b8d9d66ea6a05c01&device=unknown_device&docs_host=https%3A%2F%2Fdocs.github.com&enc_url=68747470733a2f2f7261772e67697468756275736572636f6e74656e742e636f6d2f686f74686572696f2f46534d2f663539373636366663656438313663306538353465356536623864396436366561366130356330312f7475746f7269616c2f30322532302d253230496e74726f64756374696f6e253230746f2532305369676e617475726525323046756e6374696f6e2532304d6f64656c2e6970796e62&logged_in=true&nwo=hotherio%2FFSM&path=tutorial%2F02+-+Introduction+to+Signature+Function+Model.ipynb&platform=mac&repository_id=973065353&repository_type=Repository&version=137"
-        width="110%" 
-        height="11500px"
-        frameborder="0"
-        sandbox="allow-scripts allow-same-origin"
-        loading="lazy">
-    </iframe>
+<div class="notebook-controls">
+<a class="external-link-btn" href="https://notebooks.githubusercontent.com/view/ipynb?browser=chrome&amp;bypass_fastly=true&amp;color_mode=dark&amp;commit=f597666fced816c0e854e5e6b8d9d66ea6a05c01&amp;device=unknown_device&amp;docs_host=https%3A%2F%2Fdocs.github.com&amp;enc_url=68747470733a2f2f7261772e67697468756275736572636f6e74656e742e636f6d2f686f74686572696f2f46534d2f663539373636366663656438313663306538353465356536623864396436366561366130356330312f7475746f7269616c2f30322532302d253230496e74726f64756374696f6e253230746f2532305369676e617475726525323046756e6374696f6e2532304d6f64656c2e6970796e62&amp;logged_in=true&amp;nwo=hotherio%2FFSM&amp;path=tutorial%2F02+-+Introduction+to+Signature+Function+Model.ipynb&amp;platform=mac&amp;repository_id=973065353&amp;repository_type=Repository&amp;version=137" target="_blank">🔗 Open in New Tab</a>
 </div>
-
+<iframe frameborder="0" height="11500px" id="notebook-iframe" loading="lazy" sandbox="allow-scripts allow-same-origin" src="https://notebooks.githubusercontent.com/view/ipynb?browser=chrome&amp;bypass_fastly=true&amp;color_mode=dark&amp;commit=f597666fced816c0e854e5e6b8d9d66ea6a05c01&amp;device=unknown_device&amp;docs_host=https%3A%2F%2Fdocs.github.com&amp;enc_url=68747470733a2f2f7261772e67697468756275736572636f6e74656e742e636f6d2f686f74686572696f2f46534d2f663539373636366663656438313663306538353465356536623864396436366561366130356330312f7475746f7269616c2f30322532302d253230496e74726f64756374696f6e253230746f2532305369676e617475726525323046756e6374696f6e2532304d6f64656c2e6970796e62&amp;logged_in=true&amp;nwo=hotherio%2FFSM&amp;path=tutorial%2F02+-+Introduction+to+Signature+Function+Model.ipynb&amp;platform=mac&amp;repository_id=973065353&amp;repository_type=Repository&amp;version=137" width="110%">
+</iframe>
+</div>
 <!-- Full-screen modal -->
-<div id="notebook-modal" class="notebook-modal hidden">
-    <div class="notebook-modal-content">
-        <button id="close-modal" class="close-modal-btn">✕</button>
-        <iframe 
-            id="notebook-iframe-fullscreen"
-            width="100%" 
-            height="100%"
-            frameborder="0"
-            sandbox="allow-scripts allow-same-origin">
-        </iframe>
-    </div>
+<div class="notebook-modal hidden" id="notebook-modal">
+<div class="notebook-modal-content">
+<button class="close-modal-btn" id="close-modal">✕</button>
+<iframe frameborder="0" height="100%" id="notebook-iframe-fullscreen" sandbox="allow-scripts allow-same-origin" width="100%">
+</iframe>
+</div>
 </div>
                 </div>
+                
+                <!-- Mermaid Script -->
+                <script type="module">
+                    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+                    
+                    // Configure and initialize mermaid
+                    const initMermaid = async () => {
+                        try {
+                            await mermaid.initialize({ 
+                                startOnLoad: true,
+                                theme: document.documentElement.classList.contains('dark') ? 'dark' : 'default',
+                                securityLevel: 'loose',
+                                flowchart: {
+                                    useMaxWidth: false,
+                                    htmlLabels: true,
+                                    curve: 'basis',
+                                    padding: 20,
+                                    nodeSpacing: 50,
+                                    rankSpacing: 50
+                                },
+                                themeVariables: {
+                                    primaryColor: '#D97706',
+                                    primaryTextColor: '#2A2927',
+                                    primaryBorderColor: '#D97706',
+                                    lineColor: '#78716c',
+                                    secondaryColor: '#f5f5f4',
+                                    tertiaryColor: '#fafaf9',
+                                    background: '#ffffff',
+                                    mainBkg: '#ffffff',
+                                    secondBkg: '#f5f5f4',
+                                    tertiaryBkg: '#fafaf9'
+                                }
+                            });
+                            
+                            // Log any mermaid elements found
+                            const elements = document.querySelectorAll('.mermaid');
+                            console.log(`Mermaid initialized. Found ${elements.length} diagram(s)`);
+                            
+                            // Force render if elements exist
+                            if (elements.length > 0) {
+                                mermaid.contentLoaded();
+                            }
+                        } catch (error) {
+                            console.error('Mermaid initialization error:', error);
+                        }
+                    };
+                    
+                    // Initialize when DOM is ready
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', initMermaid);
+                    } else {
+                        // DOM already loaded
+                        await initMermaid();
+                    }
+                </script>
             </article>
 
             <!-- Giscus Comments Section -->
@@ -221,7 +262,7 @@ The following interactive tutorial is embedded directly from the <a href="https:
     
 
     <!-- Custom JavaScript -->
-    <script src="https://quemy.info/js/main.js"></script>
+    <script src="http://localhost:8000/js/main.js"></script>
 
     
 </body>

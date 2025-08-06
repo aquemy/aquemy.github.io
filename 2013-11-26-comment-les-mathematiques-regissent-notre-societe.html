@@ -55,8 +55,8 @@
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, { delimiters: [ {left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}, {left: '\\(', right: '\\)', display: false}, {left: '\\[', right: '\\]', display: true} ]});"></script>
     
     <!-- Custom Styles and Theming -->
-    <link rel="stylesheet" href="https://quemy.info/css/custom.css">
-    <link rel="stylesheet" href="https://quemy.info/css/friendly.css">
+    <link rel="stylesheet" href="http://localhost:8000/css/custom.css">
+    <link rel="stylesheet" href="http://localhost:8000/css/friendly.css">
 
     <script>
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -112,7 +112,7 @@
 <div class="w-full max-w-7xl mx-auto py-12 px-4">
     <!-- Header moved outside the grid for proper alignment -->
     <header class="max-w-5xl mx-auto mb-12 text-center lg:text-left">
-        <a href="https://quemy.info/blog.html" class="text-sm text-accent-light dark:text-accent-dark hover:underline mb-4 inline-block">← Back to all posts</a>
+        <a href="http://localhost:8000/blog.html" class="text-sm text-accent-light dark:text-accent-dark hover:underline mb-4 inline-block">← Back to all posts</a>
         <h1 class="font-sans text-4xl md:text-5xl font-black text-ink dark:text-dark-ink leading-tight">Comment les mathématiques régissent notre société.</h1>
         <p class="mt-4 text-stone-500 dark:text-stone-400">2013-11-26 · Mathematics</p>
     </header>
@@ -138,11 +138,11 @@
 <li><a href="#comment-les-mathematiques-regissent-notre-societe">« Comment les mathématiques régissent notre société »</a></li>
 </ul>
 </div>
-<h3 id="a-propos">À propos<a class="headerlink" href="#a-propos" title="Permanent link">&para;</a></h3>
+<h3 id="a-propos">À propos<a class="headerlink" href="#a-propos" title="Permanent link">¶</a></h3>
 <p>Le billet qui suit est une tentative de mettre en exergue l’omniprésence des mathématiques et l’utilisation des mathématiques dans nos sociétés. J’essaye également de montrer que par cette omniprésence et cette croyance dogmatique en les mathématiques, les mathématiques finissent par régir notre société.</p>
 <p>Je n’ai pas la prétention de faire un article au sens scientifique du terme, ni même d’avoir une vision assez large pour traiter le sujet de manière pertinente ou en tout cas exhaustive et c’est pourquoi le qualificatif « billet » me semble plus adapté.</p>
 <p>La forme de ce billet est un jeu de <em>questions et réponses</em> car cela me semblait pertinent et plus agréable à lire ou parcourir.</p>
-<h3 id="comment-les-mathematiques-regissent-notre-societe">« Comment les mathématiques régissent notre société »<a class="headerlink" href="#comment-les-mathematiques-regissent-notre-societe" title="Permanent link">&para;</a></h3>
+<h3 id="comment-les-mathematiques-regissent-notre-societe">« Comment les mathématiques régissent notre société »<a class="headerlink" href="#comment-les-mathematiques-regissent-notre-societe" title="Permanent link">¶</a></h3>
 <blockquote>
 <p>Est-ce que les mathématiques sont aussi présentes dans notre société que ce qu’on le dit ?</p>
 </blockquote>
@@ -213,8 +213,63 @@ Pourtant, ces domaines font également appel à des mathématiques hautement th�
 <p>Pourquoi discuter de mathématiques en général ? Comment discuter de limites, équations différentielles ou intégration sans que cela ne soit qu’une aide au devoir ?</p>
 </blockquote>
 <p>La question n’est pas bien posée parce qu’il y a confusion entre l’outil et la manière dont en s’en sert. Quelqu’un qui viendra sur un forum d’informatique demander une information qu’il peut trouver dans la documentation de son <em>framework</em>, de son langage ou autre sera très mal vu. Il en va de même pour celui qui vient demander quelque chose qu’il peut trouver facilement dans le premier cours venu.</p>
-<p>Il est plus intéressant de voir des discussions sur la conception, un point technique précis, par exemple et il en va de même avec les mathématiques. Il est tout à fait possible de voir de manière analogue à un sujet nommé « Avis livre : Le langage Caml », un sujet appelé « Avis livre : La théorie des Distributions » ou à la place de « Comment bien nommer ses fonctions et ses variables ? » un sujet nommé&hellip; « Comment bien nommer ses fonctions et ses variables ? ».</p>
+<p>Il est plus intéressant de voir des discussions sur la conception, un point technique précis, par exemple et il en va de même avec les mathématiques. Il est tout à fait possible de voir de manière analogue à un sujet nommé « Avis livre : Le langage Caml », un sujet appelé « Avis livre : La théorie des Distributions » ou à la place de « Comment bien nommer ses fonctions et ses variables ? » un sujet nommé… « Comment bien nommer ses fonctions et ses variables ? ».</p>
                 </div>
+                
+                <!-- Mermaid Script -->
+                <script type="module">
+                    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+                    
+                    // Configure and initialize mermaid
+                    const initMermaid = async () => {
+                        try {
+                            await mermaid.initialize({ 
+                                startOnLoad: true,
+                                theme: document.documentElement.classList.contains('dark') ? 'dark' : 'default',
+                                securityLevel: 'loose',
+                                flowchart: {
+                                    useMaxWidth: false,
+                                    htmlLabels: true,
+                                    curve: 'basis',
+                                    padding: 20,
+                                    nodeSpacing: 50,
+                                    rankSpacing: 50
+                                },
+                                themeVariables: {
+                                    primaryColor: '#D97706',
+                                    primaryTextColor: '#2A2927',
+                                    primaryBorderColor: '#D97706',
+                                    lineColor: '#78716c',
+                                    secondaryColor: '#f5f5f4',
+                                    tertiaryColor: '#fafaf9',
+                                    background: '#ffffff',
+                                    mainBkg: '#ffffff',
+                                    secondBkg: '#f5f5f4',
+                                    tertiaryBkg: '#fafaf9'
+                                }
+                            });
+                            
+                            // Log any mermaid elements found
+                            const elements = document.querySelectorAll('.mermaid');
+                            console.log(`Mermaid initialized. Found ${elements.length} diagram(s)`);
+                            
+                            // Force render if elements exist
+                            if (elements.length > 0) {
+                                mermaid.contentLoaded();
+                            }
+                        } catch (error) {
+                            console.error('Mermaid initialization error:', error);
+                        }
+                    };
+                    
+                    // Initialize when DOM is ready
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', initMermaid);
+                    } else {
+                        // DOM already loaded
+                        await initMermaid();
+                    }
+                </script>
             </article>
 
             <!-- Giscus Comments Section -->
@@ -265,7 +320,7 @@ Pourtant, ces domaines font également appel à des mathématiques hautement th�
     
 
     <!-- Custom JavaScript -->
-    <script src="https://quemy.info/js/main.js"></script>
+    <script src="http://localhost:8000/js/main.js"></script>
 
     
 </body>
