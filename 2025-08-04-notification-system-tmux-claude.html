@@ -139,8 +139,6 @@
 <li><a href="#implementation-guide">Implementation Guide</a></li>
 <li><a href="#conclusion">Conclusion</a></li>
 <li><a href="#configuration-files-appendix">Configuration Files Appendix</a></li>
-<li><a href="#ghostty-notify-wrappersh">ghostty-notify-wrapper.sh</a></li>
-<li><a href="#go-tmuxsh">go-tmux.sh</a></li>
 </ul>
 </div>
 <h3 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">¶</a></h3>
@@ -1389,7 +1387,7 @@ chmod +x go-tmux.sh
 <p>The notification system is intentionally built to be extended. Want to add Discord notifications? Just add another node in n8n. Prefer Linux? Swap <code>terminal-notifier</code> for <code>notify-send</code> and <code>osascript</code> for <code>xdotool</code>. The architecture stays the same.</p>
 <p>If you build something cool with this, let me know. I’m always curious to see how others adapt these tools to their workflow.</p>
 <h3 id="configuration-files-appendix">Configuration Files Appendix<a class="headerlink" href="#configuration-files-appendix" title="Permanent link">¶</a></h3>
-<p>This section consolidates all configuration files for easy reference. You can download these files from the <a href="https://github.com/yourusername/claude-notifier">GitHub repository</a>.</p>
+<p>This section consolidates all configuration files for easy reference. You can download these files from the <a href="https://github.com/aquemy/claude-notifier">GitHub repository</a>.</p>
 <h4 id="complete-hooksjson">Complete .hooks.json<a class="headerlink" href="#complete-hooksjson" title="Permanent link">¶</a></h4>
 <div class="collapse-block" id="collapse-block-6"><div class="collapse-header" onclick="var content=this.nextElementSibling;var toggle=this.querySelector('.collapse-toggle');if(content.style.display==='block'){content.style.display='none';toggle.style.transform='rotate(0deg)';}else{content.style.display='block';toggle.style.transform='rotate(90deg)';}" style="cursor: pointer;"><span>Additional Configuration Examples</span><span class="collapse-toggle">▶</span></div><div class="collapse-content" style="display: none;">
 <p>Save as <code>~/.hooks.json</code>:</p>
@@ -1548,7 +1546,7 @@ chmod +x go-tmux.sh
 </div></div>
 <h4 id="shell-scripts">Shell Scripts<a class="headerlink" href="#shell-scripts" title="Permanent link">¶</a></h4>
 <div class="collapse-block" id="collapse-block-9"><div class="collapse-header" onclick="var content=this.nextElementSibling;var toggle=this.querySelector('.collapse-toggle');if(content.style.display==='block'){content.style.display='none';toggle.style.transform='rotate(0deg)';}else{content.style.display='block';toggle.style.transform='rotate(90deg)';}" style="cursor: pointer;"><span>Notification and Navigation Scripts</span><span class="collapse-toggle">▶</span></div><div class="collapse-content" style="display: none;">
-<h3 id="ghostty-notify-wrappersh">ghostty-notify-wrapper.sh<a class="headerlink" href="#ghostty-notify-wrappersh" title="Permanent link">¶</a></h3>
+<h4 id="ghostty-notify-wrappersh">ghostty-notify-wrapper.sh<a class="headerlink" href="#ghostty-notify-wrappersh" title="Permanent link">¶</a></h4>
 <p>Save as <code>~/bin/ghostty-notify-wrapper.sh</code>:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
@@ -1580,7 +1578,7 @@ chmod +x go-tmux.sh
   -execute <span class="s2">"/usr/bin/curl -X POST 'http://localhost:9000/hooks/show-ghostty?tmux_location=</span><span class="nv">$1</span><span class="s2">'"</span> <span class="se">\</span>
   -sound default
 </code></pre></div></td></tr></table></div>
-<h3 id="go-tmuxsh">go-tmux.sh<a class="headerlink" href="#go-tmuxsh" title="Permanent link">¶</a></h3>
+<h4 id="go-tmuxsh">go-tmux.sh<a class="headerlink" href="#go-tmuxsh" title="Permanent link">¶</a></h4>
 <p>Save as <code>~/bin/go-tmux.sh</code>:</p>
 <div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal"> 1</span>
 <span class="normal"> 2</span>
