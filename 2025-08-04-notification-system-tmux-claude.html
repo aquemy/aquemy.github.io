@@ -55,8 +55,8 @@
     <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, { delimiters: [ {left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}, {left: '\\(', right: '\\)', display: false}, {left: '\\[', right: '\\]', display: true} ]});"></script>
     
     <!-- Custom Styles and Theming -->
-    <link rel="stylesheet" href="http://localhost:8000/css/custom.css">
-    <link rel="stylesheet" href="http://localhost:8000/css/friendly.css">
+    <link rel="stylesheet" href="https://quemy.info/css/custom.css">
+    <link rel="stylesheet" href="https://quemy.info/css/friendly.css">
 
     <script>
         if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
@@ -112,7 +112,7 @@
 <div class="w-full max-w-7xl mx-auto py-12 px-4">
     <!-- Header moved outside the grid for proper alignment -->
     <header class="max-w-5xl mx-auto mb-12 text-center lg:text-left">
-        <a href="http://localhost:8000/blog.html" class="text-sm text-accent-light dark:text-accent-dark hover:underline mb-4 inline-block">← Back to all posts</a>
+        <a href="https://quemy.info/blog.html" class="text-sm text-accent-light dark:text-accent-dark hover:underline mb-4 inline-block">← Back to all posts</a>
         <h1 class="font-sans text-4xl md:text-5xl font-black text-ink dark:text-dark-ink leading-tight">Notification System for Tmux and Claude Code</h1>
         <p class="mt-4 text-stone-500 dark:text-stone-400">2025-08-04 · DevOps</p>
     </header>
@@ -137,10 +137,10 @@
 <li><a href="#introduction">Introduction</a></li>
 <li><a href="#architecture-overview">Architecture Overview</a></li>
 <li><a href="#implementation-guide">Implementation Guide</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
 <li><a href="#configuration-files-appendix">Configuration Files Appendix</a></li>
 <li><a href="#ghostty-notify-wrappersh">ghostty-notify-wrapper.sh</a></li>
 <li><a href="#go-tmuxsh">go-tmux.sh</a></li>
-<li><a href="#conclusion">Conclusion</a></li>
 </ul>
 </div>
 <h3 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">¶</a></h3>
@@ -1374,6 +1374,20 @@ chmod +x go-tmux.sh
 <span class="p">}</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
 </div></div>
+<h3 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">¶</a></h3>
+<p>That’s it - a simple notification system that keeps me in the flow while juggling multiple Claude sessions. No more wondering which session needs attention or losing track of where I was working. Just a clean notification and a single click to get back to the right tmux pane.</p>
+<p>The best part? Each component does one thing well. n8n handles the orchestration, Gotify manages notifications across devices, and simple bash scripts handle the local integration. When something breaks (and it will), it’s easy to debug because each piece is isolated.</p>
+<h4 id="whats-next">What’s Next?<a class="headerlink" href="#whats-next" title="Permanent link">¶</a></h4>
+<p>I’ve been thinking about a few extensions that might be interesting:</p>
+<ul>
+<li><strong>Web UI with tmux controls</strong> - Show the full tmux layout with live status of each Claude session. Maybe add touch screen support or macro pad shortcuts for quick navigation.</li>
+<li><strong>Claude-to-Claude communication</strong> - Since Claude can now trigger notifications, why not let different Claude instances communicate? I tried this already - spoiler: it gets weird fast when they start coordinating.</li>
+<li><strong>Home Assistant integration</strong> - Visual feedback through smart lights when Claude needs attention. Because why not?</li>
+<li><strong>Event database</strong> - Track notification patterns to understand when Claude gets stuck most often. Could help optimize prompts.</li>
+<li><strong>Beyond tmux</strong> - Support for screen, Zellij, or even Windows Terminal.</li>
+</ul>
+<p>The notification system is intentionally built to be extended. Want to add Discord notifications? Just add another node in n8n. Prefer Linux? Swap <code>terminal-notifier</code> for <code>notify-send</code> and <code>osascript</code> for <code>xdotool</code>. The architecture stays the same.</p>
+<p>If you build something cool with this, let me know. I’m always curious to see how others adapt these tools to their workflow.</p>
 <h3 id="configuration-files-appendix">Configuration Files Appendix<a class="headerlink" href="#configuration-files-appendix" title="Permanent link">¶</a></h3>
 <p>This section consolidates all configuration files for easy reference. You can download these files from the <a href="https://github.com/yourusername/claude-notifier">GitHub repository</a>.</p>
 <h4 id="complete-hooksjson">Complete .hooks.json<a class="headerlink" href="#complete-hooksjson" title="Permanent link">¶</a></h4>
@@ -1404,14 +1418,14 @@ chmod +x go-tmux.sh
 <span class="normal">23</span></pre></div></td><td class="code"><div><pre><span></span><code><span class="p">[</span><span class="w"></span>
 <span class="w">  </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"show-ghostty"</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="nt">"execute-command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/Users/aquemy/bin/go-tmux.sh"</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">"execute-command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/Users/&lt;your_username&gt;/bin/go-tmux.sh"</span><span class="p">,</span><span class="w"></span>
 <span class="w">    </span><span class="nt">"pass-arguments-to-command"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
 <span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="nt">"source"</span><span class="p">:</span><span class="w"> </span><span class="s2">"url"</span><span class="p">,</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tmux_location"</span><span class="w"> </span><span class="p">}</span><span class="w"></span>
 <span class="w">    </span><span class="p">]</span><span class="w"></span>
 <span class="w">  </span><span class="p">},</span><span class="w"></span>
 <span class="w">  </span><span class="p">{</span><span class="w"></span>
 <span class="w">    </span><span class="nt">"id"</span><span class="p">:</span><span class="w"> </span><span class="s2">"ghostty-notify"</span><span class="p">,</span><span class="w"></span>
-<span class="w">    </span><span class="nt">"execute-command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/Users/aquemy/bin/ghostty-notify-wrapper.sh"</span><span class="p">,</span><span class="w"></span>
+<span class="w">    </span><span class="nt">"execute-command"</span><span class="p">:</span><span class="w"> </span><span class="s2">"/Users/&lt;your_username&gt;/bin/ghostty-notify-wrapper.sh"</span><span class="p">,</span><span class="w"></span>
 <span class="w">    </span><span class="nt">"pass-arguments-to-command"</span><span class="p">:</span><span class="w"> </span><span class="p">[</span><span class="w"></span>
 <span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="nt">"source"</span><span class="p">:</span><span class="w"> </span><span class="s2">"payload"</span><span class="p">,</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tmux_location"</span><span class="w"> </span><span class="p">},</span><span class="w"></span>
 <span class="w">      </span><span class="p">{</span><span class="w"> </span><span class="nt">"source"</span><span class="p">:</span><span class="w"> </span><span class="s2">"payload"</span><span class="p">,</span><span class="w"> </span><span class="nt">"name"</span><span class="p">:</span><span class="w"> </span><span class="s2">"tmux_session_name"</span><span class="w"> </span><span class="p">},</span><span class="w"></span>
@@ -1461,12 +1475,12 @@ chmod +x go-tmux.sh
   <span class="nt">&lt;array&gt;</span>
     <span class="nt">&lt;string&gt;</span>/opt/homebrew/bin/webhook<span class="nt">&lt;/string&gt;</span>
     <span class="nt">&lt;string&gt;</span>-hooks<span class="nt">&lt;/string&gt;</span>
-    <span class="nt">&lt;string&gt;</span>/Users/aquemy/.hooks.json<span class="nt">&lt;/string&gt;</span>
+    <span class="nt">&lt;string&gt;</span>/Users/<span class="nt">&lt;your_username&gt;</span>/.hooks.json<span class="nt">&lt;/string&gt;</span>
     <span class="nt">&lt;string&gt;</span>-port<span class="nt">&lt;/string&gt;</span>
     <span class="nt">&lt;string&gt;</span>9000<span class="nt">&lt;/string&gt;</span>
     <span class="nt">&lt;string&gt;</span>-hotreload<span class="nt">&lt;/string&gt;</span>
     <span class="nt">&lt;string&gt;</span>-logfile<span class="nt">&lt;/string&gt;</span>
-    <span class="nt">&lt;string&gt;</span>/Users/aquemy/.webhook_log.txt<span class="nt">&lt;/string&gt;</span>
+    <span class="nt">&lt;string&gt;</span>/Users/<span class="nt">&lt;your_username&gt;</span>/.webhook_log.txt<span class="nt">&lt;/string&gt;</span>
   <span class="nt">&lt;/array&gt;</span>
   <span class="nt">&lt;key&gt;</span>RunAtLoad<span class="nt">&lt;/key&gt;</span>       <span class="nt">&lt;true/&gt;</span>
   <span class="nt">&lt;key&gt;</span>KeepAlive<span class="nt">&lt;/key&gt;</span>       <span class="nt">&lt;true/&gt;</span>
@@ -1967,20 +1981,6 @@ osascript -e <span class="s1">'tell application "Ghostty" to activate'</span>
 <span class="p">}</span><span class="w"></span>
 </code></pre></div></td></tr></table></div>
 </div></div>
-<h3 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">¶</a></h3>
-<p>That’s it - a simple notification system that keeps me in the flow while juggling multiple Claude sessions. No more wondering which session needs attention or losing track of where I was working. Just a clean notification and a single click to get back to the right tmux pane.</p>
-<p>The best part? Each component does one thing well. n8n handles the orchestration, Gotify manages notifications across devices, and simple bash scripts handle the local integration. When something breaks (and it will), it’s easy to debug because each piece is isolated.</p>
-<h4 id="whats-next">What’s Next?<a class="headerlink" href="#whats-next" title="Permanent link">¶</a></h4>
-<p>I’ve been thinking about a few extensions that might be interesting:</p>
-<ul>
-<li><strong>Web UI with tmux controls</strong> - Show the full tmux layout with live status of each Claude session. Maybe add touch screen support or macro pad shortcuts for quick navigation.</li>
-<li><strong>Claude-to-Claude communication</strong> - Since Claude can now trigger notifications, why not let different Claude instances communicate? I tried this already - spoiler: it gets weird fast when they start coordinating.</li>
-<li><strong>Home Assistant integration</strong> - Visual feedback through smart lights when Claude needs attention. Because why not?</li>
-<li><strong>Event database</strong> - Track notification patterns to understand when Claude gets stuck most often. Could help optimize prompts.</li>
-<li><strong>Beyond tmux</strong> - Support for screen, Zellij, or even Windows Terminal.</li>
-</ul>
-<p>The notification system is intentionally built to be extended. Want to add Discord notifications? Just add another node in n8n. Prefer Linux? Swap <code>terminal-notifier</code> for <code>notify-send</code> and <code>osascript</code> for <code>xdotool</code>. The architecture stays the same.</p>
-<p>If you build something cool with this, let me know. I’m always curious to see how others adapt these tools to their workflow.</p>
                 </div>
                 
                 <!-- Mermaid Script -->
@@ -2087,7 +2087,7 @@ osascript -e <span class="s1">'tell application "Ghostty" to activate'</span>
     
 
     <!-- Custom JavaScript -->
-    <script src="http://localhost:8000/js/main.js"></script>
+    <script src="https://quemy.info/js/main.js"></script>
 
     
 </body>
