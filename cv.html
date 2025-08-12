@@ -47,7 +47,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Source+Sans+Pro:wght@400;600;700&family=Roboto+Mono&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Source+Sans+Pro:wght@400;600;700&family=Roboto+Mono&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
     
     <!-- KaTeX for Math Rendering -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
@@ -109,508 +109,836 @@
 </div>
         <main>  <!-- class="fade-in"> -->
             
-<div class="w-full max-w-6xl mx-auto py-12 px-4">
+<style>
+/* CV-specific styles embedded directly in the template */
+.cv-resume-container {
+    font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #1f2937;
+}
+
+html.dark .cv-resume-container {
+    color: #e5e7eb;
+}
+
+/* Header Styles */
+.cv-header {
+    margin-bottom: 24px;
+    border-bottom: 2px solid #D97706;
+    padding-bottom: 20px;
+}
+
+html.dark .cv-header {
+    border-bottom-color: #FBBF24;
+}
+
+.cv-header-content {
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+}
+
+.cv-header-text {
+    flex: 1;
+}
+
+.cv-name {
+    font-size: 32px;
+    font-weight: 900;
+    color: #1f2937;
+    margin: 0 0 8px 0;
+    font-family: 'Inter', sans-serif;
+}
+
+html.dark .cv-name {
+    color: #f3f4f6;
+}
+
+.cv-title {
+    font-size: 18px;
+    font-weight: 400;
+    color: #D97706;
+    margin: 0 0 12px 0;
+}
+
+html.dark .cv-title {
+    color: #FBBF24;
+}
+
+.cv-contact-info {
+    font-size: 14px;
+    color: #6b7280;
+}
+
+html.dark .cv-contact-info {
+    color: #9ca3af;
+}
+
+.cv-contact-info i {
+    margin-right: 4px;
+    color: #D97706;
+}
+
+html.dark .cv-contact-info i {
+    color: #FBBF24;
+}
+
+.cv-contact-info a {
+    color: #D97706;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+html.dark .cv-contact-info a {
+    color: #FBBF24;
+}
+
+.cv-contact-info a:hover {
+    text-decoration: underline;
+}
+
+.cv-header-photo {
+    margin-left: 20px;
+}
+
+.cv-profile-photo {
+    width: 120px;
+    height: 120px;
+    border-radius: 50%;
+    border: 3px solid #D97706;
+    object-fit: cover;
+    transition: box-shadow 0.3s ease-in-out, transform 0.3s ease-in-out;
+}
+
+html.dark .cv-profile-photo {
+    border-color: #FBBF24;
+}
+
+.cv-profile-photo:hover {
+    transform: scale(1.05);
+    box-shadow: 0 0 25px rgba(217, 119, 6, 0.5);
+}
+
+html.dark .cv-profile-photo:hover {
+    box-shadow: 0 0 30px rgba(251, 191, 36, 0.4);
+}
+
+/* Section Headers */
+.cv-resume-container h3 {
+    font-size: 20px;
+    font-weight: 900;
+    color: #1f2937;
+    margin: 24px 0 16px 0;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    border-bottom: 2px solid rgba(217, 119, 6, 0.3);
+    padding-bottom: 8px;
+    font-family: 'Inter', sans-serif;
+}
+
+html.dark .cv-resume-container h3 {
+    color: #f3f4f6;
+    border-bottom-color: rgba(251, 191, 36, 0.3);
+}
+
+/* Summary Section */
+.cv-summary p {
+    text-align: justify;
+    margin: 0;
+}
+
+/* Two Column Layout */
+.cv-two-column {
+    display: flex;
+    gap: 48px;
+    margin-top: 32px;
+}
+
+.cv-sidebar {
+    width: 30%;
+    flex-shrink: 0;
+}
+
+.cv-main-column {
+    flex: 1;
+}
+
+.cv-sidebar {
+    width: 28%;
+    flex-shrink: 0;
+}
+
+.cv-main-column {
+    flex: 1;
+}
+
+/* Skills Section */
+.cv-skill-category {
+    margin-bottom: 16px;
+}
+
+.cv-skill-category h4 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #374151;
+    margin: 0 0 6px 0;
+    font-family: 'Inter', sans-serif;
+}
+
+html.dark .cv-skill-category h4 {
+    color: #e5e7eb;
+}
+
+.cv-skill-category p {
+    font-size: 14px;
+    color: #6b7280;
+    margin: 0;
+    line-height: 1.5;
+}
+
+html.dark .cv-skill-category p {
+    color: #9ca3af;
+}
+
+/* Languages Section */
+.cv-languages ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.cv-languages li {
+    font-size: 14px;
+    margin-bottom: 6px;
+    color: #4b5563;
+}
+
+html.dark .cv-languages li {
+    color: #d1d5db;
+}
+
+/* Experience Section */
+.cv-job {
+    margin-bottom: 24px;
+}
+
+.cv-job-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 6px;
+}
+
+.cv-job-header h4 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+}
+
+html.dark .cv-job-header h4 {
+    color: #f3f4f6;
+}
+
+.cv-date {
+    font-size: 14px;
+    color: #6b7280;
+    font-style: italic;
+    flex-shrink: 0;
+}
+
+html.dark .cv-date {
+    color: #9ca3af;
+}
+
+.cv-company {
+    font-size: 16px;
+    color: #6b7280;
+    margin-bottom: 8px;
+    font-weight: 600;
+}
+
+html.dark .cv-company {
+    color: #9ca3af;
+}
+
+.cv-website-link {
+    color: #D97706;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+html.dark .cv-website-link {
+    color: #FBBF24;
+}
+
+.cv-website-link:hover {
+    text-decoration: underline;
+}
+
+.cv-job p {
+    margin: 0 0 12px 0;
+    text-align: justify;
+    font-size: 14px;
+    color: #4b5563;
+}
+
+html.dark .cv-job p {
+    color: #d1d5db;
+}
+
+.cv-job ul {
+    margin: 0;
+    padding-left: 0;
+    list-style: none;
+}
+
+.cv-job li {
+    margin-bottom: 6px;
+    font-size: 14px;
+    color: #4b5563;
+    padding-left: 20px;
+    position: relative;
+}
+
+html.dark .cv-job li {
+    color: #d1d5db;
+}
+
+.cv-job li:before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #D97706;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+html.dark .cv-job li:before {
+    color: #FBBF24;
+}
+
+/* Education Section */
+.cv-degree {
+    margin-bottom: 20px;
+}
+
+.cv-degree-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: baseline;
+    margin-bottom: 6px;
+}
+
+.cv-degree-header h4 {
+    font-size: 18px;
+    font-weight: 700;
+    color: #1f2937;
+    margin: 0;
+    font-family: 'Inter', sans-serif;
+}
+
+html.dark .cv-degree-header h4 {
+    color: #f3f4f6;
+}
+
+.cv-institution {
+    font-size: 14px;
+    color: #6b7280;
+    margin-bottom: 6px;
+}
+
+html.dark .cv-institution {
+    color: #9ca3af;
+}
+
+.cv-degree p {
+    margin: 0;
+    font-size: 14px;
+    color: #4b5563;
+}
+
+html.dark .cv-degree p {
+    color: #d1d5db;
+}
+
+/* Patents Section */
+.cv-patent-list {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.cv-patent-list li {
+    margin-bottom: 10px;
+    font-size: 14px;
+    color: #4b5563;
+}
+
+html.dark .cv-patent-list li {
+    color: #d1d5db;
+}
+
+/* Publications Section */
+.cv-publication-item {
+    margin-bottom: 16px;
+}
+
+.cv-publication-item h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0 0 4px 0;
+}
+
+html.dark .cv-publication-item h4 {
+    color: #f3f4f6;
+}
+
+.cv-publication-item p {
+    font-size: 14px;
+    color: #6b7280;
+    margin: 0;
+    font-style: italic;
+}
+
+html.dark .cv-publication-item p {
+    color: #9ca3af;
+}
+
+/* Teaching Section */
+.cv-teaching-item {
+    margin-bottom: 16px;
+}
+
+.cv-teaching-item h4 {
+    font-size: 16px;
+    font-weight: 600;
+    color: #1f2937;
+    margin: 0 0 4px 0;
+}
+
+html.dark .cv-teaching-item h4 {
+    color: #f3f4f6;
+}
+
+.cv-teaching-item p {
+    font-size: 14px;
+    color: #6b7280;
+    margin: 0;
+}
+
+html.dark .cv-teaching-item p {
+    color: #9ca3af;
+}
+
+.cv-teaching-item ul {
+    margin: 8px 0 0 0;
+    padding-left: 0;
+    list-style: none;
+}
+
+.cv-teaching-item li {
+    font-size: 14px;
+    margin-bottom: 6px;
+    color: #4b5563;
+    padding-left: 20px;
+    position: relative;
+}
+
+html.dark .cv-teaching-item li {
+    color: #d1d5db;
+}
+
+.cv-teaching-item li:before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #D97706;
+    font-weight: bold;
+    font-size: 16px;
+}
+
+html.dark .cv-teaching-item li:before {
+    color: #FBBF24;
+}
+
+/* Achievements Section */
+.cv-achievements ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+}
+
+.cv-achievements li {
+    margin-bottom: 10px;
+    font-size: 14px;
+    padding-left: 16px;
+    position: relative;
+    color: #4b5563;
+}
+
+html.dark .cv-achievements li {
+    color: #d1d5db;
+}
+
+.cv-achievements li:before {
+    content: "•";
+    position: absolute;
+    left: 0;
+    color: #D97706;
+    font-weight: bold;
+}
+
+html.dark .cv-achievements li:before {
+    color: #FBBF24;
+}
+
+/* Highlighting */
+.cv-highlight {
+    background-color: rgba(217, 119, 6, 0.1);
+    padding: 2px 4px;
+    border-radius: 3px;
+    color: #92400e;
+}
+
+html.dark .cv-highlight {
+    background-color: rgba(251, 191, 36, 0.2);
+    color: #fbbf24;
+}
+
+/* Links */
+.cv-resume-container a {
+    color: #D97706;
+    text-decoration: none;
+    transition: color 0.2s ease;
+}
+
+html.dark .cv-resume-container a {
+    color: #FBBF24;
+}
+
+.cv-resume-container a:hover {
+    text-decoration: underline;
+    color: #b45309;
+}
+
+html.dark .cv-resume-container a:hover {
+    color: #fcd34d;
+}
+
+/* Page Break */
+.page-break {
+    page-break-before: always;
+    margin: 30px 0;
+}
+
+@media print {
+    .cv-page-wrapper {
+        background: white;
+    }
+    
+    .cv-container {
+        padding: 0;
+    }
+    
+    .cv-resume-container {
+        box-shadow: none;
+        padding: 0;
+        margin: 0;
+        width: 100%;
+    }
+    
+    .page-title {
+        display: none;
+    }
+    
+    .page-break {
+        page-break-before: always;
+        margin: 0;
+    }
+}
+</style>
+
+<div class="w-full max-w-7xl mx-auto py-12 px-4">
     <h1 class="page-title">Curriculum Vitae</h1>
     
-    <div class="lg:grid lg:grid-cols-4 lg:gap-12">
-        <!-- Sticky Sidebar Navigation -->
-        <aside class="hidden lg:block lg:col-span-1">
-            <div class="sticky top-24">
-                <h3 class="font-semibold text-sm uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-4">ON THIS PAGE</h3>
-                <ul id="cv-sidebar-nav" class="space-y-1">
-                    <li><a href="#education" class="sidebar-link" data-target="education">Education</a></li>
-                    <li><a href="#experience" class="sidebar-link" data-target="experience">Experience</a></li>
-                </ul>
-                
-                <!-- Overview/Detailed Toggle Switch -->
-                <div class="mt-8 pt-4 border-t border-stone-200 dark:border-stone-700">
-                     <h3 class="font-semibold text-sm uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-3">VIEW MODE</h3>
-                     <div class="flex items-center space-x-2 text-sm">
-                        <span id="overview-label" class="font-semibold text-ink dark:text-dark-ink">Overview</span>
-                        <label for="detail-toggle" class="relative inline-flex items-center cursor-pointer">
-                            <input type="checkbox" id="detail-toggle" class="sr-only peer">
-                            <div class="w-11 h-6 bg-stone-200 dark:bg-stone-700 rounded-full peer peer-checked:after:translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:left-[2px] after:bg-white after:border-stone-300 after:border after:rounded-full after:h-5 after:w-5 after:transition-all dark:border-stone-600 peer-checked:bg-accent-light dark:peer-checked:bg-accent-dark"></div>
-                        </label>
-                        <span id="detailed-label" class="text-stone-400 dark:text-stone-500">Detailed</span>
+    <div class="cv-resume-container">
+            <!-- Header Section -->
+            <header class="cv-header">
+                <div class="cv-header-content">
+                    <div class="cv-header-text">
+                        <h1 class="cv-name">Alexandre Quemy</h1>
+                        <h2 class="cv-title">AI Engineer / Researcher · Ph.D. in Machine Learning</h2>
+                        <div class="cv-contact-info">
+                            <span><i class="fas fa-map-marker-alt"></i> Cracow, Poland</span> |
+                            <span><i class="fas fa-phone"></i> (+48) 883 767 520</span> |
+                            <a href="mailto:alexandre@quemy.info"><i class="fas fa-envelope"></i> alexandre@quemy.info</a> |
+                            <a href="https://quemy.info" target="_blank"><i class="fas fa-globe"></i> quemy.info</a> |
+                            <a href="https://github.com/aquemy" target="_blank"><i class="fab fa-github"></i> GitHub</a> |
+                            <a href="https://linkedin.com/in/aquemy" target="_blank"><i class="fab fa-linkedin"></i> LinkedIn</a>
+                        </div>
+                    </div>
+                    <div class="cv-header-photo">
+                        <img src="https://quemy.info/images/profile.jpeg" alt="Alexandre Quemy" class="cv-profile-photo">
                     </div>
                 </div>
-            </div>
-        </aside>
+            </header>
 
-        <!-- Main Content -->
-        <div class="lg:col-span-3">
-            <section id="education" class="scroll-section mb-16">
-                <h2 class="section-title"><i class="fas fa-graduation-cap text-accent-light dark:text-accent-dark"></i> Education</h2>
-                <div class="space-y-8">
-                    
-                    <div>
-                        <div class="flex justify-between items-baseline">
-                            <h3 class="text-lg font-bold">Doctor of Philosophy (Ph.D.) <span class="font-normal text-accent-light dark:text-accent-dark">in Machine Learning</span></h3>
-                            <p class="text-sm text-stone-500 dark:text-stone-400 whitespace-nowrap pl-4">Oct. 2016 - Mar. 2021</p>
-                        </div>
-                        <p class="text-stone-600 dark:text-stone-300">Poznan University of Technology, Poznan, Poland</p>
-                        
-                            <p class="mt-2 text-sm italic text-stone-500 dark:text-gray-400"><b>Thesis:</b> End-to-end approach to classification in unstructured spaces with application to judicial decisions</p>
-                        
-                        
-                        <div class="detail-list mt-2 text-sm text-stone-500 dark:text-stone-400 space-y-1">
-                            <ul class="list-disc list-inside">
-                            
-                            <li>Elaboration of new AI methods for justice prediction and explanation.</li>
-                            
-                            <li>A new mathematical theory for classification, with ”good” properties (explainability, no metric required, no hyperparameter,...) based on hypergraphs and metric learning</li>
-                            
-                            <li>A generic method to automate most of data preparation using standard hyperparameter tuning techniques</li>
-                            
-                            <li>The largest curated datasets about the European Court of Human Rights, on which I reached over 94% accuracy predicting the outcome of a judgment.</li>
-                            
+            <div class="main-content">
+                <!-- Professional Summary -->
+                <section id="summary" class="scroll-section cv-summary mb-8">
+                    <h3>Professional Summary</h3>
+                    <p>AI Engineer and Researcher with <strong>Ph.D. in Machine Learning</strong>, specializing in <span class="cv-highlight">LLMs, multi-agent systems</span>, and cloud-native AI solutions. Proven track record building production AI platforms at scale, from financial crime detection models processing billions of transactions to robust multi-agent frameworks. My Ph.D. dissertation focused on sequences of hypergraphs as a novel approach to represent judicial cases and enable reasoning with <span class="cv-highlight">explainability</span> and <span class="cv-highlight">counter-factual analysis</span> at the core. Dual academic-industrial background with <span class="cv-highlight">4 patents, 15+ publications</span>, and expertise (<span class="cv-highlight">+10 years of experience</span>) in both research innovation and commercial product development. Looking to work for innovative environments.</p>
+                </section>
+
+                <!-- Two Column Layout -->
+                <div class="cv-two-column">
+                    <!-- Left Column - Skills & Languages -->
+                    <aside class="cv-sidebar">
+                        <section id="skills" class="scroll-section cv-skills">
+                            <h3>Key Skills</h3>
+                            <div class="cv-skill-category">
+                                <h4>AI & Machine Learning</h4>
+                                <p>LLMs (OpenAI, Anthropic, Gemini, open-source), Multi-agent frameworks (LangGraph, CrewAI), RAG, Knowledge Graph (Memgraph), Hypergraphs, PyTorch, scikit-learn, GAN, Normalizing Flow, Bayesian Networks</p>
+                            </div>
+                            <div class="cv-skill-category">
+                                <h4>Cloud & Infrastructure</h4>
+                                <p>GCP, AWS, IBM Cloud, Kubernetes, Docker, Dask, vLLM, MLOps</p>
+                            </div>
+                            <div class="cv-skill-category">
+                                <h4>Math & Data Science</h4>
+                                <p>Statistics, Probability Theory, Optimization, Numerical Analysis, PDEs, Time Series Analysis, Multiobjective Optimization, Stochastic Processes, Data Approximation, Geometric Modeling, Operational Research</p>
+                            </div>
+                            <div class="cv-skill-category">
+                                <h4>Soft Skills</h4>
+                                <p>Product Strategy, Team Leadership, Research to Production, Strategic Thinking, Innovation Management, Stakeholder Communication, Problem Solving</p>
+                            </div>
+                        </section>
+
+                        <section class="cv-languages mt-8">
+                            <h3>Languages</h3>
+                            <ul>
+                                <li><strong>French:</strong> Native</li>
+                                <li><strong>English:</strong> Fluent</li>
+                                <li><strong>Polish:</strong> Intermediate (B1.2)</li>
                             </ul>
-                        </div>
-                        
-                    </div>
-                    
-                    <div>
-                        <div class="flex justify-between items-baseline">
-                            <h3 class="text-lg font-bold">Master of Science <span class="font-normal text-accent-light dark:text-accent-dark">in Mathematics and Computer Science</span></h3>
-                            <p class="text-sm text-stone-500 dark:text-stone-400 whitespace-nowrap pl-4">Oct. 2009 - Mar. 2015</p>
-                        </div>
-                        <p class="text-stone-600 dark:text-stone-300">INSA Rouen (National Institute of Applied Sciences), Rouen, France</p>
-                        
-                        
-                        <div class="detail-list mt-2 text-sm text-stone-500 dark:text-stone-400 space-y-1">
-                            <ul class="list-disc list-inside">
+                        </section>
+                    </aside>
+
+
+                    <!-- Right Column - Experience & Education -->
+                    <main class="cv-main-column">
+                        <section id="experience" class="scroll-section cv-experience mb-8">
+                            <h3>Experience</h3>
                             
-                            <li>Mathematics and Software Engineering Department - Top 5 student</li>
+                            <div class="cv-job">
+                                <div class="cv-job-header">
+                                    <h4>Founding AI Engineer / AI Researcher</h4>
+                                    <span class="cv-date">Mar. 2024 - Present</span>
+                                </div>
+                                <div class="cv-company">Proofs.io · Cracow, Poland</div>
+                                <p>Building a multi-agent framework enabling software development in minutes. <span class="cv-highlight">Lead AI engineer</span> responsible for 90% of AI backend architecture and implementation in a 7-person startup. Participating in cloud infrastructure, MLOps, and product architecture alongside core AI development.</p>
+                                <ul>
+                                    <li>Designed <strong>unified LLM client</strong> supporting 8+ providers (OpenAI, Anthropic, Gemini, Groq, Baseten, local via vLLM, ...), enabling <strong>vendor-agnostic AI integration</strong></li>
+                                    <li>Developed <strong>innovative function calling techniques beyond standard MCP</strong> with function dependencies, full OpenAPI specs support, and stateful tools for less tokens and API calls</li>
+                                    <li>Built flexible <strong>declarative state-machine based agents</strong> with <strong>human-in-the-loop workflows</strong></li>
+                                    <li>Implemented robust <strong>one-shot learning and distillation</strong> "blueprint" mechanism for agent behavior replication</li>
+                                    <li>Created <strong>knowledge extraction framework</strong> from user interactions and agent trial-and-error for <strong>continuous learning</strong></li>
+                                    <li>Improving SotA techniques for <strong><span class="cv-highlight">codebase representation</span> with Knowledge Graph representation</strong>, unifying <span class="cv-highlight">LSP, AST and additional contextual/metadata</span> into a single graph (using Memgraph)</li>
+                                    <li>Architected <strong>advanced RAG system</strong> with <strong>context engineering and rescoring</strong> techniques</li>
+                                </ul>
+                            </div>
+
+                            <div class="cv-job">
+                                <div class="cv-job-header">
+                                    <h4>Member of the Community of Experts</h4>
+                                    <span class="cv-date">Jan. 2025 - Present</span>
+                                </div>
+                                <div class="cv-company">Eloquence AI (EU Horizon Project) · Remote</div>
+                                <p>Providing expertise in <strong>AI, notably LLM, and associated risks</strong> for <strong>European consortium</strong> dedicated to conversational AI. Assess <strong>technical proposals</strong> to ensure innovative value while mitigating <strong>ethical bias</strong>. Project funded by <strong>Horizon Europe</strong>, the EU's key funding programme for research and innovation.</p>
+                            </div>
+
+                            <div class="cv-job">
+                                <div class="cv-job-header">
+                                    <h4>AI & Data Science Consultant</h4>
+                                    <span class="cv-date">2017 - Present</span>
+                                </div>
+                                <div class="cv-company">Hother LLC (Independent Consulting) · Cracow, Poland · <a href="https://hother.io" target="_blank" class="cv-website-link">🌐 hother.io</a></div>
+                                <p>Through my LLC, I accept some consulting missions related to AI, Data Science and Software Engineering.</p>
+                                <ul>
+                                    <li><strong>Clinical AI (InovIntell, 2024-present):</strong> <span class="cv-highlight">Synthetic data generation for clinical studies</span> with counter-factual analysis using Bayesian Networks, GANs, VAEs, and Neural ODEs</li>
+                                    <li><strong>Enterprise Search (Undisclosed, 2023-2024):</strong> Built semantic search engine and conversational SQL agent, designed SaaS architecture including cost estimation</li>
+                                    <li><strong>Financial AI (Undisclosed, 2023):</strong> Predictive modeling and recommendation system for M&A analysis using tripartite graph embeddings</li>
+                                    <li><strong>SEO AI (Watussi, 2017):</strong> Conceived and implemented NLP tool for Search Engine Optimization using Gensim and NLTK</li>
+                                    <li>Successfully delivered 4+ AI projects with expertise in SBERT, LLM integration, Text-to-SQL, PostgreSQL, FastAPI, Docker, and Kubernetes</li>
+                                </ul>
+                            </div>
+
+                            <div class="cv-job">
+                                <div class="cv-job-header">
+                                    <h4>Head of Data and AI / Technical Lead</h4>
+                                    <span class="cv-date">Apr. 2022 - Mar. 2024</span>
+                                </div>
+                                <div class="cv-company">YData · Cracow, Poland</div>
+                                <p><strong>Led data science and AI team</strong> building SaaS platform for <span class="cv-highlight">synthetic data generation and automated data quality assessment</span>. <strong>Managed team of 6 engineers</strong>, shaped core IP, and drove product roadmap from research to production. Responsible for building the team, leading implementation effort, and answering fundamental research questions at fast pace.</p>
+                                <ul>
+                                    <li><span class="cv-highlight">Co-author and maintainer of <a href="https://github.com/ydataai/ydata-profiling" target="_blank"><strong>ydata-profiling library</strong></a> (10k+ GitHub stars)</span>, one of the leading Python tools for automated data profiling</li>
+                                    <li>Researched and developed <strong>new generative models for synthetic data</strong>: scalable Normalizing Flow for tabular data, Bayesian network time series synthesis, SQL database generator with schema integrity, and longitudinal data augmentation (see Patent section)</li>
+                                    <li>Built distributed processing systems using Dask, scaling models to process <strong>TB-scale datasets</strong> for enterprise clients</li>
+                                    <li>Integrated <span class="cv-highlight">LLM capabilities for table-to-text generation, enhancing synthetic data quality and interpretability</span></li>
+                                </ul>
+                            </div>
+
+                            <div class="cv-job">
+                                <div class="cv-job-header">
+                                    <h4>Senior AVP of Data Science</h4>
+                                    <span class="cv-date">Dec. 2020 - Apr. 2022</span>
+                                </div>
+                                <div class="cv-company">HSBC (Financial Crimes Threat Mitigation) · Cracow, Poland</div>
+                                <p><strong>Led global financial crime detection models</strong> serving <span class="cv-highlight">200M+ users processing billions of transactions monthly</span>. Managed complete model governance lifecycle from data quality to production monitoring.</p>
+                                <ul>
+                                    <li>Designed and deployed <strong>main global Name Screening model</strong> used across HSBC group, reducing false positives by <span class="cv-highlight">70%</span> while maintaining <strong><2.0% false negative rate</strong></li>
+                                    <li>Automated data science reporting pipeline, achieving <span class="cv-highlight">90%+ time savings</span> equivalent to <strong>20 FTE/year</strong> in operational efficiency</li>
+                                    <li>Developed <strong>controllable ML framework</strong> using rule injection, guaranteeing fixed model risk profiles for regulatory compliance</li>
+                                    <li>Created <strong>multiobjective optimization methodology</strong> for model risk assessment, adopted as standard across compliance analytics</li>
+                                    <li>Served as <strong>scientific advisor and peer reviewer</strong> while improving internal model governance lifecycle including scientific culture, code governance, and engineering risks</li>
+                                </ul>
+                            </div>
+
+                            <div class="cv-job">
+                                <div class="cv-job-header">
+                                    <h4>Senior Software Engineer & Data Scientist</h4>
+                                    <span class="cv-date">May 2015 - Dec. 2020</span>
+                                </div>
+                                <div class="cv-company">IBM · Cracow, Poland</div>
+                                <p><strong>Architecture and engineering roles</strong> spanning cloud platforms, AI systems, and research collaborations. Responsible for <span class="cv-highlight">flagship products and innovative AI platform development</span>.</p>
+                                <ul>
+                                    <li>Engineering on <strong>IBM Cloud Pak for Data</strong> flagship platform for Multi/Private/Hybrid Cloud serving <span class="cv-highlight">1000+ enterprise clients</span> with a focus on monitoring, HA, predictive maintenance and D&R capabilities</li>
+                                    <li>Built AI platforms for <strong>financial process automation (IBM Cobee)</strong> and <strong>code quality prediction (IBM Code Quality Center)</strong></li>
+                                    <li>Developed <strong>semantic search engine</strong> for legal documents and <span class="cv-highlight">NLP/Topic Modeling services</span> for enterprise applications</li>
+                                    <li>Led monitoring solutions for <strong>GPFS and Red Hat OpenShift</strong> in hybrid cloud environments</li>
+                                    <li>Served as <strong>Machine Learning and Data Science trainer</strong>, managed university collaborations, and supervised <span class="cv-highlight">10+ master students</span> on AI research projects with conference presentations and lectures</li>
+                                </ul>
+                            </div>
+
+                            <div class="cv-job">
+                                <div class="cv-job-header">
+                                    <h4>Research Collaborations</h4>
+                                    <span class="cv-date">2012 - 2014</span>
+                                </div>
+                                <div class="cv-company">Inria (multiple collaborations) · France</div>
+                                <p>Early career research collaborations across academic environments focusing on <strong>optimization and machine learning</strong>.</p>
+                                <ul>
+                                    <li><strong>Research Collaboration (Inria Saclay, 2013-2014):</strong> Evolutionary planner <span class="cv-highlight">Divide-and-Evolve</span>, MultiZenoTravel solver development, online parameter adaptation with Marc Schoenauer, TAO team</li>
+                                    <li><strong>Research Collaboration (Inria Nord-Europe, 2012-2013):</strong> <span class="cv-highlight">Parallel Island Model for Metaheuristics</span>, genetic algorithms, stochastic optimization with Clive Canape, DOLPHIN team</li>
+                                    <li><strong>Software Engineer Internship (Inria Nord-Europe, 2012):</strong> <span class="cv-highlight">ParadisEO C++ framework</span> development, shared memory parallelism module (SMP), continuous integration</li>
+                                </ul>
+                            </div>
+                        </section>
+
+                        <section id="education" class="scroll-section cv-education mb-8">
+                            <h3>Education</h3>
+                            <div class="cv-degree">
+                                <div class="cv-degree-header">
+                                    <h4>Ph.D. in Machine Learning</h4>
+                                    <span class="cv-date">2016 - 2021</span>
+                                </div>
+                                <div class="cv-institution">Poznan University of Technology · Poland</div>
+                                <p><strong>Thesis:</strong> "End-to-end approach to classification in unstructured spaces with application to judicial decisions"</p>
+                            </div>
                             
-                            <li>“Musique Étude” - additional cursus for musicians</li>
-                            
+                            <div class="cv-degree">
+                                <div class="cv-degree-header">
+                                    <h4>M.Sc. Applied Mathematics & Computer Science</h4>
+                                    <span class="cv-date">2009 - 2015</span>
+                                </div>
+                                <div class="cv-institution">National Institute of Applied Sciences (INSA) · Rouen, France</div>
+                                <p>French Engineer Diploma with specializations in Decision Aids (AI, Optimization, Intelligent Systems), Mathematical Methods for Data Science (Big Data, Machine Learning, Statistics), and Modeling & Numerical Simulations (PDEs, HPC, Probabilities)</p>
+                            </div>
+
+                            <div class="cv-degree">
+                                <div class="cv-degree-header">
+                                    <h4>M.Sc. High Performance Computing and AI</h4>
+                                    <span class="cv-date">2013 - 2014</span>
+                                </div>
+                                <div class="cv-institution">Cracow University of Technology · Poland</div>
+                                <p>Specialized master's program in high-performance computing and artificial intelligence</p>
+                            </div>
+                        </section>
+
+                        <section id="patents" class="scroll-section cv-patents mb-8">
+                            <h3>Patents & Intellectual Property</h3>
+                            <ul class="cv-patent-list">
+                                <li><strong><a href="https://patents.google.com/patent/US20240256946A1/en" target="_blank">US20240256946A1</a> (2024):</strong> Data synthesis with enhanced scalability using plurality of data synthesizers</li>
+                                <li><strong><a href="https://patents.google.com/patent/US11328715B2/en" target="_blank">US11328715B2</a> (2021):</strong> Cooperative platform tasks - automatic assignment using machine learning algorithms</li>
+                                <li><strong><a href="https://patents.google.com/patent/US11263113B2/en" target="_blank">US11263113B2</a> (2021):</strong> Code quality prediction - cloud application for automatic issue detection using RL and rule-based learning</li>
+                                <li><strong><a href="https://patents.google.com/patent/US11226889B2/en" target="_blank">US11226889B2</a> (2021):</strong> Regression prediction - software development regression prediction using ML techniques</li>
                             </ul>
-                        </div>
-                        
-                    </div>
-                    
-                    <div>
-                        <div class="flex justify-between items-baseline">
-                            <h3 class="text-lg font-bold">Master of Science <span class="font-normal text-accent-light dark:text-accent-dark">in High Performance Computing and Artificial Intelligence</span></h3>
-                            <p class="text-sm text-stone-500 dark:text-stone-400 whitespace-nowrap pl-4">Oct. 2013 - Jun. 2014</p>
-                        </div>
-                        <p class="text-stone-600 dark:text-stone-300">Cracow University of Technology, Cracow, Poland</p>
-                        
-                        
-                    </div>
-                    
+                        </section>
+
+                        <!-- Page Break for Second Page -->
+                        <div class="page-break"></div>
+
+                        <section id="publications" class="scroll-section cv-publications mb-8">
+                            <h3>Selected Publications</h3>
+                            <p><em>Full publication list (15+ papers) available at: <a href="https://quemy.info/research.html#publications">quemy.info/research</a></em></p><br>
+                            
+                            <div class="cv-publication-item">
+                                <h4>ydata-profiling: Accelerating Data-Centric AI with high-quality data (2023)</h4>
+                                <p><em>F. Clemente, G. Martins Ribeiro, A. Quemy, et al. - Neurocomputing</em></p>
+                            </div>
+                            <div class="cv-publication-item">
+                                <h4>Artificial Intelligence & Fair Trial Rights (2023)</h4>
+                                <p><em>H. Molbæk-Steensig, A. Quemy - Oxford Press book chapter</em></p>
+                            </div>
+                            <div class="cv-publication-item">
+                                <h4>Binary Classification in Unstructured Space With Hypergraph Case-Based Reasoning (2019)</h4>
+                                <p><em>A. Quemy - Information Systems</em></p>
+                            </div>
+                            <div class="cv-publication-item">
+                                <h4>A large reproducible benchmark on text classification for the legal domain (2023)</h4>
+                                <p><em>A. Quemy, R. Wrembel, et al. - Information Systems</em></p>
+                            </div>
+                        </section>
+
+                        <section id="teaching" class="scroll-section cv-teaching mb-8">
+                            <h3>Teaching & Supervision</h3>
+                            <div class="cv-teaching-item">
+                                <h4>MLOps Lectures (Winter 2023)</h4>
+                                <p>Poznan University of Technology · Guest lecturer on machine learning operations and deployment</p>
+                            </div>
+                            <div class="cv-teaching-item">
+                                <h4>Theoretical Machine Learning (2018-2019)</h4>
+                                <p>IBM Krakow Software Lab · Internal training on advanced ML theory and applications</p>
+                            </div>
+                            <div class="cv-teaching-item">
+                                <h4>Master Thesis Supervision</h4>
+                                <ul>
+                                    <li><strong>Rodrigo Tuna (2023-2024):</strong> Fairness Aware Semi-Synthetic Graph Generation</li>
+                                    <li><strong>Pawel Mroz (2018-2019):</strong> Graph-based linear explanation for supervised machine learning models</li>
+                                </ul>
+                            </div>
+                            <div class="cv-teaching-item">
+                                <h4>Research Internship Supervision</h4>
+                                <p>Supervised 8+ research internships on topics including hyperparameter optimization, ECHR decision prediction, regression prediction, and semantic partitioning algorithms</p>
+                            </div>
+                        </section>
+
+                        <section id="achievements" class="scroll-section cv-achievements mb-8">
+                            <h3>Professional Recognition</h3>
+                            <ul>
+                                <li><strong>Technical Program Committee Member:</strong> Fuzzy Information and Engineering (Taylor & Francis), Computing (Springer), Data & Knowledge Engineering (Springer), Expert Systems With Applications (Elsevier)</li>
+                                <li><strong>Conference Reviewer:</strong> Data Analytics solutions for Real-Life Applications (DARLI-AP) workshop collocated with EDBT/ICDT Joint Conference</li>
+                                <li><strong>Open Source Impact:</strong> Maintainer of multiple open-source projects including ParadisEO, Descarwin, ZenoSolver, and ECHR-OD</li>
+                                <li><strong>Research Impact:</strong> 15+ peer-reviewed publications in international journals and conferences</li>
+                                <li><strong>Industry Recognition:</strong> 4 granted US patents and 1 pending application in AI/ML domain</li>
+                            </ul>
+                        </section>
+                    </main>
                 </div>
-            </section>
-
-            <section id="experience" class="scroll-section">
-                <h2 class="section-title"><i class="fas fa-briefcase text-accent-light dark:text-accent-dark"></i> Experience</h2>
-                <div class="space-y-10">
-                    
-                    <div class="grid grid-cols-[max-content_auto_1fr] gap-x-4 scroll-fade-in">
-                        <!-- Date Column -->
-                        <div class="w-24 text-sm text-right text-stone-500 dark:text-stone-400 pt-1">
-                            
-                            <span>Mar. 2024 -</span><br><span>PRESENT</span>
-                        </div>
-
-                        <!-- Timeline Column -->
-                        <div class="relative flex justify-center">
-                            <div class="w-0.5 h-full bg-stone-200 dark:bg-stone-700"></div>
-                            <span class="absolute top-1.5 w-3 h-3 bg-accent-light rounded-full ring-4 ring-paper dark:ring-dark-bg z-10"></span>
-                        </div>
-
-                        <!-- Content Column -->
-                        <div class="pb-10">
-                            <h3 class="text-lg font-semibold -mt-1">Proofs.io</h3>
-                            
-                            <div class="mt-2">
-                                <h4 class="font-bold text-md text-stone-700 dark:text-stone-200">Technical Staff</h4>
-                                <p class="text-sm text-stone-600 dark:text-stone-400 italic">Core member of the R&D/engineer team, focusing on the development of the LLM-based platform for building complex software PoCs in minutes.</p>
-                                
-                                <div class="detail-list mt-2 text-sm text-stone-500 dark:text-stone-400 space-y-1">
-                                    <ul class="list-disc list-inside">
-                                        
-                                        <li>Research and development of multi-agent systems for autonomous learning for building complex software PoCs in minutes.</li>
-                                        
-                                        <li>Continuous and auto-learning via RAG agents and complex nested multi-agent systems..</li>
-                                        
-                                        <li>Improving the robustness, reliability and reproducibility of LLM-based sytems, notably via advanced Prompt Engineering.</li>
-                                        
-                                        <li>CI/CD and tooling around LLM, multi-agent systems and knowledge management.</li>
-                                        
-                                    </ul>
-                                </div>
-                                
-                            </div>
-                            
-                        </div>
-                    </div>
-                    
-                    <div class="grid grid-cols-[max-content_auto_1fr] gap-x-4 scroll-fade-in">
-                        <!-- Date Column -->
-                        <div class="w-24 text-sm text-right text-stone-500 dark:text-stone-400 pt-1">
-                            
-                            <span>Nov. 2023 -</span><br><span>PRESENT</span>
-                        </div>
-
-                        <!-- Timeline Column -->
-                        <div class="relative flex justify-center">
-                            <div class="w-0.5 h-full bg-stone-200 dark:bg-stone-700"></div>
-                            <span class="absolute top-1.5 w-3 h-3 bg-accent-light rounded-full ring-4 ring-paper dark:ring-dark-bg z-10"></span>
-                        </div>
-
-                        <!-- Content Column -->
-                        <div class="pb-10">
-                            <h3 class="text-lg font-semibold -mt-1">Consultant via Hother.io</h3>
-                            
-                            <div class="mt-2">
-                                <h4 class="font-bold text-md text-stone-700 dark:text-stone-200">Data and AI Consultant</h4>
-                                <p class="text-sm text-stone-600 dark:text-stone-400 italic">I accept specific missions and short-term consulting for specific data and AI related problems. Some examples include:</p>
-                                
-                                <div class="detail-list mt-2 text-sm text-stone-500 dark:text-stone-400 space-y-1">
-                                    <ul class="list-disc list-inside">
-                                        
-                                        <li>Synthetic data generation and simulation with counter-factual analysis for clinical studies data.</li>
-                                        
-                                        <li>Semantic search engine and conversational agent over SQL database.</li>
-                                        
-                                        <li>SaaS architecture and cost estimation based on scope statements.</li>
-                                        
-                                        <li>Predictive modeling and recommendation for Mergers & Acquisition.</li>
-                                        
-                                    </ul>
-                                </div>
-                                
-                            </div>
-                            
-                        </div>
-                    </div>
-                    
-                    <div class="grid grid-cols-[max-content_auto_1fr] gap-x-4 scroll-fade-in">
-                        <!-- Date Column -->
-                        <div class="w-24 text-sm text-right text-stone-500 dark:text-stone-400 pt-1">
-                            
-                            <span>Apr. 2022 -</span><br><span>Mar. 2024</span>
-                        </div>
-
-                        <!-- Timeline Column -->
-                        <div class="relative flex justify-center">
-                            <div class="w-0.5 h-full bg-stone-200 dark:bg-stone-700"></div>
-                            <span class="absolute top-1.5 w-3 h-3 bg-accent-light rounded-full ring-4 ring-paper dark:ring-dark-bg z-10"></span>
-                        </div>
-
-                        <!-- Content Column -->
-                        <div class="pb-10">
-                            <h3 class="text-lg font-semibold -mt-1">YData</h3>
-                            
-                            <div class="mt-2">
-                                <h4 class="font-bold text-md text-stone-700 dark:text-stone-200">Head of Data and AI / Technical Lead</h4>
-                                <p class="text-sm text-stone-600 dark:text-stone-400 italic">I joined YData to take over the data science and AI team from the CDO in order to build a SaaS platform for synthetic data generation and automated data quality assessment and remediation. The responsibilities include: building the team, leading the implementation effort, shaping the core of the company’s intellectual property, researching and answering fundamental research questions at a fast pace.</p>
-                                
-                                <div class="detail-list mt-2 text-sm text-stone-500 dark:text-stone-400 space-y-1">
-                                    <ul class="list-disc list-inside">
-                                        
-                                        <li>Co-author and maintainer of ydata-profiling (previously pandas-profiling), a library for Data Profiling (+10k stars on Github).</li>
-                                        
-                                        <li>Conception and development of methods to automate data quality assessment and issue remediation.</li>
-                                        
-                                        <li>Research, PoV/PoC and implementation of new generative models for synthetic data for tabular, timeseries and multitable data.</li>
-                                        
-                                        <li>Distributed systems using Dask to scale our models and data processing to TB of data</li>
-                                        
-                                        <li>R&D to integrate LLM to our synthesizers flow and data profiler, notably for table-to-text and row-to-text generation.</li>
-                                        
-                                    </ul>
-                                </div>
-                                
-                            </div>
-                            
-                        </div>
-                    </div>
-                    
-                    <div class="grid grid-cols-[max-content_auto_1fr] gap-x-4 scroll-fade-in">
-                        <!-- Date Column -->
-                        <div class="w-24 text-sm text-right text-stone-500 dark:text-stone-400 pt-1">
-                            
-                            <span>Dec. 2020 -</span><br><span>Mar. 2022</span>
-                        </div>
-
-                        <!-- Timeline Column -->
-                        <div class="relative flex justify-center">
-                            <div class="w-0.5 h-full bg-stone-200 dark:bg-stone-700"></div>
-                            <span class="absolute top-1.5 w-3 h-3 bg-accent-light rounded-full ring-4 ring-paper dark:ring-dark-bg z-10"></span>
-                        </div>
-
-                        <!-- Content Column -->
-                        <div class="pb-10">
-                            <h3 class="text-lg font-semibold -mt-1">HSBC</h3>
-                            
-                            <div class="mt-2">
-                                <h4 class="font-bold text-md text-stone-700 dark:text-stone-200">Senior Assistant Vice President @ Financial Crime Threat Mitigation, Research</h4>
-                                <p class="text-sm text-stone-600 dark:text-stone-400 italic">As Assistant Vice President of Data Science, I follow the whole governance lifecycle process of global models (>200M users, millions to billions transactions per month), from data quality to model monitoring.</p>
-                                
-                                <div class="detail-list mt-2 text-sm text-stone-500 dark:text-stone-400 space-y-1">
-                                    <ul class="list-disc list-inside">
-                                        
-                                        <li>Leading cross-functional teams from PoC to operational deployment and monitoring in the field of financial crimes detection.</li>
-                                        
-                                        <li>Design, conception, implementation and validation of one of the main global Name Screening model used accross the group.</li>
-                                        
-                                        <li>Product owner and main developer of some internal innovative projects to improve the quality of our data and model governance.</li>
-                                        
-                                        <li>Improving internal model governance lifecycle, including scientific culture, code governance, engineering risks and internal controls.</li>
-                                        
-                                        <li>As part of the Research team, I propose and lead R&D projects for the Surveillance & Name Screening value stream, including new methodologies and improvement of existing models or processes.</li>
-                                        
-                                    </ul>
-                                </div>
-                                
-                            </div>
-                            
-                            <div class="mt-2">
-                                <h4 class="font-bold text-md text-stone-700 dark:text-stone-200">Lead Manager (AVP) @ Financial Crime Threat Mitigation, Compliance Analytics</h4>
-                                <p class="text-sm text-stone-600 dark:text-stone-400 italic"></p>
-                                
-                                <div class="detail-list mt-2 text-sm text-stone-500 dark:text-stone-400 space-y-1">
-                                    <ul class="list-disc list-inside">
-                                        
-                                        <li>Leading cross-functional teams from PoC to operational deployment and monitoring in the field of financial crimes detection</li>
-                                        
-                                        <li>Focus on global scale Name Screening systems</li>
-                                        
-                                        <li>Establishing design standards for machine learning based models</li>
-                                        
-                                        <li>Identifying and closing technical gaps in team member skills by providing effective training</li>
-                                        
-                                    </ul>
-                                </div>
-                                
-                            </div>
-                            
-                        </div>
-                    </div>
-                    
-                    <div class="grid grid-cols-[max-content_auto_1fr] gap-x-4 scroll-fade-in">
-                        <!-- Date Column -->
-                        <div class="w-24 text-sm text-right text-stone-500 dark:text-stone-400 pt-1">
-                            
-                            <span>May. 2015 -</span><br><span>Dec. 2020</span>
-                        </div>
-
-                        <!-- Timeline Column -->
-                        <div class="relative flex justify-center">
-                            <div class="w-0.5 h-full bg-stone-200 dark:bg-stone-700"></div>
-                            <span class="absolute top-1.5 w-3 h-3 bg-accent-light rounded-full ring-4 ring-paper dark:ring-dark-bg z-10"></span>
-                        </div>
-
-                        <!-- Content Column -->
-                        <div class="pb-10">
-                            <h3 class="text-lg font-semibold -mt-1">IBM</h3>
-                            
-                            <div class="mt-2">
-                                <h4 class="font-bold text-md text-stone-700 dark:text-stone-200">Senior Engineer & Data Scientist</h4>
-                                <p class="text-sm text-stone-600 dark:text-stone-400 italic"></p>
-                                
-                                <div class="detail-list mt-2 text-sm text-stone-500 dark:text-stone-400 space-y-1">
-                                    <ul class="list-disc list-inside">
-                                        
-                                        <li>Software Architecture and Engineering on IBM Integrated Analytics System and IBM Cloud Pak for Data</li>
-                                        
-                                        <li>Responsible for the monitoring solutions of GPFS and Red Hat OpenShift in Hybrid Cloud environment</li>
-                                        
-                                        <li>Architecture and R&D of an AI platform for financial process automation (IBM Cobee)</li>
-                                        
-                                        <li>Architecture and R&D of an AI platform to analyze code quality and predict regressions (IBM Code Quality Center)</li>
-                                        
-                                        <li>Machine Learning and Data Science local trainer</li>
-                                        
-                                        <li>Conception and implementation of a NLP and Topic Modeling service.</li>
-                                        
-                                        <li>Responsible for the collaboration with universities (conference, lectures, joint research projects)</li>
-                                        
-                                        <li>Following master students and interns on research oriented subjects</li>
-                                        
-                                    </ul>
-                                </div>
-                                
-                            </div>
-                            
-                            <div class="mt-2">
-                                <h4 class="font-bold text-md text-stone-700 dark:text-stone-200">Engineer</h4>
-                                <p class="text-sm text-stone-600 dark:text-stone-400 italic"></p>
-                                
-                                <div class="detail-list mt-2 text-sm text-stone-500 dark:text-stone-400 space-y-1">
-                                    <ul class="list-disc list-inside">
-                                        
-                                        <li>Design, implementation and tests of the software stack for IBM Integrated Analytics System (Python)</li>
-                                        
-                                        <li>Development of a server to transfer and synchronize data between on premise appliances and the Cloud with High Availability and Disaster Recovery constraints (C++)</li>
-                                        
-                                        <li>Prototype of a semantic search engine for jurisprudence and law related documents</li>
-                                        
-                                    </ul>
-                                </div>
-                                
-                            </div>
-                            
-                        </div>
-                    </div>
-                    
-                    <div class="grid grid-cols-[max-content_auto_1fr] gap-x-4 scroll-fade-in">
-                        <!-- Date Column -->
-                        <div class="w-24 text-sm text-right text-stone-500 dark:text-stone-400 pt-1">
-                            
-                            <span>Aug. 2017 -</span><br><span></span>
-                        </div>
-
-                        <!-- Timeline Column -->
-                        <div class="relative flex justify-center">
-                            <div class="w-0.5 h-full bg-stone-200 dark:bg-stone-700"></div>
-                            <span class="absolute top-1.5 w-3 h-3 bg-accent-light rounded-full ring-4 ring-paper dark:ring-dark-bg z-10"></span>
-                        </div>
-
-                        <!-- Content Column -->
-                        <div class="pb-10">
-                            <h3 class="text-lg font-semibold -mt-1">Watussi</h3>
-                            
-                            <div class="mt-2">
-                                <h4 class="font-bold text-md text-stone-700 dark:text-stone-200">Data Scientist</h4>
-                                <p class="text-sm text-stone-600 dark:text-stone-400 italic"></p>
-                                
-                                <div class="detail-list mt-2 text-sm text-stone-500 dark:text-stone-400 space-y-1">
-                                    <ul class="list-disc list-inside">
-                                        
-                                        <li>Conception and implementation of a NLP tool dedicated to Search Engine Optimization (SEO)</li>
-                                        
-                                    </ul>
-                                </div>
-                                
-                            </div>
-                            
-                        </div>
-                    </div>
-                    
-                    <div class="grid grid-cols-[max-content_auto_1fr] gap-x-4 scroll-fade-in">
-                        <!-- Date Column -->
-                        <div class="w-24 text-sm text-right text-stone-500 dark:text-stone-400 pt-1">
-                            
-                            <span>Nov. 2014 -</span><br><span>Apr. 2015</span>
-                        </div>
-
-                        <!-- Timeline Column -->
-                        <div class="relative flex justify-center">
-                            <div class="w-0.5 h-full bg-stone-200 dark:bg-stone-700"></div>
-                            <span class="absolute top-1.5 w-3 h-3 bg-accent-light rounded-full ring-4 ring-paper dark:ring-dark-bg z-10"></span>
-                        </div>
-
-                        <!-- Content Column -->
-                        <div class="pb-10">
-                            <h3 class="text-lg font-semibold -mt-1">X-Formation</h3>
-                            
-                            <div class="mt-2">
-                                <h4 class="font-bold text-md text-stone-700 dark:text-stone-200">Software Engineer & Product Owner</h4>
-                                <p class="text-sm text-stone-600 dark:text-stone-400 italic"></p>
-                                
-                                <div class="detail-list mt-2 text-sm text-stone-500 dark:text-stone-400 space-y-1">
-                                    <ul class="list-disc list-inside">
-                                        
-                                        <li>Conception of a predictive module in Go (based on temporal series)</li>
-                                        
-                                        <li>Improvement of the company development workflow</li>
-                                        
-                                        <li>Development of the sustainability and valorization strategy</li>
-                                        
-                                        <li>Database optimization and normalization</li>
-                                        
-                                        <li>Software architecture, including highly distributed architecture</li>
-                                        
-                                    </ul>
-                                </div>
-                                
-                            </div>
-                            
-                        </div>
-                    </div>
-                    
-                    <div class="grid grid-cols-[max-content_auto_1fr] gap-x-4 scroll-fade-in">
-                        <!-- Date Column -->
-                        <div class="w-24 text-sm text-right text-stone-500 dark:text-stone-400 pt-1">
-                            
-                            <span>Jun. 2012 -</span><br><span>Apr. 2015</span>
-                        </div>
-
-                        <!-- Timeline Column -->
-                        <div class="relative flex justify-center">
-                            <div class="w-0.5 h-full bg-stone-200 dark:bg-stone-700"></div>
-                            <span class="absolute top-1.5 w-3 h-3 bg-accent-light rounded-full ring-4 ring-paper dark:ring-dark-bg z-10"></span>
-                        </div>
-
-                        <!-- Content Column -->
-                        <div class="pb-10">
-                            <h3 class="text-lg font-semibold -mt-1">Inria</h3>
-                            
-                            <div class="mt-2">
-                                <h4 class="font-bold text-md text-stone-700 dark:text-stone-200">Research Collaborator</h4>
-                                <p class="text-sm text-stone-600 dark:text-stone-400 italic"></p>
-                                
-                                <div class="detail-list mt-2 text-sm text-stone-500 dark:text-stone-400 space-y-1">
-                                    <ul class="list-disc list-inside">
-                                        
-                                        <li>Solving a temporal planning problem (MultiZenoTravel) from the International Planning Competition</li>
-                                        
-                                        <li>Development of the ZenoSolver, a C++14 solver for MultiZenoTravel instances</li>
-                                        
-                                        <li>Conception, programmation and experimental validation (using R) of the online adaptation of (hyper)parameters</li>
-                                        
-                                        <li>Software engineering on Descarwin (french National Agency for Research: ANR-09-COSI-002)</li>
-                                        
-                                    </ul>
-                                </div>
-                                
-                            </div>
-                            
-                            <div class="mt-2">
-                                <h4 class="font-bold text-md text-stone-700 dark:text-stone-200">Research Collaborator</h4>
-                                <p class="text-sm text-stone-600 dark:text-stone-400 italic"></p>
-                                
-                                <div class="detail-list mt-2 text-sm text-stone-500 dark:text-stone-400 space-y-1">
-                                    <ul class="list-disc list-inside">
-                                        
-                                        <li>Genetic algorithms, stochastic optimization and statistics (ANOVA model),...</li>
-                                        
-                                        <li>Implementation in C++11, JSON parser, UML modelling, parallel computing and HPC...</li>
-                                        
-                                    </ul>
-                                </div>
-                                
-                            </div>
-                            
-                            <div class="mt-2">
-                                <h4 class="font-bold text-md text-stone-700 dark:text-stone-200">Internship</h4>
-                                <p class="text-sm text-stone-600 dark:text-stone-400 italic"></p>
-                                
-                                <div class="detail-list mt-2 text-sm text-stone-500 dark:text-stone-400 space-y-1">
-                                    <ul class="list-disc list-inside">
-                                        
-                                        <li>Software engineering on ParadisEO, a C++ framework for metaheuristics</li>
-                                        
-                                        <li>Development of a module for shared memory parallelism</li>
-                                        
-                                        <li>Stabilisation for a new release of ParadisEO</li>
-                                        
-                                        <li>Integration of engineering tools : bug tracking, profiling, builds, continuous integration,...</li>
-                                        
-                                    </ul>
-                                </div>
-                                
-                            </div>
-                            
-                        </div>
-                    </div>
-                    
-                </div>
-            </section>
-        </div>
     </div>
 </div>
 
