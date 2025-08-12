@@ -111,15 +111,29 @@
             
 <style>
 /* CV-specific styles embedded directly in the template */
+.cv-page-wrapper {
+    min-height: 100vh;
+    background-color: transparent;
+}
+
+html.dark .cv-page-wrapper {
+    background-color: #1f2937;
+}
+
 .cv-resume-container {
     font-family: 'Source Sans Pro', -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
     font-size: 14px;
     line-height: 1.6;
     color: #1f2937;
+    background-color: white;
+    padding: 40px;
+    border-radius: 8px;
 }
 
+/* CV always displays in light mode for printability */
 html.dark .cv-resume-container {
-    color: #e5e7eb;
+    color: #1f2937;
+    background-color: white;
 }
 
 /* Header Styles */
@@ -130,7 +144,7 @@ html.dark .cv-resume-container {
 }
 
 html.dark .cv-header {
-    border-bottom-color: #FBBF24;
+    border-bottom-color: #D97706;
 }
 
 .cv-header-content {
@@ -152,7 +166,7 @@ html.dark .cv-header {
 }
 
 html.dark .cv-name {
-    color: #f3f4f6;
+    color: #1f2937;
 }
 
 .cv-title {
@@ -163,7 +177,7 @@ html.dark .cv-name {
 }
 
 html.dark .cv-title {
-    color: #FBBF24;
+    color: #D97706;
 }
 
 .cv-contact-info {
@@ -172,7 +186,7 @@ html.dark .cv-title {
 }
 
 html.dark .cv-contact-info {
-    color: #9ca3af;
+    color: #6b7280;
 }
 
 .cv-contact-info i {
@@ -181,7 +195,7 @@ html.dark .cv-contact-info {
 }
 
 html.dark .cv-contact-info i {
-    color: #FBBF24;
+    color: #D97706;
 }
 
 .cv-contact-info a {
@@ -191,7 +205,7 @@ html.dark .cv-contact-info i {
 }
 
 html.dark .cv-contact-info a {
-    color: #FBBF24;
+    color: #D97706;
 }
 
 .cv-contact-info a:hover {
@@ -212,7 +226,7 @@ html.dark .cv-contact-info a {
 }
 
 html.dark .cv-profile-photo {
-    border-color: #FBBF24;
+    border-color: #D97706;
 }
 
 .cv-profile-photo:hover {
@@ -221,7 +235,7 @@ html.dark .cv-profile-photo {
 }
 
 html.dark .cv-profile-photo:hover {
-    box-shadow: 0 0 30px rgba(251, 191, 36, 0.4);
+    box-shadow: 0 0 25px rgba(217, 119, 6, 0.5);
 }
 
 /* Section Headers */
@@ -238,8 +252,8 @@ html.dark .cv-profile-photo:hover {
 }
 
 html.dark .cv-resume-container h3 {
-    color: #f3f4f6;
-    border-bottom-color: rgba(251, 191, 36, 0.3);
+    color: #1f2937;
+    border-bottom-color: rgba(217, 119, 6, 0.3);
 }
 
 /* Summary Section */
@@ -289,7 +303,7 @@ html.dark .cv-resume-container h3 {
 }
 
 html.dark .cv-skill-category h4 {
-    color: #e5e7eb;
+    color: #374151;
 }
 
 .cv-skill-category p {
@@ -300,7 +314,7 @@ html.dark .cv-skill-category h4 {
 }
 
 html.dark .cv-skill-category p {
-    color: #9ca3af;
+    color: #6b7280;
 }
 
 /* Languages Section */
@@ -317,7 +331,7 @@ html.dark .cv-skill-category p {
 }
 
 html.dark .cv-languages li {
-    color: #d1d5db;
+    color: #4b5563;
 }
 
 /* Experience Section */
@@ -341,7 +355,7 @@ html.dark .cv-languages li {
 }
 
 html.dark .cv-job-header h4 {
-    color: #f3f4f6;
+    color: #1f2937;
 }
 
 .cv-date {
@@ -352,7 +366,7 @@ html.dark .cv-job-header h4 {
 }
 
 html.dark .cv-date {
-    color: #9ca3af;
+    color: #6b7280;
 }
 
 .cv-company {
@@ -363,7 +377,7 @@ html.dark .cv-date {
 }
 
 html.dark .cv-company {
-    color: #9ca3af;
+    color: #6b7280;
 }
 
 .cv-website-link {
@@ -373,7 +387,7 @@ html.dark .cv-company {
 }
 
 html.dark .cv-website-link {
-    color: #FBBF24;
+    color: #D97706;
 }
 
 .cv-website-link:hover {
@@ -388,7 +402,7 @@ html.dark .cv-website-link {
 }
 
 html.dark .cv-job p {
-    color: #d1d5db;
+    color: #4b5563;
 }
 
 .cv-job ul {
@@ -406,7 +420,7 @@ html.dark .cv-job p {
 }
 
 html.dark .cv-job li {
-    color: #d1d5db;
+    color: #4b5563;
 }
 
 .cv-job li:before {
@@ -419,7 +433,7 @@ html.dark .cv-job li {
 }
 
 html.dark .cv-job li:before {
-    color: #FBBF24;
+    color: #D97706;
 }
 
 /* Education Section */
@@ -443,7 +457,7 @@ html.dark .cv-job li:before {
 }
 
 html.dark .cv-degree-header h4 {
-    color: #f3f4f6;
+    color: #1f2937;
 }
 
 .cv-institution {
@@ -453,7 +467,7 @@ html.dark .cv-degree-header h4 {
 }
 
 html.dark .cv-institution {
-    color: #9ca3af;
+    color: #6b7280;
 }
 
 .cv-degree p {
@@ -463,7 +477,7 @@ html.dark .cv-institution {
 }
 
 html.dark .cv-degree p {
-    color: #d1d5db;
+    color: #4b5563;
 }
 
 /* Patents Section */
@@ -480,7 +494,7 @@ html.dark .cv-degree p {
 }
 
 html.dark .cv-patent-list li {
-    color: #d1d5db;
+    color: #4b5563;
 }
 
 /* Publications Section */
@@ -496,7 +510,7 @@ html.dark .cv-patent-list li {
 }
 
 html.dark .cv-publication-item h4 {
-    color: #f3f4f6;
+    color: #1f2937;
 }
 
 .cv-publication-item p {
@@ -507,7 +521,7 @@ html.dark .cv-publication-item h4 {
 }
 
 html.dark .cv-publication-item p {
-    color: #9ca3af;
+    color: #6b7280;
 }
 
 /* Teaching Section */
@@ -523,7 +537,7 @@ html.dark .cv-publication-item p {
 }
 
 html.dark .cv-teaching-item h4 {
-    color: #f3f4f6;
+    color: #1f2937;
 }
 
 .cv-teaching-item p {
@@ -533,7 +547,7 @@ html.dark .cv-teaching-item h4 {
 }
 
 html.dark .cv-teaching-item p {
-    color: #9ca3af;
+    color: #6b7280;
 }
 
 .cv-teaching-item ul {
@@ -551,7 +565,7 @@ html.dark .cv-teaching-item p {
 }
 
 html.dark .cv-teaching-item li {
-    color: #d1d5db;
+    color: #4b5563;
 }
 
 .cv-teaching-item li:before {
@@ -564,7 +578,7 @@ html.dark .cv-teaching-item li {
 }
 
 html.dark .cv-teaching-item li:before {
-    color: #FBBF24;
+    color: #D97706;
 }
 
 /* Achievements Section */
@@ -583,7 +597,7 @@ html.dark .cv-teaching-item li:before {
 }
 
 html.dark .cv-achievements li {
-    color: #d1d5db;
+    color: #4b5563;
 }
 
 .cv-achievements li:before {
@@ -595,7 +609,7 @@ html.dark .cv-achievements li {
 }
 
 html.dark .cv-achievements li:before {
-    color: #FBBF24;
+    color: #D97706;
 }
 
 /* Highlighting */
@@ -607,8 +621,8 @@ html.dark .cv-achievements li:before {
 }
 
 html.dark .cv-highlight {
-    background-color: rgba(251, 191, 36, 0.2);
-    color: #fbbf24;
+    background-color: rgba(217, 119, 6, 0.1);
+    color: #92400e;
 }
 
 /* Links */
@@ -619,7 +633,7 @@ html.dark .cv-highlight {
 }
 
 html.dark .cv-resume-container a {
-    color: #FBBF24;
+    color: #D97706;
 }
 
 .cv-resume-container a:hover {
@@ -628,7 +642,7 @@ html.dark .cv-resume-container a {
 }
 
 html.dark .cv-resume-container a:hover {
-    color: #fcd34d;
+    color: #b45309;
 }
 
 /* Page Break */
@@ -664,8 +678,9 @@ html.dark .cv-resume-container a:hover {
 }
 </style>
 
-<div class="w-full max-w-6xl mx-auto py-12 px-4">
-    <div class="cv-resume-container w-full">
+<div class="cv-page-wrapper">
+    <div class="w-full max-w-6xl mx-auto py-12 px-4">
+        <div class="cv-resume-container w-full">
             <!-- Header Section -->
             <header class="cv-header">
                 <div class="cv-header-content">
@@ -939,6 +954,7 @@ html.dark .cv-resume-container a:hover {
                         </section>
                     </main>
                 </div>
+        </div>
     </div>
 </div>
 
