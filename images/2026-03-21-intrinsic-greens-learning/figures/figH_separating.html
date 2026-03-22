@@ -1,0 +1,192 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Encoder Finds Separating Coords</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>:root{--bg:#f9f9f9;--bg-alt:#fff;--text:#171717;--muted:#666;--border:#e2e8f0;--primary:#A51209;--blue:#3b82f6;--green:#10b981;--amber:#f59e0b;--purple:#8b5cf6;}
+@media(prefers-color-scheme:dark){:root{--bg:#0a0a0a;--bg-alt:#171717;--text:#e2e2e2;--muted:#888;--border:#374151;}}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);font-family:'Inter',sans-serif;display:flex;flex-direction:column;align-items:center;padding:28px 20px 22px;}
+.ey{font-size:11px;font-weight:500;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;text-align:center;margin-bottom:5px;}
+.ti{font-family:'Inter',sans-serif;font-size:20px;color:var(--text);text-align:center;margin-bottom:3px;}
+.su{font-size:13px;color:var(--muted);text-align:center;margin-bottom:20px;}
+.cap{margin-top:14px;font-size:12.5px;color:var(--muted);max-width:700px;text-align:center;line-height:1.7;}
+.cap em{color:var(--text);font-style:normal;font-weight:500;}
+svg{display:block;max-width:100%;height:auto;}</style></head><body>
+<p class="ey">The Encoder's Dual Task</p>
+<p class="ti">Ψ Simultaneously Flattens ℳ and Separates the Operator</p>
+<p class="su">the encoder is trained so that G(ξ¹,ξ²) ≈ G₁(ξ¹)·G₂(ξ²) in the learned coordinates</p>
+<svg viewBox="0 0 760 420" style="width:760px;max-width:100%;"><defs>
+  <marker id="ah" markerWidth="7" markerHeight="6" refX="6.5" refY="3" orient="auto"><path d="M0,0.5 L7,3 L0,5.5 L1.5,3Z" fill="var(--muted)" opacity="0.7"/></marker>
+  <marker id="ah-r" markerWidth="7" markerHeight="6" refX="6.5" refY="3" orient="auto"><path d="M0,0.5 L7,3 L0,5.5 L1.5,3Z" fill="var(--primary)"/></marker>
+  <marker id="ah-g" markerWidth="7" markerHeight="6" refX="6.5" refY="3" orient="auto"><path d="M0,0.5 L7,3 L0,5.5 L1.5,3Z" fill="var(--green)"/></marker>
+  <marker id="ah-b" markerWidth="7" markerHeight="6" refX="6.5" refY="3" orient="auto"><path d="M0,0.5 L7,3 L0,5.5 L1.5,3Z" fill="var(--blue)"/></marker>
+  <filter id="cs"><feDropShadow dx="0" dy="2" stdDeviation="5" flood-color="#000" flood-opacity="0.07"/></filter>
+</defs>
+<rect width="760" height="420" fill="var(--bg)"/>
+
+<!-- THREE COLUMNS: Before | Training | After -->
+
+<!-- ─── COL 1: BEFORE TRAINING ─── -->
+<rect x="12" y="12" width="230" height="394" rx="12" fill="var(--bg-alt)" stroke="var(--border)" stroke-width="1" filter="url(#cs)"/>
+<line x1="20" y1="12" x2="234" y2="12" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round"/>
+<text x="127" y="36" font-family="Inter,sans-serif" font-size="14" fill="var(--text)" text-anchor="middle">Before Training</text>
+<text x="127" y="51" font-family="Inter,sans-serif" font-size="11" fill="var(--muted)" text-anchor="middle">Ψ = random init</text>
+<text x="127" y="63" font-family="Inter,sans-serif" font-size="10" fill="var(--primary)" text-anchor="middle" opacity="0.8">G has cross-coupling</text>
+
+<!-- Non-separable kernel heatmap -->
+<rect x="24" y="74" width="206" height="148" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.8"/>
+<defs>
+  <radialGradient id="gns1" cx="42%" cy="58%" r="52%">
+    <stop offset="0%" stop-color="#A51209" stop-opacity="0.6"/>
+    <stop offset="40%" stop-color="#A51209" stop-opacity="0.22"/>
+    <stop offset="100%" stop-color="#A51209" stop-opacity="0.02"/>
+  </radialGradient>
+</defs>
+<ellipse cx="127" cy="148" rx="90" ry="70" fill="url(#gns1)"/>
+<!-- Tilted ellipse contours — strong coupling -->
+<ellipse cx="127" cy="148" rx="18" ry="28" transform="rotate(-45 127 148)" fill="none" stroke="var(--primary)" stroke-opacity="0.8" stroke-width="1.6"/>
+<ellipse cx="127" cy="148" rx="38" ry="56" transform="rotate(-43 127 148)" fill="none" stroke="var(--primary)" stroke-opacity="0.5" stroke-width="1.2"/>
+<ellipse cx="127" cy="148" rx="58" ry="78" transform="rotate(-40 127 148)" fill="none" stroke="var(--primary)" stroke-opacity="0.3" stroke-width="1"/>
+<ellipse cx="127" cy="148" rx="78" ry="96" transform="rotate(-38 127 148)" fill="none" stroke="var(--primary)" stroke-opacity="0.15" stroke-width="0.8"/>
+<!-- Axis crosshairs (misaligned with contours) -->
+<line x1="127" y1="74" x2="127" y2="222" stroke="var(--muted)" stroke-width="1" stroke-dasharray="4 3" opacity="0.3"/>
+<line x1="24" y1="148" x2="230" y2="148" stroke="var(--muted)" stroke-width="1" stroke-dasharray="4 3" opacity="0.3"/>
+<circle cx="127" cy="148" r="4" fill="var(--text)" opacity="0.6"/>
+<!-- TILTED annotation -->
+<path d="M 127,108 L 155,90" stroke="var(--primary)" stroke-width="1" stroke-dasharray="3 2"/>
+<text x="158" y="88" font-family="Inter,sans-serif" font-size="10" fill="var(--primary)" opacity="0.9">tilted ✗</text>
+
+<!-- Cross-sections (different shapes) -->
+<rect x="24" y="234" width="96" height="64" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.8"/>
+<path d="M 24,296 Q 44,296 56,272 Q 68,248 72,266 Q 78,284 96,296 Q 112,296 120,296"
+      fill="var(--primary)" fill-opacity="0.12" stroke="none"/>
+<path d="M 24,296 Q 44,296 56,272 Q 68,248 72,266 Q 78,284 96,296 Q 112,296 120,296"
+      fill="none" stroke="var(--primary)" stroke-width="1.8" opacity="0.8"/>
+<text x="72" y="248" font-family="Inter,sans-serif" font-size="9" fill="var(--primary)" text-anchor="middle">G(·,0)</text>
+
+<rect x="134" y="234" width="96" height="64" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.8"/>
+<path d="M 134,296 Q 154,296 168,268 Q 182,242 196,258 Q 208,270 220,264 Q 226,262 230,280"
+      fill="var(--amber)" fill-opacity="0.12" stroke="none"/>
+<path d="M 134,296 Q 154,296 168,268 Q 182,242 196,258 Q 208,270 220,264 Q 226,262 230,280"
+      fill="none" stroke="var(--amber)" stroke-width="1.8" opacity="0.8"/>
+<text x="182" y="248" font-family="Inter,sans-serif" font-size="9" fill="var(--amber)" text-anchor="middle">G(0,·)</text>
+
+<!-- ≠ sign between cross sections -->
+<text x="127" y="272" font-family="Inter,sans-serif" font-size="18" fill="var(--primary)" text-anchor="middle" opacity="0.5">≠</text>
+<text x="127" y="288" font-family="Inter,sans-serif" font-size="9" fill="var(--primary)" text-anchor="middle" opacity="0.7">different shapes</text>
+
+<!-- Failure badge -->
+<rect x="24" y="308" width="206" height="24" rx="6" fill="var(--primary)" fill-opacity="0.07" stroke="var(--primary)" stroke-opacity="0.3" stroke-width="1"/>
+<text x="127" y="324" font-family="Inter,sans-serif" font-size="11" fill="var(--primary)" text-anchor="middle" font-weight="600">Not separable  ✗  Fubini fails</text>
+
+<!-- Residual rank indicator -->
+<rect x="24" y="342" width="206" height="48" rx="6" fill="var(--bg)" stroke="var(--border)" stroke-width="0.8"/>
+<text x="127" y="358" font-family="Inter,sans-serif" font-size="10" fill="var(--muted)" text-anchor="middle">residual rank of G</text>
+<!-- Bar at high rank -->
+<rect x="50" y="364" width="24" height="20" rx="2" fill="var(--primary)" opacity="0.7"/>
+<rect x="80" y="370" width="24" height="14" rx="2" fill="var(--primary)" opacity="0.5"/>
+<rect x="110" y="373" width="24" height="11" rx="2" fill="var(--primary)" opacity="0.35"/>
+<rect x="140" y="375" width="24" height="9"  rx="2" fill="var(--primary)" opacity="0.25"/>
+<rect x="170" y="376" width="24" height="8"  rx="2" fill="var(--primary)" opacity="0.15"/>
+<text x="127" y="398" font-family="Inter,sans-serif" font-size="9" fill="var(--muted)" text-anchor="middle">rank ≈ 4 (high)</text>
+
+<!-- ─── CENTER: TRAINING ─── -->
+<rect x="256" y="12" width="248" height="394" rx="12" fill="var(--bg-alt)" stroke="var(--border)" stroke-width="1" filter="url(#cs)"/>
+<text x="380" y="36" font-family="Inter,sans-serif" font-size="14" fill="var(--text)" text-anchor="middle">What Ψ Learns</text>
+
+<!-- Big arrow -->
+<line x1="270" y1="196" x2="490" y2="196" stroke="var(--primary)" stroke-width="3" marker-end="url(#ah-r)" opacity="0.7"/>
+<text x="380" y="185" font-family="Inter,sans-serif" font-size="22" fill="var(--primary)" text-anchor="middle">Ψ</text>
+<text x="380" y="214" font-family="Inter,sans-serif" font-size="11" fill="var(--muted)" text-anchor="middle">training via VP gradient</text>
+
+<!-- Dual objectives boxes -->
+<rect x="270" y="74" width="220" height="90" rx="8" fill="var(--bg)" stroke="var(--border)" stroke-width="1"/>
+<text x="380" y="94" font-family="Inter,sans-serif" font-size="11" fill="var(--text)" text-anchor="middle" font-weight="600">Encoder dual objective:</text>
+<!-- Objective 1 -->
+<rect x="280" y="100" width="200" height="26" rx="5" fill="var(--green)" fill-opacity="0.08" stroke="var(--green)" stroke-opacity="0.3" stroke-width="1"/>
+<text x="380" y="110" font-family="Inter,sans-serif" font-size="10" fill="var(--green)" text-anchor="middle" font-weight="600">① Approx. flatten ℳ</text>
+<text x="380" y="121" font-family="Inter,sans-serif" font-size="9" fill="var(--muted)" text-anchor="middle">g(ξ) ≈ I  →  Δ_g ≈ Δ</text>
+<!-- Objective 2 -->
+<rect x="280" y="130" width="200" height="26" rx="5" fill="var(--blue)" fill-opacity="0.08" stroke="var(--blue)" stroke-opacity="0.3" stroke-width="1"/>
+<text x="380" y="140" font-family="Inter,sans-serif" font-size="10" fill="var(--blue)" text-anchor="middle" font-weight="600">② Separate G</text>
+<text x="380" y="151" font-family="Inter,sans-serif" font-size="9" fill="var(--muted)" text-anchor="middle">G(ξ¹,ξ²) ≈ G₁(ξ¹)·G₂(ξ²)</text>
+
+<!-- Gradient signal explanation -->
+<rect x="270" y="236" width="220" height="132" rx="8" fill="var(--bg)" stroke="var(--border)" stroke-width="1"/>
+<text x="380" y="254" font-family="Inter,sans-serif" font-size="11" fill="var(--text)" text-anchor="middle" font-weight="600">Gradient signal (VP):</text>
+<text x="276" y="272" font-family="Inter,sans-serif" font-size="10" fill="var(--muted)">• Stage 2 fully optimizes w*</text>
+<text x="276" y="287" font-family="Inter,sans-serif" font-size="10" fill="var(--muted)">• Envelope theorem: ∂L/∂w = 0</text>
+<text x="276" y="302" font-family="Inter,sans-serif" font-size="10" fill="var(--muted)">• ∇_θ L = pure coord quality</text>
+<line x1="278" y1="310" x2="482" y2="310" stroke="var(--border)" stroke-width="0.8"/>
+<text x="380" y="325" font-family="Inter,sans-serif" font-size="10" fill="var(--blue)" text-anchor="middle">Bad coordinates → high residual rank</text>
+<text x="380" y="339" font-family="Inter,sans-serif" font-size="10" fill="var(--green)" text-anchor="middle">Good coordinates → rank ≈ 1, low loss</text>
+<text x="380" y="353" font-family="Inter,sans-serif" font-size="10" fill="var(--text)" text-anchor="middle" font-weight="600">gradient pushes toward separability</text>
+
+<!-- ─── COL 3: AFTER TRAINING ─── -->
+<rect x="518" y="12" width="230" height="394" rx="12" fill="var(--bg-alt)" stroke="var(--border)" stroke-width="1" filter="url(#cs)"/>
+<line x1="526" y1="12" x2="740" y2="12" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round"/>
+<text x="633" y="36" font-family="Inter,sans-serif" font-size="14" fill="var(--text)" text-anchor="middle">After Training</text>
+<text x="633" y="51" font-family="Inter,sans-serif" font-size="11" fill="var(--muted)" text-anchor="middle">Ψ* converged</text>
+<text x="633" y="63" font-family="Inter,sans-serif" font-size="10" fill="var(--green)" text-anchor="middle" opacity="0.9">G approximately separable</text>
+
+<!-- Separable kernel heatmap -->
+<rect x="530" y="74" width="206" height="148" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.8"/>
+<defs>
+  <radialGradient id="gsep" cx="50%" cy="50%" r="50%">
+    <stop offset="0%"   stop-color="#10b981" stop-opacity="0.65"/>
+    <stop offset="35%"  stop-color="#10b981" stop-opacity="0.25"/>
+    <stop offset="70%"  stop-color="#10b981" stop-opacity="0.07"/>
+    <stop offset="100%" stop-color="#10b981" stop-opacity="0.01"/>
+  </radialGradient>
+</defs>
+<ellipse cx="633" cy="148" rx="90" ry="70" fill="url(#gsep)"/>
+<!-- Nearly circular contours (axis-aligned) -->
+<ellipse cx="633" cy="148" rx="18" ry="20" transform="rotate(-5 633 148)" fill="none" stroke="var(--green)" stroke-opacity="0.8" stroke-width="1.6"/>
+<ellipse cx="633" cy="148" rx="38" ry="42" transform="rotate(-4 633 148)" fill="none" stroke="var(--green)" stroke-opacity="0.5" stroke-width="1.2"/>
+<ellipse cx="633" cy="148" rx="58" ry="63" transform="rotate(-3 633 148)" fill="none" stroke="var(--green)" stroke-opacity="0.3" stroke-width="1"/>
+<ellipse cx="633" cy="148" rx="78" ry="84" transform="rotate(-2 633 148)" fill="none" stroke="var(--green)" stroke-opacity="0.15" stroke-width="0.8"/>
+<!-- Axis crosshairs NOW aligned with contours -->
+<line x1="633" y1="74" x2="633" y2="222" stroke="var(--green)" stroke-width="1.8" stroke-dasharray="4 3" opacity="0.55"/>
+<line x1="530" y1="148" x2="736" y2="148" stroke="var(--green)" stroke-width="1.8" stroke-dasharray="4 3" opacity="0.55"/>
+<circle cx="633" cy="148" r="4" fill="var(--text)" opacity="0.6"/>
+<!-- ALIGNED annotation -->
+<path d="M 633,105 L 658,90" stroke="var(--green)" stroke-width="1" stroke-dasharray="3 2"/>
+<text x="660" y="88" font-family="Inter,sans-serif" font-size="10" fill="var(--green)" opacity="0.9">axis-aligned ✓</text>
+
+<!-- Cross-sections (same shapes now) -->
+<rect x="530" y="234" width="96" height="64" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.8"/>
+<path d="M 530,296 Q 552,296 564,272 Q 578,246 590,272 Q 602,296 626,296"
+      fill="var(--green)" fill-opacity="0.15" stroke="none"/>
+<path d="M 530,296 Q 552,296 564,272 Q 578,246 590,272 Q 602,296 626,296"
+      fill="none" stroke="var(--green)" stroke-width="1.8" opacity="0.85"/>
+<text x="578" y="248" font-family="Inter,sans-serif" font-size="9" fill="var(--green)" text-anchor="middle">G(·,0)</text>
+
+<rect x="640" y="234" width="96" height="64" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.8"/>
+<path d="M 640,296 Q 662,296 674,272 Q 688,246 700,272 Q 712,296 736,296"
+      fill="var(--green)" fill-opacity="0.15" stroke="none"/>
+<path d="M 640,296 Q 662,296 674,272 Q 688,246 700,272 Q 712,296 736,296"
+      fill="none" stroke="var(--green)" stroke-width="1.8" stroke-dasharray="5 3" opacity="0.85"/>
+<text x="688" y="248" font-family="Inter,sans-serif" font-size="9" fill="var(--green)" text-anchor="middle">G(0,·)</text>
+
+<!-- = sign between cross sections -->
+<text x="633" y="272" font-family="Inter,sans-serif" font-size="18" fill="var(--green)" text-anchor="middle" opacity="0.7">≈</text>
+<text x="633" y="288" font-family="Inter,sans-serif" font-size="9" fill="var(--green)" text-anchor="middle" opacity="0.8">same shape ✓</text>
+
+<!-- Success badge -->
+<rect x="530" y="308" width="206" height="24" rx="6" fill="var(--green)" fill-opacity="0.08" stroke="var(--green)" stroke-opacity="0.35" stroke-width="1"/>
+<text x="633" y="324" font-family="Inter,sans-serif" font-size="11" fill="var(--green)" text-anchor="middle" font-weight="600">G ≈ G₁·G₂  ✓  Fubini valid</text>
+
+<!-- Residual rank indicator (low) -->
+<rect x="530" y="342" width="206" height="48" rx="6" fill="var(--bg)" stroke="var(--border)" stroke-width="0.8"/>
+<text x="633" y="358" font-family="Inter,sans-serif" font-size="10" fill="var(--muted)" text-anchor="middle">residual rank of G</text>
+<!-- Bar at low rank (rank ≈ 1) -->
+<rect x="556" y="364" width="24" height="20" rx="2" fill="var(--green)" opacity="0.75"/>
+<rect x="586" y="376" width="24" height="8"  rx="2" fill="var(--green)" opacity="0.25"/>
+<rect x="616" y="378" width="24" height="6"  rx="2" fill="var(--green)" opacity="0.15"/>
+<rect x="646" y="379" width="24" height="5"  rx="2" fill="var(--green)" opacity="0.1"/>
+<text x="633" y="398" font-family="Inter,sans-serif" font-size="9" fill="var(--green)" text-anchor="middle">rank ≈ 1 (separable)  ✓</text>
+</svg>
+<p class="cap"><em>Before training:</em> random encoder — G has cross-coupling, tilted contours, cross-sections G(·,0) and G(0,·) have different shapes. Fubini cannot be applied. <em>The encoder learns:</em> via the VP gradient signal, Ψ is pushed toward coordinates where G is approximately separable. The gradient encodes both geometric flattening and operator separation. <em>After training:</em> G's contours are nearly circular and axis-aligned, both cross-sections match in shape — G ≈ G₁·G₂, residual rank drops toward 1, and Fubini's factorization becomes valid.</p>
+</body></html>

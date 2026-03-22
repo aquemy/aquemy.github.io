@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MNIST Results</title><link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>:root{--bg:#f9f9f9;--bg-alt:#fff;--text:#171717;--muted:#666;--border:#e2e8f0;
+  --border-strong:#cbd5e1;--primary:#A51209;--blue:#3b82f6;--green:#10b981;
+  --amber:#f59e0b;--purple:#8b5cf6;--red:#ef4444;}
+@media(prefers-color-scheme:dark){:root{--bg:#0a0a0a;--bg-alt:#171717;--text:#e2e2e2;--muted:#888;--border:#374151;--border-strong:#4b5563;}}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);font-family:'Source Sans Pro',sans-serif;display:flex;flex-direction:column;
+  align-items:center;padding:28px 20px 22px;}
+.ey{font-size:11px;font-weight:500;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;
+  text-align:center;margin-bottom:5px;}
+.ti{font-size:20px;font-weight:600;color:var(--text);text-align:center;margin-bottom:3px;}
+.su{font-size:13px;color:var(--muted);text-align:center;margin-bottom:18px;}
+.cap{margin-top:14px;font-size:12.5px;color:var(--muted);max-width:700px;text-align:center;line-height:1.7;}
+.cap em{color:var(--text);font-style:normal;font-weight:500;}
+.chart-area{width:100%;max-width:720px;background:var(--bg-alt);border:1px solid var(--border);
+  border-radius:14px;padding:20px 20px 16px;}
+.tabs{display:flex;gap:6px;margin-bottom:16px;flex-wrap:wrap;}
+.tab{padding:6px 13px;border-radius:7px;cursor:pointer;font-size:12px;
+  font-family:'Roboto Mono',monospace;border:1px solid var(--border);
+  background:var(--bg);color:var(--muted);transition:all .2s;}
+.tab.active{background:var(--bg-alt);border-color:var(--primary);color:var(--primary);}
+canvas{display:block;border-radius:8px;width:100%;height:auto;}
+.insight-row{display:flex;gap:8px;margin-top:12px;flex-wrap:wrap;}
+.insight{flex:1;min-width:140px;background:var(--bg);border:1px solid var(--border);border-radius:8px;padding:10px 12px;font-size:12px;}
+.iv{font-family:'Roboto Mono',monospace;font-size:14px;font-weight:600;margin-bottom:2px;}
+.id{color:var(--muted);font-size:11px;line-height:1.5;}
+</style></head><body>
+<p class="ey">Experiments</p>
+<p class="ti">MNIST Latent Space — AE+IGL (Two-Stage) Wins on All Metrics</p>
+<p class="su">20k samples · 64-dimensional latent space · 10 classes · 5 competing methods</p>
+<div class="chart-area">
+<div class="tabs" id="tabs"></div>
+<canvas id="cBar" width="720" height="260"></canvas>
+<div class="insight-row">
+  <div class="insight"><div class="iv" style="color:var(--purple)">Lin. Probe: 0.991</div><div class="id">Near-optimal classification — matches contrastive</div></div>
+  <div class="insight"><div class="iv" style="color:var(--blue)">Silhouette: 0.630</div><div class="id">Strong geometric class separation</div></div>
+  <div class="insight"><div class="iv" style="color:var(--green)">12 / 64 active dims</div><div class="id">Intrinsic dimension consistent with \(d_{\mathrm{MNIST}} \approx 10\text{--}15\)</div></div>
+  <div class="insight"><div class="iv" style="color:var(--amber)">Smooth: 0.122 ↓</div><div class="id">Best label smoothness — most organised latent space</div></div>
+</div>
+</div>
+<script>
+var methods=['AE-only','AE+KL','AE+Contrastive','AE+IGL (Joint)','AE+IGL (Two-stage)'];
+var colors=['#94a3b8','#8b5cf6','#3b82f6','#f59e0b','#A51209'];
+var highlights=[false,false,false,false,true];
+var metrics=[
+  {id:'lp',label:'Lin. Probe ↑',vals:[.918,.933,.992,.990,.991],min:.88,max:1.0,high:true,fmt:function(v){return v.toFixed(3);}},
+  {id:'sil',label:'Silhouette ↑',vals:[.060,.042,.744,.470,.630],min:0,max:.80,high:true,fmt:function(v){return v.toFixed(3);}},
+  {id:'sm',label:'Smooth ↓',vals:[.139,.156,.172,.123,.122],min:.10,max:.20,high:false,fmt:function(v){return v.toFixed(3);}},
+  {id:'mse',label:'Recon MSE ↓',vals:[.0021,.0073,.0023,.0025,.0036],min:0,max:.0090,high:false,fmt:function(v){return v.toFixed(4);}},
+  {id:'dm',label:'Active Dims',vals:[64,64,64,9,12],min:0,max:72,high:false,fmt:function(v){return String(v);}},
+];
+var cur=metrics[0];
+var tabsEl=document.getElementById('tabs');
+metrics.forEach(function(m){var t=document.createElement('div');t.className='tab'+(m===cur?' active':'');
+  t.textContent=m.label;
+  t.addEventListener('click',function(){cur=m;if(aid2)cancelAnimationFrame(aid2);prog=0;
+    tabsEl.querySelectorAll('.tab').forEach(function(b,i){b.classList.toggle('active',metrics[i]===m);});
+    animate();});tabsEl.appendChild(t);});
+var prog=0,aid2=null;
+function drawBar(p){
+  var C=document.getElementById('cBar'),ctx=C.getContext('2d'),W=C.width,H=C.height;
+  var PAD={l:54,r:14,t:22,b:52},PW=W-PAD.l-PAD.r,PH=H-PAD.t-PAD.b;
+  ctx.fillStyle='#ffffff';ctx.fillRect(0,0,W,H);
+  var m=cur,rng=m.max-m.min,best=m.high?Math.max.apply(null,m.vals):Math.min.apply(null,m.vals);
+  ctx.strokeStyle='#e2e8f0';ctx.lineWidth=1;
+  for(var i=0;i<=4;i++){var y=PAD.t+PH*(1-i/4);
+    ctx.beginPath();ctx.moveTo(PAD.l,y);ctx.lineTo(PAD.l+PW,y);ctx.stroke();
+    var v=m.min+rng*i/4;ctx.fillStyle='#666666';ctx.font="11px Roboto Mono, monospace";
+    ctx.textAlign='right';ctx.fillText(m.fmt(v),PAD.l-4,y+4);}
+  var N2=methods.length,BW=PW/N2,INN=BW*.52;
+  methods.forEach(function(meth,i){
+    var val=m.vals[i],isBest=Math.abs(val-best)<1e-9,isHL=highlights[i];
+    var bh=((val-m.min)/rng)*PH*Math.min(1,p);
+    var x=PAD.l+i*BW+(BW-INN)/2,y2=PAD.t+PH-bh;
+    if(isHL){var gr=ctx.createLinearGradient(x,y2,x,y2+bh);
+      gr.addColorStop(0,'#A51209');gr.addColorStop(1,'rgba(165,18,9,.5)');ctx.fillStyle=gr;}
+    else ctx.fillStyle=colors[i]+'88';
+    ctx.fillRect(x,y2,INN,bh);
+    if(isHL){ctx.strokeStyle='#A51209';ctx.lineWidth=1.5;ctx.strokeRect(x,y2,INN,bh);}
+    if(isBest){ctx.fillStyle='#10b981';ctx.font="bold 14px Source Sans Pro, sans-serif";ctx.textAlign='center';
+      ctx.fillText('\u2605',x+INN/2,y2-6);}
+    if(p>.8){ctx.fillStyle=isHL?'#A51209':colors[i];
+      ctx.font=(isHL?'600 ':'400 ')+'11px Roboto Mono,monospace';ctx.textAlign='center';
+      ctx.fillText(m.fmt(val),x+INN/2,y2-(isBest?18:5));}
+    ctx.fillStyle=isHL?'#171717':colors[i];
+    ctx.font=(isHL?'600 ':'400 ')+'11px 'Source Sans Pro',sans-serif';ctx.textAlign='center';
+    ctx.fillText(meth,x+INN/2,PAD.t+PH+17);
+  });
+  ctx.strokeStyle='#cbd5e1';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(PAD.l,PAD.t);ctx.lineTo(PAD.l,PAD.t+PH+1);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(PAD.l,PAD.t+PH);ctx.lineTo(PAD.l+PW,PAD.t+PH);ctx.stroke();
+}
+function animate(){if(aid2)cancelAnimationFrame(aid2);
+  prog=Math.min(1,prog+.04);var e=1-Math.pow(1-prog,3);
+  drawBar(e);if(prog<1)aid2=requestAnimationFrame(animate);}
+animate();
+</script></body></html>

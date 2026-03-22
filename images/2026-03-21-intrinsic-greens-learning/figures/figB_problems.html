@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Three Problems on a Manifold</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f9f9f9;--bg-alt:#fff;--text:#171717;--muted:#666;--border:#e2e8f0;
+      --primary:#A51209;--blue:#3b82f6;--green:#10b981;--amber:#f59e0b;--purple:#8b5cf6;}
+@media(prefers-color-scheme:dark){:root{--bg:#0a0a0a;--bg-alt:#171717;--text:#e2e2e2;--muted:#888;--border:#374151;}}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);font-family:'Inter',sans-serif;display:flex;flex-direction:column;align-items:center;padding:28px 20px 22px;}
+.ey{font-size:11px;font-weight:500;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;text-align:center;margin-bottom:5px;}
+.ti{font-family:'Inter',sans-serif;font-size:20px;color:var(--text);text-align:center;margin-bottom:3px;}
+.su{font-size:13px;color:var(--muted);text-align:center;margin-bottom:20px;}
+.cap{margin-top:14px;font-size:12.5px;color:var(--muted);max-width:700px;text-align:center;line-height:1.7;}
+.cap em{color:var(--text);font-style:normal;font-weight:500;}
+svg{display:block;max-width:100%;height:auto;}
+</style></head><body>
+<p class="ey">Framework</p>
+<p class="ti">Three Learning Problems on ℳ</p>
+<p class="su">classification · regression · reconstruction — all share the same manifold geometry</p>
+<svg viewBox="0 0 760 340" style="width:760px;max-width:100%;"><defs>
+  <marker id="ah" markerWidth="7" markerHeight="6" refX="6.5" refY="3" orient="auto"><path d="M0,0.5 L7,3 L0,5.5 L1.5,3Z" fill="var(--muted)" opacity="0.7"/></marker>
+  <marker id="ah-r" markerWidth="7" markerHeight="6" refX="6.5" refY="3" orient="auto"><path d="M0,0.5 L7,3 L0,5.5 L1.5,3Z" fill="var(--primary)"/></marker>
+  <marker id="ah-g" markerWidth="7" markerHeight="6" refX="6.5" refY="3" orient="auto"><path d="M0,0.5 L7,3 L0,5.5 L1.5,3Z" fill="var(--green)"/></marker>
+  <filter id="cs"><feDropShadow dx="0" dy="2" stdDeviation="5" flood-color="#000" flood-opacity="0.07"/></filter>
+</defs>
+<rect width="760" height="340" fill="var(--bg)"/>
+
+<!-- Panel metrics shared: same curved manifold, different coloring -->
+<!-- Manifold drawn as a parametric 2D surface (seen from above) with gentle wave -->
+<!-- For each panel, we fill the surface quads differently -->
+
+<!-- ─── PANEL 1: Classification ─────────────────────────────────── -->
+<rect x="12" y="10" width="228" height="298" rx="11" fill="var(--bg-alt)" stroke="var(--border)" stroke-width="1" filter="url(#cs)"/>
+<!-- Accent line -->
+<line x1="20" y1="10" x2="232" y2="10" stroke="var(--blue)" stroke-width="2.5" stroke-linecap="round"/>
+
+<!-- Surface fill — class A (top) -->
+<path d="M 36,72 Q 80,60 124,68 Q 168,76 212,64 L 212,148 Q 168,156 124,148 Q 80,140 36,152 Z"
+      fill="var(--blue)" fill-opacity="0.12" stroke="var(--blue)" stroke-opacity="0.25" stroke-width="0.8"/>
+<!-- class B (middle) -->
+<path d="M 36,152 Q 80,140 124,148 Q 168,156 212,148 L 212,208 Q 168,200 124,196 Q 80,200 36,208 Z"
+      fill="var(--green)" fill-opacity="0.14" stroke="var(--green)" stroke-opacity="0.25" stroke-width="0.8"/>
+<!-- class C (bottom) -->
+<path d="M 36,208 Q 80,200 124,196 Q 168,200 212,208 L 212,268 Q 168,264 124,260 Q 80,264 36,268 Z"
+      fill="var(--amber)" fill-opacity="0.14" stroke="var(--amber)" stroke-opacity="0.25" stroke-width="0.8"/>
+
+<!-- Manifold grid overlay (subtle) -->
+<g stroke="var(--border)" stroke-width="0.6" fill="none">
+  <path d="M 36,90 Q 80,82 124,88 Q 168,94 212,84"/>
+  <path d="M 36,120 Q 80,112 124,118 Q 168,124 212,116"/>
+  <path d="M 36,170 Q 80,164 124,168 Q 168,172 212,162"/>
+  <path d="M 36,230 Q 80,224 124,228 Q 168,232 212,224"/>
+  <path d="M 36,250 Q 80,244 124,248 Q 168,252 212,244"/>
+  <line x1="72" y1="72" x2="68" y2="268"/><line x1="108" y1="66" x2="104" y2="264"/>
+  <line x1="148" y1="70" x2="148" y2="264"/><line x1="188" y1="66" x2="186" y2="266"/>
+</g>
+
+<!-- Decision boundaries (curved lines between classes) -->
+<path d="M 36,152 Q 80,140 124,148 Q 168,156 212,148" stroke="white" stroke-width="2" fill="none" opacity="0.8"/>
+<path d="M 36,208 Q 80,200 124,196 Q 168,200 212,208" stroke="white" stroke-width="2" fill="none" opacity="0.8"/>
+
+<!-- Class label text -->
+<text x="124" y="116" font-family="Inter,sans-serif" font-size="12" fill="var(--blue)" fill-opacity="0.9" text-anchor="middle" font-weight="600">Class A</text>
+<text x="124" y="182" font-family="Inter,sans-serif" font-size="12" fill="var(--green)" fill-opacity="0.9" text-anchor="middle" font-weight="600">Class B</text>
+<text x="124" y="240" font-family="Inter,sans-serif" font-size="12" fill="var(--amber)" fill-opacity="0.9" text-anchor="middle" font-weight="600">Class C</text>
+
+<!-- Data points (colored by class) -->
+<g fill="var(--blue)"><circle cx="58" cy="95" r="4"/><circle cx="92" cy="88" r="3.5"/><circle cx="138" cy="100" r="4"/><circle cx="178" cy="92" r="3.5"/><circle cx="62" cy="130" r="3.5"/><circle cx="108" cy="122" r="4"/><circle cx="156" cy="128" r="3.5"/><circle cx="196" cy="124" r="3.5"/></g>
+<g fill="var(--green)"><circle cx="50" cy="170" r="4"/><circle cx="88" cy="162" r="3.5"/><circle cx="128" cy="168" r="4"/><circle cx="166" cy="164" r="3.5"/><circle cx="198" cy="170" r="3.5"/><circle cx="72" cy="190" r="3.5"/><circle cx="148" cy="188" r="3.5"/></g>
+<g fill="var(--amber)"><circle cx="56" cy="222" r="4"/><circle cx="96" cy="216" r="3.5"/><circle cx="134" cy="218" r="4"/><circle cx="172" cy="222" r="3.5"/><circle cx="62" cy="250" r="3.5"/><circle cx="116" cy="246" r="3.5"/><circle cx="196" cy="248" r="3.5"/></g>
+
+<!-- Panel header -->
+<text x="124" y="36" font-family="Inter,sans-serif" font-size="14" fill="var(--text)" text-anchor="middle">Classification</text>
+<text x="124" y="52" font-family="Inter,sans-serif" font-size="11" fill="var(--muted)" text-anchor="middle">u : ℳ → {A, B, C}</text>
+<!-- Panel footer -->
+<text x="124" y="289" font-family="Inter,sans-serif" font-size="11" fill="var(--muted)" text-anchor="middle">decision boundary on ℳ</text>
+
+<!-- ─── PANEL 2: Regression ──────────────────────────────────────── -->
+<rect x="266" y="10" width="228" height="298" rx="11" fill="var(--bg-alt)" stroke="var(--border)" stroke-width="1" filter="url(#cs)"/>
+<line x1="274" y1="10" x2="486" y2="10" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round"/>
+
+<!-- Regression: continuous value shown as gradient coloring of surface quads -->
+<!-- Use many thin horizontal bands with color gradient -->
+<defs>
+  <linearGradient id="regGrad" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%"   stop-color="#3b82f6" stop-opacity="0.7"/>
+    <stop offset="35%"  stop-color="#10b981" stop-opacity="0.6"/>
+    <stop offset="65%"  stop-color="#f59e0b" stop-opacity="0.6"/>
+    <stop offset="100%" stop-color="#A51209" stop-opacity="0.7"/>
+  </linearGradient>
+</defs>
+<!-- Surface fill with gradient -->
+<path d="M 290,72 Q 334,62 378,70 Q 420,78 466,66 L 466,268 Q 420,264 378,260 Q 334,264 290,268 Z"
+      fill="url(#regGrad)" opacity="0.35"/>
+<!-- Grid overlay for manifold texture -->
+<g stroke="var(--border)" stroke-width="0.6" fill="none" opacity="0.8">
+  <path d="M 290,90 Q 334,84 378,90 Q 420,96 466,86"/>
+  <path d="M 290,120 Q 334,114 378,120 Q 420,126 466,116"/>
+  <path d="M 290,150 Q 334,144 378,150 Q 420,156 466,146"/>
+  <path d="M 290,180 Q 334,174 378,180 Q 420,186 466,176"/>
+  <path d="M 290,210 Q 334,204 378,210 Q 420,216 466,206"/>
+  <path d="M 290,240 Q 334,234 378,240 Q 420,246 466,236"/>
+  <line x1="326" y1="72" x2="322" y2="268"/><line x1="362" y1="66" x2="360" y2="264"/>
+  <line x1="402" y1="70" x2="402" y2="264"/><line x1="442" y1="66" x2="440" y2="266"/>
+</g>
+<!-- Iso-value contours (curved lines) -->
+<path d="M 290,108 Q 334,100 378,108 Q 420,116 466,104" stroke="white" stroke-width="1.5" fill="none" opacity="0.7" stroke-dasharray="5 3"/>
+<path d="M 290,160 Q 334,154 378,162 Q 420,170 466,158" stroke="white" stroke-width="1.5" fill="none" opacity="0.7" stroke-dasharray="5 3"/>
+<path d="M 290,216 Q 334,210 378,218 Q 420,226 466,214" stroke="white" stroke-width="1.5" fill="none" opacity="0.7" stroke-dasharray="5 3"/>
+
+<!-- Colorbar -->
+<defs>
+  <linearGradient id="cbar" x1="0%" y1="0%" x2="0%" y2="100%">
+    <stop offset="0%" stop-color="#3b82f6"/><stop offset="33%" stop-color="#10b981"/>
+    <stop offset="66%" stop-color="#f59e0b"/><stop offset="100%" stop-color="#A51209"/>
+  </linearGradient>
+</defs>
+<rect x="448" y="88" width="10" height="150" fill="url(#cbar)" rx="2"/>
+<text x="462" y="92" font-family="Inter,sans-serif" font-size="9" fill="var(--muted)">high</text>
+<text x="462" y="242" font-family="Inter,sans-serif" font-size="9" fill="var(--muted)">low</text>
+
+<!-- Data points (gradient colored) -->
+<circle cx="308" cy="94" r="4" fill="#3b82f6" opacity="0.9"/><circle cx="344" cy="88" r="3.5" fill="#3b82f6" opacity="0.85"/>
+<circle cx="390" cy="96" r="4" fill="#10b981" opacity="0.9"/><circle cx="428" cy="90" r="3.5" fill="#3b82f6" opacity="0.8"/>
+<circle cx="302" cy="144" r="4" fill="#10b981" opacity="0.9"/><circle cx="356" cy="138" r="3.5" fill="#10b981" opacity="0.85"/>
+<circle cx="404" cy="148" r="4" fill="#f59e0b" opacity="0.9"/><circle cx="452" cy="142" r="3.5" fill="#10b981" opacity="0.8"/>
+<circle cx="314" cy="196" r="4" fill="#f59e0b" opacity="0.9"/><circle cx="370" cy="192" r="3.5" fill="#f59e0b" opacity="0.85"/>
+<circle cx="418" cy="200" r="4" fill="#A51209" opacity="0.9"/><circle cx="306" cy="246" r="3.5" fill="#A51209" opacity="0.85"/>
+<circle cx="362" cy="244" r="4" fill="#A51209" opacity="0.9"/><circle cx="438" cy="248" r="3.5" fill="#A51209" opacity="0.8"/>
+
+<!-- Panel header -->
+<text x="378" y="36" font-family="Inter,sans-serif" font-size="14" fill="var(--text)" text-anchor="middle">Regression</text>
+<text x="378" y="52" font-family="Inter,sans-serif" font-size="11" fill="var(--muted)" text-anchor="middle">u : ℳ → ℝ  (continuous value)</text>
+<!-- Iso-value label -->
+<text x="290" y="108" font-family="Inter,sans-serif" font-size="9" fill="white" opacity="0.8">u = 0.8</text>
+<text x="290" y="160" font-family="Inter,sans-serif" font-size="9" fill="white" opacity="0.8">u = 0.5</text>
+<text x="290" y="216" font-family="Inter,sans-serif" font-size="9" fill="white" opacity="0.8">u = 0.2</text>
+<text x="378" y="289" font-family="Inter,sans-serif" font-size="11" fill="var(--muted)" text-anchor="middle">iso-contours on ℳ</text>
+
+<!-- ─── PANEL 3: Reconstruction ──────────────────────────────────── -->
+<rect x="520" y="10" width="228" height="298" rx="11" fill="var(--bg-alt)" stroke="var(--border)" stroke-width="1" filter="url(#cs)"/>
+<line x1="528" y1="10" x2="740" y2="10" stroke="var(--purple)" stroke-width="2.5" stroke-linecap="round"/>
+
+<!-- Sparse noisy observations (scattered points, some far from manifold) -->
+<!-- True manifold (to be reconstructed) -->
+<path d="M 544,72 Q 586,62 630,70 Q 672,78 718,66 L 718,268 Q 672,264 630,260 Q 586,264 544,268 Z"
+      fill="var(--purple)" fill-opacity="0.06" stroke="var(--purple)" stroke-opacity="0.2" stroke-width="1"/>
+<!-- Grid showing the reconstructed structure -->
+<g stroke="var(--purple)" stroke-opacity="0.3" stroke-width="0.8" fill="none">
+  <path d="M 544,100 Q 586,92 630,100 Q 672,108 718,96"/>
+  <path d="M 544,140 Q 586,132 630,140 Q 672,148 718,136"/>
+  <path d="M 544,180 Q 586,172 630,180 Q 672,188 718,176"/>
+  <path d="M 544,220 Q 586,212 630,220 Q 672,228 718,216"/>
+  <path d="M 544,252 Q 586,246 630,252 Q 672,258 718,248"/>
+  <line x1="580" y1="72" x2="576" y2="268"/><line x1="620" y1="68" x2="618" y2="264"/>
+  <line x1="660" y1="72" x2="660" y2="264"/><line x1="700" y1="68" x2="698" y2="266"/>
+</g>
+
+<!-- Noisy observations (gray, scattered) -->
+<g fill="var(--muted)" opacity="0.55">
+  <circle cx="562" cy="88" r="3.5"/><circle cx="598" cy="102" r="3"/>
+  <circle cx="644" cy="90" r="3.5"/><circle cx="688" cy="82" r="3"/>
+  <circle cx="554" cy="128" r="3.5"/><circle cx="612" cy="138" r="3"/>
+  <circle cx="660" cy="144" r="3.5"/><circle cx="706" cy="130" r="3"/>
+  <circle cx="566" cy="174" r="3.5"/><circle cx="628" cy="182" r="3"/>
+  <circle cx="672" cy="176" r="3.5"/><circle cx="710" cy="168" r="3"/>
+  <circle cx="552" cy="218" r="3.5"/><circle cx="604" cy="228" r="3"/>
+  <circle cx="658" cy="224" r="3.5"/><circle cx="700" cy="212" r="3"/>
+  <circle cx="570" cy="256" r="3.5"/><circle cx="634" cy="260" r="3"/>
+  <circle cx="690" cy="252" r="3.5"/>
+</g>
+<!-- Noise offset points (visually "off" the surface) -->
+<g fill="var(--muted)" opacity="0.25">
+  <circle cx="575" cy="75" r="3"/><circle cx="635" cy="108" r="3"/>
+  <circle cx="678" cy="98" r="3"/><circle cx="560" cy="152" r="3"/>
+  <circle cx="696" cy="158" r="3"/><circle cx="618" cy="200" r="3"/>
+  <circle cx="702" cy="234" r="3"/><circle cx="548" cy="240" r="3"/>
+</g>
+
+<!-- Fitted manifold surface lines (after reconstruction) — dashed overlay -->
+<path d="M 544,72 Q 586,62 630,70 Q 672,78 718,66" stroke="var(--purple)" stroke-width="2" fill="none" opacity="0.7"/>
+<path d="M 544,268 Q 586,264 630,260 Q 672,264 718,268" stroke="var(--purple)" stroke-width="2" fill="none" opacity="0.7"/>
+<line x1="544" y1="72" x2="544" y2="268" stroke="var(--purple)" stroke-width="2" opacity="0.7"/>
+<line x1="718" y1="66" x2="718" y2="268" stroke="var(--purple)" stroke-width="2" opacity="0.7"/>
+
+<!-- Panel header -->
+<text x="632" y="36" font-family="Inter,sans-serif" font-size="14" fill="var(--text)" text-anchor="middle">Reconstruction</text>
+<text x="632" y="52" font-family="Inter,sans-serif" font-size="11" fill="var(--muted)" text-anchor="middle">recover ℳ from noisy samples</text>
+<text x="632" y="289" font-family="Inter,sans-serif" font-size="11" fill="var(--muted)" text-anchor="middle">fitted ℳ (purple) vs. observations (gray)</text>
+
+<!-- ─── Bottom caption strip ───────────────────────────────────────── -->
+<rect x="12" y="315" width="736" height="22" rx="5" fill="var(--bg-alt)" stroke="var(--border)" stroke-width="1"/>
+<text x="380" y="330" font-family="Inter,sans-serif" font-size="11" fill="var(--muted)" text-anchor="middle">IGL handles all three tasks with the same architecture — choose operator L and output dimension c</text>
+</svg>
+<p class="cap"><em>Classification:</em> learn a partition of ℳ into discrete classes — boundaries curve with the manifold geometry. <em>Regression:</em> learn a smooth scalar field u : ℳ → ℝ — iso-contours follow geodesics. <em>Reconstruction:</em> infer ℳ from sparse, noisy observations — the encoder Ψ recovers the embedding.</p>
+</body></html>

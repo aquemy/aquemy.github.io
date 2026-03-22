@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Manifold Hypothesis</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f9f9f9;--bg-alt:#fff;--text:#171717;--muted:#666;
+  --border:#e2e8f0;--border-strong:#cbd5e1;
+  --primary:#A51209;--blue:#3b82f6;--green:#10b981;
+  --amber:#f59e0b;--purple:#8b5cf6;--red:#ef4444;
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#0a0a0a;--bg-alt:#171717;--text:#e2e2e2;--muted:#888;
+  --border:#374151;--border-strong:#4b5563;
+}}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);font-family:'Source Sans Pro',sans-serif;
+  display:flex;flex-direction:column;align-items:center;padding:28px 20px 22px;}
+.ey{font-size:11px;font-weight:500;color:var(--muted);letter-spacing:.1em;
+  text-transform:uppercase;text-align:center;margin-bottom:5px;}
+.ti{font-size:20px;font-weight:600;color:var(--text);
+  text-align:center;margin-bottom:3px;}
+.su{font-size:13px;color:var(--muted);text-align:center;margin-bottom:18px;}
+.cap{margin-top:14px;font-size:12.5px;color:var(--muted);max-width:700px;
+  text-align:center;line-height:1.7;}
+.cap em{color:var(--text);font-style:normal;font-weight:500;}
+canvas{display:block;border-radius:12px;border:1px solid var(--border);max-width:100%;}
+.controls{display:flex;gap:10px;margin-top:12px;justify-content:center;}
+button{background:var(--bg-alt);border:1px solid var(--border);color:var(--primary);
+  padding:7px 18px;border-radius:7px;cursor:pointer;font-family:'Source Sans Pro',sans-serif;
+  font-size:13px;font-weight:500;transition:all .2s;}
+button:hover{border-color:var(--primary);background:var(--primary);color:#fff;}
+button.active{background:var(--primary);color:#fff;border-color:var(--primary);}
+</style></head><body>
+<p class="ey">Setting</p>
+<p class="ti">The Swiss Roll: a 2D Manifold in \(\mathbb{R}^3\)</p>
+<p class="su">IGL encoder \(\Psi\) assigns intrinsic coordinates — click Show chart to see the unfolded view</p>
+<div style="position:relative;max-width:760px;width:100%;"><canvas id="c" width="760" height="400"></canvas></div>
+<div class="controls">
+  <button id="btnUnroll">Show chart →</button>
+</div>
+<script>
+var C=document.getElementById('c'),ctx=C.getContext('2d');
+var W=760,H=400;
+// Handle HiDPI and container sizing
+var dpr=window.devicePixelRatio||1;
+function resizeCanvas(){
+  var parentW=C.parentElement.getBoundingClientRect().width;
+  var displayW=Math.min(760,parentW);
+  var displayH=displayW*400/760;
+  C.style.width=displayW+'px';
+  C.style.height=displayH+'px';
+  C.width=displayW*dpr;
+  C.height=displayH*dpr;
+  ctx.setTransform(displayW*dpr/760,0,0,displayH*dpr/400,0,0);
+}
+resizeCanvas();
+var N=1200,pts=[];
+for(var i=0;i<N;i++){
+  var t=1.5*Math.PI+Math.random()*3*Math.PI,h=Math.random();
+  var u=(t-1.5*Math.PI)/(3*Math.PI);
+  pts.push({t:t,h:h,u:u,x3:t*Math.cos(t)/14.5,y3:h*2.8-1.4,z3:t*Math.sin(t)/14.5,xu:u,yu:h});
+}
+function ptColor(u,a){var hue=220+u*160;return 'hsla('+hue+',75%,52%,'+(a||1)+')';}
+function project(x,y,z,th){
+  var c=Math.cos(th),s=Math.sin(th);
+  var xr=x*c+z*s,zr=-x*s+z*c;
+  var cx2=Math.cos(0.28),sx2=Math.sin(0.28);
+  var yr=y*cx2-zr*sx2,zr2=y*sx2+zr*cx2;
+  var fov=5,sc=fov/(fov+zr2*0.4);
+  return{px:xr*sc,py:yr*sc,depth:zr2};
+}
+function rr(x,y,w,h,r){
+  ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.arcTo(x+w,y,x+w,y+r,r);
+  ctx.lineTo(x+w,y+h-r);ctx.arcTo(x+w,y+h,x+w-r,y+h,r);
+  ctx.lineTo(x+r,y+h);ctx.arcTo(x,y+h,x,y+h-r,r);
+  ctx.lineTo(x,y+r);ctx.arcTo(x,y,x+r,y,r);ctx.closePath();
+}
+var theta=0.4,blend=0;
+var TRANS=70;
+function draw(){
+  ctx.fillStyle='#f9f9f9';ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle='#e2e8f0';ctx.lineWidth=1;
+  for(var x=0;x<W;x+=40){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+  for(var y=0;y<H;y+=40){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+  rr(16,16,340,H-32,12);ctx.fillStyle='#fff';ctx.fill();
+  ctx.strokeStyle='#e2e8f0';ctx.lineWidth=1;
+  rr(16,16,340,H-32,12);ctx.stroke();
+  rr(404,16,340,H-32,12);ctx.fillStyle='#fff';ctx.fill();
+  rr(404,16,340,H-32,12);ctx.stroke();
+  ctx.fillStyle='#171717';ctx.font="600 13px Source Sans Pro, sans-serif";ctx.textAlign='left';
+  ctx.fillText('Manifold M in R\u00B3',30,42);
+  ctx.fillStyle='#666';ctx.font="11px Source Sans Pro, sans-serif";ctx.fillText('ambient space, D=3',30,56);
+  ctx.fillStyle='#171717';ctx.font="600 13px Source Sans Pro, sans-serif";
+  ctx.fillText('Intrinsic Chart R\u1D48',418,42);
+  ctx.fillStyle='#666';ctx.font="11px Source Sans Pro, sans-serif";ctx.fillText('\u03A8 discovers d=2 coordinates',418,56);
+  var AX=382;
+  ctx.strokeStyle='#A51209';ctx.lineWidth=2.5;
+  ctx.beginPath();ctx.moveTo(AX-24,H/2);ctx.lineTo(AX+18,H/2);ctx.stroke();
+  ctx.fillStyle='#A51209';ctx.beginPath();ctx.moveTo(AX+22,H/2);ctx.lineTo(AX+10,H/2-7);ctx.lineTo(AX+10,H/2+7);ctx.closePath();ctx.fill();
+  ctx.fillStyle='#A51209';ctx.font="bold 20px Source Sans Pro, sans-serif";ctx.textAlign='center';
+  ctx.fillText('\u03A8',AX-3,H/2-8);
+  ctx.fillStyle='#999';ctx.font="10px Source Sans Pro, sans-serif";ctx.fillText('encoder',AX-3,H/2+18);
+  var LCX=186,LCY=H/2+12,SC=88;
+  var RCX=574,RCY=H/2+10,R2D=105;
+  var projected=pts.map(function(p){
+    var pr=project(p.x3,p.y3,p.z3,theta);
+    var sx3=LCX+pr.px*SC,sy3=LCY-pr.py*SC;
+    var sx2=RCX+(p.xu-0.5)*R2D*1.85;
+    var sy2=RCY-(p.yu-0.5)*R2D*1.85;
+    var b=blend*blend*(3-2*blend);
+    return{sx:sx3*(1-b)+sx2*b,sy:sy3*(1-b)+sy2*b,depth:pr.depth,u:p.u};
+  });
+  projected.sort(function(a,b){return a.depth-b.depth;});
+  for(var k=0;k<projected.length;k++){
+    ctx.fillStyle=ptColor(projected[k].u,0.88);
+    ctx.beginPath();ctx.arc(projected[k].sx,projected[k].sy,2.8,0,Math.PI*2);ctx.fill();
+  }
+  rr(630,H-54,116,34,8);ctx.fillStyle='#f0fdf4';ctx.fill();
+  ctx.strokeStyle='#10b981';ctx.lineWidth=1;rr(630,H-54,116,34,8);ctx.stroke();
+  ctx.fillStyle='#10b981';ctx.font="600 12px Source Sans Pro, sans-serif";ctx.textAlign='center';
+  ctx.fillText('d_eff = 2  (d\u226A3)',688,H-33);
+  if(blend>0.01&&blend<0.99){
+    rr(W/2-70,H-14,140,6,3);ctx.fillStyle='#e2e8f0';ctx.fill();
+    rr(W/2-70,H-14,140*blend,6,3);ctx.fillStyle='#A51209';ctx.fill();
+  }
+}
+function animate(){
+  theta+=0.006;
+  draw();requestAnimationFrame(animate);
+}
+document.getElementById('btnUnroll').addEventListener('click',function(){
+  var target=blend<0.5?1:0;
+  document.getElementById('btnUnroll').textContent=target===1?'\u2190 Show manifold':'Show chart \u2192';
+  var step=function(){blend=Math.max(0,Math.min(1,blend+(target-blend>0?1:-1)/TRANS));
+    if(Math.abs(blend-target)>0.01)setTimeout(step,16);};step();
+});
+animate();
+</script>
+</body></html>

@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Operator Gallery</title><link href="https://fonts.googleapis.com/css2?family=Inter&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>:root{--bg:#f9f9f9;--bg-alt:#fff;--text:#171717;--muted:#666;--border:#e2e8f0;
+  --border-strong:#cbd5e1;--primary:#A51209;--blue:#3b82f6;--green:#10b981;
+  --amber:#f59e0b;--purple:#8b5cf6;--red:#ef4444;}
+@media(prefers-color-scheme:dark){:root{--bg:#0a0a0a;--bg-alt:#171717;--text:#e2e2e2;--muted:#888;--border:#374151;--border-strong:#4b5563;}}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);font-family:'Source Sans Pro',sans-serif;display:flex;flex-direction:column;
+  align-items:center;padding:28px 20px 22px;}
+.ey{font-size:11px;font-weight:500;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;text-align:center;margin-bottom:5px;}
+.ti{font-family:'Source Sans Pro',sans-serif;font-size:20px;color:var(--text);text-align:center;margin-bottom:3px;}
+.su{font-size:13px;color:var(--muted);text-align:center;margin-bottom:18px;}
+.cap{margin-top:14px;font-size:12.5px;color:var(--muted);max-width:700px;text-align:center;line-height:1.7;}
+.cap em{color:var(--text);font-style:normal;font-weight:500;}
+svg{display:block;max-width:100%;height:auto;}
+.ops{display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;justify-content:center;}
+.ob{background:var(--bg-alt);border:1px solid var(--border);color:var(--muted);
+  padding:6px 14px;border-radius:8px;cursor:pointer;font-family:'Roboto Mono',monospace;
+  font-size:12px;transition:all .2s;}
+.ob:hover{border-color:var(--border-strong);}
+.ob.active{border-color:var(--primary);color:var(--primary);background:rgba(165,18,9,.06);}
+.main-area{display:flex;gap:12px;align-items:flex-start;width:760px;max-width:100%;}
+canvas{display:block;border-radius:10px;border:1px solid var(--border);}
+.info{flex:1;background:var(--bg-alt);border:1px solid var(--border);border-radius:12px;padding:16px;min-width:190px;}
+.in{font-size:15px;font-weight:600;margin-bottom:6px;}
+.io{font-family:'Roboto Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:8px;line-height:1.6;}
+.ib{font-size:12px;color:var(--muted);line-height:1.5;}
+.ib strong{display:block;font-size:10px;text-transform:uppercase;letter-spacing:.07em;margin-bottom:3px;color:var(--text);}
+.sr{display:flex;align-items:center;gap:8px;margin-top:10px;}
+.sr label{font-size:11px;font-family:'Roboto Mono',monospace;color:var(--muted);}
+input[type=range]{flex:1;accent-color:var(--primary);}
+.sv{font-family:'Roboto Mono',monospace;font-size:11px;color:var(--primary);min-width:32px;}
+.tagrow{display:flex;gap:4px;flex-wrap:wrap;margin-top:6px;}
+.tag{background:var(--bg);border:1px solid var(--border);border-radius:4px;
+  padding:2px 7px;font-size:10px;font-family:'Roboto Mono',monospace;color:var(--muted);}
+</style></head><body>
+<p class="ey">Operator Choice</p>
+<p class="ti">The Operator L is an Inductive Bias About Function Structure</p>
+<p class="su">hover the heatmap to explore · adjust \(\sigma\) to see scale effects · click to switch operator</p>
+<div class="ops" id="opsRow"></div>
+<div class="main-area">
+  <div style="display:flex;flex-direction:column;gap:8px;align-items:center;">
+    <div style="font-size:11px;color:var(--muted);font-family:'Roboto Mono',monospace;">G(ξ,ζ) — 2D kernel centered at origin</div>
+    <canvas id="c2d" width="310" height="310" style="cursor:crosshair;"></canvas>
+    <div style="font-size:11px;color:var(--muted);font-family:'Roboto Mono',monospace;">1D cross-section along ζ¹=0</div>
+    <canvas id="c1d" width="310" height="96"></canvas>
+  </div>
+  <div class="info" id="info">
+    <div class="in" id="iName">—</div>
+    <div class="io" id="iOp">—</div>
+    <div class="ib" id="iBias">—</div>
+    <div class="sr"><label>σ (scale)</label>
+    <input type="range" id="sig" min="0.1" max="1.5" step="0.05" value="0.5">
+    <span class="sv" id="sigV">0.50</span></div>
+  </div>
+</div>
+<script>
+var ops=[
+  {id:'gauss',name:'Gaussian',accent:'#3b82f6',fn:function(r,s){return Math.exp(-r*r/(2*s*s));},
+   op:'\\(L = -\\Delta\\)<br>\\(G(r) = e^{-r^2/2\\sigma^2}\\)',bias:'Smooth global fields. Low-pass filter, all frequencies weighted by Gaussian envelope.',tags:['smooth','global','symmetric']},
+  {id:'helm',name:'Helmholtz',accent:'#10b981',fn:function(r,s){return Math.exp(-Math.abs(r)/s)*Math.cos(Math.PI*r/s);},
+   op:'\\(L = -\\Delta + \\mu^2\\)<br>\\(G(r) = e^{-|r|/\\sigma} \\cos(\\pi r/\\sigma)\\)',bias:'Localized features and edges. Exponential decay removes global effects. Trivial null space.',tags:['localized','oscillatory','edges']},
+  {id:'gabor',name:'Gabor',accent:'#8b5cf6',fn:function(r,s){return Math.exp(-r*r/(2*s*s))*Math.cos(Math.PI*2.5*r/s);},
+   op:'\\(L = -\\Delta + x^2\\)<br>\\(G(r) = e^{-r^2/2\\sigma^2} \\cos(\\omega r)\\)',bias:'Localized oscillations — textures, periodic patterns. Gaussian envelope \\(\\times\\) frequency content.',tags:['Gabor atoms','multi-scale','textures']},
+  {id:'cauchy',name:'Cauchy',accent:'#f59e0b',fn:function(r,s){return 1/(1+r*r/(s*s));},
+   op:'Cauchy kernel<br>\\(G(r) = 1/(1 + r^2/\\sigma^2)\\)',bias:'Heavy-tailed decay, slower than Gaussian. Long-range dependencies, robust to outliers.',tags:['heavy tail','robust','bounded']},
+  {id:'lap',name:'Laplacian',accent:'#ef4444',fn:function(r,s){return Math.exp(-Math.abs(r)/s);},
+   op:'Laplace kernel<br>\\(G(r) = e^{-|r|/\\sigma}\\)',bias:'Exponential decay with cusp at r=0. Corresponds to \\(L_1\\) regularization — promotes sparse solutions.',tags:['sparsity','L1','cusp']},
+  {id:'ms',name:'Gauss + Helmholtz',accent:'#A51209',fn:function(r,s){return 0.6*Math.exp(-r*r/(2*s*s))+0.4*Math.exp(-Math.abs(r)/s)*Math.cos(Math.PI*r/s);},
+   op:'\\(\\gamma_1 G_{\\text{Gauss}} + \\gamma_2 G_{\\text{Helm}}\\)<br>smooth global + localized edges',bias:'Superposition of two operators by linearity. Gaussian captures the global trend; Helmholtz adds localized oscillatory detail. Constructive interference sharpens edges.',tags:['superposition','multi-kernel','linearity']},
+];
+var cur=ops[0];var sig=0.5;
+var opsRow=document.getElementById('opsRow');
+ops.forEach(function(op){var b=document.createElement('button');b.className='ob'+(op===cur?' active':'');
+  b.textContent=op.name;if(op===cur){b.style.borderColor=op.accent;b.style.color=op.accent;b.style.background=op.accent+'0f';}
+  b.addEventListener('click',function(){cur=op;
+    Array.prototype.forEach.call(opsRow.children,function(x){x.classList.remove('active');x.style.borderColor='';x.style.color='';x.style.background='';});
+    b.classList.add('active');b.style.borderColor=op.accent;b.style.color=op.accent;b.style.background=op.accent+'0f';
+    updateInfo();draw2D();draw1D();});opsRow.appendChild(b);});
+function updateInfo(){
+  document.getElementById('iName').textContent=cur.name+' Kernel';
+  document.getElementById('iName').style.color=cur.accent;
+  document.getElementById('iOp').innerHTML=cur.op;
+  document.getElementById('iBias').innerHTML='<strong>Inductive Bias</strong>'+cur.bias+
+    '<div class="tagrow">'+cur.tags.map(function(t){return '<span class="tag">'+t+'</span>';}).join('')+'</div>';
+  if(window.renderMathInElement){
+    renderMathInElement(document.getElementById('iOp'));
+    renderMathInElement(document.getElementById('iBias'));
+  }}
+function hslRgb(h,s,l){let r,g,b;if(!s){r=g=b=l;}else{
+  const q=l<.5?l*(1+s):l+s-l*s,p=2*l-q,f=t=>{t=((t%1)+1)%1;
+  return t<1/6?p+(q-p)*6*t:t<.5?q:t<2/3?p+(q-p)*(2/3-t)*6:p};
+  r=f(h+1/3);g=f(h);b=f(h-1/3);}return[r*255|0,g*255|0,b*255|0];}
+function accentHue(hex){return {'#3b82f6':220,'#10b981':160,'#8b5cf6':260,'#f59e0b':38,'#ef4444':0,'#A51209':5}[hex]||220;}
+function draw2D(mx,my){
+  if(mx===undefined)mx=-1;if(my===undefined)my=-1;
+  var C=document.getElementById('c2d'),ctx=C.getContext('2d'),SZ=310;
+  var hue=accentHue(cur.accent);
+  var mn=Infinity,mx2=-Infinity;
+  for(let i=0;i<SZ;i++)for(let j=0;j<SZ;j++){const r=Math.sqrt(((i-SZ/2)/(SZ/2.8))**2+((j-SZ/2)/(SZ/2.8))**2);const v=cur.fn(r,sig);mn=Math.min(mn,v);mx2=Math.max(mx2,v);}
+  const img=ctx.createImageData(SZ,SZ);const d=img.data;
+  for(let py=0;py<SZ;py++)for(let px=0;px<SZ;px++){
+    const r=Math.sqrt(((px-SZ/2)/(SZ/2.8))**2+((py-SZ/2)/(SZ/2.8))**2);
+    const v=(cur.fn(r,sig)-mn)/(mx2-mn+1e-9);
+    const[r2,g,b]=hslRgb(hue/360,.65,.08+v*.52);
+    const i=(py*SZ+px)*4;d[i]=r2;d[i+1]=g;d[i+2]=b;d[i+3]=255;}
+  ctx.putImageData(img,0,0);
+  if(mx>=0){ctx.strokeStyle='rgba(0,0,0,0.25)';ctx.lineWidth=1;ctx.setLineDash([4,4]);
+    ctx.beginPath();ctx.moveTo(mx,0);ctx.lineTo(mx,SZ);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(0,my);ctx.lineTo(SZ,my);ctx.stroke();ctx.setLineDash([]);}
+  ctx.fillStyle='rgba(255,255,255,.6)';ctx.beginPath();ctx.arc(SZ/2,SZ/2,3,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='rgba(0,0,0,.4)';ctx.font="12px Roboto Mono, monospace";ctx.textAlign='center';
+  ctx.fillText('ζ¹ →',SZ-22,SZ-6);ctx.save();ctx.translate(14,SZ/2);ctx.rotate(-Math.PI/2);ctx.fillText('ζ²',0,0);ctx.restore();}
+function draw1D(){
+  const C=document.getElementById('c1d'),ctx=C.getContext('2d'),W=310,H=96;
+  ctx.fillStyle='#ffffff';ctx.fillRect(0,0,W,H);
+  const vals=[];let mn=Infinity,mx2=-Infinity;
+  for(let i=0;i<=W;i++){const r=Math.abs((i-W/2)/(W/2.5));const v=cur.fn(r,sig);vals.push(v);mn=Math.min(mn,v);mx2=Math.max(mx2,v);}
+  const rng=mx2-mn||1;
+  if(mn<0){const zy=H-6-(0-mn)/rng*(H-14);ctx.strokeStyle='#e2e8f0';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,zy);ctx.lineTo(W,zy);ctx.stroke();}
+  const gr=ctx.createLinearGradient(0,0,0,H);gr.addColorStop(0,cur.accent+'cc');gr.addColorStop(1,cur.accent+'11');ctx.fillStyle=gr;
+  ctx.beginPath();ctx.moveTo(0,H);
+  for(let i=0;i<=W;i++)ctx.lineTo(i,H-6-(vals[i]-mn)/rng*(H-14));
+  ctx.lineTo(W,H);ctx.closePath();ctx.fill();
+  ctx.strokeStyle=cur.accent;ctx.lineWidth=2;ctx.beginPath();
+  for(let i=0;i<=W;i++){const y=H-6-(vals[i]-mn)/rng*(H-14);if(i===0)ctx.moveTo(0,y);else ctx.lineTo(i,y);}
+  ctx.stroke();
+  ctx.strokeStyle='#e2e8f0';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,H-1);ctx.lineTo(W,H-1);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(W/2,0);ctx.lineTo(W/2,H);ctx.stroke();
+  ctx.fillStyle='#666666';ctx.font="11px Roboto Mono, monospace";ctx.textAlign='right';ctx.fillText('r →',W-4,H-4);
+  ctx.fillStyle=cur.accent;ctx.textAlign='left';ctx.fillText('G(r)',4,13);}
+document.getElementById('sig').addEventListener('input',function(e){sig=parseFloat(e.target.value);
+  document.getElementById('sigV').textContent=sig.toFixed(2);draw2D();draw1D();});
+document.getElementById('c2d').addEventListener('mousemove',function(e){var r=e.target.getBoundingClientRect();
+  draw2D((e.clientX-r.left)/r.width*310,(e.clientY-r.top)/r.height*310);});
+document.getElementById('c2d').addEventListener('mouseleave',function(){draw2D();});
+updateInfo();draw2D();draw1D();
+</script></body></html>

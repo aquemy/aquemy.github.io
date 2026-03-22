@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Encoder Flattens Manifold</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>:root{--bg:#f9f9f9;--bg-alt:#fff;--text:#171717;--muted:#666;--border:#e2e8f0;--primary:#A51209;--blue:#3b82f6;--green:#10b981;--amber:#f59e0b;--purple:#8b5cf6;}
+@media(prefers-color-scheme:dark){:root{--bg:#0a0a0a;--bg-alt:#171717;--text:#e2e2e2;--muted:#888;--border:#374151;}}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);font-family:'Inter',sans-serif;display:flex;flex-direction:column;align-items:center;padding:28px 20px 22px;}
+.ey{font-size:11px;font-weight:500;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;text-align:center;margin-bottom:5px;}
+.ti{font-family:'Inter',sans-serif;font-size:20px;color:var(--text);text-align:center;margin-bottom:3px;}
+.su{font-size:13px;color:var(--muted);text-align:center;margin-bottom:20px;}
+.cap{margin-top:14px;font-size:12.5px;color:var(--muted);max-width:700px;text-align:center;line-height:1.7;}
+.cap em{color:var(--text);font-style:normal;font-weight:500;}
+svg{display:block;max-width:100%;height:auto;}</style></head><body>
+<p class="ey">Key Insight</p>
+<p class="ti">The Encoder Seeks an Approximately Flat Chart</p>
+<p class="su">Ψ transforms ℳ so the Euclidean Laplacian approximates Δ_g — residual absorbed by the compensated source</p>
+<svg viewBox="0 0 760 330" style="width:760px;max-width:100%;"><defs>
+  <marker id="ah" markerWidth="7" markerHeight="6" refX="6.5" refY="3" orient="auto"><path d="M0,0.5 L7,3 L0,5.5 L1.5,3Z" fill="var(--muted)" opacity="0.7"/></marker>
+  <marker id="ah-r" markerWidth="7" markerHeight="6" refX="6.5" refY="3" orient="auto"><path d="M0,0.5 L7,3 L0,5.5 L1.5,3Z" fill="var(--primary)"/></marker>
+  <marker id="ah-g" markerWidth="7" markerHeight="6" refX="6.5" refY="3" orient="auto"><path d="M0,0.5 L7,3 L0,5.5 L1.5,3Z" fill="var(--green)"/></marker>
+  <marker id="ah-b" markerWidth="7" markerHeight="6" refX="6.5" refY="3" orient="auto"><path d="M0,0.5 L7,3 L0,5.5 L1.5,3Z" fill="var(--blue)"/></marker>
+  <filter id="cs"><feDropShadow dx="0" dy="2" stdDeviation="5" flood-color="#000" flood-opacity="0.07"/></filter>
+</defs>
+<rect width="760" height="330" fill="var(--bg)"/>
+
+<!-- Four stage pipeline: curved → Ψ → approx flat → solve → u -->
+<!-- Spacing: each stage 160px wide, arrows between -->
+
+<!-- ─── STAGE 1: Curved ℳ ─── -->
+<rect x="10" y="10" width="158" height="288" rx="10" fill="var(--bg-alt)" stroke="var(--border)" stroke-width="1" filter="url(#cs)"/>
+<line x1="18" y1="10" x2="160" y2="10" stroke="var(--primary)" stroke-width="2" stroke-linecap="round"/>
+<text x="89" y="33" font-family="Inter,sans-serif" font-size="13" fill="var(--text)" text-anchor="middle">Curved ℳ</text>
+<text x="89" y="47" font-family="Inter,sans-serif" font-size="10" fill="var(--muted)" text-anchor="middle">unknown Riemannian</text>
+<text x="89" y="59" font-family="Inter,sans-serif" font-size="10" fill="var(--muted)" text-anchor="middle">metric g(p)</text>
+
+<!-- Distorted grid (curved) -->
+<g stroke="var(--border)" stroke-width="0.7" fill="none">
+  <path d="M 22,82 C 55,72 90,76 130,68 C 145,65 158,68 168,65"/>
+  <path d="M 22,112 C 55,104 90,108 130,100 C 145,97 158,100 168,97"/>
+  <path d="M 22,145 C 55,139 90,144 130,138 C 145,135 158,140 168,137"/>
+  <path d="M 22,178 C 55,174 90,180 130,176 C 145,174 158,180 168,177"/>
+  <path d="M 22,212 C 55,210 90,216 130,214 C 145,213 158,218 168,216"/>
+  <path d="M 22,244 C 55,244 90,248 130,248 C 145,248 158,250 168,250"/>
+  <path d="M 50,70 C 48,110 46,150 48,190 C 50,226 52,248 50,268"/>
+  <path d="M 88,66 C 90,106 90,146 92,186 C 94,222 94,244 92,268"/>
+  <path d="M 130,68 C 134,108 136,148 136,188 C 136,224 134,246 134,268"/>
+</g>
+<!-- Anisotropic metric ellipses -->
+<ellipse cx="62" cy="130" rx="18" ry="10" transform="rotate(20 62 130)" fill="var(--primary)" fill-opacity="0.1" stroke="var(--primary)" stroke-width="1.2" stroke-opacity="0.55"/>
+<ellipse cx="118" cy="200" rx="14" ry="20" transform="rotate(-25 118 200)" fill="var(--amber)" fill-opacity="0.1" stroke="var(--amber)" stroke-width="1.2" stroke-opacity="0.55"/>
+<text x="32" y="142" font-family="Inter,sans-serif" font-size="8" fill="var(--primary)" opacity="0.8">g(p₁)</text>
+<text x="104" y="218" font-family="Inter,sans-serif" font-size="8" fill="var(--amber)" opacity="0.8">g(p₂)</text>
+
+<!-- Curved geodesics from center -->
+<g stroke="var(--blue)" stroke-width="1.4" fill="none" opacity="0.55">
+  <path d="M 89,168 C 90,150 87,120 84,82"/>
+  <path d="M 89,168 C 88,185 91,210 92,248"/>
+  <path d="M 89,168 C 72,160 52,150 30,138"/>
+  <path d="M 89,168 C 106,160 124,152 148,144"/>
+  <path d="M 89,168 C 108,150 122,128 136,98"/>
+  <path d="M 89,168 C 70,150 58,130 44,102"/>
+</g>
+<circle cx="89" cy="168" r="4" fill="var(--text)" opacity="0.6"/>
+
+<!-- NOT flat annotation -->
+<rect x="26" y="258" width="108" height="28" rx="5" fill="var(--primary)" fill-opacity="0.07" stroke="var(--primary)" stroke-opacity="0.3" stroke-width="1"/>
+<text x="80" y="271" font-family="Inter,sans-serif" font-size="10" fill="var(--primary)" text-anchor="middle">Δ_g ≠ Δ  ✗</text>
+<text x="80" y="281" font-family="Inter,sans-serif" font-size="9" fill="var(--primary)" fill-opacity="0.8" text-anchor="middle">coordinates coupled</text>
+
+<!-- ─── ARROW 1: → Ψ ─── -->
+<line x1="170" y1="154" x2="193" y2="154" stroke="var(--primary)" stroke-width="2" marker-end="url(#ah-r)"/>
+<text x="181" y="147" font-family="Inter,sans-serif" font-size="17" fill="var(--primary)" text-anchor="middle">Ψ</text>
+<text x="181" y="165" font-family="Inter,sans-serif" font-size="9" fill="var(--muted)" text-anchor="middle">encoder</text>
+
+<!-- ─── STAGE 2: Approximately flat ─── -->
+<rect x="196" y="10" width="158" height="288" rx="10" fill="var(--bg-alt)" stroke="var(--border)" stroke-width="1" filter="url(#cs)"/>
+<line x1="204" y1="10" x2="346" y2="10" stroke="var(--green)" stroke-width="2" stroke-linecap="round"/>
+<text x="275" y="33" font-family="Inter,sans-serif" font-size="13" fill="var(--text)" text-anchor="middle">Chart ξ ≈ flat</text>
+<text x="275" y="47" font-family="Inter,sans-serif" font-size="10" fill="var(--muted)" text-anchor="middle">intrinsic coordinates</text>
+<text x="275" y="59" font-family="Inter,sans-serif" font-size="10" fill="var(--muted)" text-anchor="middle">g ≈ I  (approx. flat)</text>
+
+<!-- Regular grid (with small residual distortion) -->
+<g stroke="var(--border)" stroke-width="0.7" fill="none">
+  <path d="M 208,82 C 240,80 265,82 308,81 C 328,81 344,81 354,81"/>
+  <path d="M 208,112 C 240,111 265,113 308,112 C 328,112 344,113 354,112"/>
+  <path d="M 208,145 C 240,144 265,146 308,145 C 328,145 344,147 354,146"/>
+  <path d="M 208,178 C 240,177 265,179 308,178 C 328,178 344,180 354,179"/>
+  <path d="M 208,212 C 240,211 265,213 308,212 C 328,212 344,214 354,212"/>
+  <path d="M 208,244 C 240,243 265,245 308,244 C 328,244 344,246 354,244"/>
+  <line x1="236" y1="70" x2="235" y2="268"/>
+  <line x1="275" y1="68" x2="275" y2="268"/>
+  <line x1="314" y1="70" x2="315" y2="268"/>
+</g>
+
+<!-- Nearly circular metric ellipses — approximately equal at all points -->
+<ellipse cx="244" cy="130" rx="14" ry="13" fill="var(--green)" fill-opacity="0.12" stroke="var(--green)" stroke-width="1.2" stroke-opacity="0.55"/>
+<ellipse cx="306" cy="200" rx="13" ry="14" fill="var(--green)" fill-opacity="0.12" stroke="var(--green)" stroke-width="1.2" stroke-opacity="0.55"/>
+<text x="218" y="142" font-family="Inter,sans-serif" font-size="8" fill="var(--green)" opacity="0.85">g≈I</text>
+<text x="290" y="218" font-family="Inter,sans-serif" font-size="8" fill="var(--green)" opacity="0.85">g≈I</text>
+
+<!-- Straight geodesics -->
+<g stroke="var(--blue)" stroke-width="1.4" fill="none" opacity="0.55">
+  <line x1="275" y1="168" x2="275" y2="82"/>
+  <line x1="275" y1="168" x2="275" y2="254"/>
+  <line x1="275" y1="168" x2="210" y2="168"/>
+  <line x1="275" y1="168" x2="340" y2="168"/>
+  <line x1="275" y1="168" x2="321" y2="122"/>
+  <line x1="275" y1="168" x2="229" y2="214"/>
+  <line x1="275" y1="168" x2="229" y2="122"/>
+  <line x1="275" y1="168" x2="321" y2="214"/>
+</g>
+<circle cx="275" cy="168" r="4" fill="var(--text)" opacity="0.6"/>
+
+<!-- APPROX flat annotation -->
+<rect x="212" y="258" width="116" height="28" rx="5" fill="var(--green)" fill-opacity="0.08" stroke="var(--green)" stroke-opacity="0.35" stroke-width="1"/>
+<text x="270" y="271" font-family="Inter,sans-serif" font-size="10" fill="var(--green)" text-anchor="middle" font-weight="600">Δ_g ≈ Δ  ✓</text>
+<text x="270" y="281" font-family="Inter,sans-serif" font-size="9" fill="var(--green)" fill-opacity="0.85" text-anchor="middle">residual → f̂ compensates</text>
+
+<!-- ─── ARROW 2: → solve ─── -->
+<line x1="356" y1="154" x2="378" y2="154" stroke="var(--blue)" stroke-width="2" marker-end="url(#ah-b)"/>
+<text x="367" y="147" font-family="Inter,sans-serif" font-size="10" fill="var(--blue)" text-anchor="middle">solve</text>
+<text x="367" y="165" font-family="Inter,sans-serif" font-size="9" fill="var(--muted)" text-anchor="middle">Δu=f̂</text>
+
+<!-- ─── STAGE 3: Green's function / solution ─── -->
+<rect x="382" y="10" width="158" height="288" rx="10" fill="var(--bg-alt)" stroke="var(--border)" stroke-width="1" filter="url(#cs)"/>
+<line x1="390" y1="10" x2="532" y2="10" stroke="var(--blue)" stroke-width="2" stroke-linecap="round"/>
+<text x="461" y="33" font-family="Inter,sans-serif" font-size="13" fill="var(--text)" text-anchor="middle">G ∗ f̂  solution</text>
+<text x="461" y="47" font-family="Inter,sans-serif" font-size="10" fill="var(--muted)" text-anchor="middle">Euclidean Green's fn</text>
+<text x="461" y="59" font-family="Inter,sans-serif" font-size="10" fill="var(--muted)" text-anchor="middle">circular level sets ✓</text>
+
+<!-- Circular level sets of solution -->
+<circle cx="461" cy="168" r="18" fill="var(--blue)" fill-opacity="0.12" stroke="var(--blue)" stroke-opacity="0.5" stroke-width="1.4"/>
+<circle cx="461" cy="168" r="38" fill="var(--blue)" fill-opacity="0.08" stroke="var(--blue)" stroke-opacity="0.3" stroke-width="1.2"/>
+<circle cx="461" cy="168" r="60" fill="var(--blue)" fill-opacity="0.05" stroke="var(--blue)" stroke-opacity="0.2" stroke-width="1"/>
+<circle cx="461" cy="168" r="84" fill="var(--blue)" fill-opacity="0.03" stroke="var(--blue)" stroke-opacity="0.12" stroke-width="0.9"/>
+
+<!-- Separable factorization highlight -->
+<line x1="390" y1="168" x2="532" y2="168" stroke="var(--blue)" stroke-width="1.2" stroke-dasharray="4 3" opacity="0.4"/>
+<line x1="461" y1="80" x2="461" y2="256" stroke="var(--blue)" stroke-width="1.2" stroke-dasharray="4 3" opacity="0.4"/>
+<circle cx="461" cy="168" r="4" fill="var(--text)" opacity="0.6"/>
+<text x="395" y="185" font-family="Inter,sans-serif" font-size="9" fill="var(--blue)" opacity="0.8">G₁(ξ¹)·G₂(ξ²)</text>
+
+<rect x="396" y="258" width="126" height="28" rx="5" fill="var(--blue)" fill-opacity="0.07" stroke="var(--blue)" stroke-opacity="0.3" stroke-width="1"/>
+<text x="459" y="271" font-family="Inter,sans-serif" font-size="10" fill="var(--blue)" text-anchor="middle" font-weight="600">G = G₁ · G₂  ✓</text>
+<text x="459" y="281" font-family="Inter,sans-serif" font-size="9" fill="var(--blue)" fill-opacity="0.85" text-anchor="middle">separable — Fubini valid</text>
+
+<!-- ─── ARROW 3: → output ─── -->
+<line x1="542" y1="154" x2="564" y2="154" stroke="var(--green)" stroke-width="2" marker-end="url(#ah-g)"/>
+<text x="553" y="165" font-family="Inter,sans-serif" font-size="9" fill="var(--muted)" text-anchor="middle">O(KRd)</text>
+
+<!-- ─── STAGE 4: Output u ─── -->
+<rect x="568" y="10" width="180" height="288" rx="10" fill="var(--bg-alt)" stroke="var(--border)" stroke-width="1" filter="url(#cs)"/>
+<line x1="576" y1="10" x2="740" y2="10" stroke="var(--amber)" stroke-width="2" stroke-linecap="round"/>
+<text x="658" y="33" font-family="Inter,sans-serif" font-size="13" fill="var(--text)" text-anchor="middle">Prediction u(ξ)</text>
+<text x="658" y="47" font-family="Inter,sans-serif" font-size="10" fill="var(--muted)" text-anchor="middle">factorized integral</text>
+
+<!-- Formula -->
+<rect x="584" y="62" width="148" height="82" rx="6" fill="var(--bg)" stroke="var(--border)" stroke-width="1"/>
+<text x="658" y="84" font-family="Inter,sans-serif" font-size="11" fill="var(--text)" text-anchor="middle" font-weight="600">u(ξ) = Σₖᵣ γₖwᵣ</text>
+<text x="658" y="100" font-family="Inter,sans-serif" font-size="11" fill="var(--text)" text-anchor="middle">· ∏ⱼ Iₖᵣⱼ(ξʲ)</text>
+<line x1="592" y1="110" x2="726" y2="110" stroke="var(--border)" stroke-width="0.8"/>
+<text x="658" y="125" font-family="Inter,sans-serif" font-size="10" fill="var(--muted)" text-anchor="middle">Iₖᵣⱼ = ∫Gₖⱼφᵣⱼdζʲ</text>
+<text x="658" y="138" font-family="Inter,sans-serif" font-size="10" fill="var(--green)" text-anchor="middle">1D integrals only ✓</text>
+
+<!-- Compensated source note -->
+<rect x="584" y="158" width="148" height="60" rx="6" fill="var(--amber)" fill-opacity="0.06" stroke="var(--amber)" stroke-opacity="0.25" stroke-width="1"/>
+<text x="658" y="176" font-family="Inter,sans-serif" font-size="11" fill="var(--amber)" text-anchor="middle" font-weight="600">Compensated source</text>
+<text x="658" y="190" font-family="Inter,sans-serif" font-size="10" fill="var(--muted)" text-anchor="middle">f̂ = f̃ · √|g|</text>
+<text x="658" y="204" font-family="Inter,sans-serif" font-size="9" fill="var(--muted)" text-anchor="middle">absorbs metric deviation</text>
+<text x="658" y="215" font-family="Inter,sans-serif" font-size="9" fill="var(--muted)" text-anchor="middle">never computed explicitly</text>
+
+<!-- Complexity -->
+<rect x="584" y="234" width="148" height="44" rx="6" fill="var(--green)" fill-opacity="0.06" stroke="var(--green)" stroke-opacity="0.25" stroke-width="1"/>
+<text x="658" y="252" font-family="Inter,sans-serif" font-size="11" fill="var(--green)" text-anchor="middle" font-weight="600">O(KRd) per sample</text>
+<text x="658" y="266" font-family="Inter,sans-serif" font-size="10" fill="var(--muted)" text-anchor="middle">linear in d — tractable</text>
+
+<!-- ─── Bottom strip ─── -->
+<rect x="10" y="306" width="740" height="22" rx="5" fill="var(--bg-alt)" stroke="var(--border)" stroke-width="1"/>
+<text x="380" y="321" font-family="Inter,sans-serif" font-size="11" fill="var(--muted)" text-anchor="middle">f̂ absorbs both metric corrections and operator coupling — never explicit</text>
+</svg>
+<p class="cap">The encoder Ψ does not need to be isometric. It finds coordinates where the manifold is <em>approximately flat</em> — so solving Δu=f̂ (Euclidean) is equivalent to solving Δ_gu=f on the original manifold, up to a correction term absorbed into the learned source f̂. The compensated source handles both the metric volume √|g| and operator coupling entirely implicitly.</p>
+</body></html>

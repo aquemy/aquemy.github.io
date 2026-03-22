@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Laplacian Example</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f9f9f9;--bg-alt:#fff;--text:#171717;--muted:#666;--border:#e2e8f0;
+  --border-strong:#cbd5e1;--primary:#A51209;--blue:#3b82f6;--green:#10b981;
+  --amber:#f59e0b;--purple:#8b5cf6;--red:#ef4444;}
+@media(prefers-color-scheme:dark){:root{--bg:#0a0a0a;--bg-alt:#171717;--text:#e2e2e2;--muted:#888;
+  --border:#374151;--border-strong:#4b5563;}}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);font-family:'Source Sans Pro',sans-serif;display:flex;flex-direction:column;
+  align-items:center;padding:28px 20px 22px;}
+.ey{font-size:11px;font-weight:500;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;text-align:center;margin-bottom:5px;}
+.ti{font-size:20px;font-weight:600;color:var(--text);text-align:center;margin-bottom:3px;}
+.su{font-size:13px;color:var(--muted);text-align:center;margin-bottom:18px;}
+.panels{display:flex;gap:8px;align-items:flex-start;width:100%;max-width:760px;flex-wrap:wrap;justify-content:center;}
+.panel{background:var(--bg-alt);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center;flex:1;min-width:200px;}
+.panel-label{font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px;}
+canvas{display:block;border-radius:8px;border:1px solid var(--border);margin:0 auto;}
+.op-arrow{display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--muted);padding:0 4px;align-self:center;min-width:30px;}
+.eq-strip{width:100%;max-width:760px;background:var(--bg-alt);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-top:14px;text-align:center;font-family:'Roboto Mono',monospace;font-size:13px;color:var(--text);line-height:1.8;}
+.controls{display:flex;gap:10px;margin-top:14px;align-items:center;justify-content:center;flex-wrap:wrap;}
+.controls label{font-size:12px;font-family:'Roboto Mono',monospace;color:var(--muted);}
+input[type=range]{width:100px;accent-color:var(--primary);}
+.sv{font-family:'Roboto Mono',monospace;font-size:12px;color:var(--primary);min-width:36px;}
+.comp-toggles{display:flex;gap:6px;margin-top:10px;justify-content:center;flex-wrap:wrap;}
+.comp-btn{padding:5px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-family:'Roboto Mono',monospace;
+  border:1px solid var(--border);background:var(--bg);color:var(--muted);transition:all .2s;}
+.comp-btn.active{color:#fff;}
+</style></head><body>
+<p class="ey">Concrete Example</p>
+<p class="ti">\(-\Delta u = f\) : From Source to Solution via Green's Convolution</p>
+<p class="su">a rank-3 source \(\hat{f} = \sum_{r=1}^{3} w_r \phi_{r,1}(\zeta^1) \phi_{r,2}(\zeta^2)\) convolved with \(G\)</p>
+<div class="panels">
+  <div class="panel">
+    <div class="panel-label" style="color:var(--amber);">Source \(\hat{f}(\zeta)\)</div>
+    <canvas id="cSrc" width="200" height="200"></canvas>
+    <div style="font-size:10px;color:var(--muted);margin-top:6px;">rank-3 CP decomposition</div>
+  </div>
+  <div class="op-arrow">*</div>
+  <div class="panel">
+    <div class="panel-label" style="color:var(--blue);">Green's function \(G(\xi,\zeta)\)</div>
+    <canvas id="cGreen" width="200" height="200"></canvas>
+    <div style="font-size:10px;color:var(--muted);margin-top:6px;">\(G(r) \propto \log r\) (2D Laplacian)</div>
+  </div>
+  <div class="op-arrow">=</div>
+  <div class="panel">
+    <div class="panel-label" style="color:var(--green);">Solution \(u(\xi) = G * \hat{f}\)</div>
+    <canvas id="cSol" width="200" height="200"></canvas>
+    <div style="font-size:10px;color:var(--muted);margin-top:6px;">smooth — integration never amplifies noise</div>
+  </div>
+</div>
+<div class="comp-toggles">
+  <span style="font-size:11px;color:var(--muted);margin-right:4px;">Components:</span>
+  <div class="comp-btn active" id="t0" style="border-color:var(--red);background:var(--red);">r=1 (w=1.2)</div>
+  <div class="comp-btn active" id="t1" style="border-color:var(--blue);background:var(--blue);">r=2 (w=−0.8)</div>
+  <div class="comp-btn active" id="t2" style="border-color:var(--green);background:var(--green);">r=3 (w=0.6)</div>
+</div>
+<div class="controls">
+  <label>\(\sigma\) (scale)</label>
+  <input type="range" id="sigSlider" min="0.06" max="0.3" step="0.01" value="0.12">
+  <span class="sv" id="sigVal">0.12</span>
+</div>
+<script>
+var SZ=200;
+var cSrc=document.getElementById('cSrc'),ctxS=cSrc.getContext('2d');
+var cGreen=document.getElementById('cGreen'),ctxG=cGreen.getContext('2d');
+var cSol=document.getElementById('cSol'),ctxU=cSol.getContext('2d');
+var sigma=0.12;
+var active=[true,true,true];
+
+// Rank-3 CP source: 3 components with different positions, weights, and scales
+var components=[
+  {cx:0.3, cy:0.7, w:1.2,  color:'#ef4444'},
+  {cx:0.7, cy:0.3, w:-0.8, color:'#3b82f6'},
+  {cx:0.5, cy:0.5, w:0.6,  color:'#10b981'}
+];
+
+function gauss(x,y,cx,cy,s){var dx=x-cx,dy=y-cy;return Math.exp(-(dx*dx+dy*dy)/(2*s*s));}
+function greenLog(r){return r<0.005?3.0:-Math.log(r+0.001)/(2*Math.PI);}
+
+function srcFn(x,y){
+  var v=0;
+  for(var r=0;r<3;r++){
+    if(!active[r])continue;
+    v+=components[r].w*gauss(x,y,components[r].cx,components[r].cy,sigma);
+  }
+  return v;
+}
+
+function hsl2rgb(h,s,l){var r2,g,b;if(s===0){r2=g=b=l;}else{
+  var q=l<.5?l*(1+s):l+s-l*s,p=2*l-q;
+  function f(t){t=((t%1)+1)%1;return t<1/6?p+(q-p)*6*t:t<.5?q:t<2/3?p+(q-p)*(2/3-t)*6:p;}
+  r2=f(h+1/3);g=f(h);b=f(h-1/3);}return[r2*255|0,g*255|0,b*255|0];}
+
+function drawField(ctx,fn,hueBase,hueRange,diverging){
+  var img=ctx.createImageData(SZ,SZ);var d=img.data;
+  var mn=Infinity,mx=-Infinity;
+  var vals=new Float32Array(SZ*SZ);
+  for(var py=0;py<SZ;py++)for(var px=0;px<SZ;px++){
+    var v=fn(px/(SZ-1),1-py/(SZ-1));vals[py*SZ+px]=v;
+    if(v<mn)mn=v;if(v>mx)mx=v;}
+  var rng=mx-mn||1;
+  for(var py=0;py<SZ;py++)for(var px=0;px<SZ;px++){
+    var v=(vals[py*SZ+px]-mn)/rng;
+    var h,s2,l;
+    if(diverging){
+      // Blue-white-red diverging colormap
+      var mid=(0-mn)/rng;
+      if(v<mid){var t=v/mid;h=220/360;s2=0.8*(1-t);l=0.3+0.7*t;}
+      else{var t=(v-mid)/(1-mid);h=10/360;s2=0.8*t;l=1.0-0.7*t;}
+    }else{
+      h=(hueBase+v*hueRange)/360;s2=0.7;l=0.12+v*0.5;
+    }
+    var rgb=hsl2rgb(h,s2,l);
+    var i=(py*SZ+px)*4;d[i]=rgb[0];d[i+1]=rgb[1];d[i+2]=rgb[2];d[i+3]=255;}
+  ctx.putImageData(img,0,0);
+  ctx.strokeStyle='rgba(255,255,255,0.1)';ctx.lineWidth=1;
+  for(var i=1;i<4;i++){ctx.beginPath();ctx.moveTo(i*SZ/4,0);ctx.lineTo(i*SZ/4,SZ);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(0,i*SZ/4);ctx.lineTo(SZ,i*SZ/4);ctx.stroke();}
+}
+
+function computeSolution(x,y){
+  var sum=0;var N=32;var ds=1.0/N;
+  for(var i=0;i<N;i++)for(var j=0;j<N;j++){
+    var sx=(i+0.5)*ds,sy=(j+0.5)*ds;
+    var fv=srcFn(sx,sy);
+    var r=Math.sqrt((x-sx)*(x-sx)+(y-sy)*(y-sy));
+    var gv=greenLog(r);
+    sum+=fv*gv*ds*ds;}
+  return sum;
+}
+
+function draw(){
+  var hasneg=false;for(var r=0;r<3;r++)if(active[r]&&components[r].w<0)hasneg=true;
+  drawField(ctxS,srcFn,30,30,hasneg);
+  drawField(ctxG,function(x,y){
+    var r=Math.sqrt((x-0.5)*(x-0.5)+(y-0.5)*(y-0.5));
+    return greenLog(r);},200,40,false);
+  drawField(ctxU,computeSolution,140,-50,false);
+  // Draw component markers on source
+  for(var r=0;r<3;r++){
+    if(!active[r])continue;
+    var px=components[r].cx*SZ,py=(1-components[r].cy)*SZ;
+    ctxS.strokeStyle=components[r].color;ctxS.lineWidth=2;
+    ctxS.beginPath();ctxS.arc(px,py,6,0,Math.PI*2);ctxS.stroke();
+    ctxS.fillStyle=components[r].color;ctxS.font="bold 9px Source Sans Pro, sans-serif";ctxS.textAlign='center';
+    ctxS.fillText(components[r].w>0?'+':'−',px,py+3);
+  }
+}
+
+// Toggle buttons
+var toggleBtns=[document.getElementById('t0'),document.getElementById('t1'),document.getElementById('t2')];
+for(var i=0;i<3;i++){(function(idx){
+  toggleBtns[idx].addEventListener('click',function(){
+    active[idx]=!active[idx];
+    if(active[idx]){toggleBtns[idx].classList.add('active');toggleBtns[idx].style.background=components[idx].color;toggleBtns[idx].style.color='#fff';}
+    else{toggleBtns[idx].classList.remove('active');toggleBtns[idx].style.background='var(--bg)';toggleBtns[idx].style.color='var(--muted)';}
+    draw();
+  });
+})(i);}
+
+document.getElementById('sigSlider').addEventListener('input',function(e){
+  sigma=parseFloat(e.target.value);
+  document.getElementById('sigVal').textContent=sigma.toFixed(2);draw();});
+draw();
+</script>
+</body></html>

@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dimension Discovery</title><link href="https://fonts.googleapis.com/css2?family=Inter&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>:root{--bg:#f9f9f9;--bg-alt:#fff;--text:#171717;--muted:#666;--border:#e2e8f0;
+  --border-strong:#cbd5e1;--primary:#A51209;--blue:#3b82f6;--green:#10b981;
+  --amber:#f59e0b;--purple:#8b5cf6;--red:#ef4444;}
+@media(prefers-color-scheme:dark){:root{--bg:#0a0a0a;--bg-alt:#171717;--text:#e2e2e2;--muted:#888;--border:#374151;--border-strong:#4b5563;}}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);font-family:'Source Sans Pro',sans-serif;display:flex;flex-direction:column;
+  align-items:center;padding:28px 20px 22px;}
+.ey{font-size:11px;font-weight:500;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;text-align:center;margin-bottom:5px;}
+.ti{font-family:'Source Sans Pro',sans-serif;font-size:20px;color:var(--text);text-align:center;margin-bottom:3px;}
+.su{font-size:13px;color:var(--muted);text-align:center;margin-bottom:18px;}
+.cap{margin-top:14px;font-size:12.5px;color:var(--muted);max-width:700px;text-align:center;line-height:1.7;}
+.cap em{color:var(--text);font-style:normal;font-weight:500;}
+svg{display:block;max-width:100%;height:auto;}
+.main-area{display:flex;gap:12px;width:760px;max-width:100%;align-items:flex-start;}
+canvas{display:block;border-radius:10px;border:1px solid var(--border);}
+.side{width:210px;display:flex;flex-direction:column;gap:8px;}
+.card{background:var(--bg-alt);border:1px solid var(--border);border-radius:10px;padding:12px 14px;}
+.cl{font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px;}
+.cv{font-family:'Roboto Mono',monospace;font-size:24px;font-weight:600;}
+.cs{font-size:11px;color:var(--muted);margin-top:3px;}
+.ep-track{background:var(--border);border-radius:100px;height:5px;width:100%;overflow:hidden;margin-top:6px;}
+.ep-fill{height:100%;background:linear-gradient(90deg,var(--primary),var(--blue));border-radius:100px;transition:width .1s;}
+.controls{display:flex;gap:10px;margin-top:12px;justify-content:center;}
+button{background:var(--bg-alt);border:1px solid var(--border);color:var(--primary);
+  padding:7px 18px;border-radius:7px;cursor:pointer;font-family:'Source Sans Pro',sans-serif;font-size:13px;transition:all .2s;}
+button:hover{background:var(--primary);color:#fff;border-color:var(--primary);}
+.schema{width:760px;max-width:100%;background:var(--bg-alt);border:1px solid var(--border);
+  border-radius:10px;padding:14px 18px;margin-top:12px;font-family:'Roboto Mono',monospace;font-size:12px;}
+.srow{display:flex;align-items:flex-start;gap:8px;margin-bottom:5px;color:var(--muted);line-height:1.5;}
+.srow span{color:var(--text);}
+.srow em{color:var(--green);font-style:normal;}
+</style></head><body>
+<p class="ey">Gates</p>
+<p class="ti">Automatic Intrinsic Dimension Discovery via Hard Concrete Gates</p>
+<p class="su">64 latent dimensions — MNIST experiment — 12 survive after training</p>
+<div class="main-area">
+  <div style="flex:1;display:flex;flex-direction:column;gap:8px;align-items:center;">
+    <div style="font-size:11px;color:var(--muted);font-family:'Roboto Mono',monospace;">
+      \(P(g_j > 0)\) for \(j = 1 \ldots 64\) latent dimensions</div>
+    <canvas id="cGates" width="530" height="260"></canvas>
+    <canvas id="cHC" width="530" height="110"></canvas>
+  </div>
+  <div class="side">
+    <div class="card">
+      <div class="cl">Active Dimensions</div>
+      <div class="cv" id="dEffV" style="color:var(--green)">64</div>
+      <div class="cs" id="dEffS">\(d_{\mathrm{eff}} = \sum P(g_j > 0)\)</div>
+    </div>
+    <div class="card">
+      <div class="cl">Training Epoch</div>
+      <div class="cv" id="epochV" style="color:var(--blue)">0</div>
+      <div class="ep-track"><div class="ep-fill" id="epFill" style="width:0%"></div></div>
+      <div class="cs">of 200 epochs</div>
+    </div>
+    <div class="card">
+      <div class="cl">Compression</div>
+      <div class="cv" id="compV" style="color:var(--amber)">1.0×</div>
+      <div class="cs">64 → \(d_{\mathrm{eff}}\) dims</div>
+    </div>
+  </div>
+</div>
+<div class="controls">
+  <button id="btnPlay">▶ Play Training</button>
+  <button id="btnReset">↺ Reset</button>
+</div>
+<div class="schema">
+  <div class="srow"><span>1.</span> Sample: \(u \sim U(0,1) \to s = \sigma\bigl((\log u - \log(1-u) + \alpha)/\beta\bigr)\)</div>
+  <div class="srow"><span>2.</span> Stretch: \(\bar{s} = s \cdot (\zeta - \gamma) + \gamma\)  where \(\gamma = -0.1\), \(\zeta = 1.1\) → <em>allows exact 0 and 1</em></div>
+  <div class="srow"><span>3.</span> Clamp: \(g_j = \mathrm{clamp}(\bar{s}, 0, 1)\) → <em>exact zeros during training</em></div>
+  <div class="srow"><span>4.</span> Log-kernel: \(\log \prod_j G_{kj} = \sum_j\) <span style="color:var(--primary)">\(g_j\)</span> \(\cdot \log G_{kj}\) → zero gate contributes \(\exp(0)=1\) (neutral) ✓</div>
+</div>
+<script>
+const D=64,TARGET=12;
+const finalGates=[];
+for(let j=0;j<D;j++)finalGates.push(j<TARGET?.65+Math.random()*.30:.01+Math.random()*.05);
+// Shuffle
+for(let i=finalGates.length-1;i>0;i--){const k=Math.floor(Math.random()*(i+1));[finalGates[i],finalGates[k]]=[finalGates[k],finalGates[i]];}
+function gateAt(e){const g=[];
+  for(let j=0;j<D;j++){const t=finalGates[j];const sp=t<.1?1.4:.7;
+    const pr=1-Math.exp(-sp*e/200*4);const n=(Math.random()-.5)*.04*(1-pr);
+    g.push(Math.max(0,Math.min(1,1+(t-1)*pr+n)));}return g;}
+let epoch=0,playing=false,tid=null;
+function drawGates(gates){
+  const C=document.getElementById('cGates'),ctx=C.getContext('2d'),W=530,H=260;
+  const PAD={l:44,r:10,t:30,b:34};const PW=W-PAD.l-PAD.r,PH=H-PAD.t-PAD.b;
+  ctx.fillStyle='#ffffff';ctx.fillRect(0,0,W,H);
+  // Grid lines
+  ctx.strokeStyle='#e2e8f0';ctx.lineWidth=1;
+  for(let i=0;i<=4;i++){const y=PAD.t+PH*(1-i/4);ctx.beginPath();ctx.moveTo(PAD.l,y);ctx.lineTo(PAD.l+PW,y);ctx.stroke();
+    ctx.fillStyle='#666666';ctx.font="11px Roboto Mono, monospace";ctx.textAlign='right';
+    ctx.fillText((i/4).toFixed(2),PAD.l-4,y+4);}
+  // Draw bars FIRST
+  const BW=PW/D,dEff=gates.reduce((s,g)=>s+(g>.5?1:0),0);
+  for(let j=0;j<D;j++){
+    const x=PAD.l+j*BW,bh=gates[j]*PH,y=PAD.t+PH-bh,isA=gates[j]>.5;
+    if(isA){const gr=ctx.createLinearGradient(0,y,0,y+bh);gr.addColorStop(0,'#A51209');gr.addColorStop(1,'rgba(165,18,9,.4)');ctx.fillStyle=gr;}
+    else ctx.fillStyle='rgba(100,100,100,.25)';
+    ctx.fillRect(x+.5,y,BW-1,bh);}
+  // Threshold line ON TOP of bars
+  const yt=PAD.t+PH*.5;ctx.strokeStyle='rgba(245,158,11,.5)';ctx.lineWidth=1.5;ctx.setLineDash([5,4]);
+  ctx.beginPath();ctx.moveTo(PAD.l,yt);ctx.lineTo(PAD.l+PW,yt);ctx.stroke();ctx.setLineDash([]);
+  // Threshold label with background
+  ctx.fillStyle='rgba(255,255,255,.85)';ctx.fillRect(PAD.l+PW-90,yt-13,88,14);
+  ctx.fillStyle='rgba(245,158,11,.9)';ctx.font="600 10px Roboto Mono, monospace";ctx.textAlign='right';
+  ctx.fillText('threshold 0.5',PAD.l+PW-4,yt-2);
+  // d_eff label at top with background
+  ctx.fillStyle='rgba(255,255,255,.9)';ctx.fillRect(PAD.l+PW-140,2,142,18);
+  ctx.fillStyle='#A51209';ctx.font="600 12px Roboto Mono, monospace";ctx.textAlign='right';
+  ctx.fillText('d_eff = '+dEff+' / 64 active',PAD.l+PW,15);
+  // Axes
+  ctx.strokeStyle='#cbd5e1';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(PAD.l,PAD.t);ctx.lineTo(PAD.l,PAD.t+PH);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(PAD.l,PAD.t+PH);ctx.lineTo(PAD.l+PW,PAD.t+PH);ctx.stroke();
+  ctx.fillStyle='#666666';ctx.font="11px Source Sans Pro, sans-serif";ctx.textAlign='center';
+  ctx.fillText('Latent dimension j',PAD.l+PW/2,H-5);
+  document.getElementById('dEffV').textContent=dEff;
+  document.getElementById('compV').textContent=(64/Math.max(1,dEff)).toFixed(1)+'\u00D7';}
+function drawHC(){
+  const C=document.getElementById('cHC'),ctx=C.getContext('2d'),W=530,H=110;
+  ctx.fillStyle='#ffffff';ctx.fillRect(0,0,W,H);
+  ctx.fillStyle='#666666';ctx.font="11px Source Sans Pro, sans-serif";ctx.textAlign='left';
+  ctx.fillText('Hard Concrete distribution — P(gate = 0) > 0 and P(gate = 1) > 0  (unlike sigmoid)',10,15);
+  const examples=[{alpha:-2.5,label:'Inactive',color:'#ef4444',cx:95},{alpha:0,label:'Uncertain',color:'#f59e0b',cx:265},{alpha:2.5,label:'Active',color:'#10b981',cx:435}];
+  examples.forEach(({alpha,label,color,cx})=>{
+    const cy=72,W2=80,H2=38;
+    const gr=ctx.createLinearGradient(cx-W2/2,0,cx+W2/2,0);
+    gr.addColorStop(0,color+'44');gr.addColorStop(1,color+'11');ctx.fillStyle=gr;
+    ctx.beginPath();ctx.moveTo(cx-W2/2,cy+H2/2);
+    for(let i=0;i<=W2;i++){const s=i/W2;const p=Math.min(1,Math.max(0,1/(1+Math.exp(-2*(alpha*(1.1-.1)/(Math.max(.001,s-.1))-2/3)))));
+      ctx.lineTo(cx-W2/2+i,cy+H2/2-p*H2);}
+    ctx.lineTo(cx+W2/2,cy+H2/2);ctx.closePath();ctx.fill();
+    ctx.strokeStyle=color;ctx.lineWidth=1.5;ctx.beginPath();
+    for(let i=0;i<=W2;i++){const s=i/W2;const p=Math.min(1,Math.max(0,1/(1+Math.exp(-2*(alpha*(1.1-.1)/(Math.max(.001,s-.1))-2/3)))));
+      if(i===0)ctx.moveTo(cx-W2/2,cy+H2/2-p*H2);else ctx.lineTo(cx-W2/2+i,cy+H2/2-p*H2);}
+    ctx.stroke();
+    ctx.strokeStyle='#e2e8f0';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(cx-W2/2,cy+H2/2);ctx.lineTo(cx+W2/2,cy+H2/2);ctx.stroke();
+    ctx.fillStyle=color;ctx.font="12px Source Sans Pro, sans-serif";ctx.textAlign='center';ctx.fillText(label,cx,cy+H2/2+15);
+    ctx.fillStyle='#666666';ctx.font="10px Roboto Mono, monospace";
+    ctx.fillText('0',cx-W2/2,cy+H2/2+27);ctx.fillText('1',cx+W2/2,cy+H2/2+27);});}
+function frame(){epoch=Math.min(200,epoch+1);
+  document.getElementById('epochV').textContent=epoch;
+  document.getElementById('epFill').style.width=(epoch/200*100)+'%';
+  drawGates(gateAt(epoch));
+  if(epoch<200&&playing)tid=setTimeout(frame,40);
+  else if(epoch>=200){playing=false;document.getElementById('btnPlay').textContent='▶ Play Training';}}
+document.getElementById('btnPlay').addEventListener('click',()=>{
+  if(playing){playing=false;clearTimeout(tid);document.getElementById('btnPlay').textContent='▶ Play Training';}
+  else{playing=true;document.getElementById('btnPlay').textContent='⏸ Pause';frame();}});
+document.getElementById('btnReset').addEventListener('click',()=>{
+  playing=false;clearTimeout(tid);epoch=0;
+  document.getElementById('epochV').textContent='0';
+  document.getElementById('epFill').style.width='0%';
+  document.getElementById('btnPlay').textContent='▶ Play Training';
+  drawGates(new Array(D).fill(1.0));});
+drawGates(new Array(D).fill(1.0));drawHC();
+</script></body></html>

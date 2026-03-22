@@ -651,35 +651,420 @@ html.dark .cv-resume-container a:hover {
     margin: 30px 0;
 }
 
+/* Summary/Full Toggle */
+.cv-summary-only { display: none; }
+.cv-summary-mode .cv-full-only { display: none !important; }
+.cv-summary-mode .cv-summary-only { display: block !important; }
+.cv-summary-mode span.cv-summary-only { display: inline !important; }
+.cv-summary-mode li.cv-summary-only { display: list-item !important; }
+.cv-summary-mode p.cv-summary-only { display: block !important; }
+.cv-summary-mode .page-break { display: none !important; }
+
+/* Toggle Buttons */
+.cv-toggle-group {
+    display: inline-flex;
+    border: 2px solid #D97706;
+    border-radius: 6px;
+    overflow: hidden;
+    margin-right: 12px;
+}
+
+.cv-toggle-btn {
+    padding: 6px 16px;
+    font-size: 14px;
+    font-weight: 600;
+    border: none;
+    cursor: pointer;
+    background-color: white;
+    color: #D97706;
+    transition: background-color 0.2s ease, color 0.2s ease;
+}
+
+.cv-toggle-btn.active {
+    background-color: #D97706;
+    color: white;
+}
+
+.cv-toggle-btn:hover:not(.active) {
+    background-color: rgba(217, 119, 6, 0.1);
+}
+
+/* Print Button */
+.cv-print-btn {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    padding: 8px 16px;
+    background-color: #D97706;
+    color: white;
+    border: none;
+    border-radius: 6px;
+    font-size: 14px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+}
+
+.cv-print-btn:hover {
+    background-color: #b45309;
+}
+
 @media print {
+    * {
+        -webkit-print-color-adjust: exact !important;
+        print-color-adjust: exact !important;
+    }
+
+    @page {
+        size: A4;
+        margin: 8mm 6mm;
+    }
+
+    body {
+        font-size: 11px !important;
+        line-height: 1.3 !important;
+    }
+
+    /* Hide site chrome */
+    nav, footer, .page-title, .cv-print-wrapper, .site-header, .site-footer {
+        display: none !important;
+    }
+
+    html, body, .dark body, html.dark body {
+        background: white !important;
+        background-color: white !important;
+    }
+
+    /* Reset page wrapper */
     .cv-page-wrapper {
-        background: white;
+        background: white !important;
+        min-height: auto !important;
     }
-    
-    .cv-container {
-        padding: 0;
-    }
-    
+
+    /* Reset container */
     .cv-resume-container {
-        box-shadow: none;
-        padding: 0;
-        margin: 0;
-        width: 100%;
+        width: 100% !important;
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
+        box-shadow: none !important;
+        border-radius: 0 !important;
+        font-size: 11px !important;
+        line-height: 1.4 !important;
     }
-    
-    .page-title {
-        display: none;
+
+    .w-full.max-w-6xl {
+        max-width: 100% !important;
+        padding: 0 !important;
+        margin: 0 !important;
     }
-    
+
+    /* Header */
+    .cv-header {
+        margin-bottom: 4mm !important;
+        padding-bottom: 3mm !important;
+    }
+
+    .cv-name {
+        font-size: 24px !important;
+        margin-bottom: 4px !important;
+    }
+
+    .cv-title {
+        font-size: 12px !important;
+        margin-bottom: 6px !important;
+    }
+
+    .cv-contact-info {
+        font-size: 9px !important;
+    }
+
+    .cv-profile-photo {
+        width: 95px !important;
+        height: 95px !important;
+    }
+
+    /* Summary */
+    .cv-summary p {
+        font-size: 11px !important;
+        line-height: 1.5 !important;
+    }
+
+    .cv-summary {
+        margin-bottom: 2mm !important;
+    }
+
+    /* Two column layout */
+    .cv-two-column {
+        gap: 24px !important;
+        margin-top: 0 !important;
+    }
+
+    /* Section headers */
+    .cv-resume-container h3 {
+        font-size: 13px !important;
+        margin: 3mm 0 1.5mm 0 !important;
+        padding-bottom: 0.5mm !important;
+    }
+
+    /* Skills */
+    .cv-skill-category {
+        margin-bottom: 2mm !important;
+    }
+
+    .cv-skill-category h4 {
+        font-size: 10px !important;
+        margin-bottom: 1px !important;
+    }
+
+    .cv-skill-category p {
+        font-size: 9px !important;
+        line-height: 1.2 !important;
+    }
+
+    /* Languages */
+    .cv-languages li {
+        font-size: 10px !important;
+        margin-bottom: 1px !important;
+    }
+
+    .cv-languages {
+        margin-top: 3mm !important;
+    }
+
+    /* Experience */
+    .cv-job {
+        margin-bottom: 2.5mm !important;
+        page-break-inside: avoid;
+    }
+
+    .cv-job-header h4 {
+        font-size: 11px !important;
+    }
+
+    .cv-date {
+        font-size: 9px !important;
+    }
+
+    .cv-company {
+        font-size: 10px !important;
+        margin-bottom: 1mm !important;
+    }
+
+    .cv-job p {
+        font-size: 10px !important;
+        line-height: 1.3 !important;
+        margin-bottom: 1mm !important;
+    }
+
+    .cv-job li {
+        font-size: 10px !important;
+        line-height: 1.2 !important;
+        margin-bottom: 0.5mm !important;
+        padding-left: 12px !important;
+    }
+
+    .cv-job li:before {
+        font-size: 12px !important;
+    }
+
+    /* Education */
+    .cv-degree {
+        margin-bottom: 1.5mm !important;
+        page-break-inside: avoid;
+    }
+
+    .cv-degree-header h4 {
+        font-size: 11px !important;
+    }
+
+    .cv-institution {
+        font-size: 9px !important;
+        margin-bottom: 1px !important;
+    }
+
+    .cv-degree p {
+        font-size: 10px !important;
+    }
+
+    /* Patents */
+    .cv-patent-list li {
+        font-size: 10px !important;
+        margin-bottom: 1mm !important;
+    }
+
+    /* Publications */
+    .cv-publication-item {
+        margin-bottom: 2mm !important;
+        page-break-inside: avoid;
+    }
+
+    .cv-publication-item h4 {
+        font-size: 10px !important;
+    }
+
+    .cv-publication-item p {
+        font-size: 9px !important;
+    }
+
+    /* Teaching */
+    .cv-teaching-item {
+        margin-bottom: 2mm !important;
+        page-break-inside: avoid;
+    }
+
+    .cv-teaching-item h4 {
+        font-size: 10px !important;
+    }
+
+    .cv-teaching-item p {
+        font-size: 9px !important;
+    }
+
+    .cv-teaching-item li {
+        font-size: 9px !important;
+        margin-bottom: 0.5mm !important;
+    }
+
+    /* Achievements */
+    .cv-achievements li {
+        font-size: 10px !important;
+        margin-bottom: 1mm !important;
+    }
+
+    /* Highlights */
+    .cv-highlight {
+        background-color: rgba(217, 119, 6, 0.1) !important;
+    }
+
+    /* Page break */
     .page-break {
         page-break-before: always;
         margin: 0;
+    }
+
+    /* Links - show as text */
+    .cv-resume-container a {
+        color: #D97706 !important;
+        text-decoration: none !important;
+    }
+
+    /* Margin resets */
+    .mb-8 {
+        margin-bottom: 2mm !important;
+    }
+
+    .mt-8 {
+        margin-top: 3mm !important;
+    }
+
+    /* Summary mode print — tighter spacing for 1 page */
+    .cv-summary-mode .cv-full-only { display: none !important; }
+    .cv-summary-mode .cv-summary-only { display: block !important; }
+    .cv-summary-mode span.cv-summary-only { display: inline !important; }
+    .cv-summary-mode li.cv-summary-only { display: list-item !important; }
+    .cv-summary-mode p.cv-summary-only { display: block !important; }
+    .cv-summary-mode .page-break { display: none !important; }
+
+    .cv-summary-mode .cv-header {
+        margin-bottom: 2mm !important;
+        padding-bottom: 2mm !important;
+    }
+
+    .cv-summary-mode .cv-summary {
+        margin-bottom: 1mm !important;
+    }
+
+    .cv-summary-mode .cv-resume-container h3 {
+        margin: 2mm 0 1mm 0 !important;
+        padding-bottom: 0.3mm !important;
+    }
+
+    .cv-summary-mode .cv-job {
+        margin-bottom: 1.5mm !important;
+    }
+
+    .cv-summary-mode .cv-job p {
+        font-size: 9px !important;
+        line-height: 1.2 !important;
+        margin-bottom: 0.5mm !important;
+    }
+
+    .cv-summary-mode .cv-job li {
+        font-size: 9px !important;
+        line-height: 1.15 !important;
+        margin-bottom: 0.3mm !important;
+    }
+
+    .cv-summary-mode .cv-job-header h4 {
+        font-size: 10px !important;
+    }
+
+    .cv-summary-mode .cv-company {
+        font-size: 9px !important;
+        margin-bottom: 0.5mm !important;
+    }
+
+    .cv-summary-mode .cv-degree {
+        margin-bottom: 1mm !important;
+    }
+
+    .cv-summary-mode .cv-degree p {
+        font-size: 9px !important;
+    }
+
+    .cv-summary-mode .cv-institution {
+        font-size: 8px !important;
+    }
+
+    .cv-summary-mode .cv-patent-list li {
+        font-size: 9px !important;
+        margin-bottom: 0.5mm !important;
+    }
+
+    .cv-summary-mode .cv-skill-category {
+        margin-bottom: 1.5mm !important;
+    }
+
+    .cv-summary-mode .cv-skill-category p {
+        font-size: 8px !important;
+        line-height: 1.15 !important;
+    }
+
+    .cv-summary-mode .cv-skill-category h4 {
+        font-size: 9px !important;
+    }
+
+    .cv-summary-mode .cv-languages li {
+        font-size: 9px !important;
+    }
+
+    .cv-summary-mode .cv-languages {
+        margin-top: 2mm !important;
+    }
+
+    .cv-summary-mode .cv-two-column {
+        gap: 16px !important;
+    }
+
+    /* Toggle buttons hidden in print */
+    .cv-toggle-group {
+        display: none !important;
     }
 }
 </style>
 
 <div class="cv-page-wrapper">
     <div class="w-full max-w-6xl mx-auto py-12 px-4">
+        <div class="cv-print-wrapper flex justify-end items-center mb-4">
+            <div class="cv-toggle-group">
+                <button id="cv-btn-full" class="cv-toggle-btn active" onclick="toggleCvMode('full')">Full CV</button>
+                <button id="cv-btn-summary" class="cv-toggle-btn" onclick="toggleCvMode('summary')">Summary</button>
+            </div>
+            <button onclick="window.print()" class="cv-print-btn">
+                <i class="fas fa-file-pdf"></i> Save as PDF
+            </button>
+        </div>
         <div class="cv-resume-container w-full">
             <!-- Header Section -->
             <header class="cv-header">
@@ -706,7 +1091,7 @@ html.dark .cv-resume-container a:hover {
                 <!-- Professional Summary -->
                 <section id="summary" class="scroll-section cv-summary mb-8">
                     <h3>Professional Summary</h3>
-                    <p>AI Engineer and Researcher with <strong>Ph.D. in Machine Learning</strong>, specializing in <span class="cv-highlight">LLMs, multi-agent systems</span>, and cloud-native AI solutions. Proven track record building production AI platforms at scale, from financial crime detection models processing billions of transactions to robust multi-agent frameworks. My Ph.D. dissertation focused on sequences of hypergraphs as a novel approach to represent judicial cases and enable reasoning with <span class="cv-highlight">explainability</span> and <span class="cv-highlight">counter-factual analysis</span> at the core. Dual academic-industrial background with <span class="cv-highlight">4 patents, 15+ publications</span>, and expertise (<span class="cv-highlight">+10 years of experience</span>) in both research innovation and commercial product development. Looking to work for innovative environments.</p>
+                    <p>AI Engineer and Researcher with <strong>Ph.D. in Machine Learning</strong>, specializing in <span class="cv-highlight">LLMs, multi-agent systems</span>, and cloud-native AI solutions. <span class="cv-full-only">Proven track record building production AI platforms at scale, from financial crime detection models processing billions of transactions to robust multi-agent frameworks. My Ph.D. dissertation focused on sequences of hypergraphs as a novel approach to represent judicial cases and enable reasoning with <span class="cv-highlight">explainability</span> and <span class="cv-highlight">counter-factual analysis</span> at the core. </span>Dual academic-industrial background with <span class="cv-highlight">4 patents, 20+ publications</span>, and expertise (<span class="cv-highlight">+10 years of experience</span>) in both research innovation and commercial product development. Looking to work in an innovative environment or research position.</p>
                 </section>
 
                 <!-- Two Column Layout -->
@@ -717,7 +1102,7 @@ html.dark .cv-resume-container a:hover {
                             <h3>Key Skills</h3>
                             <div class="cv-skill-category">
                                 <h4>AI & Machine Learning</h4>
-                                <p>LLMs (OpenAI, Anthropic, Gemini, open-source), Multi-agent frameworks (LangGraph, CrewAI), RAG, Knowledge Graph (Memgraph), Hypergraphs, PyTorch, scikit-learn, GAN, Normalizing Flow, Bayesian Networks</p>
+                                <p>LLMs (OpenAI, Anthropic, Gemini, open-source), Multi-agent frameworks (LangGraph, CrewAI), RAG, <span class="cv-highlight">Knowledge Graph</span> (Memgraph), <span class="cv-highlight">Hypergraphs</span>, PyTorch, scikit-learn, GAN, Normalizing Flow, Bayesian Networks</p>
                             </div>
                             <div class="cv-skill-category">
                                 <h4>Cloud & Infrastructure</h4>
@@ -751,19 +1136,31 @@ html.dark .cv-resume-container a:hover {
                             
                             <div class="cv-job">
                                 <div class="cv-job-header">
+                                    <h4>Founding AI Engineer</h4>
+                                    <span class="cv-date">Oct. 2025 - Present</span>
+                                </div>
+                                <div class="cv-company">Stealth Startup · London, UK</div>
+                                <p>Building an agentic OS for team productivity. Responsible for human-to-agent interactions, designing user-agent interactions while inferring recurring tasks to enable workflow structuring and automation.</p>
+                            </div>
+
+                            <div class="cv-job">
+                                <div class="cv-job-header">
                                     <h4>Founding AI Engineer / AI Researcher</h4>
                                     <span class="cv-date">Mar. 2024 - Present</span>
                                 </div>
-                                <div class="cv-company">Proofs.io · Cracow, Poland</div>
-                                <p>Building a multi-agent framework enabling software development in minutes. <span class="cv-highlight">Lead AI engineer</span> responsible for 90% of AI backend architecture and implementation in a 7-person startup. Participating in cloud infrastructure, MLOps, and product architecture alongside core AI development.</p>
+                                <div class="cv-company">Proofs (seed round startup) · Cracow, Poland</div>
+                                <p class="cv-full-only">Building a multi-agent framework enabling software development in minutes. <span class="cv-highlight">Lead AI engineer</span> responsible for 90% of AI backend architecture and implementation in a 7-person startup. Participating in cloud infrastructure, MLOps, and product architecture alongside core AI development.</p>
+                                <p class="cv-summary-only"><span class="cv-highlight">Lead AI engineer</span> (90% of AI backend) building multi-agent framework in a 7-person startup.</p>
                                 <ul>
-                                    <li>Designed <strong>unified LLM client</strong> supporting 8+ providers (OpenAI, Anthropic, Gemini, Groq, Baseten, local via vLLM, ...), enabling <strong>vendor-agnostic AI integration</strong></li>
-                                    <li>Developed <strong>innovative function calling techniques beyond standard MCP</strong> with function dependencies, full OpenAPI specs support, and stateful tools for less tokens and API calls</li>
-                                    <li>Built flexible <strong>declarative state-machine based agents</strong> with <strong>human-in-the-loop workflows</strong></li>
-                                    <li>Implemented robust <strong>one-shot learning and distillation</strong> "blueprint" mechanism for agent behavior replication</li>
-                                    <li>Created <strong>knowledge extraction framework</strong> from user interactions and agent trial-and-error for <strong>continuous learning</strong></li>
-                                    <li>Improving SotA techniques for <strong><span class="cv-highlight">codebase representation</span> with Knowledge Graph representation</strong>, unifying <span class="cv-highlight">LSP, AST and additional contextual/metadata</span> into a single graph (using Memgraph)</li>
-                                    <li>Architected <strong>advanced RAG system</strong> with <strong>context engineering and rescoring</strong> techniques</li>
+                                    <li class="cv-full-only">Designed <strong>unified LLM client</strong> supporting 8+ providers (OpenAI, Anthropic, Gemini, Groq, Baseten, local via vLLM, ...), enabling <strong>vendor-agnostic AI integration</strong></li>
+                                    <li class="cv-full-only">Developed <strong>innovative function calling techniques beyond standard MCP</strong> with function dependencies, full OpenAPI specs support, and stateful tools for less tokens and API calls [<a href="https://quemy.info/2025-15-06-signature-function-models.html" target="_blank">presentation</a>]</li>
+                                    <li class="cv-full-only">Built flexible <strong>declarative state-machine based agents</strong> with <strong>human-in-the-loop workflows</strong></li>
+                                    <li class="cv-full-only">Implemented robust <strong>one-shot learning and distillation</strong> "blueprint" mechanism for agent behavior replication</li>
+                                    <li class="cv-full-only">Created <strong>knowledge extraction framework</strong> from user interactions and agent trial-and-error for <strong>continuous learning</strong></li>
+                                    <li class="cv-full-only">Improving SotA techniques for <strong><span class="cv-highlight">codebase representation</span> with Knowledge Graph representation</strong>, unifying <span class="cv-highlight">LSP, AST and additional contextual/metadata</span> into a single graph (using Memgraph - alternative to Neo4j - for building, and LLM to Cypher for querying)</li>
+                                    <li class="cv-full-only">Architected <strong>advanced RAG system</strong> with <strong>context engineering and rescoring</strong> techniques</li>
+                                    <li class="cv-summary-only">Unified LLM client (8+ providers), <strong>innovative function calling</strong>, declarative state-machine agents with <strong>human-in-the-loop</strong></li>
+                                    <li class="cv-summary-only"><span class="cv-highlight">Knowledge Graph</span> codebase representation (Memgraph, Cypher); advanced <strong>RAG</strong> with context engineering</li>
                                 </ul>
                             </div>
 
@@ -773,7 +1170,8 @@ html.dark .cv-resume-container a:hover {
                                     <span class="cv-date">Jan. 2025 - Present</span>
                                 </div>
                                 <div class="cv-company">Eloquence AI (EU Horizon Project) · Remote</div>
-                                <p>Providing expertise in <strong>AI, notably LLM, and associated risks</strong> for <strong>European consortium</strong> dedicated to conversational AI. Assess <strong>technical proposals</strong> to ensure innovative value while mitigating <strong>ethical bias</strong>. Project funded by <strong>Horizon Europe</strong>, the EU's key funding programme for research and innovation.</p>
+                                <p class="cv-full-only">Providing expertise in <strong>AI, notably LLM, and associated risks</strong> for <strong>European consortium</strong> dedicated to conversational AI. Assess <strong>technical proposals</strong> to ensure innovative value while mitigating <strong>ethical bias</strong>. Project funded by <strong>Horizon Europe</strong>, the EU's key funding programme for research and innovation.</p>
+                                <p class="cv-summary-only">AI/LLM expertise for <strong>EU Horizon</strong>-funded European consortium on conversational AI and ethical bias.</p>
                             </div>
 
                             <div class="cv-job">
@@ -782,13 +1180,17 @@ html.dark .cv-resume-container a:hover {
                                     <span class="cv-date">2017 - Present</span>
                                 </div>
                                 <div class="cv-company">Hother LLC (Independent Consulting) · Cracow, Poland · <a href="https://hother.io" target="_blank" class="cv-website-link">🌐 hother.io</a></div>
-                                <p>Through my LLC, I accept some consulting missions related to AI, Data Science and Software Engineering.</p>
+                                <p class="cv-full-only">Founding partner of specialized AI consulting firm serving startups and enterprises.</p>
+                                <p class="cv-summary-only">Founding partner of AI consulting firm. 4+ delivered projects across vision, clinical AI, NLP, financial AI.</p>
                                 <ul>
-                                    <li><strong>Clinical AI (InovIntell, 2024-present):</strong> <span class="cv-highlight">Synthetic data generation for clinical studies</span> with counter-factual analysis using Bayesian Networks, GANs, VAEs, and Neural ODEs</li>
-                                    <li><strong>Enterprise Search (Undisclosed, 2023-2024):</strong> Built semantic search engine and conversational SQL agent, designed SaaS architecture including cost estimation</li>
-                                    <li><strong>Financial AI (Undisclosed, 2023):</strong> Predictive modeling and recommendation system for M&A analysis using tripartite graph embeddings</li>
-                                    <li><strong>SEO AI (Watussi, 2017):</strong> Conceived and implemented NLP tool for Search Engine Optimization using Gensim and NLTK</li>
-                                    <li>Successfully delivered 4+ AI projects with expertise in SBERT, LLM integration, Text-to-SQL, PostgreSQL, FastAPI, Docker, and Kubernetes</li>
+                                    <li class="cv-full-only"><strong>Image Recognition (CDD services, 2025):</strong> Designed and developed pipeline to train and fine-tune vision models for passport detection and reading, optimized for on-device inference on mid-range smartphones</li>
+                                    <li class="cv-full-only"><strong>Clinical AI (InovIntell, 2024-present):</strong> <span class="cv-highlight">Synthetic data generation for clinical studies</span> with counter-factual analysis using Bayesian Networks, GANs, VAEs, and Neural ODEs</li>
+                                    <li class="cv-full-only"><strong>Enterprise Search (Undisclosed, 2023-2024):</strong> Built semantic search engine and conversational SQL agent, designed SaaS architecture including cost estimation</li>
+                                    <li class="cv-full-only"><strong>Financial AI (2023-present):</strong> Predictive modeling and recommendation system for M&A analysis using tripartite graph embeddings</li>
+                                    <li class="cv-full-only"><strong>SEO AI (Watussi, 2017):</strong> Conceived and implemented NLP tool for Search Engine Optimization using Gensim and NLTK</li>
+                                    <li class="cv-full-only">Successfully delivered 4+ AI projects with expertise in SBERT, LLM integration, Text-to-SQL, PostgreSQL, FastAPI, Docker, and Kubernetes</li>
+                                    <li class="cv-summary-only"><strong>Clinical AI (InovIntell):</strong> Synthetic data for clinical studies — Bayesian Networks, GANs, Neural ODEs</li>
+                                    <li class="cv-summary-only"><strong>Financial AI:</strong> M&A predictive modeling with tripartite graph embeddings</li>
                                 </ul>
                             </div>
 
@@ -797,9 +1199,10 @@ html.dark .cv-resume-container a:hover {
                                     <h4>Head of Data and AI / Technical Lead</h4>
                                     <span class="cv-date">Apr. 2022 - Mar. 2024</span>
                                 </div>
-                                <div class="cv-company">YData · Cracow, Poland</div>
-                                <p><strong>Led data science and AI team</strong> building SaaS platform for <span class="cv-highlight">synthetic data generation and automated data quality assessment</span>. <strong>Managed team of 6 engineers</strong>, shaped core IP, and drove product roadmap from research to production. Responsible for building the team, leading implementation effort, and answering fundamental research questions at fast pace.</p>
-                                <ul>
+                                <div class="cv-company">YData (seed round startup) · Cracow, Poland</div>
+                                <p class="cv-full-only"><strong>Led data science and AI team</strong> building SaaS platform for <span class="cv-highlight">synthetic data generation and automated data quality assessment</span>. <strong>Managed team of 6 engineers</strong>, shaped core IP, and drove product roadmap from research to production. Responsible for building the team, leading implementation effort, and answering fundamental research questions at fast pace.</p>
+                                <p class="cv-summary-only">Led team of 6 for synthetic data SaaS. Co-author of <strong>ydata-profiling</strong> (10k+ GitHub stars). New generative models (Normalizing Flow, Bayesian networks). TB-scale with Dask.</p>
+                                <ul class="cv-full-only">
                                     <li><span class="cv-highlight">Co-author and maintainer of <a href="https://github.com/ydataai/ydata-profiling" target="_blank"><strong>ydata-profiling library</strong></a> (10k+ GitHub stars)</span>, one of the leading Python tools for automated data profiling</li>
                                     <li>Researched and developed <strong>new generative models for synthetic data</strong>: scalable Normalizing Flow for tabular data, Bayesian network time series synthesis, SQL database generator with schema integrity, and longitudinal data augmentation (see Patent section)</li>
                                     <li>Built distributed processing systems using Dask, scaling models to process <strong>TB-scale datasets</strong> for enterprise clients</li>
@@ -813,8 +1216,9 @@ html.dark .cv-resume-container a:hover {
                                     <span class="cv-date">Dec. 2020 - Apr. 2022</span>
                                 </div>
                                 <div class="cv-company">HSBC (Financial Crimes Threat Mitigation) · Cracow, Poland</div>
-                                <p><strong>Led global financial crime detection models</strong> serving <span class="cv-highlight">200M+ users processing billions of transactions monthly</span>. Managed complete model governance lifecycle from data quality to production monitoring.</p>
-                                <ul>
+                                <p class="cv-full-only"><strong>Led global financial crime detection models</strong> serving <span class="cv-highlight">200M+ users processing billions of transactions monthly</span>. Managed complete model governance lifecycle from data quality to production monitoring, following whole governance lifecycle process of global models.</p>
+                                <p class="cv-summary-only">Led global financial crime models (<span class="cv-highlight">200M+ users</span>). Name Screening model: <span class="cv-highlight">70%</span> false positive reduction. Automated reporting: 90%+ time savings (20 FTE/year).</p>
+                                <ul class="cv-full-only">
                                     <li>Designed and deployed <strong>main global Name Screening model</strong> used across HSBC group, reducing false positives by <span class="cv-highlight">70%</span> while maintaining <strong><2.0% false negative rate</strong></li>
                                     <li>Automated data science reporting pipeline, achieving <span class="cv-highlight">90%+ time savings</span> equivalent to <strong>20 FTE/year</strong> in operational efficiency</li>
                                     <li>Developed <strong>controllable ML framework</strong> using rule injection, guaranteeing fixed model risk profiles for regulatory compliance</li>
@@ -829,8 +1233,9 @@ html.dark .cv-resume-container a:hover {
                                     <span class="cv-date">May 2015 - Dec. 2020</span>
                                 </div>
                                 <div class="cv-company">IBM · Cracow, Poland</div>
-                                <p><strong>Architecture and engineering roles</strong> spanning cloud platforms, AI systems, and research collaborations. Responsible for <span class="cv-highlight">flagship products and innovative AI platform development</span>.</p>
-                                <ul>
+                                <p class="cv-full-only"><strong>Architecture and engineering roles</strong> spanning cloud platforms, AI systems, and research collaborations. Responsible for <span class="cv-highlight">flagship products and innovative AI platform development</span>.</p>
+                                <p class="cv-summary-only">Cloud Pak for Data (<span class="cv-highlight">1000+ enterprise clients</span>). AI platforms, semantic search. Supervised <span class="cv-highlight">10+ master students</span>.</p>
+                                <ul class="cv-full-only">
                                     <li>Engineering on <strong>IBM Cloud Pak for Data</strong> flagship platform for Multi/Private/Hybrid Cloud serving <span class="cv-highlight">1000+ enterprise clients</span> with a focus on monitoring, HA, predictive maintenance and D&R capabilities</li>
                                     <li>Built AI platforms for <strong>financial process automation (IBM Cobee)</strong> and <strong>code quality prediction (IBM Code Quality Center)</strong></li>
                                     <li>Developed <strong>semantic search engine</strong> for legal documents and <span class="cv-highlight">NLP/Topic Modeling services</span> for enterprise applications</li>
@@ -845,8 +1250,9 @@ html.dark .cv-resume-container a:hover {
                                     <span class="cv-date">2012 - 2014</span>
                                 </div>
                                 <div class="cv-company">Inria (multiple collaborations) · France</div>
-                                <p>Early career research collaborations across academic environments focusing on <strong>optimization and machine learning</strong>.</p>
-                                <ul>
+                                <p class="cv-full-only">Early career research collaborations across academic environments focusing on <strong>optimization and machine learning</strong>.</p>
+                                <p class="cv-summary-only">Evolutionary planners, parallel metaheuristics, <span class="cv-highlight">ParadisEO C++ framework</span>. Inria Saclay & Nord-Europe.</p>
+                                <ul class="cv-full-only">
                                     <li><strong>Research Collaboration (Inria Saclay, 2013-2014):</strong> Evolutionary planner <span class="cv-highlight">Divide-and-Evolve</span>, MultiZenoTravel solver development, online parameter adaptation with Marc Schoenauer, TAO team</li>
                                     <li><strong>Research Collaboration (Inria Nord-Europe, 2012-2013):</strong> <span class="cv-highlight">Parallel Island Model for Metaheuristics</span>, genetic algorithms, stochastic optimization with Clive Canape, DOLPHIN team</li>
                                     <li><strong>Software Engineer Internship (Inria Nord-Europe, 2012):</strong> <span class="cv-highlight">ParadisEO C++ framework</span> development, shared memory parallelism module (SMP), continuous integration</li>
@@ -895,12 +1301,16 @@ html.dark .cv-resume-container a:hover {
                         </section>
 
                         <!-- Page Break for Second Page -->
-                        <div class="page-break"></div>
+                        <div class="page-break cv-full-only"></div>
 
-                        <section id="publications" class="scroll-section cv-publications mb-8">
+                        <section id="publications" class="scroll-section cv-publications mb-8 cv-full-only">
                             <h3>Selected Publications</h3>
-                            <p><em>Full publication list (15+ papers) available at: <a href="https://quemy.info/research.html#publications">quemy.info/research</a></em></p><br>
-                            
+                            <p><em>Full publication list (20+ papers) available at: <a href="https://quemy.info/research.html#publications">quemy.info/research</a></em></p><br>
+
+                            <div class="cv-publication-item">
+                                <h4>Intrinsic Green's Learning: Supervised Learning on Manifolds via Inverse PDE (2026)</h4>
+                                <p><em>A. Quemy - AI & PDE Workshop @ ICLR 2026</em></p>
+                            </div>
                             <div class="cv-publication-item">
                                 <h4>ydata-profiling: Accelerating Data-Centric AI with high-quality data (2023)</h4>
                                 <p><em>F. Clemente, G. Martins Ribeiro, A. Quemy, et al. - Neurocomputing</em></p>
@@ -919,7 +1329,7 @@ html.dark .cv-resume-container a:hover {
                             </div>
                         </section>
 
-                        <section id="teaching" class="scroll-section cv-teaching mb-8">
+                        <section id="teaching" class="scroll-section cv-teaching mb-8 cv-full-only">
                             <h3>Teaching & Supervision</h3>
                             <div class="cv-teaching-item">
                                 <h4>MLOps Lectures (Winter 2023)</h4>
@@ -942,13 +1352,12 @@ html.dark .cv-resume-container a:hover {
                             </div>
                         </section>
 
-                        <section id="achievements" class="scroll-section cv-achievements mb-8">
+                        <section id="achievements" class="scroll-section cv-achievements mb-8 cv-full-only">
                             <h3>Professional Recognition</h3>
                             <ul>
                                 <li><strong>Technical Program Committee Member:</strong> Fuzzy Information and Engineering (Taylor & Francis), Computing (Springer), Data & Knowledge Engineering (Springer), Expert Systems With Applications (Elsevier)</li>
-                                <li><strong>Conference Reviewer:</strong> Data Analytics solutions for Real-Life Applications (DARLI-AP) workshop collocated with EDBT/ICDT Joint Conference</li>
                                 <li><strong>Open Source Impact:</strong> Maintainer of multiple open-source projects including ParadisEO, Descarwin, ZenoSolver, and ECHR-OD</li>
-                                <li><strong>Research Impact:</strong> 15+ peer-reviewed publications in international journals and conferences</li>
+                                <li><strong>Research Impact:</strong> 20+ peer-reviewed publications in international journals and conferences</li>
                                 <li><strong>Industry Recognition:</strong> 4 granted US patents and 1 pending application in AI/ML domain</li>
                             </ul>
                         </section>
@@ -957,6 +1366,27 @@ html.dark .cv-resume-container a:hover {
         </div>
     </div>
 </div>
+<script>
+function toggleCvMode(mode) {
+    var container = document.querySelector('.cv-resume-container');
+    var fullBtn = document.getElementById('cv-btn-full');
+    var summaryBtn = document.getElementById('cv-btn-summary');
+    if (mode === 'summary') {
+        container.classList.add('cv-summary-mode');
+        summaryBtn.classList.add('active');
+        fullBtn.classList.remove('active');
+        history.replaceState(null, '', '#summary');
+    } else {
+        container.classList.remove('cv-summary-mode');
+        fullBtn.classList.add('active');
+        summaryBtn.classList.remove('active');
+        history.replaceState(null, '', window.location.pathname);
+    }
+}
+if (window.location.hash === '#summary') {
+    toggleCvMode('summary');
+}
+</script>
 
         </main>
         <footer class="w-full max-w-4xl mx-auto text-center py-8 px-4 mt-6 border-t border-black/10 dark:border-white/10">

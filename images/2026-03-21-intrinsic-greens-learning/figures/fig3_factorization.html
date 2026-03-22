@@ -1,0 +1,145 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fubini Factorization</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f9f9f9;--bg-alt:#fff;--text:#171717;--muted:#666;
+  --border:#e2e8f0;--border-strong:#cbd5e1;
+  --primary:#A51209;--blue:#3b82f6;--green:#10b981;
+  --amber:#f59e0b;--purple:#8b5cf6;--red:#ef4444;
+  --mono:'Roboto Mono',monospace;
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#0a0a0a;--bg-alt:#171717;--text:#e2e2e2;--muted:#888;
+  --border:#374151;--border-strong:#4b5563;
+}}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);font-family:'Source Sans Pro',sans-serif;
+  display:flex;flex-direction:column;align-items:center;padding:28px 20px 22px;}
+.ey{font-size:11px;font-weight:500;color:var(--muted);letter-spacing:.1em;
+  text-transform:uppercase;text-align:center;margin-bottom:5px;}
+.ti{font-family:'Source Sans Pro',sans-serif;font-size:20px;color:var(--text);
+  text-align:center;margin-bottom:3px;}
+.su{font-size:13px;color:var(--muted);text-align:center;margin-bottom:18px;}
+.cap{margin-top:14px;font-size:12.5px;color:var(--muted);max-width:700px;
+  text-align:center;line-height:1.7;}
+.cap em{color:var(--text);font-style:normal;font-weight:500;}
+svg{display:block;max-width:100%;height:auto;}
+
+canvas{display:block;border-radius:10px;border:1px solid var(--border);}
+.main-grid{display:flex;align-items:center;justify-content:center;gap:0;width:760px;max-width:100%;}
+.eq-sign{font-family:'Source Sans Pro',sans-serif;font-size:32px;color:var(--muted);padding:0 10px;}
+.right-panel{display:flex;flex-direction:column;gap:8px;}
+.rl{font-size:11px;color:var(--muted);text-align:center;margin-bottom:2px;font-family:'Source Sans Pro',sans-serif;}
+.math-strip{width:760px;max-width:100%;background:var(--bg-alt);border:1px solid var(--border);
+  border-radius:10px;padding:16px 20px;margin-top:12px;font-family:'Roboto Mono',monospace;}
+.eq-row{display:flex;align-items:flex-start;gap:10px;margin-bottom:9px;line-height:1.6;font-size:13px;}
+.eq-row:last-child{margin-bottom:0;}
+.eq-num{color:var(--muted);font-size:11px;min-width:20px;padding-top:2px;}
+.cost-row{display:flex;gap:10px;margin-top:12px;width:760px;max-width:100%;}
+.cost-box{flex:1;background:var(--bg-alt);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-align:center;}
+.cost-box.bad{border-color:rgba(239,68,68,0.4);}
+.cost-box.good{border-color:rgba(16,185,129,0.4);}
+.cl{font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px;}
+.cv{font-family:'Roboto Mono',monospace;font-size:18px;font-weight:600;}
+.cv.bad{color:var(--red);}
+.cv.good{color:var(--green);}
+.cd{font-size:11px;color:var(--muted);margin-top:4px;}
+
+</style></head><body>
+<p class="ey">Core Result</p>
+<p class="ti">Fubini Factorization: d-Dim → d × 1D</p>
+<p class="su">separable source + separable kernel → d-dimensional integral splits into d independent 1D integrals</p>
+<div class="main-grid">
+  <div style="display:flex;flex-direction:column;align-items:center;">
+    <p class="rl">\(\hat{f}(\zeta^1, \zeta^2)\) — hover to explore</p>
+    <canvas id="c2d" width="300" height="300"></canvas>
+    <p class="rl" style="margin-top:6px;color:var(--red);">2D Integral: naively \(O(N^2)\)</p>
+  </div>
+  <div class="eq-sign">=</div>
+  <div class="right-panel">
+    <div><p class="rl" style="color:var(--green);">1D factor: \(\int G \cdot \phi_1 \, d\zeta^1\)</p>
+    <canvas id="c1x" width="300" height="126"></canvas></div>
+    <div style="font-family:'Source Sans Pro',sans-serif;font-size:22px;color:var(--muted);text-align:center;">×</div>
+    <div><p class="rl" style="color:var(--blue);">1D factor: \(\int G \cdot \phi_2 \, d\zeta^2\)</p>
+    <canvas id="c1y" width="300" height="126"></canvas></div>
+    <p class="rl" style="margin-top:4px;color:var(--green);">Each 1D: \(O(N)\) — product = same result ✓</p>
+  </div>
+</div>
+
+<div class="math-strip">
+<div class="eq-row"><span class="eq-num">(1)</span><span>\(u(\xi) = \iint G(\xi,\zeta)\cdot\hat{f}(\zeta)\,d\zeta^1 d\zeta^2\)  — d-dimensional, naively \(O(N^d)\)</span></div>
+<div class="eq-row"><span class="eq-num">(2)</span><span>\(\hat{f}(\zeta) = \sum_r w_r\) <span style="color:var(--purple)">\(\phi_{r1}(\zeta^1)\cdot\phi_{r2}(\zeta^2)\)</span>,   \(G(\xi,\zeta) \approx \sum_k \gamma_k\) <span style="color:var(--purple)">\(G_{k1}(\xi^1,\zeta^1)\cdot G_{k2}(\xi^2,\zeta^2)\)</span>  — rank-R, rank-K</span></div>
+<div class="eq-row"><span class="eq-num">(3)</span><span>\(u(\xi) = \sum_{k,r} \gamma_k w_r\) <span style="color:var(--amber)">\(\bigl[\int G_{k1}(\xi^1,\zeta^1)\phi_{r1}(\zeta^1)\,d\zeta^1\bigr]\cdot\bigl[\int G_{k2}(\xi^2,\zeta^2)\phi_{r2}(\zeta^2)\,d\zeta^2\bigr]\)</span>  ← <strong style="color:var(--primary)">Fubini</strong></span></div>
+<div class="eq-row"><span class="eq-num">(4)</span><span>\(u(\xi) = \sum_{k,r} \gamma_k w_r\) <span style="color:var(--green)">\(I_{kr1}(\xi^1)\)</span>\(\cdot\)<span style="color:var(--green)">\(I_{kr2}(\xi^2)\)</span>  — product of 1D integrals only ✓</span></div>
+</div>
+
+<div class="cost-row">
+  <div class="cost-box bad"><div class="cl">Naive d-dim integral</div><div class="cv bad">\(O(N^d)\)</div><div class="cd">Exponential in d — intractable for d > 4</div></div>
+  <div style="display:flex;align-items:center;font-size:24px;color:var(--muted);padding:0 8px;">→</div>
+  <div class="cost-box good"><div class="cl">Factorized IGL</div><div class="cv good">\(O(KRd)\)</div><div class="cd">Linear in d · \(K = O(\log \varepsilon^{-1})\) dim-independent</div></div>
+</div>
+
+<script>
+var phi=function(z,mu,s){return Math.exp(-0.5*((z-mu)/s)*((z-mu)/s));};
+var anchors=[{m1:.28,m2:.72,s:.18,w:1.2},{m1:.72,m2:.28,s:.20,w:.9},{m1:.5,m2:.55,s:.24,w:.7}];
+var src=function(z1,z2){return anchors.reduce(function(v,a){return v+a.w*phi(z1,a.m1,a.s)*phi(z2,a.m2,a.s);},0);};
+var src1d=function(z,axis){return anchors.reduce(function(v,a){return v+a.w*phi(z,axis?a.m2:a.m1,a.s);},0);};
+function hsl2rgb(h,s,l){
+  var r,g,b;if(s===0){r=g=b=l;}else{
+  var q=l<.5?l*(1+s):l+s-l*s,p=2*l-q;
+  var f=function(t){t=((t%1)+1)%1;return t<1/6?p+(q-p)*6*t:t<.5?q:t<2/3?p+(q-p)*(2/3-t)*6:p;};
+  r=f(h+1/3);g=f(h);b=f(h-1/3);}return[r*255|0,g*255|0,b*255|0];}
+var c2=document.getElementById('c2d'),x2=c2.getContext('2d'),SZ=300;
+var cn1x=document.getElementById('c1x'),cx1x=cn1x.getContext('2d');
+var cn1y=document.getElementById('c1y'),cx1y=cn1y.getContext('2d');
+var maxV=0;for(var i=0;i<50;i++)for(var j=0;j<50;j++)maxV=Math.max(maxV,src(i/49,j/49));
+function draw2D(mx,my){
+  if(mx===undefined)mx=-1;if(my===undefined)my=-1;
+  var img=x2.createImageData(SZ,SZ);var d=img.data;
+  for(var py=0;py<SZ;py++)for(var px=0;px<SZ;px++){
+    var v=src(px/(SZ-1),1-py/(SZ-1))/maxV;
+    var h=220-v*160;var rgb=hsl2rgb(h/360,.7,.1+v*.52);
+    var idx=(py*SZ+px)*4;d[idx]=rgb[0];d[idx+1]=rgb[1];d[idx+2]=rgb[2];d[idx+3]=255;}
+  x2.putImageData(img,0,0);
+  x2.strokeStyle='rgba(0,0,0,0.08)';x2.lineWidth=1;
+  for(var i=1;i<4;i++){x2.beginPath();x2.moveTo(i*SZ/4,0);x2.lineTo(i*SZ/4,SZ);x2.stroke();
+    x2.beginPath();x2.moveTo(0,i*SZ/4);x2.lineTo(SZ,i*SZ/4);x2.stroke();}
+  x2.fillStyle='rgba(0,0,0,0.5)';x2.font='13px Roboto Mono,monospace';x2.textAlign='center';
+  x2.fillText('\u03B6\u00B9 \u2192',SZ-22,SZ-5);x2.textAlign='left';x2.fillText('\u2191 \u03B6\u00B2',4,14);
+  if(mx>=0){x2.strokeStyle='rgba(0,0,0,0.3)';x2.lineWidth=1;x2.setLineDash([4,4]);
+    x2.beginPath();x2.moveTo(mx,0);x2.lineTo(mx,SZ);x2.stroke();
+    x2.beginPath();x2.moveTo(0,my);x2.lineTo(SZ,my);x2.stroke();x2.setLineDash([]);}
+}
+function draw1D(canvasCtx,axis,hx,color){
+  if(hx===undefined)hx=-1;
+  var W=300,H=126;
+  canvasCtx.fillStyle='#ffffff';canvasCtx.fillRect(0,0,W,H);
+  var vals=[];var mv=0;
+  for(var i=0;i<=W;i++){var v=src1d(i/W,axis);vals.push(v);mv=Math.max(mv,v);}
+  var grad=canvasCtx.createLinearGradient(0,0,W,0);
+  if(axis===0){grad.addColorStop(0,'rgba(59,130,246,.4)');grad.addColorStop(1,'rgba(16,185,129,.4)');}
+  else{grad.addColorStop(0,'rgba(59,130,246,.4)');grad.addColorStop(1,'rgba(139,92,246,.4)');}
+  canvasCtx.fillStyle=grad;canvasCtx.beginPath();canvasCtx.moveTo(0,H);
+  for(var i=0;i<=W;i++)canvasCtx.lineTo(i,H-4-vals[i]/mv*(H-10));
+  canvasCtx.lineTo(W,H);canvasCtx.closePath();canvasCtx.fill();
+  canvasCtx.strokeStyle=color;canvasCtx.lineWidth=2;canvasCtx.beginPath();
+  for(var i=0;i<=W;i++){var y=H-4-vals[i]/mv*(H-10);if(i===0)canvasCtx.moveTo(0,y);else canvasCtx.lineTo(i,y);}
+  canvasCtx.stroke();
+  canvasCtx.strokeStyle='#e2e8f0';canvasCtx.lineWidth=1;canvasCtx.beginPath();canvasCtx.moveTo(0,H-1);canvasCtx.lineTo(W,H-1);canvasCtx.stroke();
+  canvasCtx.fillStyle='#666666';canvasCtx.font='11px Roboto Mono,monospace';canvasCtx.textAlign='right';
+  canvasCtx.fillText(axis===0?'\u03B6\u00B9 \u2192':'\u03B6\u00B2 \u2192',W-4,H-4);
+  if(hx>=0&&hx<W){canvasCtx.strokeStyle='rgba(0,0,0,0.3)';canvasCtx.lineWidth=1;canvasCtx.beginPath();canvasCtx.moveTo(hx,0);canvasCtx.lineTo(hx,H);canvasCtx.stroke();}
+}
+draw2D();draw1D(cx1x,0,-1,'#3b82f6');draw1D(cx1y,1,-1,'#8b5cf6');
+c2.addEventListener('mousemove',function(e){
+  var r=c2.getBoundingClientRect();
+  var mx=(e.clientX-r.left)/r.width*SZ,my=(e.clientY-r.top)/r.height*SZ;
+  draw2D(mx,my);draw1D(cx1x,0,mx,'#3b82f6');draw1D(cx1y,1,SZ-my,'#8b5cf6');
+});
+c2.addEventListener('mouseleave',function(){draw2D();draw1D(cx1x,0,-1,'#3b82f6');draw1D(cx1y,1,-1,'#8b5cf6');});
+</script>
+</body></html>

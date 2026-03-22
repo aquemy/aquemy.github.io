@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IGL Architecture</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{
+  --bg:#f9f9f9;--bg-alt:#fff;--text:#171717;--muted:#666;
+  --border:#e2e8f0;--border-strong:#cbd5e1;
+  --primary:#A51209;--blue:#3b82f6;--green:#10b981;
+  --amber:#f59e0b;--purple:#8b5cf6;--red:#ef4444;
+}
+@media(prefers-color-scheme:dark){:root{
+  --bg:#0a0a0a;--bg-alt:#171717;--text:#e2e2e2;--muted:#888;
+  --border:#374151;--border-strong:#4b5563;
+}}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);font-family:'Inter',sans-serif;
+  display:flex;flex-direction:column;align-items:center;padding:28px 20px 22px;}
+.ey{font-size:11px;font-weight:500;color:var(--muted);letter-spacing:.1em;
+  text-transform:uppercase;text-align:center;margin-bottom:5px;}
+.ti{font-size:20px;font-weight:600;color:var(--text);
+  text-align:center;margin-bottom:3px;}
+.su{font-size:13px;color:var(--muted);text-align:center;margin-bottom:18px;}
+.cap{margin-top:14px;font-size:12.5px;color:var(--muted);max-width:700px;
+  text-align:center;line-height:1.7;}
+.cap em{color:var(--text);font-style:normal;font-weight:500;}
+svg{display:block;max-width:100%;height:auto;}
+</style></head><body>
+<p class="ey">Architecture</p>
+<p class="ti">IGL: Two-Stage Variable Projection</p>
+<p class="su">Stage 1 optimises coordinates via gradient descent · Stage 2 fits source weights by exact least squares</p>
+<svg viewBox="0 0 820 440" style="width:820px;max-width:100%;"><defs>
+  <marker id="ah" markerWidth="7" markerHeight="6" refX="6.5" refY="3" orient="auto">
+    <path d="M0,0.5 L7,3 L0,5.5 L1.5,3Z" fill="var(--muted)" opacity="0.7"/></marker>
+  <marker id="ahr" markerWidth="7" markerHeight="6" refX="6.5" refY="3" orient="auto">
+    <path d="M0,0.5 L7,3 L0,5.5 L1.5,3Z" fill="var(--primary)"/></marker>
+  <marker id="ahg" markerWidth="7" markerHeight="6" refX="6.5" refY="3" orient="auto">
+    <path d="M0,0.5 L7,3 L0,5.5 L1.5,3Z" fill="var(--green)"/></marker>
+</defs>
+<rect width="820" height="440" fill="var(--bg)" rx="8"/>
+
+<!-- Stage 1 background -->
+<rect x="10" y="10" width="500" height="200" rx="12" fill="var(--bg-alt)" stroke="var(--blue)" stroke-opacity="0.25" stroke-width="1.5"/>
+<text x="24" y="30" font-family="'Source Sans Pro',sans-serif" font-size="10" font-weight="600" fill="var(--blue)" opacity="0.8" letter-spacing="0.08em">STAGE 1 — OUTER LOOP · GRADIENT DESCENT</text>
+
+<!-- Stage 2 background -->
+<rect x="524" y="10" width="286" height="200" rx="12" fill="var(--bg-alt)" stroke="var(--green)" stroke-opacity="0.25" stroke-width="1.5"/>
+<text x="538" y="30" font-family="'Source Sans Pro',sans-serif" font-size="10" font-weight="600" fill="var(--green)" opacity="0.8" letter-spacing="0.08em">STAGE 2 — INNER SOLVE · LSTSQ</text>
+
+<!-- Box: Input -->
+<rect x="24" y="50" width="84" height="58" rx="8" fill="var(--bg)" stroke="var(--border-strong)" stroke-width="1"/>
+<text x="66" y="70" font-family="'Source Sans Pro',sans-serif" font-size="10" fill="var(--muted)" text-anchor="middle">Input</text>
+<text x="66" y="86" font-family="'Source Sans Pro',sans-serif" font-size="15" font-weight="700" fill="var(--text)" text-anchor="middle">x ∈ ℝ&#x1D30;</text>
+<text x="66" y="100" font-family="'Roboto Mono',monospace" font-size="8" fill="var(--muted)" text-anchor="middle">D = ambient</text>
+
+<!-- Arrow → Encoder -->
+<line x1="108" y1="79" x2="130" y2="79" stroke="var(--border-strong)" stroke-width="1.5" marker-end="url(#ah)"/>
+
+<!-- Box: Encoder Ψ -->
+<rect x="132" y="50" width="100" height="58" rx="8" fill="var(--primary)" fill-opacity="0.06" stroke="var(--primary)" stroke-opacity="0.35" stroke-width="1.2"/>
+<text x="182" y="70" font-family="'Source Sans Pro',sans-serif" font-size="10" fill="var(--primary)" text-anchor="middle" font-weight="600">Encoder Ψ</text>
+<text x="182" y="86" font-family="'Source Sans Pro',sans-serif" font-size="13" fill="var(--primary)" text-anchor="middle">ℝ&#x1D30; → ℝ&#x1D48;</text>
+<text x="182" y="100" font-family="'Roboto Mono',monospace" font-size="8" fill="var(--muted)" text-anchor="middle">MLP / CNN + gates</text>
+
+<!-- Arrow → Coords -->
+<line x1="232" y1="79" x2="254" y2="79" stroke="var(--border-strong)" stroke-width="1.5" marker-end="url(#ah)"/>
+
+<!-- Box: Coordinates ξ -->
+<rect x="256" y="50" width="90" height="58" rx="8" fill="var(--purple)" fill-opacity="0.06" stroke="var(--purple)" stroke-opacity="0.35" stroke-width="1.2"/>
+<text x="301" y="70" font-family="'Source Sans Pro',sans-serif" font-size="10" fill="var(--purple)" text-anchor="middle" font-weight="600">Coordinates</text>
+<text x="301" y="86" font-family="'Source Sans Pro',sans-serif" font-size="13" fill="var(--purple)" text-anchor="middle">ξ ∈ ℝ&#x1D48;</text>
+<text x="301" y="100" font-family="'Roboto Mono',monospace" font-size="8" fill="var(--muted)" text-anchor="middle">d ≪ D</text>
+
+<!-- Arrow → Design matrix -->
+<line x1="346" y1="79" x2="372" y2="79" stroke="var(--border-strong)" stroke-width="1.5" marker-end="url(#ah)"/>
+<text x="359" y="72" font-family="'Roboto Mono',monospace" font-size="8" fill="var(--muted)" text-anchor="middle">build Φ</text>
+
+<!-- Box: Design Matrix Φ -->
+<rect x="374" y="50" width="126" height="58" rx="8" fill="var(--amber)" fill-opacity="0.06" stroke="var(--amber)" stroke-opacity="0.35" stroke-width="1.2"/>
+<text x="437" y="67" font-family="'Source Sans Pro',sans-serif" font-size="10" fill="var(--amber)" text-anchor="middle" font-weight="600">Design Matrix</text>
+<text x="437" y="83" font-family="'Source Sans Pro',sans-serif" font-size="13" fill="var(--amber)" text-anchor="middle">Φ ∈ ℝ&#x1D3A;&#x2E31;&#x1D37;&#x1D3F;</text>
+<text x="437" y="96" font-family="'Roboto Mono',monospace" font-size="8" fill="var(--muted)" text-anchor="middle">Φₙ₍ₖᵣ₎ = γₖ ∏ⱼ Iₖᵣⱼ</text>
+<text x="437" y="106" font-family="'Roboto Mono',monospace" font-size="8" fill="var(--muted)" text-anchor="middle">1D integrals only</text>
+
+<!-- Arrow into Stage 2 -->
+<line x1="500" y1="79" x2="538" y2="79" stroke="var(--green)" stroke-width="2" marker-end="url(#ahg)"/>
+<text x="519" y="72" font-family="'Roboto Mono',monospace" font-size="9" fill="var(--green)" text-anchor="middle">Φ, y</text>
+
+<!-- Box: lstsq solve -->
+<rect x="540" y="44" width="258" height="65" rx="8" fill="var(--green)" fill-opacity="0.06" stroke="var(--green)" stroke-opacity="0.35" stroke-width="1.2"/>
+<text x="669" y="64" font-family="'Source Sans Pro',sans-serif" font-size="10" fill="var(--green)" text-anchor="middle" font-weight="600">Exact Least Squares</text>
+<text x="669" y="82" font-family="'Source Sans Pro',sans-serif" font-size="15" font-weight="700" fill="var(--green)" text-anchor="middle">w* = argmin‖Φw−y‖²</text>
+<text x="669" y="100" font-family="'Roboto Mono',monospace" font-size="9" fill="var(--muted)" text-anchor="middle">O(KR) parameters · near-convex</text>
+
+<!-- Prediction box -->
+<rect x="540" y="122" width="258" height="48" rx="8" fill="var(--bg)" stroke="var(--border)" stroke-width="1"/>
+<text x="669" y="141" font-family="'Source Sans Pro',sans-serif" font-size="10" fill="var(--text)" text-anchor="middle" font-weight="600">Prediction u(ξ) = Φ·w* + poly(ξ)</text>
+<text x="669" y="157" font-family="'Roboto Mono',monospace" font-size="9" fill="var(--muted)" text-anchor="middle">particular sol + null-space polynomials</text>
+<text x="669" y="168" font-family="'Roboto Mono',monospace" font-size="9" fill="var(--green)" text-anchor="middle">O(KRd) per sample · linear in d ✓</text>
+<line x1="669" y1="109" x2="669" y2="122" stroke="var(--green)" stroke-width="1.5" stroke-dasharray="4 3"/>
+
+<!-- Gate sub-note -->
+<rect x="132" y="118" width="100" height="28" rx="6" fill="var(--purple)" fill-opacity="0.06" stroke="var(--purple)" stroke-opacity="0.25" stroke-width="1"/>
+<text x="182" y="130" font-family="'Source Sans Pro',sans-serif" font-size="9" fill="var(--purple)" text-anchor="middle" font-weight="600">gates gⱼ ∈ [0,1]</text>
+<text x="182" y="141" font-family="'Roboto Mono',monospace" font-size="8" fill="var(--muted)" text-anchor="middle">Hard Concrete · L₀</text>
+<line x1="182" y1="108" x2="182" y2="118" stroke="var(--purple)" stroke-width="1" stroke-dasharray="3 2" stroke-opacity="0.4"/>
+
+<!-- Feedback arrow -->
+<path d="M 437,108 L 437,170 L 66,170 L 66,108" fill="none" stroke="var(--primary)" stroke-width="1.5" stroke-dasharray="6 3" marker-end="url(#ahr)"/>
+<rect x="192" y="175" width="150" height="20" rx="5" fill="var(--primary)" fill-opacity="0.06" stroke="var(--primary)" stroke-opacity="0.25" stroke-width="1"/>
+<text x="267" y="189" font-family="'Source Sans Pro',sans-serif" font-size="10" fill="var(--primary)" text-anchor="middle" font-weight="600">∇_θ L  (encoder gradient)</text>
+
+<!-- Source box -->
+<rect x="24" y="230" width="486" height="50" rx="8" fill="var(--bg)" stroke="var(--border)" stroke-width="1"/>
+<text x="267" y="250" font-family="'Source Sans Pro',sans-serif" font-size="10" fill="var(--text)" text-anchor="middle" font-weight="600">Source  f̂(ζ) = Σᵣ wᵣ ∏ⱼ φᵣⱼ(ζʲ)</text>
+<text x="267" y="268" font-family="'Roboto Mono',monospace" font-size="9" fill="var(--muted)" text-anchor="middle">anchors μᵣⱼ ∈ Stage 1  ·  weights wᵣ ∈ Stage 2  ·  O(Rd) params  ·  RBF basis φ</text>
+
+<!-- Envelope theorem box -->
+<rect x="24" y="298" width="486" height="60" rx="8" fill="var(--bg)" stroke="var(--border)" stroke-width="1"/>
+<text x="267" y="316" font-family="'Source Sans Pro',sans-serif" font-size="11" fill="var(--text)" text-anchor="middle" font-weight="600">Envelope Theorem — Why VP Prevents Dimensional Collapse</text>
+<text x="34" y="333" font-family="'Roboto Mono',monospace" font-size="9" fill="var(--muted)">At Stage 2 optimum:  ∂L/∂w = 0  →  ∇_θ L = −∂²L/∂w∂θ · w*</text>
+<text x="34" y="348" font-family="'Roboto Mono',monospace" font-size="9" fill="var(--primary)">Joint: source compensates bad coords → collapse. VP: impossible.</text>
+
+<!-- Complexity box -->
+<rect x="540" y="230" width="258" height="128" rx="8" fill="var(--bg)" stroke="var(--border)" stroke-width="1"/>
+<text x="669" y="250" font-family="'Source Sans Pro',sans-serif" font-size="11" fill="var(--text)" text-anchor="middle" font-weight="600">Complexity</text>
+<text x="669" y="272" font-family="'Roboto Mono',monospace" font-size="10" fill="var(--muted)" text-anchor="middle">Encoder:  O(DW²)</text>
+<text x="669" y="292" font-family="'Roboto Mono',monospace" font-size="10" fill="var(--green)" text-anchor="middle">Stage 2:  O(KRd) ← negligible</text>
+<text x="669" y="312" font-family="'Roboto Mono',monospace" font-size="10" fill="var(--muted)" text-anchor="middle">K = O(log ε⁻¹) dim-independent</text>
+<text x="669" y="340" font-family="'Roboto Mono',monospace" font-size="10" fill="var(--blue)" text-anchor="middle">Total: O(DW² + KRd)</text>
+</svg>
+</body></html>

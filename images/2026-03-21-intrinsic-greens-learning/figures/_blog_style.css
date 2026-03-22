@@ -1,0 +1,45 @@
+/* Blog design system — shared by all figures */
+:root {
+  --bg: #f9f9f9; --bg-alt: #ffffff; --text: #171717; --muted: #666666;
+  --border: #e2e8f0; --border-strong: #cbd5e1;
+  --primary: #A51209; --blue: #3b82f6;
+  --green: #10b981; --amber: #f59e0b; --purple: #8b5cf6;
+  --font-brand: 'ABeeZee', sans-serif;
+  --font-body: 'Inter', sans-serif;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0a0a0a; --bg-alt: #171717; --text: #e2e2e2; --muted: #888888;
+    --border: #374151; --border-strong: #4b5563;
+  }
+}
+* { margin:0; padding:0; box-sizing:border-box; }
+body {
+  background: var(--bg);
+  font-family: var(--font-body);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding: 28px 20px 22px;
+}
+.fig-eyebrow {
+  font-family: var(--font-body);
+  font-size: 11px; font-weight: 500;
+  color: var(--muted); letter-spacing: .1em; text-transform: uppercase;
+  text-align: center; margin-bottom: 5px;
+}
+.fig-title {
+  font-family: var(--font-brand);
+  font-size: 19px; font-weight: 400;
+  color: var(--text); text-align: center; margin-bottom: 3px;
+}
+.fig-subtitle {
+  font-size: 13px; color: var(--muted);
+  font-family: var(--font-body); text-align: center; margin-bottom: 20px;
+}
+.fig-caption {
+  margin-top: 14px; font-size: 12.5px; color: var(--muted);
+  max-width: 700px; text-align: center; line-height: 1.7;
+}
+.fig-caption em { color: var(--text); font-style: normal; font-weight: 500; }
+svg { display: block; max-width: 100%; height: auto; }

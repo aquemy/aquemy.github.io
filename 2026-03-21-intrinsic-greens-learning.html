@@ -1,0 +1,1887 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PWL24785Z6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-PWL24785Z6');
+    </script>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Alexandre Quemy" />
+    <meta name="description" content="Personal website of Alexandre Quemy, Tech Staff and Researcher in AI." />
+    <title>Alexandre Quemy - Blog - Intrinsic Green's Learning: Supervised Learning as an Inverse PDE Problem</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Source Sans Pro', 'sans-serif'],
+              serif: ['Lora', 'serif'],
+            },
+            colors: {
+              paper: '#F8F6F1',
+              ink: '#2A2927',
+              accent: {
+                light: '#D97706', // amber-600
+                dark: '#FBBF24'   // amber-400
+              },
+              'dark-bg': '#192231',
+              'dark-ink': '#E2E0DB',
+            }
+          }
+        }
+      }
+    </script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Source+Sans+Pro:wght@400;600;700&family=Roboto+Mono&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX for Math Rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, { delimiters: [ {left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}, {left: '\\(', right: '\\)', display: false}, {left: '\\[', right: '\\]', display: true} ]});"></script>
+    
+    <!-- Custom Styles and Theming -->
+    <link rel="stylesheet" href="https://quemy.info/css/custom.css">
+    <link rel="stylesheet" href="https://quemy.info/css/friendly.css">
+
+    <script>
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+</head>
+<body class="bg-paper dark:bg-dark-bg text-ink dark:text-dark-ink font-sans transition-colors duration-500 antialiased">
+    
+    <!-- Background Animation Layer (only populated on index.html) -->
+    <div class="fixed inset-0 z-0">
+        
+    </div>
+
+    <!-- Main Content Layer -->
+    <div class="relative z-10">
+        <nav class="w-full max-w-4xl mx-auto py-6 px-4 flex justify-between items-center">
+    <a href="./index.html" class="font-serif text-xl font-bold hover:text-accent-light dark:hover:text-accent-dark transition-colors">
+        Alexandre Quemy
+    </a>
+    <div class="flex items-center space-x-6">
+        <div class="hidden md:flex items-center space-x-6 text-sm font-semibold tracking-wider uppercase">
+            <a href="./research.html" class="nav-link" data-page="research">Research</a>
+            <a href="./cv.html" class="nav-link" data-page="cv">CV</a>
+            <a href="./blog.html" class="nav-link" data-page="blog">Blog</a>
+        </div>
+        <button id="theme-toggle" class="w-8 h-8 flex items-center justify-center rounded-full text-ink dark:text-dark-ink hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+             <i id="theme-toggle-dark-icon" class="fas fa-moon hidden"></i>
+             <i id="theme-toggle-light-icon" class="fas fa-sun hidden"></i>
+        </button>
+        <button id="mobile-menu-button" class="md:hidden text-2xl">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div id="mobile-menu" class="hidden md:hidden fixed inset-0 bg-paper/80 dark:bg-dark-bg/80 backdrop-blur-sm z-50">
+    <div class="flex justify-end p-4">
+        <button id="mobile-menu-close" class="text-3xl">×</button>
+    </div>
+    <div class="flex flex-col items-center justify-center h-full space-y-8 text-2xl font-semibold tracking-wider uppercase">
+        <a href="./index.html" class="nav-link" data-page="index">Home</a>
+        <a href="./research.html" class="nav-link" data-page="research">Research</a>
+        <a href="./cv.html" class="nav-link" data-page="cv">CV</a>
+        <a href="./blog.html" class="nav-link" data-page="blog">Blog</a>
+    </div>
+</div>
+        <main>  <!-- class="fade-in"> -->
+            
+<div class="w-full max-w-7xl mx-auto py-12 px-4">
+    <!-- Header moved outside the grid for proper alignment -->
+    <header class="max-w-5xl mx-auto mb-12 text-center lg:text-left">
+        <a href="https://quemy.info/blog.html" class="text-sm text-accent-light dark:text-accent-dark hover:underline mb-4 inline-block">← Back to all posts</a>
+        <h1 class="font-sans text-4xl md:text-5xl font-black text-ink dark:text-dark-ink leading-tight">Intrinsic Green's Learning: Supervised Learning as an Inverse PDE Problem</h1>
+        <p class="mt-4 text-stone-500 dark:text-stone-400">2026-03-21 · Mathematics</p>
+    </header>
+
+    <div class="lg:grid lg:grid-cols-5 lg:gap-16">
+        <!-- Sticky Sidebar for Table of Contents (now wider) -->
+        <aside class="hidden lg:block lg:col-span-1">
+            <div class="sticky top-24">
+                <h3 class="font-semibold text-sm uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-4">ON THIS PAGE</h3>
+                <div id="toc-sidebar">
+                    <!-- ToC will be moved here by JavaScript -->
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Main Article Content -->
+        <div class="lg:col-span-4">
+            <article class="fade-in">
+                <div id="prose-content" class="prose lg:prose-lg dark:prose-invert max-w-none">
+                    <div class="toc">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#the-setup-learning-a-function-on-a-manifold">The Setup: Learning a Function on a Manifold</a></li>
+<li><a href="#the-igl-framework">The IGL Framework</a></li>
+<li><a href="#experiments">Experiments</a></li>
+<li><a href="#discussion">Discussion</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+</div>
+<p>This article presents <strong>Intrinsic Green’s Learning (IGL)</strong>, introduced at the <a href="https://sites.google.com/impatech.edu.br/ai-pde">AI &amp; PDE Workshop @ ICLR 2026</a>. IGL was originally conceived as a <em>geometric diagnosis tool</em> — a way to probe whether a model’s learned representations actually respect the manifold structure of the data. Along the way, it grew into a full architectural framework that generates its own inductive biases from PDE theory.</p>
+<p>This post covers the content of the <strong><a href="https://openreview.net/forum?id=MRPud2JLQL">original paper</a></strong> — the core architecture, the factorization trick, the two-stage algorithm, and the experiments. We have plenty of exciting developments that go well beyond the original diagnostic tool — task-conditioned dimension theory, Matryoshka mechanisms, AtlasBlock for Language Models, full manifold reconstruction with non-Euclidean metric recovery, SPD manifolds, and more — but those will be the subject of upcoming articles.</p>
+<hr/>
+<h3 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">¶</a></h3>
+<p>There is a standard story in deep learning: data lives on a low-dimensional manifold hidden inside a high-dimensional ambient space. The manifold hypothesis is well-supported empirically — MNIST digits sit on a roughly 10–15 dimensional manifold inside <span class="arithmatex">\(\mathbb{R}^{784}\)</span>, and modern language model activations cluster in structured low-dimensional subspaces. But knowing the hypothesis and exploiting it architecturally are two different things. If you <em>could</em> discover the manifold structure — its intrinsic dimension, a good coordinate chart, and the geometry of the embedding — the payoff would be substantial:</p>
+<ul>
+<li><strong>Sample efficiency</strong> improves because the model only needs to learn a <span class="arithmatex">\(d\)</span>-dimensional function instead of a <span class="arithmatex">\(D\)</span>-dimensional one</li>
+<li><strong>Generalisation</strong> improves because the inductive bias matches the true data structure</li>
+<li><strong>Interpretability</strong> improves because the learned coordinates carry geometric meaning</li>
+<li><strong>Compression</strong> becomes principled because you know which dimensions are active and which are redundant</li>
+</ul>
+<p>Most architectures just let the network figure it out implicitly. Some methods — autoencoders, contrastive learning, PCA-based projections — try to make the low-dimensional structure explicit, but they treat it as a preprocessing step disconnected from the prediction task. <mark>What would it mean to build an architecture where the manifold structure is <em>inseparable</em> from the learning objective?</mark></p>
+<p>This is the question IGL answers — by reframing supervised learning as an inverse PDE problem. The full pipeline is shown in Figure 1: an encoder <span class="arithmatex">\(\Psi\)</span> maps ambient data to intrinsic coordinates, a tensor-factored source defines the learned function, and Green’s convolution produces the solution — all optimised via a two-stage algorithm.</p>
+<figure style="margin:2em 0;">
+<img alt="The IGL pipeline" src="images/2026-03-21-intrinsic-greens-learning/igl_pipeline.png" style="width:100%;max-width:none;border:1px solid #e2e8f0;border-radius:10px;padding:12px;background:#fff;"/>
+<figcaption style="text-align:center;font-size:0.85em;color:#64748b;margin-top:8px;"><strong>Figure 1.</strong> The IGL pipeline. Encoder Ψ maps data from manifold M ⊂ ℝ<sup>D</sup> to intrinsic coordinates ξ ∈ ℝ<sup>d</sup>. The tensor source f̂(ζ) is defined by anchor points (green dots). Green's convolution G∗f̂ yields the solution u(ξ). Stage 2 solves source weights by least squares.</figcaption>
+</figure>
+<p>Figure 2 illustrates the setup on the Swiss Roll — a 2D manifold embedded in <span class="arithmatex">\(\mathbb{R}^3\)</span>. Note that IGL does <em>not</em> physically unroll the manifold: the encoder is free to discover any coordinate chart that makes the target function easy to represent. The visualisation is pedagogical — in practice, the learned chart is task-optimal, not necessarily isometric.</p>
+<figure style="margin:2em 0;">
+<div class="igl-widget" id="igl-fig-8" style="border-radius:12px; border:1px solid #e2e8f0; overflow:hidden; padding:28px 20px 22px;">
+<style>:root { 
+  --bg:#f9f9f9;--bg-alt:#fff;--text:#171717;--muted:#666;
+  --border:#e2e8f0;--border-strong:#cbd5e1;
+  --primary:#A51209;--blue:#3b82f6;--green:#10b981;
+  --amber:#f59e0b;--purple:#8b5cf6;--red:#ef4444;
+ }
+@media(prefers-color-scheme:dark) { :root { 
+  --bg:#0a0a0a;--bg-alt:#171717;--text:#e2e2e2;--muted:#888;
+  --border:#374151;--border-strong:#4b5563;
+ } }
+#igl-fig-8, #igl-fig-8 * { margin:0;padding:0;box-sizing:border-box; }
+#igl-fig-8 { background:var(--bg);font-family:'Source Sans Pro',sans-serif;
+  display:flex;flex-direction:column;align-items:center;padding:28px 20px 22px; }
+#igl-fig-8 .ey { font-size:11px;font-weight:500;color:var(--muted);letter-spacing:.1em;
+  text-transform:uppercase;text-align:center;margin-bottom:5px; }
+#igl-fig-8 .ti { font-size:20px;font-weight:600;color:var(--text);
+  text-align:center;margin-bottom:3px; }
+#igl-fig-8 .su { font-size:13px;color:var(--muted);text-align:center;margin-bottom:18px; }
+#igl-fig-8 .cap { margin-top:14px;font-size:12.5px;color:var(--muted);max-width:700px;
+  text-align:center;line-height:1.7; }
+#igl-fig-8 .cap em { color:var(--text);font-style:normal;font-weight:500; }
+#igl-fig-8 canvas { display:block;border-radius:12px;border:1px solid var(--border);max-width:100%; }
+#igl-fig-8 .controls { display:flex;gap:10px;margin-top:12px;justify-content:center; }
+#igl-fig-8 button { background:var(--bg-alt);border:1px solid var(--border);color:var(--primary);
+  padding:7px 18px;border-radius:7px;cursor:pointer;font-family:'Source Sans Pro',sans-serif;
+  font-size:13px;font-weight:500;transition:all .2s; }
+#igl-fig-8 button:hover { border-color:var(--primary);background:var(--primary);color:#fff; }
+#igl-fig-8 button.active { background:var(--primary);color:#fff;border-color:var(--primary); }</style>
+
+<p class="ey">Setting</p>
+<p class="ti">The Swiss Roll: a 2D Manifold in \(\mathbb{R}^3\)</p>
+<p class="su">IGL encoder \(\Psi\) assigns intrinsic coordinates — click Show chart to see the unfolded view</p>
+<div style="position:relative;max-width:760px;width:100%;"><canvas height="400" id="f8_c" width="760"></canvas></div>
+<div class="controls">
+<button id="f8_btnUnroll">Show chart →</button>
+</div>
+
+
+<script>(function(){ 
+var C=document.getElementById('f8_c'),ctx=C.getContext('2d');
+var W=760,H=400;
+// Handle HiDPI and container sizing
+var dpr=window.devicePixelRatio||1;
+function resizeCanvas(){
+  var parentW=C.parentElement.getBoundingClientRect().width;
+  var displayW=Math.min(760,parentW);
+  var displayH=displayW*400/760;
+  C.style.width=displayW+'px';
+  C.style.height=displayH+'px';
+  C.width=displayW*dpr;
+  C.height=displayH*dpr;
+  ctx.setTransform(displayW*dpr/760,0,0,displayH*dpr/400,0,0);
+}
+resizeCanvas();
+var N=1200,pts=[];
+for(var i=0;i<N;i++){
+  var t=1.5*Math.PI+Math.random()*3*Math.PI,h=Math.random();
+  var u=(t-1.5*Math.PI)/(3*Math.PI);
+  pts.push({t:t,h:h,u:u,x3:t*Math.cos(t)/14.5,y3:h*2.8-1.4,z3:t*Math.sin(t)/14.5,xu:u,yu:h});
+}
+function ptColor(u,a){var hue=220+u*160;return 'hsla('+hue+',75%,52%,'+(a||1)+')';}
+function project(x,y,z,th){
+  var c=Math.cos(th),s=Math.sin(th);
+  var xr=x*c+z*s,zr=-x*s+z*c;
+  var cx2=Math.cos(0.28),sx2=Math.sin(0.28);
+  var yr=y*cx2-zr*sx2,zr2=y*sx2+zr*cx2;
+  var fov=5,sc=fov/(fov+zr2*0.4);
+  return{px:xr*sc,py:yr*sc,depth:zr2};
+}
+function rr(x,y,w,h,r){
+  ctx.beginPath();ctx.moveTo(x+r,y);ctx.lineTo(x+w-r,y);ctx.arcTo(x+w,y,x+w,y+r,r);
+  ctx.lineTo(x+w,y+h-r);ctx.arcTo(x+w,y+h,x+w-r,y+h,r);
+  ctx.lineTo(x+r,y+h);ctx.arcTo(x,y+h,x,y+h-r,r);
+  ctx.lineTo(x,y+r);ctx.arcTo(x,y,x+r,y,r);ctx.closePath();
+}
+var theta=0.4,blend=0;
+var TRANS=70;
+function draw(){
+  ctx.fillStyle='#f9f9f9';ctx.fillRect(0,0,W,H);
+  ctx.strokeStyle='#e2e8f0';ctx.lineWidth=1;
+  for(var x=0;x<W;x+=40){ctx.beginPath();ctx.moveTo(x,0);ctx.lineTo(x,H);ctx.stroke();}
+  for(var y=0;y<H;y+=40){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(W,y);ctx.stroke();}
+  rr(16,16,340,H-32,12);ctx.fillStyle='#fff';ctx.fill();
+  ctx.strokeStyle='#e2e8f0';ctx.lineWidth=1;
+  rr(16,16,340,H-32,12);ctx.stroke();
+  rr(404,16,340,H-32,12);ctx.fillStyle='#fff';ctx.fill();
+  rr(404,16,340,H-32,12);ctx.stroke();
+  ctx.fillStyle='#171717';ctx.font="600 13px Source Sans Pro, sans-serif";ctx.textAlign='left';
+  ctx.fillText('Manifold M in R\u00B3',30,42);
+  ctx.fillStyle='#666';ctx.font="11px Source Sans Pro, sans-serif";ctx.fillText('ambient space, D=3',30,56);
+  ctx.fillStyle='#171717';ctx.font="600 13px Source Sans Pro, sans-serif";
+  ctx.fillText('Intrinsic Chart R\u1D48',418,42);
+  ctx.fillStyle='#666';ctx.font="11px Source Sans Pro, sans-serif";ctx.fillText('\u03A8 discovers d=2 coordinates',418,56);
+  var AX=382;
+  ctx.strokeStyle='#A51209';ctx.lineWidth=2.5;
+  ctx.beginPath();ctx.moveTo(AX-24,H/2);ctx.lineTo(AX+18,H/2);ctx.stroke();
+  ctx.fillStyle='#A51209';ctx.beginPath();ctx.moveTo(AX+22,H/2);ctx.lineTo(AX+10,H/2-7);ctx.lineTo(AX+10,H/2+7);ctx.closePath();ctx.fill();
+  ctx.fillStyle='#A51209';ctx.font="bold 20px Source Sans Pro, sans-serif";ctx.textAlign='center';
+  ctx.fillText('\u03A8',AX-3,H/2-8);
+  ctx.fillStyle='#999';ctx.font="10px Source Sans Pro, sans-serif";ctx.fillText('encoder',AX-3,H/2+18);
+  var LCX=186,LCY=H/2+12,SC=88;
+  var RCX=574,RCY=H/2+10,R2D=105;
+  var projected=pts.map(function(p){
+    var pr=project(p.x3,p.y3,p.z3,theta);
+    var sx3=LCX+pr.px*SC,sy3=LCY-pr.py*SC;
+    var sx2=RCX+(p.xu-0.5)*R2D*1.85;
+    var sy2=RCY-(p.yu-0.5)*R2D*1.85;
+    var b=blend*blend*(3-2*blend);
+    return{sx:sx3*(1-b)+sx2*b,sy:sy3*(1-b)+sy2*b,depth:pr.depth,u:p.u};
+  });
+  projected.sort(function(a,b){return a.depth-b.depth;});
+  for(var k=0;k<projected.length;k++){
+    ctx.fillStyle=ptColor(projected[k].u,0.88);
+    ctx.beginPath();ctx.arc(projected[k].sx,projected[k].sy,2.8,0,Math.PI*2);ctx.fill();
+  }
+  rr(630,H-54,116,34,8);ctx.fillStyle='#f0fdf4';ctx.fill();
+  ctx.strokeStyle='#10b981';ctx.lineWidth=1;rr(630,H-54,116,34,8);ctx.stroke();
+  ctx.fillStyle='#10b981';ctx.font="600 12px Source Sans Pro, sans-serif";ctx.textAlign='center';
+  ctx.fillText('d_eff = 2  (d\u226A3)',688,H-33);
+  if(blend>0.01&&blend<0.99){
+    rr(W/2-70,H-14,140,6,3);ctx.fillStyle='#e2e8f0';ctx.fill();
+    rr(W/2-70,H-14,140*blend,6,3);ctx.fillStyle='#A51209';ctx.fill();
+  }
+}
+function animate(){
+  theta+=0.006;
+  draw();requestAnimationFrame(animate);
+}
+document.getElementById('f8_btnUnroll').addEventListener('click',function(){
+  var target=blend<0.5?1:0;
+  document.getElementById('f8_btnUnroll').textContent=target===1?'\u2190 Show manifold':'Show chart \u2192';
+  var step=function(){blend=Math.max(0,Math.min(1,blend+(target-blend>0?1:-1)/TRANS));
+    if(Math.abs(blend-target)>0.01)setTimeout(step,16);};step();
+});
+animate();
+ })();</script>
+</div>
+<figcaption style="text-align:center; font-size:0.85em; color:#64748b; margin-top:8px; font-style:italic;"><strong>Figure 2.</strong> The Swiss Roll manifold \(\mathcal{M} \subset \mathbb{R}^3\) and the intrinsic coordinate chart \(\mathbb{R}^d\) discovered by encoder \(\Psi\). Click <em>Show chart</em> to toggle between the 3D manifold and the learned intrinsic coordinates. <em>Left:</em> data sampled from the Swiss Roll. Color encodes the intrinsic parameter \(t\). <em>Right:</em> the coordinate chart discovered by \(\Psi\) — task-optimal, not necessarily isometric.</figcaption>
+</figure>
+<hr/>
+<h3 id="the-setup-learning-a-function-on-a-manifold">The Setup: Learning a Function on a Manifold<a class="headerlink" href="#the-setup-learning-a-function-on-a-manifold" title="Permanent link">¶</a></h3>
+<p>Let’s be precise about the problem. We have training observations <span class="arithmatex">\(\{(x^{(n)}, y^{(n)})\}_{n=1}^N\)</span>, where the inputs <span class="arithmatex">\(x^{(n)} \in \mathbb{R}^D\)</span> lie on some unknown manifold <span class="arithmatex">\(\mathcal{M} \subset \mathbb{R}^D\)</span> with intrinsic dimension <span class="arithmatex">\(d \ll D\)</span>. We want to learn a function <span class="arithmatex">\(u\)</span> on the manifold to the solution space of the problem at hand — for instance <span class="arithmatex">\(u : \mathcal{M} \to \mathbb{R}^C\)</span> for <span class="arithmatex">\(C\)</span>-class classification.</p>
+<p>The conventional approach says: parameterize <span class="arithmatex">\(u\)</span> as a neural network and minimize empirical loss. This works, but it ignores the manifold structure entirely. The network spends capacity learning that the function doesn’t vary in <span class="arithmatex">\(D - d\)</span> directions it doesn’t need to care about.</p>
+<p>IGL takes a different route. Instead of learning <span class="arithmatex">\(u\)</span> directly, it frames <span class="arithmatex">\(u\)</span> as the <em>solution</em> to a linear PDE:</p>
+<div class="admonition definition">
+<p class="admonition-title">The IGL Ansatz:</p>
+<p>Frame the target function <span class="arithmatex">\(u\)</span> as the solution to <span class="arithmatex">\(Lu = f\)</span>, where <span class="arithmatex">\(L\)</span> is a chosen differential operator and <span class="arithmatex">\(f\)</span> is a <strong>learned source term</strong>. This is not a physical claim — there is no actual PDE being solved in nature. It is an architectural choice.</p>
+</div>
+<p><mark>The key insight is that we never need to solve the PDE explicitly.</mark> The solution to <span class="arithmatex">\(Lu = f\)</span> is given by <span class="arithmatex">\(u = G * f\)</span>, where <span class="arithmatex">\(G\)</span> is the Green’s function of the operator <span class="arithmatex">\(L\)</span> — a known mathematical object. We just need to evaluate the convolution <span class="arithmatex">\(u(\xi) = \int G(\xi, \zeta) f(\zeta) \, d\zeta\)</span>, and this integral is where the architecture does its work.</p>
+<p>This framing buys three things simultaneously:</p>
+<ol>
+<li>
+<p><strong>A decomposable representation.</strong> The Green’s function <span class="arithmatex">\(G\)</span> admits a low-rank separable approximation, which makes the convolution efficiently computable — as we will see in the next section.</p>
+</li>
+<li>
+<p><strong>A smoothing inductive bias.</strong> Integration is a stable, smoothing operation. Unlike differentiation, it doesn’t amplify noise.</p>
+</li>
+<li>
+<p><strong>Linearity in source weights.</strong> Once the coordinate chart is fixed, the mapping from <span class="arithmatex">\(f\)</span> to <span class="arithmatex">\(u\)</span> is linear. This separates geometry learning (nonlinear, hard) from function fitting (linear, easy).</p>
+</li>
+</ol>
+<p>Figure 3 makes this concrete: for the 2D Laplacian <span class="arithmatex">\(L = -\Delta\)</span>, a source <span class="arithmatex">\(f\)</span> made of several Gaussian bumps is convolved with the Green’s function <span class="arithmatex">\(G(r) \propto \log r\)</span> to produce the smooth solution <span class="arithmatex">\(u\)</span>. Toggle individual source components and adjust their scale to see how the convolution responds — note how integration smooths out sharp features.</p>
+<figure style="margin:2em 0;">
+<div class="igl-widget" id="igl-fig-7" style="border-radius:12px; border:1px solid #e2e8f0; overflow:hidden; padding:28px 20px 22px;">
+<style>:root { --bg:#f9f9f9;--bg-alt:#fff;--text:#171717;--muted:#666;--border:#e2e8f0;
+  --border-strong:#cbd5e1;--primary:#A51209;--blue:#3b82f6;--green:#10b981;
+  --amber:#f59e0b;--purple:#8b5cf6;--red:#ef4444; }
+@media(prefers-color-scheme:dark) { :root { --bg:#0a0a0a;--bg-alt:#171717;--text:#e2e2e2;--muted:#888;
+  --border:#374151;--border-strong:#4b5563; } }
+#igl-fig-7, #igl-fig-7 * { margin:0;padding:0;box-sizing:border-box; }
+#igl-fig-7 { background:var(--bg);font-family:'Source Sans Pro',sans-serif;display:flex;flex-direction:column;
+  align-items:center;padding:28px 20px 22px; }
+#igl-fig-7 .ey { font-size:11px;font-weight:500;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;text-align:center;margin-bottom:5px; }
+#igl-fig-7 .ti { font-size:20px;font-weight:600;color:var(--text);text-align:center;margin-bottom:3px; }
+#igl-fig-7 .su { font-size:13px;color:var(--muted);text-align:center;margin-bottom:18px; }
+#igl-fig-7 .panels { display:flex;gap:8px;align-items:flex-start;width:100%;max-width:760px;flex-wrap:wrap;justify-content:center; }
+#igl-fig-7 .panel { background:var(--bg-alt);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center;flex:1;min-width:200px; }
+#igl-fig-7 .panel-label { font-size:11px;font-weight:600;text-transform:uppercase;letter-spacing:.07em;margin-bottom:8px; }
+#igl-fig-7 canvas { display:block;border-radius:8px;border:1px solid var(--border);margin:0 auto; }
+#igl-fig-7 .op-arrow { display:flex;align-items:center;justify-content:center;font-size:24px;color:var(--muted);padding:0 4px;align-self:center;min-width:30px; }
+#igl-fig-7 .eq-strip { width:100%;max-width:760px;background:var(--bg-alt);border:1px solid var(--border);border-radius:10px;padding:14px 18px;margin-top:14px;text-align:center;font-family:'Roboto Mono',monospace;font-size:13px;color:var(--text);line-height:1.8; }
+#igl-fig-7 .controls { display:flex;gap:10px;margin-top:14px;align-items:center;justify-content:center;flex-wrap:wrap; }
+#igl-fig-7 .controls label { font-size:12px;font-family:'Roboto Mono',monospace;color:var(--muted); }
+#igl-fig-7 input[type=range] { width:100px;accent-color:var(--primary); }
+#igl-fig-7 .sv { font-family:'Roboto Mono',monospace;font-size:12px;color:var(--primary);min-width:36px; }
+#igl-fig-7 .comp-toggles { display:flex;gap:6px;margin-top:10px;justify-content:center;flex-wrap:wrap; }
+#igl-fig-7 .comp-btn { padding:5px 12px;border-radius:6px;cursor:pointer;font-size:11px;font-family:'Roboto Mono',monospace;
+  border:1px solid var(--border);background:var(--bg);color:var(--muted);transition:all .2s; }
+#igl-fig-7 .comp-btn.active { color:#fff; }</style>
+
+<p class="ey">Concrete Example</p>
+<p class="ti">\(-\Delta u = f\) : From Source to Solution via Green's Convolution</p>
+<p class="su">a rank-3 source \(\hat{f} = \sum_{r=1}^{3} w_r \phi_{r,1}(\zeta^1) \phi_{r,2}(\zeta^2)\) convolved with \(G\)</p>
+<div class="panels">
+<div class="panel">
+<div class="panel-label" style="color:var(--amber);">Source \(\hat{f}(\zeta)\)</div>
+<canvas height="200" id="f7_cSrc" width="200"></canvas>
+<div style="font-size:10px;color:var(--muted);margin-top:6px;">rank-3 CP decomposition</div>
+</div>
+<div class="op-arrow">*</div>
+<div class="panel">
+<div class="panel-label" style="color:var(--blue);">Green's function \(G(\xi,\zeta)\)</div>
+<canvas height="200" id="f7_cGreen" width="200"></canvas>
+<div style="font-size:10px;color:var(--muted);margin-top:6px;">\(G(r) \propto \log r\) (2D Laplacian)</div>
+</div>
+<div class="op-arrow">=</div>
+<div class="panel">
+<div class="panel-label" style="color:var(--green);">Solution \(u(\xi) = G * \hat{f}\)</div>
+<canvas height="200" id="f7_cSol" width="200"></canvas>
+<div style="font-size:10px;color:var(--muted);margin-top:6px;">smooth — integration never amplifies noise</div>
+</div>
+</div>
+<div class="comp-toggles">
+<span style="font-size:11px;color:var(--muted);margin-right:4px;">Components:</span>
+<div class="comp-btn active" id="f7_t0" style="border-color:var(--red);background:var(--red);">r=1 (w=1.2)</div>
+<div class="comp-btn active" id="f7_t1" style="border-color:var(--blue);background:var(--blue);">r=2 (w=−0.8)</div>
+<div class="comp-btn active" id="f7_t2" style="border-color:var(--green);background:var(--green);">r=3 (w=0.6)</div>
+</div>
+<div class="controls">
+<label>\(\sigma\) (scale)</label>
+<input id="f7_sigSlider" max="0.3" min="0.06" step="0.01" type="range" value="0.12"/>
+<span class="sv" id="f7_sigVal">0.12</span>
+</div>
+
+
+<script>(function(){ 
+var SZ=200;
+var cSrc=document.getElementById('f7_cSrc'),ctxS=cSrc.getContext('2d');
+var cGreen=document.getElementById('f7_cGreen'),ctxG=cGreen.getContext('2d');
+var cSol=document.getElementById('f7_cSol'),ctxU=cSol.getContext('2d');
+var sigma=0.12;
+var active=[true,true,true];
+
+// Rank-3 CP source: 3 components with different positions, weights, and scales
+var components=[
+  {cx:0.3, cy:0.7, w:1.2,  color:'#ef4444'},
+  {cx:0.7, cy:0.3, w:-0.8, color:'#3b82f6'},
+  {cx:0.5, cy:0.5, w:0.6,  color:'#10b981'}
+];
+
+function gauss(x,y,cx,cy,s){var dx=x-cx,dy=y-cy;return Math.exp(-(dx*dx+dy*dy)/(2*s*s));}
+function greenLog(r){return r<0.005?3.0:-Math.log(r+0.001)/(2*Math.PI);}
+
+function srcFn(x,y){
+  var v=0;
+  for(var r=0;r<3;r++){
+    if(!active[r])continue;
+    v+=components[r].w*gauss(x,y,components[r].cx,components[r].cy,sigma);
+  }
+  return v;
+}
+
+function hsl2rgb(h,s,l){var r2,g,b;if(s===0){r2=g=b=l;}else{
+  var q=l<.5?l*(1+s):l+s-l*s,p=2*l-q;
+  function f(t){t=((t%1)+1)%1;return t<1/6?p+(q-p)*6*t:t<.5?q:t<2/3?p+(q-p)*(2/3-t)*6:p;}
+  r2=f(h+1/3);g=f(h);b=f(h-1/3);}return[r2*255|0,g*255|0,b*255|0];}
+
+function drawField(ctx,fn,hueBase,hueRange,diverging){
+  var img=ctx.createImageData(SZ,SZ);var d=img.data;
+  var mn=Infinity,mx=-Infinity;
+  var vals=new Float32Array(SZ*SZ);
+  for(var py=0;py<SZ;py++)for(var px=0;px<SZ;px++){
+    var v=fn(px/(SZ-1),1-py/(SZ-1));vals[py*SZ+px]=v;
+    if(v<mn)mn=v;if(v>mx)mx=v;}
+  var rng=mx-mn||1;
+  for(var py=0;py<SZ;py++)for(var px=0;px<SZ;px++){
+    var v=(vals[py*SZ+px]-mn)/rng;
+    var h,s2,l;
+    if(diverging){
+      // Blue-white-red diverging colormap
+      var mid=(0-mn)/rng;
+      if(v<mid){var t=v/mid;h=220/360;s2=0.8*(1-t);l=0.3+0.7*t;}
+      else{var t=(v-mid)/(1-mid);h=10/360;s2=0.8*t;l=1.0-0.7*t;}
+    }else{
+      h=(hueBase+v*hueRange)/360;s2=0.7;l=0.12+v*0.5;
+    }
+    var rgb=hsl2rgb(h,s2,l);
+    var i=(py*SZ+px)*4;d[i]=rgb[0];d[i+1]=rgb[1];d[i+2]=rgb[2];d[i+3]=255;}
+  ctx.putImageData(img,0,0);
+  ctx.strokeStyle='rgba(255,255,255,0.1)';ctx.lineWidth=1;
+  for(var i=1;i<4;i++){ctx.beginPath();ctx.moveTo(i*SZ/4,0);ctx.lineTo(i*SZ/4,SZ);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(0,i*SZ/4);ctx.lineTo(SZ,i*SZ/4);ctx.stroke();}
+}
+
+function computeSolution(x,y){
+  var sum=0;var N=32;var ds=1.0/N;
+  for(var i=0;i<N;i++)for(var j=0;j<N;j++){
+    var sx=(i+0.5)*ds,sy=(j+0.5)*ds;
+    var fv=srcFn(sx,sy);
+    var r=Math.sqrt((x-sx)*(x-sx)+(y-sy)*(y-sy));
+    var gv=greenLog(r);
+    sum+=fv*gv*ds*ds;}
+  return sum;
+}
+
+function draw(){
+  var hasneg=false;for(var r=0;r<3;r++)if(active[r]&&components[r].w<0)hasneg=true;
+  drawField(ctxS,srcFn,30,30,hasneg);
+  drawField(ctxG,function(x,y){
+    var r=Math.sqrt((x-0.5)*(x-0.5)+(y-0.5)*(y-0.5));
+    return greenLog(r);},200,40,false);
+  drawField(ctxU,computeSolution,140,-50,false);
+  // Draw component markers on source
+  for(var r=0;r<3;r++){
+    if(!active[r])continue;
+    var px=components[r].cx*SZ,py=(1-components[r].cy)*SZ;
+    ctxS.strokeStyle=components[r].color;ctxS.lineWidth=2;
+    ctxS.beginPath();ctxS.arc(px,py,6,0,Math.PI*2);ctxS.stroke();
+    ctxS.fillStyle=components[r].color;ctxS.font="bold 9px Source Sans Pro, sans-serif";ctxS.textAlign='center';
+    ctxS.fillText(components[r].w>0?'+':'−',px,py+3);
+  }
+}
+
+// Toggle buttons
+var toggleBtns=[document.getElementById('f7_t0'),document.getElementById('f7_t1'),document.getElementById('f7_t2')];
+for(var i=0;i<3;i++){(function(idx){
+  toggleBtns[idx].addEventListener('click',function(){
+    active[idx]=!active[idx];
+    if(active[idx]){toggleBtns[idx].classList.add('active');toggleBtns[idx].style.background=components[idx].color;toggleBtns[idx].style.color='#fff';}
+    else{toggleBtns[idx].classList.remove('active');toggleBtns[idx].style.background='var(--bg)';toggleBtns[idx].style.color='var(--muted)';}
+    draw();
+  });
+})(i);}
+
+document.getElementById('f7_sigSlider').addEventListener('input',function(e){
+  sigma=parseFloat(e.target.value);
+  document.getElementById('f7_sigVal').textContent=sigma.toFixed(2);draw();});
+draw();
+ })();</script>
+</div>
+<figcaption style="text-align:center; font-size:0.85em; color:#64748b; margin-top:8px; font-style:italic;"><strong>Figure 3.</strong> Concrete example of the IGL ansatz with the 2D Laplacian: a source \(f(\zeta)\) (left) is convolved with the Green's function \(G(\xi, \zeta) \propto \log|\xi - \zeta|\) (center) to produce the smooth solution \(u(\xi) = G * f\) (right). Adjust \(\sigma\) to control source scale and toggle components to see how each contributes.</figcaption>
+</figure>
+<hr/>
+<h3 id="the-igl-framework">The IGL Framework<a class="headerlink" href="#the-igl-framework" title="Permanent link">¶</a></h3>
+<p>Now that we have the PDE ansatz, here is how the full architecture works. This section gives the complete picture; the subsections that follow develop each component in detail.</p>
+<p><strong>Choose an operator.</strong> The differential operator <span class="arithmatex">\(L\)</span> is a design choice made before training — the Laplacian for smooth fields, Helmholtz for localized features, Gabor atoms for textures. Each operator defines a different Green’s function <span class="arithmatex">\(G\)</span>, encoding a prior about what kind of function the data requires.</p>
+<p><strong>Encode to intrinsic coordinates.</strong> An encoder <span class="arithmatex">\(\Psi\)</span> (a standard MLP or CNN) maps each input <span class="arithmatex">\(x \in \mathbb{R}^D\)</span> to intrinsic coordinates <span class="arithmatex">\(\xi \in \mathbb{R}^d\)</span>. Each coordinate is multiplied by a learnable gate <span class="arithmatex">\(g_j \in [0,1]\)</span>: during training, a sparsity penalty drives unnecessary dimensions to zero. Strictly speaking, what IGL discovers is not the topological intrinsic dimension of the manifold, but rather the <mark>minimal number of nonlinear components needed to express the target function on the manifold in the ambient space coordinates</mark>. These two quantities often coincide (as on MNIST), but the distinction is important — we will provide further experiments and theory on this in a future article on task-conditioned dimension. The encoder’s job is to find coordinates where the target function decomposes as a product of univariate terms — minimising tensor rank, not preserving distances.</p>
+<p><strong>Factor the integral.</strong> Both the source <span class="arithmatex">\(\hat{f}\)</span> and the Green’s function <span class="arithmatex">\(G\)</span> are parameterized as sums of separable products. Fubini’s theorem then splits the <span class="arithmatex">\(d\)</span>-dimensional convolution into <span class="arithmatex">\(d\)</span> independent 1D integrals, reducing cost from <span class="arithmatex">\(O(N^d)\)</span> to <mark><span class="arithmatex">\(O(KRd)\)</span> — linear in dimension</mark>.</p>
+<p><strong>Solve in two stages.</strong> Joint optimization leads to dimensional collapse: the encoder takes shortcuts and the geometry is never recovered. IGL uses Variable Projection: at every step, source weights are solved <em>exactly</em> by least squares (Stage 2), then the encoder updates by gradient descent (Stage 1). The envelope theorem guarantees the encoder gradient reflects only coordinate quality.</p>
+<p>The complete model output is:</p>
+<div class="arithmatex">\[u(\xi) = \underbrace{\sum_{k,r} \gamma_k w_r \prod_{j=1}^{d} I_{k,r,j}(\xi^j)}_{\text{particular solution: } G * \hat{f}} + \underbrace{\sum_{|\beta| \leq p} c_\beta \prod_j (\xi^j)^{\beta_j}}_{\text{null-space polynomials}}\]</div>
+<p>The polynomial augmentation handles the null space of <span class="arithmatex">\(L\)</span> (e.g. constants for the Laplacian). The parameter split is clean:</p>
+<table>
+<thead>
+<tr>
+<th>Stage</th>
+<th>Parameters</th>
+<th>Optimized by</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Stage 1</strong> (outer)</td>
+<td>Encoder <span class="arithmatex">\(\theta_\Psi\)</span>, gates <span class="arithmatex">\(g_j\)</span>, anchors <span class="arithmatex">\(\mu_{r,j}\)</span>, kernel scales <span class="arithmatex">\(\sigma_{k,j}\)</span></td>
+<td>Gradient descent</td>
+</tr>
+<tr>
+<td><strong>Stage 2</strong> (inner)</td>
+<td>Source weights <span class="arithmatex">\(w_r\)</span>, polynomial coefficients <span class="arithmatex">\(c_\beta\)</span></td>
+<td>Exact least squares</td>
+</tr>
+</tbody>
+</table>
+<div class="admonition definition">
+<p class="admonition-title">Beyond PDEs</p>
+<p>While the framework is motivated by PDE theory, its reach extends further: any positive-definite kernel defines an integral operator whose structure parallels Green’s convolution. This opens the door to connecting IGL with <mark>attention mechanisms</mark>, whose exponential dot-product kernel shares the multiplicative structure of a separable Green’s function — a direction we are actively exploring.</p>
+</div>
+<p>Figure 4 shows the full architecture diagram. The following subsections develop each component in detail.</p>
+<figure style="margin:2em 0;">
+<div class="igl-widget" id="igl-fig-6" style="border-radius:12px; border:1px solid #e2e8f0; overflow:hidden; padding:28px 20px 22px;">
+<style>:root { 
+  --bg:#f9f9f9;--bg-alt:#fff;--text:#171717;--muted:#666;
+  --border:#e2e8f0;--border-strong:#cbd5e1;
+  --primary:#A51209;--blue:#3b82f6;--green:#10b981;
+  --amber:#f59e0b;--purple:#8b5cf6;--red:#ef4444;
+ }
+@media(prefers-color-scheme:dark) { :root { 
+  --bg:#0a0a0a;--bg-alt:#171717;--text:#e2e2e2;--muted:#888;
+  --border:#374151;--border-strong:#4b5563;
+ } }
+#igl-fig-6, #igl-fig-6 * { margin:0;padding:0;box-sizing:border-box; }
+#igl-fig-6 { background:var(--bg);font-family:'Inter',sans-serif;
+  display:flex;flex-direction:column;align-items:center;padding:28px 20px 22px; }
+#igl-fig-6 .ey { font-size:11px;font-weight:500;color:var(--muted);letter-spacing:.1em;
+  text-transform:uppercase;text-align:center;margin-bottom:5px; }
+#igl-fig-6 .ti { font-size:20px;font-weight:600;color:var(--text);
+  text-align:center;margin-bottom:3px; }
+#igl-fig-6 .su { font-size:13px;color:var(--muted);text-align:center;margin-bottom:18px; }
+#igl-fig-6 .cap { margin-top:14px;font-size:12.5px;color:var(--muted);max-width:700px;
+  text-align:center;line-height:1.7; }
+#igl-fig-6 .cap em { color:var(--text);font-style:normal;font-weight:500; }
+#igl-fig-6 svg { display:block;max-width:100%;height:auto; }</style>
+
+<p class="ey">Architecture</p>
+<p class="ti">IGL: Two-Stage Variable Projection</p>
+<p class="su">Stage 1 optimises coordinates via gradient descent · Stage 2 fits source weights by exact least squares</p>
+<svg style="width:820px;max-width:100%;" viewbox="0 0 820 440"><defs>
+<marker id="f6_ah" markerheight="6" markerwidth="7" orient="auto" refx="6.5" refy="3">
+<path d="M0,0.5 L7,3 L0,5.5 L1.5,3Z" fill="var(--muted)" opacity="0.7"></path></marker>
+<marker id="f6_ahr" markerheight="6" markerwidth="7" orient="auto" refx="6.5" refy="3">
+<path d="M0,0.5 L7,3 L0,5.5 L1.5,3Z" fill="var(--primary)"></path></marker>
+<marker id="f6_ahg" markerheight="6" markerwidth="7" orient="auto" refx="6.5" refy="3">
+<path d="M0,0.5 L7,3 L0,5.5 L1.5,3Z" fill="var(--green)"></path></marker>
+</defs>
+<rect fill="var(--bg)" height="440" rx="8" width="820"></rect>
+<!-- Stage 1 background -->
+<rect fill="var(--bg-alt)" height="200" rx="12" stroke="var(--blue)" stroke-opacity="0.25" stroke-width="1.5" width="500" x="10" y="10"></rect>
+<text fill="var(--blue)" font-family="'Source Sans Pro',sans-serif" font-size="10" font-weight="600" letter-spacing="0.08em" opacity="0.8" x="24" y="30">STAGE 1 — OUTER LOOP · GRADIENT DESCENT</text>
+<!-- Stage 2 background -->
+<rect fill="var(--bg-alt)" height="200" rx="12" stroke="var(--green)" stroke-opacity="0.25" stroke-width="1.5" width="286" x="524" y="10"></rect>
+<text fill="var(--green)" font-family="'Source Sans Pro',sans-serif" font-size="10" font-weight="600" letter-spacing="0.08em" opacity="0.8" x="538" y="30">STAGE 2 — INNER SOLVE · LSTSQ</text>
+<!-- Box: Input -->
+<rect fill="var(--bg)" height="58" rx="8" stroke="var(--border-strong)" stroke-width="1" width="84" x="24" y="50"></rect>
+<text fill="var(--muted)" font-family="'Source Sans Pro',sans-serif" font-size="10" text-anchor="middle" x="66" y="70">Input</text>
+<text fill="var(--text)" font-family="'Source Sans Pro',sans-serif" font-size="15" font-weight="700" text-anchor="middle" x="66" y="86">x ∈ ℝᴰ</text>
+<text fill="var(--muted)" font-family="'Roboto Mono',monospace" font-size="8" text-anchor="middle" x="66" y="100">D = ambient</text>
+<!-- Arrow → Encoder -->
+<line marker-end="url(#f6_ah)" stroke="var(--border-strong)" stroke-width="1.5" x1="108" x2="130" y1="79" y2="79"></line>
+<!-- Box: Encoder Ψ -->
+<rect fill="var(--primary)" fill-opacity="0.06" height="58" rx="8" stroke="var(--primary)" stroke-opacity="0.35" stroke-width="1.2" width="100" x="132" y="50"></rect>
+<text fill="var(--primary)" font-family="'Source Sans Pro',sans-serif" font-size="10" font-weight="600" text-anchor="middle" x="182" y="70">Encoder Ψ</text>
+<text fill="var(--primary)" font-family="'Source Sans Pro',sans-serif" font-size="13" text-anchor="middle" x="182" y="86">ℝᴰ → ℝᵈ</text>
+<text fill="var(--muted)" font-family="'Roboto Mono',monospace" font-size="8" text-anchor="middle" x="182" y="100">MLP / CNN + gates</text>
+<!-- Arrow → Coords -->
+<line marker-end="url(#f6_ah)" stroke="var(--border-strong)" stroke-width="1.5" x1="232" x2="254" y1="79" y2="79"></line>
+<!-- Box: Coordinates ξ -->
+<rect fill="var(--purple)" fill-opacity="0.06" height="58" rx="8" stroke="var(--purple)" stroke-opacity="0.35" stroke-width="1.2" width="90" x="256" y="50"></rect>
+<text fill="var(--purple)" font-family="'Source Sans Pro',sans-serif" font-size="10" font-weight="600" text-anchor="middle" x="301" y="70">Coordinates</text>
+<text fill="var(--purple)" font-family="'Source Sans Pro',sans-serif" font-size="13" text-anchor="middle" x="301" y="86">ξ ∈ ℝᵈ</text>
+<text fill="var(--muted)" font-family="'Roboto Mono',monospace" font-size="8" text-anchor="middle" x="301" y="100">d ≪ D</text>
+<!-- Arrow → Design matrix -->
+<line marker-end="url(#f6_ah)" stroke="var(--border-strong)" stroke-width="1.5" x1="346" x2="372" y1="79" y2="79"></line>
+<text fill="var(--muted)" font-family="'Roboto Mono',monospace" font-size="8" text-anchor="middle" x="359" y="72">build Φ</text>
+<!-- Box: Design Matrix Φ -->
+<rect fill="var(--amber)" fill-opacity="0.06" height="58" rx="8" stroke="var(--amber)" stroke-opacity="0.35" stroke-width="1.2" width="126" x="374" y="50"></rect>
+<text fill="var(--amber)" font-family="'Source Sans Pro',sans-serif" font-size="10" font-weight="600" text-anchor="middle" x="437" y="67">Design Matrix</text>
+<text fill="var(--amber)" font-family="'Source Sans Pro',sans-serif" font-size="13" text-anchor="middle" x="437" y="83">Φ ∈ ℝᴺ⸱ᴷᴿ</text>
+<text fill="var(--muted)" font-family="'Roboto Mono',monospace" font-size="8" text-anchor="middle" x="437" y="96">Φₙ₍ₖᵣ₎ = γₖ ∏ⱼ Iₖᵣⱼ</text>
+<text fill="var(--muted)" font-family="'Roboto Mono',monospace" font-size="8" text-anchor="middle" x="437" y="106">1D integrals only</text>
+<!-- Arrow into Stage 2 -->
+<line marker-end="url(#f6_ahg)" stroke="var(--green)" stroke-width="2" x1="500" x2="538" y1="79" y2="79"></line>
+<text fill="var(--green)" font-family="'Roboto Mono',monospace" font-size="9" text-anchor="middle" x="519" y="72">Φ, y</text>
+<!-- Box: lstsq solve -->
+<rect fill="var(--green)" fill-opacity="0.06" height="65" rx="8" stroke="var(--green)" stroke-opacity="0.35" stroke-width="1.2" width="258" x="540" y="44"></rect>
+<text fill="var(--green)" font-family="'Source Sans Pro',sans-serif" font-size="10" font-weight="600" text-anchor="middle" x="669" y="64">Exact Least Squares</text>
+<text fill="var(--green)" font-family="'Source Sans Pro',sans-serif" font-size="15" font-weight="700" text-anchor="middle" x="669" y="82">w* = argmin‖Φw−y‖²</text>
+<text fill="var(--muted)" font-family="'Roboto Mono',monospace" font-size="9" text-anchor="middle" x="669" y="100">O(KR) parameters · near-convex</text>
+<!-- Prediction box -->
+<rect fill="var(--bg)" height="48" rx="8" stroke="var(--border)" stroke-width="1" width="258" x="540" y="122"></rect>
+<text fill="var(--text)" font-family="'Source Sans Pro',sans-serif" font-size="10" font-weight="600" text-anchor="middle" x="669" y="141">Prediction u(ξ) = Φ·w* + poly(ξ)</text>
+<text fill="var(--muted)" font-family="'Roboto Mono',monospace" font-size="9" text-anchor="middle" x="669" y="157">particular sol + null-space polynomials</text>
+<text fill="var(--green)" font-family="'Roboto Mono',monospace" font-size="9" text-anchor="middle" x="669" y="168">O(KRd) per sample · linear in d ✓</text>
+<line stroke="var(--green)" stroke-dasharray="4 3" stroke-width="1.5" x1="669" x2="669" y1="109" y2="122"></line>
+<!-- Gate sub-note -->
+<rect fill="var(--purple)" fill-opacity="0.06" height="28" rx="6" stroke="var(--purple)" stroke-opacity="0.25" stroke-width="1" width="100" x="132" y="118"></rect>
+<text fill="var(--purple)" font-family="'Source Sans Pro',sans-serif" font-size="9" font-weight="600" text-anchor="middle" x="182" y="130">gates gⱼ ∈ [0,1]</text>
+<text fill="var(--muted)" font-family="'Roboto Mono',monospace" font-size="8" text-anchor="middle" x="182" y="141">Hard Concrete · L₀</text>
+<line stroke="var(--purple)" stroke-dasharray="3 2" stroke-opacity="0.4" stroke-width="1" x1="182" x2="182" y1="108" y2="118"></line>
+<!-- Feedback arrow -->
+<path d="M 437,108 L 437,170 L 66,170 L 66,108" fill="none" marker-end="url(#f6_ahr)" stroke="var(--primary)" stroke-dasharray="6 3" stroke-width="1.5"></path>
+<rect fill="var(--primary)" fill-opacity="0.06" height="20" rx="5" stroke="var(--primary)" stroke-opacity="0.25" stroke-width="1" width="150" x="192" y="175"></rect>
+<text fill="var(--primary)" font-family="'Source Sans Pro',sans-serif" font-size="10" font-weight="600" text-anchor="middle" x="267" y="189">∇_θ L  (encoder gradient)</text>
+<!-- Source box -->
+<rect fill="var(--bg)" height="50" rx="8" stroke="var(--border)" stroke-width="1" width="486" x="24" y="230"></rect>
+<text fill="var(--text)" font-family="'Source Sans Pro',sans-serif" font-size="10" font-weight="600" text-anchor="middle" x="267" y="250">Source  f̂(ζ) = Σᵣ wᵣ ∏ⱼ φᵣⱼ(ζʲ)</text>
+<text fill="var(--muted)" font-family="'Roboto Mono',monospace" font-size="9" text-anchor="middle" x="267" y="268">anchors μᵣⱼ ∈ Stage 1  ·  weights wᵣ ∈ Stage 2  ·  O(Rd) params  ·  RBF basis φ</text>
+<!-- Envelope theorem box -->
+<rect fill="var(--bg)" height="60" rx="8" stroke="var(--border)" stroke-width="1" width="486" x="24" y="298"></rect>
+<text fill="var(--text)" font-family="'Source Sans Pro',sans-serif" font-size="11" font-weight="600" text-anchor="middle" x="267" y="316">Envelope Theorem — Why VP Prevents Dimensional Collapse</text>
+<text fill="var(--muted)" font-family="'Roboto Mono',monospace" font-size="9" x="34" y="333">At Stage 2 optimum:  ∂L/∂w = 0  →  ∇_θ L = −∂²L/∂w∂θ · w*</text>
+<text fill="var(--primary)" font-family="'Roboto Mono',monospace" font-size="9" x="34" y="348">Joint: source compensates bad coords → collapse. VP: impossible.</text>
+<!-- Complexity box -->
+<rect fill="var(--bg)" height="128" rx="8" stroke="var(--border)" stroke-width="1" width="258" x="540" y="230"></rect>
+<text fill="var(--text)" font-family="'Source Sans Pro',sans-serif" font-size="11" font-weight="600" text-anchor="middle" x="669" y="250">Complexity</text>
+<text fill="var(--muted)" font-family="'Roboto Mono',monospace" font-size="10" text-anchor="middle" x="669" y="272">Encoder:  O(DW²)</text>
+<text fill="var(--green)" font-family="'Roboto Mono',monospace" font-size="10" text-anchor="middle" x="669" y="292">Stage 2:  O(KRd) ← negligible</text>
+<text fill="var(--muted)" font-family="'Roboto Mono',monospace" font-size="10" text-anchor="middle" x="669" y="312">K = O(log ε⁻¹) dim-independent</text>
+<text fill="var(--blue)" font-family="'Roboto Mono',monospace" font-size="10" text-anchor="middle" x="669" y="340">Total: O(DW² + KRd)</text>
+</svg>
+
+</div>
+<figcaption style="text-align:center; font-size:0.85em; color:#64748b; margin-top:8px; font-style:italic;"><strong>Figure 4.</strong> The full IGL architecture. <em>Stage 1 (outer):</em> encoder \(\Psi\), gate parameters \(\{g_j\}\), source anchors \(\{\mu_{r,j}\}\), and kernel scales \(\{\sigma_{k,j}\}\) are updated by gradient descent. <em>Stage 2 (inner):</em> for fixed \(\theta\), source weights \(w\) are solved exactly by least squares — \(O(KR)\) parameters, near-convex. The envelope theorem ensures the encoder gradient measures only coordinate quality, preventing dimensional collapse.</figcaption>
+</figure>
+<hr/>
+<h4 id="the-factorization-trick">The Factorization Trick<a class="headerlink" href="#the-factorization-trick" title="Permanent link">¶</a></h4>
+<blockquote>
+<p>How do you compute a d-dimensional integral without paying exponential cost?</p>
+</blockquote>
+<p>Computing <span class="arithmatex">\(u(\xi) = \int_\Omega G(\xi, \zeta) f(\zeta) \, d\zeta\)</span> naively in <span class="arithmatex">\(d\)</span> dimensions costs <span class="arithmatex">\(O(N^d)\)</span> — exponential in the intrinsic dimension. IGL escapes it through <strong>tensor decomposition</strong>.</p>
+<p>The idea is simple: if both <span class="arithmatex">\(f\)</span> and <span class="arithmatex">\(G\)</span> factor as products of univariate functions, Fubini’s theorem splits the <span class="arithmatex">\(d\)</span>-dimensional integral into <span class="arithmatex">\(d\)</span> independent 1D integrals.</p>
+<p><strong>Step 1: Factorize the source.</strong> Parameterize <span class="arithmatex">\(f\)</span> as a rank-<span class="arithmatex">\(R\)</span> CP (Canonical Polyadic) decomposition:</p>
+<div class="arithmatex">\[\hat{f}(\zeta) = \sum_{r=1}^{R} w_r \prod_{j=1}^{d} \phi_{r,j}(\zeta^j)\]</div>
+<p>Each <span class="arithmatex">\(\phi_{r,j}\)</span> is a univariate basis function (e.g. a Gaussian RBF centered at anchor point <span class="arithmatex">\(\mu_{r,j}\)</span>). The <span class="arithmatex">\(w_r\)</span> are scalar weights. This representation has <span class="arithmatex">\(O(Rd)\)</span> parameters — linear in both rank and dimension, not exponential.</p>
+<p><strong>Step 2: Factorize the Green’s function.</strong> Approximate <span class="arithmatex">\(G\)</span> as a rank-<span class="arithmatex">\(K\)</span> sum of separable kernels:</p>
+<div class="arithmatex">\[G(\xi, \zeta) \approx \sum_{k=1}^{K} \gamma_k \prod_{j=1}^{d} G_{k,j}(\xi^j, \zeta^j)\]</div>
+<p>This is not an approximation we pull from thin air. For elliptic operators (Laplacian, Helmholtz), the <em>exponential sum trick</em> provides a rigorous bound: the rank <span class="arithmatex">\(K\)</span> needed to achieve approximation error <span class="arithmatex">\(\varepsilon\)</span> scales as <span class="arithmatex">\(O(\log(1/\varepsilon))\)</span>, independent of dimension. <mark>This means <span class="arithmatex">\(K\)</span> does not grow exponentially to approximate <span class="arithmatex">\(G\)</span> as separable</mark> — and this is why IGL has dimension-independent cost in the Green’s function component.</p>
+<div class="admonition warning">
+<p class="admonition-title">What about the source rank <span class="arithmatex">\(R\)</span>?</p>
+<p>Unlike <span class="arithmatex">\(G\)</span>, the source <span class="arithmatex">\(f\)</span> has <strong>no a priori low-rank guarantee</strong>. The rank <span class="arithmatex">\(R\)</span> needed for the CP decomposition of <span class="arithmatex">\(\hat{f}\)</span> depends entirely on the coordinate chart chosen by the encoder. A bad chart can make even a simple function require high rank — for example, a Gaussian <span class="arithmatex">\(e^{-r^2}\)</span> is rank-1 in Cartesian coordinates but needs cross-terms in a rotated frame. This is precisely why the encoder <span class="arithmatex">\(\Psi\)</span> is essential: its job is to find coordinates where the target admits a low-rank decomposition. The Group Lasso penalty on source weights creates pressure to minimise <span class="arithmatex">\(R\)</span>, but the achievable rank is task-dependent and coordinate-dependent — not guaranteed by theory.</p>
+</div>
+<p><strong>Step 3: Apply Fubini.</strong> Substituting both decompositions into the integral:</p>
+<div class="arithmatex">\[u(\xi) = \sum_{k,r} \gamma_k w_r \prod_{j=1}^{d} \underbrace{\int G_{k,j}(\xi^j, \zeta^j) \phi_{r,j}(\zeta^j) \, d\zeta^j}_{I_{k,r,j}(\xi^j)}\]</div>
+<p>Because each term in the integrand depends on exactly one <span class="arithmatex">\(\zeta^j\)</span>, the <span class="arithmatex">\(d\)</span>-dimensional integral factors into a <strong>product of <span class="arithmatex">\(d\)</span> independent 1D integrals</strong> <span class="arithmatex">\(I_{k,r,j}\)</span>. <mark>Total cost: <span class="arithmatex">\(O(KRd)\)</span> per sample — <strong>linear in the intrinsic dimension <span class="arithmatex">\(d\)</span></strong></mark>.</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>Principle</th>
+<th>Per-sample cost</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>MLP (2 layers, width W)</td>
+<td>Composition</td>
+<td><span class="arithmatex">\(O(DW^2)\)</span></td>
+</tr>
+<tr>
+<td>PINNs</td>
+<td>Differentiation</td>
+<td><span class="arithmatex">\(O(DW^2)\)</span></td>
+</tr>
+<tr>
+<td>Kernel Ridge</td>
+<td>Integration</td>
+<td><span class="arithmatex">\(O(N^2)\)</span></td>
+</tr>
+<tr>
+<td>KANs (grid size G)</td>
+<td>Composition</td>
+<td><span class="arithmatex">\(O(DG)\)</span></td>
+</tr>
+<tr>
+<td>Neural Operators</td>
+<td>Integration</td>
+<td><span class="arithmatex">\(O(N_{\text{modes}}^d)\)</span></td>
+</tr>
+<tr>
+<td><strong>IGL</strong></td>
+<td>Integration</td>
+<td><span class="arithmatex">\(O(DW^2 + KRd)\)</span></td>
+</tr>
+</tbody>
+</table>
+<p>Figure 5 visualises this factorization interactively — hover over the 2D source to see how it decomposes into 1D factors.</p>
+<figure style="margin:2em 0;">
+<div class="igl-widget" id="igl-fig-5" style="border-radius:12px; border:1px solid #e2e8f0; overflow:hidden; padding:28px 20px 22px;">
+<style>:root { 
+  --bg:#f9f9f9;--bg-alt:#fff;--text:#171717;--muted:#666;
+  --border:#e2e8f0;--border-strong:#cbd5e1;
+  --primary:#A51209;--blue:#3b82f6;--green:#10b981;
+  --amber:#f59e0b;--purple:#8b5cf6;--red:#ef4444;
+  --mono:'Roboto Mono',monospace;
+ }
+@media(prefers-color-scheme:dark) { :root { 
+  --bg:#0a0a0a;--bg-alt:#171717;--text:#e2e2e2;--muted:#888;
+  --border:#374151;--border-strong:#4b5563;
+ } }
+#igl-fig-5, #igl-fig-5 * { margin:0;padding:0;box-sizing:border-box; }
+#igl-fig-5 { background:var(--bg);font-family:'Source Sans Pro',sans-serif;
+  display:flex;flex-direction:column;align-items:center;padding:28px 20px 22px; }
+#igl-fig-5 .ey { font-size:11px;font-weight:500;color:var(--muted);letter-spacing:.1em;
+  text-transform:uppercase;text-align:center;margin-bottom:5px; }
+#igl-fig-5 .ti { font-family:'Source Sans Pro',sans-serif;font-size:20px;color:var(--text);
+  text-align:center;margin-bottom:3px; }
+#igl-fig-5 .su { font-size:13px;color:var(--muted);text-align:center;margin-bottom:18px; }
+#igl-fig-5 .cap { margin-top:14px;font-size:12.5px;color:var(--muted);max-width:700px;
+  text-align:center;line-height:1.7; }
+#igl-fig-5 .cap em { color:var(--text);font-style:normal;font-weight:500; }
+#igl-fig-5 svg { display:block;max-width:100%;height:auto; }
+#igl-fig-5 canvas { display:block;border-radius:10px;border:1px solid var(--border); }
+#igl-fig-5 .main-grid { display:flex;align-items:center;justify-content:center;gap:0;width:760px;max-width:100%; }
+#igl-fig-5 .eq-sign { font-family:'Source Sans Pro',sans-serif;font-size:32px;color:var(--muted);padding:0 10px; }
+#igl-fig-5 .right-panel { display:flex;flex-direction:column;gap:8px; }
+#igl-fig-5 .rl { font-size:11px;color:var(--muted);text-align:center;margin-bottom:2px;font-family:'Source Sans Pro',sans-serif; }
+#igl-fig-5 .math-strip { width:760px;max-width:100%;background:var(--bg-alt);border:1px solid var(--border);
+  border-radius:10px;padding:16px 20px;margin-top:12px;font-family:'Roboto Mono',monospace; }
+#igl-fig-5 .eq-row { display:flex;align-items:flex-start;gap:10px;margin-bottom:9px;line-height:1.6;font-size:13px; }
+#igl-fig-5 .eq-row:last-child { margin-bottom:0; }
+#igl-fig-5 .eq-num { color:var(--muted);font-size:11px;min-width:20px;padding-top:2px; }
+#igl-fig-5 .cost-row { display:flex;gap:10px;margin-top:12px;width:760px;max-width:100%; }
+#igl-fig-5 .cost-box { flex:1;background:var(--bg-alt);border:1px solid var(--border);border-radius:10px;padding:14px 16px;text-align:center; }
+#igl-fig-5 .cost-box.bad { border-color:rgba(239,68,68,0.4); }
+#igl-fig-5 .cost-box.good { border-color:rgba(16,185,129,0.4); }
+#igl-fig-5 .cl { font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:5px; }
+#igl-fig-5 .cv { font-family:'Roboto Mono',monospace;font-size:18px;font-weight:600; }
+#igl-fig-5 .cv.bad { color:var(--red); }
+#igl-fig-5 .cv.good { color:var(--green); }
+#igl-fig-5 .cd { font-size:11px;color:var(--muted);margin-top:4px; }</style>
+
+<p class="ey">Core Result</p>
+<p class="ti">Fubini Factorization: d-Dim → d × 1D</p>
+<p class="su">separable source + separable kernel → d-dimensional integral splits into d independent 1D integrals</p>
+<div class="main-grid">
+<div style="display:flex;flex-direction:column;align-items:center;">
+<p class="rl">\(\hat{f}(\zeta^1, \zeta^2)\) — hover to explore</p>
+<canvas height="300" id="f5_c2d" width="300"></canvas>
+<p class="rl" style="margin-top:6px;color:var(--red);">2D Integral: naively \(O(N^2)\)</p>
+</div>
+<div class="eq-sign">=</div>
+<div class="right-panel">
+<div><p class="rl" style="color:var(--green);">1D factor: \(\int G \cdot \phi_1 \, d\zeta^1\)</p>
+<canvas height="126" id="f5_c1x" width="300"></canvas></div>
+<div style="font-family:'Source Sans Pro',sans-serif;font-size:22px;color:var(--muted);text-align:center;">×</div>
+<div><p class="rl" style="color:var(--blue);">1D factor: \(\int G \cdot \phi_2 \, d\zeta^2\)</p>
+<canvas height="126" id="f5_c1y" width="300"></canvas></div>
+<p class="rl" style="margin-top:4px;color:var(--green);">Each 1D: \(O(N)\) — product = same result ✓</p>
+</div>
+</div>
+<div class="math-strip">
+<div class="eq-row"><span class="eq-num">(1)</span><span>\(u(\xi) = \iint G(\xi,\zeta)\cdot\hat{f}(\zeta)\,d\zeta^1 d\zeta^2\)  — d-dimensional, naively \(O(N^d)\)</span></div>
+<div class="eq-row"><span class="eq-num">(2)</span><span>\(\hat{f}(\zeta) = \sum_r w_r\) <span style="color:var(--purple)">\(\phi_{r1}(\zeta^1)\cdot\phi_{r2}(\zeta^2)\)</span>,   \(G(\xi,\zeta) \approx \sum_k \gamma_k\) <span style="color:var(--purple)">\(G_{k1}(\xi^1,\zeta^1)\cdot G_{k2}(\xi^2,\zeta^2)\)</span>  — rank-R, rank-K</span></div>
+<div class="eq-row"><span class="eq-num">(3)</span><span>\(u(\xi) = \sum_{k,r} \gamma_k w_r\) <span style="color:var(--amber)">\(\bigl[\int G_{k1}(\xi^1,\zeta^1)\phi_{r1}(\zeta^1)\,d\zeta^1\bigr]\cdot\bigl[\int G_{k2}(\xi^2,\zeta^2)\phi_{r2}(\zeta^2)\,d\zeta^2\bigr]\)</span>  ← <strong style="color:var(--primary)">Fubini</strong></span></div>
+<div class="eq-row"><span class="eq-num">(4)</span><span>\(u(\xi) = \sum_{k,r} \gamma_k w_r\) <span style="color:var(--green)">\(I_{kr1}(\xi^1)\)</span>\(\cdot\)<span style="color:var(--green)">\(I_{kr2}(\xi^2)\)</span>  — product of 1D integrals only ✓</span></div>
+</div>
+<div class="cost-row">
+<div class="cost-box bad"><div class="cl">Naive d-dim integral</div><div class="cv bad">\(O(N^d)\)</div><div class="cd">Exponential in d — intractable for d &gt; 4</div></div>
+<div style="display:flex;align-items:center;font-size:24px;color:var(--muted);padding:0 8px;">→</div>
+<div class="cost-box good"><div class="cl">Factorized IGL</div><div class="cv good">\(O(KRd)\)</div><div class="cd">Linear in d · \(K = O(\log \varepsilon^{-1})\) dim-independent</div></div>
+</div>
+
+
+<script>(function(){ 
+var phi=function(z,mu,s){return Math.exp(-0.5*((z-mu)/s)*((z-mu)/s));};
+var anchors=[{m1:.28,m2:.72,s:.18,w:1.2},{m1:.72,m2:.28,s:.20,w:.9},{m1:.5,m2:.55,s:.24,w:.7}];
+var src=function(z1,z2){return anchors.reduce(function(v,a){return v+a.w*phi(z1,a.m1,a.s)*phi(z2,a.m2,a.s);},0);};
+var src1d=function(z,axis){return anchors.reduce(function(v,a){return v+a.w*phi(z,axis?a.m2:a.m1,a.s);},0);};
+function hsl2rgb(h,s,l){
+  var r,g,b;if(s===0){r=g=b=l;}else{
+  var q=l<.5?l*(1+s):l+s-l*s,p=2*l-q;
+  var f=function(t){t=((t%1)+1)%1;return t<1/6?p+(q-p)*6*t:t<.5?q:t<2/3?p+(q-p)*(2/3-t)*6:p;};
+  r=f(h+1/3);g=f(h);b=f(h-1/3);}return[r*255|0,g*255|0,b*255|0];}
+var c2=document.getElementById('f5_c2d'),x2=c2.getContext('2d'),SZ=300;
+var cn1x=document.getElementById('f5_c1x'),cx1x=cn1x.getContext('2d');
+var cn1y=document.getElementById('f5_c1y'),cx1y=cn1y.getContext('2d');
+var maxV=0;for(var i=0;i<50;i++)for(var j=0;j<50;j++)maxV=Math.max(maxV,src(i/49,j/49));
+function draw2D(mx,my){
+  if(mx===undefined)mx=-1;if(my===undefined)my=-1;
+  var img=x2.createImageData(SZ,SZ);var d=img.data;
+  for(var py=0;py<SZ;py++)for(var px=0;px<SZ;px++){
+    var v=src(px/(SZ-1),1-py/(SZ-1))/maxV;
+    var h=220-v*160;var rgb=hsl2rgb(h/360,.7,.1+v*.52);
+    var idx=(py*SZ+px)*4;d[idx]=rgb[0];d[idx+1]=rgb[1];d[idx+2]=rgb[2];d[idx+3]=255;}
+  x2.putImageData(img,0,0);
+  x2.strokeStyle='rgba(0,0,0,0.08)';x2.lineWidth=1;
+  for(var i=1;i<4;i++){x2.beginPath();x2.moveTo(i*SZ/4,0);x2.lineTo(i*SZ/4,SZ);x2.stroke();
+    x2.beginPath();x2.moveTo(0,i*SZ/4);x2.lineTo(SZ,i*SZ/4);x2.stroke();}
+  x2.fillStyle='rgba(0,0,0,0.5)';x2.font='13px Roboto Mono,monospace';x2.textAlign='center';
+  x2.fillText('\u03B6\u00B9 \u2192',SZ-22,SZ-5);x2.textAlign='left';x2.fillText('\u2191 \u03B6\u00B2',4,14);
+  if(mx>=0){x2.strokeStyle='rgba(0,0,0,0.3)';x2.lineWidth=1;x2.setLineDash([4,4]);
+    x2.beginPath();x2.moveTo(mx,0);x2.lineTo(mx,SZ);x2.stroke();
+    x2.beginPath();x2.moveTo(0,my);x2.lineTo(SZ,my);x2.stroke();x2.setLineDash([]);}
+}
+function draw1D(canvasCtx,axis,hx,color){
+  if(hx===undefined)hx=-1;
+  var W=300,H=126;
+  canvasCtx.fillStyle='#ffffff';canvasCtx.fillRect(0,0,W,H);
+  var vals=[];var mv=0;
+  for(var i=0;i<=W;i++){var v=src1d(i/W,axis);vals.push(v);mv=Math.max(mv,v);}
+  var grad=canvasCtx.createLinearGradient(0,0,W,0);
+  if(axis===0){grad.addColorStop(0,'rgba(59,130,246,.4)');grad.addColorStop(1,'rgba(16,185,129,.4)');}
+  else{grad.addColorStop(0,'rgba(59,130,246,.4)');grad.addColorStop(1,'rgba(139,92,246,.4)');}
+  canvasCtx.fillStyle=grad;canvasCtx.beginPath();canvasCtx.moveTo(0,H);
+  for(var i=0;i<=W;i++)canvasCtx.lineTo(i,H-4-vals[i]/mv*(H-10));
+  canvasCtx.lineTo(W,H);canvasCtx.closePath();canvasCtx.fill();
+  canvasCtx.strokeStyle=color;canvasCtx.lineWidth=2;canvasCtx.beginPath();
+  for(var i=0;i<=W;i++){var y=H-4-vals[i]/mv*(H-10);if(i===0)canvasCtx.moveTo(0,y);else canvasCtx.lineTo(i,y);}
+  canvasCtx.stroke();
+  canvasCtx.strokeStyle='#e2e8f0';canvasCtx.lineWidth=1;canvasCtx.beginPath();canvasCtx.moveTo(0,H-1);canvasCtx.lineTo(W,H-1);canvasCtx.stroke();
+  canvasCtx.fillStyle='#666666';canvasCtx.font='11px Roboto Mono,monospace';canvasCtx.textAlign='right';
+  canvasCtx.fillText(axis===0?'\u03B6\u00B9 \u2192':'\u03B6\u00B2 \u2192',W-4,H-4);
+  if(hx>=0&&hx<W){canvasCtx.strokeStyle='rgba(0,0,0,0.3)';canvasCtx.lineWidth=1;canvasCtx.beginPath();canvasCtx.moveTo(hx,0);canvasCtx.lineTo(hx,H);canvasCtx.stroke();}
+}
+draw2D();draw1D(cx1x,0,-1,'#3b82f6');draw1D(cx1y,1,-1,'#8b5cf6');
+c2.addEventListener('mousemove',function(e){
+  var r=c2.getBoundingClientRect();
+  var mx=(e.clientX-r.left)/r.width*SZ,my=(e.clientY-r.top)/r.height*SZ;
+  draw2D(mx,my);draw1D(cx1x,0,mx,'#3b82f6');draw1D(cx1y,1,SZ-my,'#8b5cf6');
+});
+c2.addEventListener('mouseleave',function(){draw2D();draw1D(cx1x,0,-1,'#3b82f6');draw1D(cx1y,1,-1,'#8b5cf6');});
+ })();</script>
+</div>
+<figcaption style="text-align:center; font-size:0.85em; color:#64748b; margin-top:8px; font-style:italic;"><strong>Figure 5.</strong> Fubini's theorem in action. The 2D source \(\hat{f}(\zeta^1, \zeta^2)\) (left, hover to explore) factors into independent 1D components (right), collapsing a \(d\)-dimensional integral into \(d\) independent 1D integrals.</figcaption>
+</figure>
+<hr/>
+<h4 id="finding-the-right-coordinates">Finding the Right Coordinates<a class="headerlink" href="#finding-the-right-coordinates" title="Permanent link">¶</a></h4>
+<blockquote>
+<p>Why does the coordinate system matter for tensor decomposition?</p>
+</blockquote>
+<p>The factorization above requires something crucial: that the source <span class="arithmatex">\(\hat{f}\)</span> <em>actually</em> admits a low-rank tensor decomposition. This is not free. It depends on the coordinate system.</p>
+<p>Consider a radial function <span class="arithmatex">\(f(r) = e^{-r^2}\)</span>. In polar coordinates, this is rank-1 (<span class="arithmatex">\(f(r, \theta) = e^{-r^2} \cdot 1\)</span>). In Cartesian coordinates, the same function <span class="arithmatex">\(f(x, y) = e^{-(x^2+y^2)}\)</span> is… also rank-1 (<span class="arithmatex">\(e^{-x^2} \cdot e^{-y^2}\)</span>). But rotate the Cartesian frame by 45 degrees, and you need cross-terms. <strong>Tensor rank depends on the coordinate chart.</strong></p>
+<p>This is why IGL includes an encoder <span class="arithmatex">\(\Psi : \mathbb{R}^D \to \mathbb{R}^d\)</span>. In practice this is a standard MLP or CNN — nothing exotic about it architecturally. But its role is specific: <strong>find the coordinate chart in which the target function has lowest tensor rank</strong>.</p>
+<p>The theoretical grounding here comes from approximation theory. Functions with <em>bounded mixed derivatives</em> — also called Korobov smoothness — admit efficient tensor-product approximations where the approximation error scales as <span class="arithmatex">\(O(N^{-r} (\log N)^{d-1})\)</span> rather than the standard <span class="arithmatex">\(O(N^{-r/d})\)</span>. The encoder’s job is to discover coordinates where the target has this mixed smoothness property. The Group Lasso penalty on source weights creates a feedback loop: poor coordinates require more tensor terms, and penalizing active terms forces the encoder toward charts where fewer ranks suffice.</p>
+<div class="admonition warning">
+<p class="admonition-title">Chart is task-dependent coordinates</p>
+<p>The encoder finds a <strong>task-optimal coordinate chart</strong>, not the manifold itself. The chart may be diffeomorphic to the true intrinsic coordinates, or it may be a learned approximation that simply makes the function easy to represent. This is a weaker guarantee than manifold discovery — but it is what the architecture actually provides.</p>
+</div>
+<p>Figure 6 demonstrates this concretely: the same radial function has different tensor ranks in different coordinate systems — and IGL’s encoder searches for the chart that minimises rank.</p>
+<p><strong>The gauge symmetry.</strong> A subtle and elegant property underpins this freedom: the integral <span class="arithmatex">\(u(\xi) = \int G(\xi, \zeta) \hat{f}(\zeta) \, d\zeta\)</span> is <strong>invariant under coordinate transformations</strong> if the source transforms inversely — analogous to gauge freedom in electrodynamics. The encoder is free to discover any diffeomorphic chart that simplifies the tensor decomposition, diagonalizing the function’s complexity rather than the manifold’s geometry. This is both a feature (flexibility, lower optimization cost) and a limitation (coordinates are not geometrically canonical) — the right trade-off for prediction, not necessarily for geometric analysis.</p>
+<figure style="margin:2em 0;">
+<div class="igl-widget" id="igl-fig-4" style="border-radius:12px; border:1px solid #e2e8f0; overflow:hidden; padding:28px 20px 22px;">
+<style>:root { --bg:#f9f9f9;--bg-alt:#fff;--text:#171717;--muted:#666;--border:#e2e8f0;
+  --border-strong:#cbd5e1;--primary:#A51209;--blue:#3b82f6;--green:#10b981;
+  --amber:#f59e0b;--purple:#8b5cf6;--red:#ef4444; }
+@media(prefers-color-scheme:dark) { :root { --bg:#0a0a0a;--bg-alt:#171717;--text:#e2e2e2;--muted:#888;--border:#374151;--border-strong:#4b5563; } }
+#igl-fig-4, #igl-fig-4 * { margin:0;padding:0;box-sizing:border-box; }
+#igl-fig-4 { background:var(--bg);font-family:'Inter',sans-serif;display:flex;flex-direction:column;
+  align-items:center;padding:28px 20px 22px; }
+#igl-fig-4 .ey { font-size:11px;font-weight:500;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;text-align:center;margin-bottom:5px; }
+#igl-fig-4 .ti { font-family:'Inter',sans-serif;font-size:20px;color:var(--text);text-align:center;margin-bottom:3px; }
+#igl-fig-4 .su { font-size:13px;color:var(--muted);text-align:center;margin-bottom:18px; }
+#igl-fig-4 .cap { margin-top:14px;font-size:12.5px;color:var(--muted);max-width:700px;text-align:center;line-height:1.7; }
+#igl-fig-4 .cap em { color:var(--text);font-style:normal;font-weight:500; }
+#igl-fig-4 svg { display:block;max-width:100%;height:auto; }</style>
+
+<p class="ey">Theoretical Property</p>
+<p class="ti">Gauge Symmetry: Many Charts Represent the Same Function</p>
+<p class="su">tensor rank is coordinate-dependent — the encoder minimises rank, not geometric distortion</p>
+<svg style="width:760px;max-width:100%;" viewbox="0 0 760 400"><defs>
+<marker id="f4_ah" markerheight="6" markerwidth="7" orient="auto" refx="6.5" refy="3"><path d="M0,0.5 L7,3 L0,5.5 L1.5,3Z" fill="var(--muted)" opacity="0.7"></path></marker>
+<marker id="f4_ahr" markerheight="6" markerwidth="7" orient="auto" refx="6.5" refy="3"><path d="M0,0.5 L7,3 L0,5.5 L1.5,3Z" fill="var(--primary)"></path></marker>
+<filter id="f4_cs"><fedropshadow dx="0" dy="2" flood-color="#000" flood-opacity="0.07" stddeviation="5"></fedropshadow></filter>
+</defs>
+<rect fill="var(--bg)" height="400" width="760"></rect>
+<!-- Three panels side by side: Cartesian, Polar (task-optimal), Rotated 45° -->
+<!-- Each shows f(x,y) = e^{-(x²+y²)} in that coordinate system as contour plot -->
+<!-- The key: rank and separability changes per chart, not the function -->
+<!-- Panel shared structure -->
+<!-- Panel 1: Cartesian (rank-1, coincidentally) -->
+<rect fill="var(--bg-alt)" filter="url(#f4_cs)" height="350" rx="12" stroke="var(--border)" stroke-width="1" width="226" x="12" y="12"></rect>
+<line stroke="var(--blue)" stroke-linecap="round" stroke-width="2.5" x1="20" x2="230" y1="12" y2="12"></line>
+<text fill="var(--text)" font-family="'Source Sans Pro',sans-serif" font-size="13" text-anchor="middle" x="125" y="36">Cartesian (x,y)</text>
+<text fill="var(--muted)" font-family="'Source Sans Pro',sans-serif" font-size="10" text-anchor="middle" x="125" y="50">f = exp(−x²) · exp(−y²)</text>
+<!-- Circular contours (Cartesian Gaussian is separable) -->
+<rect fill="var(--bg)" height="207" rx="4" stroke="var(--border)" stroke-width="0.8" width="207" x="22" y="60"></rect>
+<!-- Radial gradient simulating Gaussian -->
+<defs>
+<radialgradient cx="50%" cy="50%" id="f4_g1"><stop offset="0%" stop-color="#3b82f6" stop-opacity=".65"></stop>
+<stop offset="40%" stop-color="#3b82f6" stop-opacity=".18"></stop><stop offset="100%" stop-color="#3b82f6" stop-opacity=".02"></stop></radialgradient>
+</defs>
+<rect fill="url(#f4_g1)" height="207" rx="4" width="207" x="22" y="60"></rect>
+<!-- Circular contours -->
+<circle cx="125" cy="163" fill="none" r="16" stroke="var(--blue)" stroke-opacity=".8" stroke-width="1.3"></circle>
+<circle cx="125" cy="163" fill="none" r="34" stroke="var(--blue)" stroke-opacity=".55" stroke-width="1.1"></circle>
+<circle cx="125" cy="163" fill="none" r="54" stroke="var(--blue)" stroke-opacity=".35" stroke-width="1"></circle>
+<circle cx="125" cy="163" fill="none" r="76" stroke="var(--blue)" stroke-opacity=".18" stroke-width=".9"></circle>
+<circle cx="125" cy="163" fill="none" r="96" stroke="var(--blue)" stroke-opacity=".1" stroke-width=".8"></circle>
+<!-- Axis-aligned crosshairs (showing separability) -->
+<line opacity=".4" stroke="var(--blue)" stroke-dasharray="4 3" stroke-width="1.3" x1="125" x2="125" y1="60" y2="267"></line>
+<line opacity=".4" stroke="var(--blue)" stroke-dasharray="4 3" stroke-width="1.3" x1="22" x2="229" y1="163" y2="163"></line>
+<circle cx="125" cy="163" fill="var(--text)" opacity=".6" r="3.5"></circle>
+<!-- Axis labels -->
+<text fill="var(--muted)" font-family="'Source Sans Pro',sans-serif" font-size="11" x="224" y="167">x</text>
+<text fill="var(--muted)" font-family="'Source Sans Pro',sans-serif" font-size="11" x="128" y="72">y</text>
+<!-- Rank badge -->
+<rect fill="var(--green)" fill-opacity=".08" height="36" rx="7" stroke="var(--green)" stroke-opacity=".35" stroke-width="1" width="200" x="28" y="282"></rect>
+<text fill="var(--green)" font-family="'Source Sans Pro',sans-serif" font-size="11" font-weight="600" text-anchor="middle" x="128" y="297">Rank 1 ✓</text>
+<text fill="var(--muted)" font-family="'Source Sans Pro',sans-serif" font-size="10" text-anchor="middle" x="128" y="311">exp(−x²) · exp(−y²) separable</text>
+<text fill="var(--muted)" font-family="'Source Sans Pro',sans-serif" font-size="10" text-anchor="middle" x="125" y="353">axis-aligned contours</text>
+<!-- Panel 2: Polar (task-optimal — explicitly rank-1 in r coordinate) -->
+<rect fill="var(--bg-alt)" filter="url(#f4_cs)" height="350" rx="12" stroke="var(--border)" stroke-width="1" width="226" x="268" y="12"></rect>
+<line stroke="var(--green)" stroke-linecap="round" stroke-width="2.5" x1="276" x2="486" y1="12" y2="12"></line>
+<text fill="var(--text)" font-family="'Source Sans Pro',sans-serif" font-size="13" text-anchor="middle" x="381" y="36">Polar (r, θ)</text>
+<text fill="var(--muted)" font-family="'Source Sans Pro',sans-serif" font-size="10" text-anchor="middle" x="381" y="50">f = exp(−r²) · 1  (rank-1)</text>
+<!-- In polar chart: r on x-axis, theta on y-axis -->
+<!-- f depends only on r → iso-contours are vertical lines (pure r-dependence) -->
+<rect fill="var(--bg)" height="207" rx="4" stroke="var(--border)" stroke-width="0.8" width="207" x="278" y="60"></rect>
+<!-- Gradient along r-axis (horizontal) -->
+<defs>
+<lineargradient id="f4_g2polar" x1="0%" x2="100%" y1="0%" y2="0%">
+<stop offset="0%" stop-color="#10b981" stop-opacity=".6"></stop>
+<stop offset="40%" stop-color="#10b981" stop-opacity=".18"></stop>
+<stop offset="100%" stop-color="#10b981" stop-opacity=".02"></stop>
+</lineargradient>
+</defs>
+<rect fill="url(#f4_g2polar)" height="207" rx="4" width="207" x="278" y="60"></rect>
+<!-- VERTICAL iso-contours — depend only on r, not on θ -->
+<line stroke="var(--green)" stroke-opacity=".8" stroke-width="1.3" x1="320" x2="320" y1="60" y2="267"></line>
+<line stroke="var(--green)" stroke-opacity=".55" stroke-width="1.1" x1="352" x2="352" y1="60" y2="267"></line>
+<line stroke="var(--green)" stroke-opacity=".38" stroke-width="1" x1="388" x2="388" y1="60" y2="267"></line>
+<line stroke="var(--green)" stroke-opacity=".22" stroke-width=".9" x1="428" x2="428" y1="60" y2="267"></line>
+<line stroke="var(--green)" stroke-opacity=".12" stroke-width=".8" x1="468" x2="468" y1="60" y2="267"></line>
+<!-- Star marker showing independence of θ -->
+<line opacity=".4" stroke="var(--green)" stroke-dasharray="4 3" stroke-width="1.5" x1="278" x2="485" y1="163" y2="163"></line>
+<!-- Labels -->
+<text fill="var(--muted)" font-family="'Source Sans Pro',sans-serif" font-size="11" x="484" y="167">r</text>
+<text fill="var(--muted)" font-family="'Source Sans Pro',sans-serif" font-size="11" x="281" y="72">θ</text>
+<!-- θ-independence note -->
+<text fill="var(--green)" font-family="'Source Sans Pro',sans-serif" font-size="10" opacity=".9" text-anchor="middle" x="381" y="235">↑ no θ dependence</text>
+<!-- Rank badge -->
+<rect fill="var(--green)" fill-opacity=".12" height="36" rx="7" stroke="var(--green)" stroke-opacity=".5" stroke-width="1" width="200" x="284" y="282"></rect>
+<text fill="var(--green)" font-family="'Source Sans Pro',sans-serif" font-size="11" font-weight="600" text-anchor="middle" x="384" y="297">Rank 1 ★ (task-optimal)</text>
+<text fill="var(--muted)" font-family="'Source Sans Pro',sans-serif" font-size="10" text-anchor="middle" x="384" y="311">exp(−r²) · const — IGL finds this</text>
+<text fill="var(--green)" font-family="'Source Sans Pro',sans-serif" font-size="10" font-weight="500" text-anchor="middle" x="381" y="353">vertical iso-contours — only r matters</text>
+<!-- Panel 3: Rotated 45° (requires cross-terms → rank 2+) -->
+<rect fill="var(--bg-alt)" filter="url(#f4_cs)" height="350" rx="12" stroke="var(--border)" stroke-width="1" width="226" x="524" y="12"></rect>
+<line stroke="var(--amber)" stroke-linecap="round" stroke-width="2.5" x1="532" x2="742" y1="12" y2="12"></line>
+<text fill="var(--text)" font-family="'Source Sans Pro',sans-serif" font-size="13" text-anchor="middle" x="637" y="36">Rotated 45° (u,v)</text>
+<text fill="var(--muted)" font-family="'Source Sans Pro',sans-serif" font-size="10" text-anchor="middle" x="637" y="50">f = exp(−u² − v² − √2·uv)</text>
+<!-- Tilted contours (cross-term uv couples the axes) -->
+<rect fill="var(--bg)" height="207" rx="4" stroke="var(--border)" stroke-width="0.8" width="207" x="534" y="60"></rect>
+<defs>
+<radialgradient cx="50%" cy="50%" id="f4_g3"><stop offset="0%" stop-color="#f59e0b" stop-opacity=".65"></stop>
+<stop offset="40%" stop-color="#f59e0b" stop-opacity=".18"></stop><stop offset="100%" stop-color="#f59e0b" stop-opacity=".02"></stop></radialgradient>
+</defs>
+<rect fill="url(#f4_g3)" height="207" rx="4" width="207" x="534" y="60"></rect>
+<!-- TILTED ellipse contours — cross-term means they're no longer axis-aligned -->
+<ellipse cx="637" cy="163" fill="none" rx="16" ry="22" stroke="var(--amber)" stroke-opacity=".85" stroke-width="1.3" transform="rotate(45 637 163)"></ellipse>
+<ellipse cx="637" cy="163" fill="none" rx="34" ry="46" stroke="var(--amber)" stroke-opacity=".55" stroke-width="1.1" transform="rotate(45 637 163)"></ellipse>
+<ellipse cx="637" cy="163" fill="none" rx="54" ry="70" stroke="var(--amber)" stroke-opacity=".35" stroke-width="1" transform="rotate(45 637 163)"></ellipse>
+<ellipse cx="637" cy="163" fill="none" rx="70" ry="90" stroke="var(--amber)" stroke-opacity=".18" stroke-width=".9" transform="rotate(45 637 163)"></ellipse>
+<!-- Show axis-aligned lines DON'T match the tilted contours -->
+<line opacity=".25" stroke="var(--muted)" stroke-dasharray="4 3" stroke-width="1" x1="637" x2="637" y1="60" y2="267"></line>
+<line opacity=".25" stroke="var(--muted)" stroke-dasharray="4 3" stroke-width="1" x1="534" x2="741" y1="163" y2="163"></line>
+<circle cx="637" cy="163" fill="var(--text)" opacity=".6" r="3.5"></circle>
+<!-- NOT-aligned annotation -->
+<text fill="var(--amber)" font-family="'Source Sans Pro',sans-serif" font-size="11" x="534" y="72">u</text>
+<text fill="var(--amber)" font-family="'Source Sans Pro',sans-serif" font-size="11" x="740" y="167">v</text>
+<path d="M 660,113 L 668,98" stroke="var(--amber)" stroke-dasharray="3 2" stroke-width="1"></path>
+<text fill="var(--amber)" font-family="'Source Sans Pro',sans-serif" font-size="9" x="672" y="96">tilted ✗</text>
+<!-- Rank badge -->
+<rect fill="var(--amber)" fill-opacity=".07" height="36" rx="7" stroke="var(--amber)" stroke-opacity=".3" stroke-width="1" width="200" x="540" y="282"></rect>
+<text fill="var(--amber)" font-family="'Source Sans Pro',sans-serif" font-size="11" font-weight="600" text-anchor="middle" x="640" y="297">Rank ≥ 2</text>
+<text fill="var(--muted)" font-family="'Source Sans Pro',sans-serif" font-size="10" text-anchor="middle" x="640" y="311">cross-term √2·uv couples axes</text>
+<text fill="var(--amber)" font-family="'Source Sans Pro',sans-serif" font-size="10" text-anchor="middle" x="637" y="353">tilted iso-contours — axes are coupled</text>
+<!-- ─── Bottom strip ─── -->
+<rect fill="var(--bg-alt)" height="24" rx="6" stroke="var(--border)" stroke-width="1" width="736" x="12" y="370"></rect>
+<text fill="var(--muted)" font-family="'Source Sans Pro',sans-serif" font-size="11" text-anchor="middle" x="380" y="386">Gauge symmetry: any diffeomorphism Ψ is valid — IGL learns the chart that minimises source tensor rank</text>
+</svg>
+
+</div>
+<figcaption style="text-align:center; font-size:0.85em; color:#64748b; margin-top:8px; font-style:italic;"><strong>Figure 6.</strong> Gauge symmetry: the same function \(f = e^{-r^2}\) in three coordinate charts. In <em>Cartesian \((x,y)\)</em>: rank-1 (\(e^{-x^2} \cdot e^{-y^2}\)) — circular contours. In <em>polar \((r,\theta)\)</em>: rank-1 (\(e^{-r^2} \cdot 1\)) — the task-optimal chart IGL discovers. In <em>rotated 45°</em>: rank \(\geq 2\) (cross-term couples axes) — tilted contours. IGL's encoder minimises tensor rank, not geometric distortion.</figcaption>
+</figure>
+<hr/>
+<h4 id="the-two-stage-algorithm">The Two-Stage Algorithm<a class="headerlink" href="#the-two-stage-algorithm" title="Permanent link">¶</a></h4>
+<blockquote>
+<p>Why can’t you just optimize everything jointly?</p>
+</blockquote>
+<p>Here is where things get interesting.</p>
+<p>The natural approach would be to jointly optimize all parameters — encoder <span class="arithmatex">\(\Psi\)</span>, source anchors <span class="arithmatex">\(\mu_{r,j}\)</span>, source weights <span class="arithmatex">\(w_r\)</span>, kernel scales <span class="arithmatex">\(\sigma_{k,j}\)</span>, and mixing weights <span class="arithmatex">\(\gamma_k\)</span> — simultaneously via gradient descent. This is simple and standard.</p>
+<p>It fails. Badly.</p>
+<p>The problem is <strong>dimensional collapse</strong>: the encoder finds degenerate solutions where all information is compressed into one or two coordinates, and the source compensates with high-rank approximations. Or the source memorizes the training data through its capacity, removing any pressure on the encoder to find geometrically meaningful coordinates. The two components co-adapt and the manifold structure is never recovered.</p>
+<p>IGL solves this with a <strong>Variable Projection (VP)</strong> algorithm — a two-stage structure where:</p>
+<ul>
+<li>
+<p><strong>Stage 2 (inner, linear):</strong> For fixed encoder parameters, solve for source weights <span class="arithmatex">\(w_r\)</span> (and null-space coefficients) by least squares: <span class="arithmatex">\(w^* = \arg\min_w \|\Phi w - y\|^2\)</span></p>
+</li>
+<li>
+<p><strong>Stage 1 (outer, nonlinear):</strong> Update encoder parameters <span class="arithmatex">\(\theta_\Psi\)</span> via gradient descent on the reduced objective: <span class="arithmatex">\(\mathcal{L}_{\text{red}}(\theta) = \|y - \Phi(\theta) w^*(\theta)\|^2\)</span></p>
+</li>
+</ul>
+<p>Because Stage 2 is solved to optimality at every outer step, the gradient of <span class="arithmatex">\(\mathcal{L}_\text{red}\)</span> with respect to encoder parameters reflects <em>only</em> coordinate quality — by the envelope theorem, <span class="arithmatex">\(\partial \mathcal{L} / \partial w = 0\)</span> at the optimum, so encoder gradients carry no source-fitting confound. The encoder is forced to find a proper chart because source capacity is fully exploited at every step.</p>
+<p>The practical consequence is dramatic. On a 2D plane embedded in <span class="arithmatex">\(\mathbb{R}^{100}\)</span> with a non-separable multi-frequency target, two-stage training undergoes a sharp <strong>sample efficiency phase transition</strong>: between <span class="arithmatex">\(N=200\)</span> and <span class="arithmatex">\(N=500\)</span> samples, all three Green’s kernels cross <span class="arithmatex">\(R^2 &gt; 0.9\)</span>. <mark>At <span class="arithmatex">\(N=2000\)</span>, Spectral (Two-Stage) reaches <span class="arithmatex">\(R^2 = 0.998\)</span> vs. <span class="arithmatex">\(\approx 0.55\)</span> for all joint methods. The architectures are identical. The gap is purely in the optimization structure.</mark></p>
+<div style="background:#fafaf9; border:1px solid #e2e8f0; border-radius:10px; padding:20px 24px; margin:1.5em 0; font-family:'JetBrains Mono',monospace; font-size:13px; line-height:1.8; overflow-x:auto;">
+<div style="font-weight:700; font-size:14px; color:#171717; margin-bottom:12px; border-bottom:1px solid #e2e8f0; padding-bottom:8px;">Algorithm: IGL with Variable Projection</div>
+<div style="color:#666; margin-bottom:10px;"><strong style="color:#A51209;">Require:</strong> data {(x<sub>i</sub>, y<sub>i</sub>)}, encoder Ψ<sub>θ</sub>, T iterations</div>
+<div style="color:#171717;"><strong>for</strong> t = 1 <strong>to</strong> T:</div>
+<div style="padding-left:2em;">
+<div><span style="color:#A51209; font-weight:600;">Stage 1:</span> ξ<sub>i</sub> ← Ψ<sub>θ</sub>(x<sub>i</sub>) <span style="color:#999; margin-left:2em;">▸ encode to intrinsic coords</span></div>
+<div style="padding-left:4.6em;">Φ<sub>ij</sub> ← Φ(ξ<sub>i</sub>) <span style="color:#999; margin-left:2em;">▸ build design matrix</span></div>
+<div><span style="color:#3b82f6; font-weight:600;">Stage 2:</span> w* ← lstsq(Φ, y) <span style="color:#999; margin-left:2em;">▸ exact linear solve</span></div>
+<div style="padding-left:4.6em;">L ← ‖Φw* − y‖² <span style="color:#999; margin-left:2em;">▸ residual loss</span></div>
+<div style="padding-left:4.6em;">θ ← θ − η ∇<sub>θ</sub> L <span style="color:#999; margin-left:2em;">▸ encoder gradient update</span></div>
+</div>
+</div>
+<p>Figure 7 shows the phase transition in action.</p>
+<figure style="margin:2em 0;">
+<div class="igl-widget" id="igl-fig-3" style="border-radius:12px; border:1px solid #e2e8f0; overflow:hidden; padding:28px 20px 22px;">
+<style>:root { --bg:#f9f9f9;--bg-alt:#fff;--text:#171717;--muted:#666;--border:#e2e8f0;
+  --border-strong:#cbd5e1;--primary:#A51209;--blue:#3b82f6;--green:#10b981;
+  --amber:#f59e0b;--purple:#8b5cf6;--red:#ef4444; }
+@media(prefers-color-scheme:dark) { :root { --bg:#0a0a0a;--bg-alt:#171717;--text:#e2e2e2;--muted:#888;--border:#374151;--border-strong:#4b5563; } }
+#igl-fig-3, #igl-fig-3 * { margin:0;padding:0;box-sizing:border-box; }
+#igl-fig-3 { background:var(--bg);font-family:'Source Sans Pro',sans-serif;display:flex;flex-direction:column;
+  align-items:center;padding:28px 20px 22px; }
+#igl-fig-3 .ey { font-size:11px;font-weight:500;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;
+  text-align:center;margin-bottom:5px; }
+#igl-fig-3 .ti { font-family:'Source Sans Pro',sans-serif;font-size:20px;color:var(--text);text-align:center;margin-bottom:3px; }
+#igl-fig-3 .su { font-size:13px;color:var(--muted);text-align:center;margin-bottom:18px; }
+#igl-fig-3 .cap { margin-top:14px;font-size:12.5px;color:var(--muted);max-width:700px;text-align:center;line-height:1.7; }
+#igl-fig-3 .cap em { color:var(--text);font-style:normal;font-weight:500; }
+#igl-fig-3 svg { display:block;max-width:100%;height:auto; }
+#igl-fig-3 .panels { display:flex;gap:12px;width:760px;max-width:100%; }
+#igl-fig-3 .panel { flex:1;background:var(--bg-alt);border:1px solid var(--border);border-radius:12px;padding:16px; }
+#igl-fig-3 .pt { font-size:13px;font-weight:600;color:var(--muted);text-transform:uppercase;letter-spacing:.06em;margin-bottom:12px;text-align:center; }
+#igl-fig-3 canvas { display:block;border-radius:8px;width:100%;height:auto;border:1px solid var(--border); }
+#igl-fig-3 .legend { display:flex;gap:14px;justify-content:center;margin-top:10px; }
+#igl-fig-3 .li { display:flex;align-items:center;gap:6px;font-size:12px;font-family:'Roboto Mono',monospace; }
+#igl-fig-3 .ld { width:14px;height:3px;border-radius:2px; }
+#igl-fig-3 .metrics { display:flex;gap:8px;margin-top:12px;width:760px;max-width:100%; }
+#igl-fig-3 .metric { flex:1;background:var(--bg-alt);border:1px solid var(--border);border-radius:10px;padding:10px 14px;text-align:center; }
+#igl-fig-3 .ml { font-size:11px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-bottom:4px; }
+#igl-fig-3 .mv { font-family:'Roboto Mono',monospace;font-size:16px;font-weight:600; }
+#igl-fig-3 .controls { display:flex;gap:10px;margin-top:12px;justify-content:center; }
+#igl-fig-3 button { background:var(--bg-alt);border:1px solid var(--border);color:var(--primary);padding:7px 18px;
+  border-radius:7px;cursor:pointer;font-family:'Source Sans Pro',sans-serif;font-size:13px;transition:all .2s; }
+#igl-fig-3 button:hover { background:var(--primary);color:#fff;border-color:var(--primary); }</style>
+
+<p class="ey">Algorithm</p>
+<p class="ti">Variable Projection: Phase Transition vs Joint Training</p>
+<p class="su">identical architectures — only the training algorithm differs</p>
+<div class="panels">
+<div class="panel"><div class="pt">R² Score vs Training Samples N</div>
+<canvas height="240" id="f3_cLoss" width="340"></canvas>
+<div class="legend">
+<div class="li"><div class="ld" style="background:#ef4444;"></div><span style="color:#ef4444;">Joint Training</span></div>
+<div class="li"><div class="ld" style="background:#3b82f6;"></div><span style="color:#3b82f6;">Two-Stage (VP)</span></div>
+</div>
+</div>
+<div class="panel"><div class="pt">Latent Space (d=2 learned)</div>
+<canvas height="240" id="f3_cLat" width="340"></canvas>
+<div class="legend">
+<div class="li"><div class="ld" style="background:#ef4444;"></div><span style="color:#ef4444;">Joint (1D collapse)</span></div>
+<div class="li"><div class="ld" style="background:#3b82f6;"></div><span style="color:#3b82f6;">Two-Stage (2D topology)</span></div>
+</div>
+</div>
+</div>
+<div class="metrics">
+<div class="metric"><div class="ml">Joint (N=2000)</div><div class="mv" style="color:var(--red)">\(R^2 \approx 0.55\)</div></div>
+<div class="metric"><div class="ml">Two-Stage (N=2000)</div><div class="mv" style="color:var(--green)">\(R^2 \approx 0.998\)</div></div>
+</div>
+<div class="controls">
+<button id="f3_btnPlay">▶ Replay Animation</button>
+<button id="f3_btnPause">⏸ Pause</button>
+</div>
+
+<script>(function(){ 
+const NVals=[10,20,50,100,200,300,400,500,750,1000,1500,2000];
+const jointR2=[-0.12,0.04,0.17,0.31,0.40,0.44,0.47,0.50,0.52,0.54,0.55,0.55].map(v=>v+(Math.random()*.03-.015));
+const twoR2=[-0.18,0.02,0.11,0.27,0.52,0.72,0.86,0.93,0.97,0.984,0.992,0.998].map(v=>Math.max(-0.3,v+(Math.random()*.02-.01)));
+const N_PTS=280;const sr=[];
+for(let i=0;i<N_PTS;i++){const t=1.5*Math.PI+Math.random()*3*Math.PI,h=Math.random();sr.push({t,h,u:(t-1.5*Math.PI)/(3*Math.PI)});}
+let progress=0,running=true,aid=null;
+function drawLoss(p){
+  const C=document.getElementById('f3_cLoss'),ctx=C.getContext('2d');
+  const W=340,H=240,PAD={l:46,r:14,t:16,b:36};
+  const PW=W-PAD.l-PAD.r,PH=H-PAD.t-PAD.b,R2MIN=-0.3,R2MAX=1.05,RNG=R2MAX-R2MIN;
+  ctx.fillStyle='#ffffff';ctx.fillRect(0,0,W,H);
+  // Grid
+  ctx.strokeStyle='#e2e8f0';ctx.lineWidth=1;
+  for(let i=0;i<=5;i++){const y=PAD.t+PH*(1-i/5);ctx.beginPath();ctx.moveTo(PAD.l,y);ctx.lineTo(PAD.l+PW,y);ctx.stroke();
+    ctx.fillStyle='#666666';ctx.font="11px Roboto Mono, monospace";ctx.textAlign='right';
+    ctx.fillText((R2MIN+RNG*i/5).toFixed(1),PAD.l-4,y+4);}
+  // Phase transition band
+  const xPT1=PAD.l+PW*6/(NVals.length-1),xPT2=PAD.l+PW*8/(NVals.length-1);
+  ctx.fillStyle='rgba(245,158,11,.06)';ctx.fillRect(xPT1,PAD.t,xPT2-xPT1,PH);
+  ctx.strokeStyle='rgba(245,158,11,.3)';ctx.lineWidth=1;ctx.setLineDash([5,4]);
+  ctx.beginPath();ctx.moveTo(xPT1,PAD.t);ctx.lineTo(xPT1,PAD.t+PH);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(xPT2,PAD.t);ctx.lineTo(xPT2,PAD.t+PH);ctx.stroke();
+  ctx.setLineDash([]);
+  ctx.fillStyle='rgba(245,158,11,.7)';ctx.font="10px Source Sans Pro, sans-serif";ctx.textAlign='center';
+  ctx.fillText('phase',(xPT1+xPT2)/2,PAD.t+10);ctx.fillText('transition',(xPT1+xPT2)/2,PAD.t+21);
+  // R²=1 target
+  const yOne=PAD.t+PH*(1-(1-R2MIN)/RNG);
+  ctx.strokeStyle='rgba(100,100,100,.2)';ctx.lineWidth=1;ctx.setLineDash([6,4]);
+  ctx.beginPath();ctx.moveTo(PAD.l,yOne);ctx.lineTo(PAD.l+PW,yOne);ctx.stroke();ctx.setLineDash([]);
+  // x labels
+  ctx.fillStyle='#666666';ctx.font="10px Roboto Mono, monospace";ctx.textAlign='center';
+  [10,100,500,2000].forEach(n=>{const ix=NVals.findIndex(v=>v>=n);
+    ctx.fillText(n,PAD.l+PW*ix/(NVals.length-1),PAD.t+PH+16);});
+  ctx.fillStyle='#666666';ctx.fillText('N (samples)',PAD.l+PW/2,H-4);
+  const nPts=Math.floor(p*(NVals.length-1))+1;
+  function curve(data,color,w=2){
+    ctx.strokeStyle=color;ctx.lineWidth=w;ctx.beginPath();
+    for(let i=0;i<nPts&&i<data.length;i++){
+      const x=PAD.l+PW*i/(NVals.length-1);const y=PAD.t+PH*(1-(data[i]-R2MIN)/RNG);
+      if(i===0)ctx.moveTo(x,y);else ctx.lineTo(x,y);}ctx.stroke();
+    if(nPts<=data.length){const i=nPts-1;
+      const x=PAD.l+PW*i/(NVals.length-1),y=PAD.t+PH*(1-(data[i]-R2MIN)/RNG);
+      ctx.fillStyle=color;ctx.beginPath();ctx.arc(x,y,3.5,0,Math.PI*2);ctx.fill();}
+  }
+  // Shaded area under two-stage
+  if(nPts>=2){ctx.fillStyle='rgba(59,130,246,.07)';ctx.beginPath();
+    ctx.moveTo(PAD.l,PAD.t+PH);
+    for(let i=0;i<nPts&&i<twoR2.length;i++){
+      const x=PAD.l+PW*i/(NVals.length-1),y=PAD.t+PH*(1-(twoR2[i]-R2MIN)/RNG);
+      i===0?ctx.lineTo(x,y):ctx.lineTo(x,y);}
+    ctx.lineTo(PAD.l+PW*(nPts-1)/(NVals.length-1),PAD.t+PH);ctx.closePath();ctx.fill();}
+  curve(jointR2,'#ef4444');curve(twoR2,'#3b82f6',2.5);
+  // End labels
+  if(nPts===NVals.length){
+    ctx.fillStyle='#ef4444';ctx.font="600 11px Roboto Mono, monospace";ctx.textAlign='left';
+    ctx.fillText('0.55',PAD.l+PW+3,PAD.t+PH*(1-(0.55-R2MIN)/RNG)+4);
+    ctx.fillStyle='#3b82f6';ctx.fillText('0.998',PAD.l+PW+3,PAD.t+PH*(1-(0.998-R2MIN)/RNG)+4);}
+  // Axes
+  ctx.strokeStyle='#cbd5e1';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(PAD.l,PAD.t);ctx.lineTo(PAD.l,PAD.t+PH);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(PAD.l,PAD.t+PH);ctx.lineTo(PAD.l+PW,PAD.t+PH);ctx.stroke();
+  ctx.save();ctx.translate(10,PAD.t+PH/2);ctx.rotate(-Math.PI/2);
+  ctx.fillStyle='#666666';ctx.font="11px Source Sans Pro, sans-serif";ctx.textAlign='center';ctx.fillText('R²',0,0);ctx.restore();}
+function drawLat(p){
+  const C=document.getElementById('f3_cLat'),ctx=C.getContext('2d'),W=340,H=240;
+  ctx.fillStyle='#ffffff';ctx.fillRect(0,0,W,H);
+  const LW=W*.47,RX=W*.53,CXL=LW/2,CYL=H/2+10,CXR=RX+LW/2,CYR=H/2+10,SC=72;
+  // Divider
+  ctx.strokeStyle='#e2e8f0';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(W/2,0);ctx.lineTo(W/2,H);ctx.stroke();
+  ctx.fillStyle='#666666';ctx.font="11px Source Sans Pro, sans-serif";ctx.textAlign='center';
+  ctx.fillStyle='#ef4444';ctx.fillText('Joint',LW/2,20);
+  ctx.fillStyle='#3b82f6';ctx.fillText('Two-Stage',RX+LW/2,20);
+  const jb=Math.min(1,p*1.5),tb=Math.min(1,Math.max(0,(p-.2)*1.5));
+  for(const{u,h}of sr){
+    const proj=(u+h)/2,jx=CXL+(proj-.5)*SC*2*(1-jb)+Math.cos(proj*6)*SC*.3*jb;
+    const jy=CYL+(u-h)*SC*.5*(1-jb)+(proj-.5)*SC*.1*jb;
+    const ex=CXR+(u-.5)*SC*1.9,ey=CYR-(h-.5)*SC*1.8;
+    const tx=CXR*(1-tb)+ex*tb,ty=CYR*(1-tb)+ey*tb;
+    const hue=220+u*160;
+    ctx.fillStyle=`hsla(${hue},72%,52%,.75)`;
+    ctx.beginPath();ctx.arc(jx,jy,2.2,0,Math.PI*2);ctx.fill();
+    ctx.fillStyle=`hsla(${hue},72%,52%,.8)`;
+    ctx.beginPath();ctx.arc(tx,ty,2.2,0,Math.PI*2);ctx.fill();}
+  // Labels
+  if(jb>.5){ctx.fillStyle='rgba(239,68,68,.6)';ctx.font="11px Source Sans Pro, sans-serif";ctx.textAlign='center';
+    ctx.fillText('1D collapse',LW/2,H-22);ctx.fillText('✗ topology lost',LW/2,H-10);}
+  if(tb>.8){ctx.fillStyle='rgba(59,130,246,.7)';ctx.font="11px Source Sans Pro, sans-serif";ctx.textAlign='center';
+    ctx.fillText('2D recovered ✓',RX+LW/2,H-22);
+    ctx.fillStyle='#666666';ctx.font="11px Roboto Mono, monospace";
+    ctx.fillText('ξ¹',RX+LW-8,CYR+4);ctx.fillText('ξ²',CXR,30);}}
+function frame(){progress=Math.min(1,progress+.007);drawLoss(progress);drawLat(progress);
+  if(progress<1&&running)aid=requestAnimationFrame(frame);
+  else if(progress>=1){running=false;document.getElementById('f3_btnPause').textContent='▶ Resume';}}
+function restart(){if(aid)cancelAnimationFrame(aid);progress=0;running=true;frame();}
+document.getElementById('f3_btnPlay').addEventListener('click',restart);
+document.getElementById('f3_btnPause').addEventListener('click',()=>{running=!running;
+  document.getElementById('f3_btnPause').textContent=running?'⏸ Pause':'▶ Resume';if(running)frame();});
+frame();
+ })();</script>
+</div>
+<figcaption style="text-align:center; font-size:0.85em; color:#64748b; margin-top:8px; font-style:italic;"><strong>Figure 7.</strong> Two-stage vs joint training on a 2D plane in \(\mathbb{R}^{100}\). <em>Left:</em> \(R^2\) score vs training samples \(N\) — two-stage undergoes a sharp phase transition (\(N \approx 200\text{--}500\)), jumping from 0.55 to 0.998, while joint methods plateau. <em>Right:</em> joint training collapses the latent space to 1D; two-stage recovers the correct 2D topology. The architectures are identical — the gap is purely algorithmic. Press <em>Replay</em> to restart.</figcaption>
+</figure>
+<hr/>
+<h4 id="automatic-dimension-discovery">Automatic Dimension Discovery<a class="headerlink" href="#automatic-dimension-discovery" title="Permanent link">¶</a></h4>
+<p>IGL includes a mechanism for <strong>discovering the intrinsic dimension <span class="arithmatex">\(d\)</span> automatically</strong>, without knowing it in advance.</p>
+<p>Each coordinate <span class="arithmatex">\(\xi^j\)</span> is multiplied by a learnable gate <span class="arithmatex">\(g_j \in [0, 1]\)</span>. The Group Lasso penalty on source weights, combined with a sparsity loss on the gates, drives inactive dimensions to zero. Since an inactive coordinate contributes a constant factor of 1 to every kernel product (via <span class="arithmatex">\(g_j = 0\)</span>, which in log-space contributes <span class="arithmatex">\(0\)</span> to the sum), it is cleanly removed from the computation.</p>
+<p>The reference implementation uses Hard Concrete gates (Louizos et al., 2018) — a stochastic relaxation of <span class="arithmatex">\(\ell_0\)</span> regularization. During training, each gate is sampled from a “stretched” binary concrete distribution that can produce exact zeros, enabling principled <span class="arithmatex">\(L_0\)</span> regularization. During evaluation, the deterministic distribution mean is used. The effective dimension <span class="arithmatex">\(d_\text{eff} = \sum_j P(g_j &gt; 0)\)</span> provides a threshold-free, continuous measure.</p>
+<div class="admonition info">
+<p class="admonition-title">Key implementation detail: log-space gate masking</p>
+<p>The gate mask must be propagated through to the Green kernel in <strong>log-space</strong>, not just applied to the encoder output. If inactive dimensions (<span class="arithmatex">\(g_j \approx 0\)</span>) are only zeroed in the latent code but not in the kernel product, the anchor points <span class="arithmatex">\(\mu_{r,j}\)</span> for inactive dimensions still contribute spurious distance terms. The correct implementation computes:</p>
+<div class="arithmatex">\[\log \prod_j G_{k,j}(z_j, \mu_{r,j}) = \sum_j g_j \cdot \log G_{k,j}(z_j, \mu_{r,j})\]</div>
+<p>When <span class="arithmatex">\(g_j = 0\)</span>, that term contributes 0 to the log-sum, so <span class="arithmatex">\(\exp(0) = 1\)</span> — a neutral factor. When <span class="arithmatex">\(g_j = 1\)</span>, the full kernel value is used. <mark>This clean interpolation is only possible in log-space.</mark></p>
+</div>
+<p>Figure 8 shows the gate convergence on MNIST — press Play to watch 52 of 64 dimensions shut down during training.</p>
+<figure style="margin:2em 0;">
+<div class="igl-widget" id="igl-fig-2" style="border-radius:12px; border:1px solid #e2e8f0; overflow:hidden; padding:28px 20px 22px;">
+<style>:root { --bg:#f9f9f9;--bg-alt:#fff;--text:#171717;--muted:#666;--border:#e2e8f0;
+  --border-strong:#cbd5e1;--primary:#A51209;--blue:#3b82f6;--green:#10b981;
+  --amber:#f59e0b;--purple:#8b5cf6;--red:#ef4444; }
+@media(prefers-color-scheme:dark) { :root { --bg:#0a0a0a;--bg-alt:#171717;--text:#e2e2e2;--muted:#888;--border:#374151;--border-strong:#4b5563; } }
+#igl-fig-2, #igl-fig-2 * { margin:0;padding:0;box-sizing:border-box; }
+#igl-fig-2 { background:var(--bg);font-family:'Source Sans Pro',sans-serif;display:flex;flex-direction:column;
+  align-items:center;padding:28px 20px 22px; }
+#igl-fig-2 .ey { font-size:11px;font-weight:500;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;text-align:center;margin-bottom:5px; }
+#igl-fig-2 .ti { font-family:'Source Sans Pro',sans-serif;font-size:20px;color:var(--text);text-align:center;margin-bottom:3px; }
+#igl-fig-2 .su { font-size:13px;color:var(--muted);text-align:center;margin-bottom:18px; }
+#igl-fig-2 .cap { margin-top:14px;font-size:12.5px;color:var(--muted);max-width:700px;text-align:center;line-height:1.7; }
+#igl-fig-2 .cap em { color:var(--text);font-style:normal;font-weight:500; }
+#igl-fig-2 svg { display:block;max-width:100%;height:auto; }
+#igl-fig-2 .main-area { display:flex;gap:12px;width:760px;max-width:100%;align-items:flex-start; }
+#igl-fig-2 canvas { display:block;border-radius:10px;border:1px solid var(--border); }
+#igl-fig-2 .side { width:210px;display:flex;flex-direction:column;gap:8px; }
+#igl-fig-2 .card { background:var(--bg-alt);border:1px solid var(--border);border-radius:10px;padding:12px 14px; }
+#igl-fig-2 .cl { font-size:11px;text-transform:uppercase;letter-spacing:.08em;color:var(--muted);margin-bottom:6px; }
+#igl-fig-2 .cv { font-family:'Roboto Mono',monospace;font-size:24px;font-weight:600; }
+#igl-fig-2 .cs { font-size:11px;color:var(--muted);margin-top:3px; }
+#igl-fig-2 .ep-track { background:var(--border);border-radius:100px;height:5px;width:100%;overflow:hidden;margin-top:6px; }
+#igl-fig-2 .ep-fill { height:100%;background:linear-gradient(90deg,var(--primary),var(--blue));border-radius:100px;transition:width .1s; }
+#igl-fig-2 .controls { display:flex;gap:10px;margin-top:12px;justify-content:center; }
+#igl-fig-2 button { background:var(--bg-alt);border:1px solid var(--border);color:var(--primary);
+  padding:7px 18px;border-radius:7px;cursor:pointer;font-family:'Source Sans Pro',sans-serif;font-size:13px;transition:all .2s; }
+#igl-fig-2 button:hover { background:var(--primary);color:#fff;border-color:var(--primary); }
+#igl-fig-2 .schema { width:760px;max-width:100%;background:var(--bg-alt);border:1px solid var(--border);
+  border-radius:10px;padding:14px 18px;margin-top:12px;font-family:'Roboto Mono',monospace;font-size:12px; }
+#igl-fig-2 .srow { display:flex;align-items:flex-start;gap:8px;margin-bottom:5px;color:var(--muted);line-height:1.5; }
+#igl-fig-2 .srow span { color:var(--text); }
+#igl-fig-2 .srow em { color:var(--green);font-style:normal; }</style>
+
+<p class="ey">Gates</p>
+<p class="ti">Automatic Intrinsic Dimension Discovery via Hard Concrete Gates</p>
+<p class="su">64 latent dimensions — MNIST experiment — 12 survive after training</p>
+<div class="main-area">
+<div style="flex:1;display:flex;flex-direction:column;gap:8px;align-items:center;">
+<div style="font-size:11px;color:var(--muted);font-family:'Roboto Mono',monospace;">
+      \(P(g_j &gt; 0)\) for \(j = 1 \ldots 64\) latent dimensions</div>
+<canvas height="260" id="f2_cGates" width="530"></canvas>
+<canvas height="110" id="f2_cHC" width="530"></canvas>
+</div>
+<div class="side">
+<div class="card">
+<div class="cl">Active Dimensions</div>
+<div class="cv" id="f2_dEffV" style="color:var(--green)">64</div>
+<div class="cs" id="f2_dEffS">\(d_{\mathrm{eff}} = \sum P(g_j &gt; 0)\)</div>
+</div>
+<div class="card">
+<div class="cl">Training Epoch</div>
+<div class="cv" id="f2_epochV" style="color:var(--blue)">0</div>
+<div class="ep-track"><div class="ep-fill" id="f2_epFill" style="width:0%"></div></div>
+<div class="cs">of 200 epochs</div>
+</div>
+<div class="card">
+<div class="cl">Compression</div>
+<div class="cv" id="f2_compV" style="color:var(--amber)">1.0×</div>
+<div class="cs">64 → \(d_{\mathrm{eff}}\) dims</div>
+</div>
+</div>
+</div>
+<div class="controls">
+<button id="f2_btnPlay">▶ Play Training</button>
+<button id="f2_btnReset">↺ Reset</button>
+</div>
+<div class="schema">
+<div class="srow"><span>1.</span> Sample: \(u \sim U(0,1) \to s = \sigma\bigl((\log u - \log(1-u) + \alpha)/\beta\bigr)\)</div>
+<div class="srow"><span>2.</span> Stretch: \(\bar{s} = s \cdot (\zeta - \gamma) + \gamma\)  where \(\gamma = -0.1\), \(\zeta = 1.1\) → <em>allows exact 0 and 1</em></div>
+<div class="srow"><span>3.</span> Clamp: \(g_j = \mathrm{clamp}(\bar{s}, 0, 1)\) → <em>exact zeros during training</em></div>
+<div class="srow"><span>4.</span> Log-kernel: \(\log \prod_j G_{kj} = \sum_j\) <span style="color:var(--primary)">\(g_j\)</span> \(\cdot \log G_{kj}\) → zero gate contributes \(\exp(0)=1\) (neutral) ✓</div>
+</div>
+
+<script>(function(){ 
+const D=64,TARGET=12;
+const finalGates=[];
+for(let j=0;j<D;j++)finalGates.push(j<TARGET?.65+Math.random()*.30:.01+Math.random()*.05);
+// Shuffle
+for(let i=finalGates.length-1;i>0;i--){const k=Math.floor(Math.random()*(i+1));[finalGates[i],finalGates[k]]=[finalGates[k],finalGates[i]];}
+function gateAt(e){const g=[];
+  for(let j=0;j<D;j++){const t=finalGates[j];const sp=t<.1?1.4:.7;
+    const pr=1-Math.exp(-sp*e/200*4);const n=(Math.random()-.5)*.04*(1-pr);
+    g.push(Math.max(0,Math.min(1,1+(t-1)*pr+n)));}return g;}
+let epoch=0,playing=false,tid=null;
+function drawGates(gates){
+  const C=document.getElementById('f2_cGates'),ctx=C.getContext('2d'),W=530,H=260;
+  const PAD={l:44,r:10,t:30,b:34};const PW=W-PAD.l-PAD.r,PH=H-PAD.t-PAD.b;
+  ctx.fillStyle='#ffffff';ctx.fillRect(0,0,W,H);
+  // Grid lines
+  ctx.strokeStyle='#e2e8f0';ctx.lineWidth=1;
+  for(let i=0;i<=4;i++){const y=PAD.t+PH*(1-i/4);ctx.beginPath();ctx.moveTo(PAD.l,y);ctx.lineTo(PAD.l+PW,y);ctx.stroke();
+    ctx.fillStyle='#666666';ctx.font="11px Roboto Mono, monospace";ctx.textAlign='right';
+    ctx.fillText((i/4).toFixed(2),PAD.l-4,y+4);}
+  // Draw bars FIRST
+  const BW=PW/D,dEff=gates.reduce((s,g)=>s+(g>.5?1:0),0);
+  for(let j=0;j<D;j++){
+    const x=PAD.l+j*BW,bh=gates[j]*PH,y=PAD.t+PH-bh,isA=gates[j]>.5;
+    if(isA){const gr=ctx.createLinearGradient(0,y,0,y+bh);gr.addColorStop(0,'#A51209');gr.addColorStop(1,'rgba(165,18,9,.4)');ctx.fillStyle=gr;}
+    else ctx.fillStyle='rgba(100,100,100,.25)';
+    ctx.fillRect(x+.5,y,BW-1,bh);}
+  // Threshold line ON TOP of bars
+  const yt=PAD.t+PH*.5;ctx.strokeStyle='rgba(245,158,11,.5)';ctx.lineWidth=1.5;ctx.setLineDash([5,4]);
+  ctx.beginPath();ctx.moveTo(PAD.l,yt);ctx.lineTo(PAD.l+PW,yt);ctx.stroke();ctx.setLineDash([]);
+  // Threshold label with background
+  ctx.fillStyle='rgba(255,255,255,.85)';ctx.fillRect(PAD.l+PW-90,yt-13,88,14);
+  ctx.fillStyle='rgba(245,158,11,.9)';ctx.font="600 10px Roboto Mono, monospace";ctx.textAlign='right';
+  ctx.fillText('threshold 0.5',PAD.l+PW-4,yt-2);
+  // d_eff label at top with background
+  ctx.fillStyle='rgba(255,255,255,.9)';ctx.fillRect(PAD.l+PW-140,2,142,18);
+  ctx.fillStyle='#A51209';ctx.font="600 12px Roboto Mono, monospace";ctx.textAlign='right';
+  ctx.fillText('d_eff = '+dEff+' / 64 active',PAD.l+PW,15);
+  // Axes
+  ctx.strokeStyle='#cbd5e1';ctx.lineWidth=1;
+  ctx.beginPath();ctx.moveTo(PAD.l,PAD.t);ctx.lineTo(PAD.l,PAD.t+PH);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(PAD.l,PAD.t+PH);ctx.lineTo(PAD.l+PW,PAD.t+PH);ctx.stroke();
+  ctx.fillStyle='#666666';ctx.font="11px Source Sans Pro, sans-serif";ctx.textAlign='center';
+  ctx.fillText('Latent dimension j',PAD.l+PW/2,H-5);
+  document.getElementById('f2_dEffV').textContent=dEff;
+  document.getElementById('f2_compV').textContent=(64/Math.max(1,dEff)).toFixed(1)+'\u00D7';}
+function drawHC(){
+  const C=document.getElementById('f2_cHC'),ctx=C.getContext('2d'),W=530,H=110;
+  ctx.fillStyle='#ffffff';ctx.fillRect(0,0,W,H);
+  ctx.fillStyle='#666666';ctx.font="11px Source Sans Pro, sans-serif";ctx.textAlign='left';
+  ctx.fillText('Hard Concrete distribution — P(gate = 0) > 0 and P(gate = 1) > 0  (unlike sigmoid)',10,15);
+  const examples=[{alpha:-2.5,label:'Inactive',color:'#ef4444',cx:95},{alpha:0,label:'Uncertain',color:'#f59e0b',cx:265},{alpha:2.5,label:'Active',color:'#10b981',cx:435}];
+  examples.forEach(({alpha,label,color,cx})=>{
+    const cy=72,W2=80,H2=38;
+    const gr=ctx.createLinearGradient(cx-W2/2,0,cx+W2/2,0);
+    gr.addColorStop(0,color+'44');gr.addColorStop(1,color+'11');ctx.fillStyle=gr;
+    ctx.beginPath();ctx.moveTo(cx-W2/2,cy+H2/2);
+    for(let i=0;i<=W2;i++){const s=i/W2;const p=Math.min(1,Math.max(0,1/(1+Math.exp(-2*(alpha*(1.1-.1)/(Math.max(.001,s-.1))-2/3)))));
+      ctx.lineTo(cx-W2/2+i,cy+H2/2-p*H2);}
+    ctx.lineTo(cx+W2/2,cy+H2/2);ctx.closePath();ctx.fill();
+    ctx.strokeStyle=color;ctx.lineWidth=1.5;ctx.beginPath();
+    for(let i=0;i<=W2;i++){const s=i/W2;const p=Math.min(1,Math.max(0,1/(1+Math.exp(-2*(alpha*(1.1-.1)/(Math.max(.001,s-.1))-2/3)))));
+      if(i===0)ctx.moveTo(cx-W2/2,cy+H2/2-p*H2);else ctx.lineTo(cx-W2/2+i,cy+H2/2-p*H2);}
+    ctx.stroke();
+    ctx.strokeStyle='#e2e8f0';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(cx-W2/2,cy+H2/2);ctx.lineTo(cx+W2/2,cy+H2/2);ctx.stroke();
+    ctx.fillStyle=color;ctx.font="12px Source Sans Pro, sans-serif";ctx.textAlign='center';ctx.fillText(label,cx,cy+H2/2+15);
+    ctx.fillStyle='#666666';ctx.font="10px Roboto Mono, monospace";
+    ctx.fillText('0',cx-W2/2,cy+H2/2+27);ctx.fillText('1',cx+W2/2,cy+H2/2+27);});}
+function frame(){epoch=Math.min(200,epoch+1);
+  document.getElementById('f2_epochV').textContent=epoch;
+  document.getElementById('f2_epFill').style.width=(epoch/200*100)+'%';
+  drawGates(gateAt(epoch));
+  if(epoch<200&&playing)tid=setTimeout(frame,40);
+  else if(epoch>=200){playing=false;document.getElementById('f2_btnPlay').textContent='▶ Play Training';}}
+document.getElementById('f2_btnPlay').addEventListener('click',()=>{
+  if(playing){playing=false;clearTimeout(tid);document.getElementById('f2_btnPlay').textContent='▶ Play Training';}
+  else{playing=true;document.getElementById('f2_btnPlay').textContent='⏸ Pause';frame();}});
+document.getElementById('f2_btnReset').addEventListener('click',()=>{
+  playing=false;clearTimeout(tid);epoch=0;
+  document.getElementById('f2_epochV').textContent='0';
+  document.getElementById('f2_epFill').style.width='0%';
+  document.getElementById('f2_btnPlay').textContent='▶ Play Training';
+  drawGates(new Array(D).fill(1.0));});
+drawGates(new Array(D).fill(1.0));drawHC();
+ })();</script>
+</div>
+<figcaption style="text-align:center; font-size:0.85em; color:#64748b; margin-top:8px; font-style:italic;"><strong>Figure 8.</strong> Automatic dimension discovery via Hard Concrete gates on MNIST (64-dimensional latent space). Press <em>Play Training</em> to watch inactive gates converge to \(P(g_j > 0) \to 0\). After 200 epochs, 12/64 gates remain active — consistent with MNIST's known intrinsic dimension of 10–15. Log-space gate masking ensures inactive dimensions contribute factor 1 (neutral element) to every kernel product.</figcaption>
+</figure>
+<hr/>
+<h4 id="operator-choice">Operator Choice<a class="headerlink" href="#operator-choice" title="Permanent link">¶</a></h4>
+<p>The choice of <span class="arithmatex">\(L\)</span> is a hyperparameter encoding a prior about the function’s structure. IGL supports several operators:</p>
+<table>
+<thead>
+<tr>
+<th>Operator</th>
+<th>Green’s function decay</th>
+<th>Null space</th>
+<th>Best for</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Laplacian <span class="arithmatex">\(-\Delta\)</span></td>
+<td>Polynomial</td>
+<td>Constants + harmonic poly.</td>
+<td>Smooth, global fields</td>
+</tr>
+<tr>
+<td>Helmholtz <span class="arithmatex">\(-\Delta + \mu^2\)</span></td>
+<td>Exponential <span class="arithmatex">\(e^{-\mu\|z-s\|}\)</span></td>
+<td>Trivial (<span class="arithmatex">\(\lambda \geq \mu^2\)</span>)</td>
+<td>Localized features, edges</td>
+</tr>
+<tr>
+<td>Harmonic oscillator <span class="arithmatex">\(-\Delta + x^2\)</span></td>
+<td>Gaussian (Gabor atoms)</td>
+<td>Trivial (<span class="arithmatex">\(\lambda \geq d/2\)</span>)</td>
+<td>Objects, structured textures</td>
+</tr>
+<tr>
+<td>Fractional <span class="arithmatex">\((-\Delta)^s\)</span></td>
+<td>Power-law</td>
+<td>Constants (<span class="arithmatex">\(s &lt; d/2\)</span>)</td>
+<td>Long-range correlations</td>
+</tr>
+</tbody>
+</table>
+<p>The <strong>smoothness bias</strong> of the Laplacian is often cited as a limitation of Green’s function methods: the Laplacian is a low-pass filter, and sharp edges require summing many modes (Gibbs phenomenon). IGL overcomes this through <strong>Gabor bases</strong>, <strong>operator superposition</strong> (combining multiple operators by linearity), and <strong>multi-scale decomposition</strong> (the exponential sum naturally provides multiple resolutions).</p>
+<p>The Gabor basis results (Figure 17) show progressive improvement as the encoding becomes more geometry-aware. Figure 9 provides an interactive operator gallery — click each operator to inspect its Green’s kernel.</p>
+<figure style="margin:1.5em auto;text-align:center;">
+<img alt="Gabor bases with rotated targets" src="images/2026-03-21-intrinsic-greens-learning/igl_gabor_rotated.png" style="border-radius:8px;"/>
+<figcaption style="font-size:0.85em;color:#64748b;margin-top:6px;"><strong>Figure 17.</strong> Gabor bases with rotated targets. Progressive improvement from basic spectral to full Gabor+rotation-aware encoding. The learned latent spaces (right) show increasingly structured coordinate discovery.</figcaption>
+</figure>
+<figure style="margin:2em 0;">
+<div class="igl-widget" id="igl-fig-1" style="border-radius:12px; border:1px solid #e2e8f0; overflow:hidden; padding:28px 20px 22px;">
+<style>:root { --bg:#f9f9f9;--bg-alt:#fff;--text:#171717;--muted:#666;--border:#e2e8f0;
+  --border-strong:#cbd5e1;--primary:#A51209;--blue:#3b82f6;--green:#10b981;
+  --amber:#f59e0b;--purple:#8b5cf6;--red:#ef4444; }
+@media(prefers-color-scheme:dark) { :root { --bg:#0a0a0a;--bg-alt:#171717;--text:#e2e2e2;--muted:#888;--border:#374151;--border-strong:#4b5563; } }
+#igl-fig-1, #igl-fig-1 * { margin:0;padding:0;box-sizing:border-box; }
+#igl-fig-1 { background:var(--bg);font-family:'Source Sans Pro',sans-serif;display:flex;flex-direction:column;
+  align-items:center;padding:28px 20px 22px; }
+#igl-fig-1 .ey { font-size:11px;font-weight:500;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;text-align:center;margin-bottom:5px; }
+#igl-fig-1 .ti { font-family:'Source Sans Pro',sans-serif;font-size:20px;color:var(--text);text-align:center;margin-bottom:3px; }
+#igl-fig-1 .su { font-size:13px;color:var(--muted);text-align:center;margin-bottom:18px; }
+#igl-fig-1 .cap { margin-top:14px;font-size:12.5px;color:var(--muted);max-width:700px;text-align:center;line-height:1.7; }
+#igl-fig-1 .cap em { color:var(--text);font-style:normal;font-weight:500; }
+#igl-fig-1 svg { display:block;max-width:100%;height:auto; }
+#igl-fig-1 .ops { display:flex;gap:6px;margin-bottom:14px;flex-wrap:wrap;justify-content:center; }
+#igl-fig-1 .ob { background:var(--bg-alt);border:1px solid var(--border);color:var(--muted);
+  padding:6px 14px;border-radius:8px;cursor:pointer;font-family:'Roboto Mono',monospace;
+  font-size:12px;transition:all .2s; }
+#igl-fig-1 .ob:hover { border-color:var(--border-strong); }
+#igl-fig-1 .ob.active { border-color:var(--primary);color:var(--primary);background:rgba(165,18,9,.06); }
+#igl-fig-1 .main-area { display:flex;gap:12px;align-items:flex-start;width:760px;max-width:100%; }
+#igl-fig-1 canvas { display:block;border-radius:10px;border:1px solid var(--border); }
+#igl-fig-1 .info { flex:1;background:var(--bg-alt);border:1px solid var(--border);border-radius:12px;padding:16px;min-width:190px; }
+#igl-fig-1 .in { font-size:15px;font-weight:600;margin-bottom:6px; }
+#igl-fig-1 .io { font-family:'Roboto Mono',monospace;font-size:11px;color:var(--muted);margin-bottom:8px;line-height:1.6; }
+#igl-fig-1 .ib { font-size:12px;color:var(--muted);line-height:1.5; }
+#igl-fig-1 .ib strong { display:block;font-size:10px;text-transform:uppercase;letter-spacing:.07em;margin-bottom:3px;color:var(--text); }
+#igl-fig-1 .sr { display:flex;align-items:center;gap:8px;margin-top:10px; }
+#igl-fig-1 .sr label { font-size:11px;font-family:'Roboto Mono',monospace;color:var(--muted); }
+#igl-fig-1 input[type=range] { flex:1;accent-color:var(--primary); }
+#igl-fig-1 .sv { font-family:'Roboto Mono',monospace;font-size:11px;color:var(--primary);min-width:32px; }
+#igl-fig-1 .tagrow { display:flex;gap:4px;flex-wrap:wrap;margin-top:6px; }
+#igl-fig-1 .tag { background:var(--bg);border:1px solid var(--border);border-radius:4px;
+  padding:2px 7px;font-size:10px;font-family:'Roboto Mono',monospace;color:var(--muted); }</style>
+
+<p class="ey">Operator Choice</p>
+<p class="ti">The Operator L is an Inductive Bias About Function Structure</p>
+<p class="su">hover the heatmap to explore · adjust \(\sigma\) to see scale effects · click to switch operator</p>
+<div class="ops" id="f1_opsRow"></div>
+<div class="main-area">
+<div style="display:flex;flex-direction:column;gap:8px;align-items:center;">
+<div style="font-size:11px;color:var(--muted);font-family:'Roboto Mono',monospace;">G(ξ,ζ) — 2D kernel centered at origin</div>
+<canvas height="310" id="f1_c2d" style="cursor:crosshair;" width="310"></canvas>
+<div style="font-size:11px;color:var(--muted);font-family:'Roboto Mono',monospace;">1D cross-section along ζ¹=0</div>
+<canvas height="96" id="f1_c1d" width="310"></canvas>
+</div>
+<div class="info" id="f1_info">
+<div class="in" id="f1_iName">—</div>
+<div class="io" id="f1_iOp">—</div>
+<div class="ib" id="f1_iBias">—</div>
+<div class="sr"><label>σ (scale)</label>
+<input id="f1_sig" max="1.5" min="0.1" step="0.05" type="range" value="0.5"/>
+<span class="sv" id="f1_sigV">0.50</span></div>
+</div>
+</div>
+
+<script>(function(){ 
+var ops=[
+  {id:'gauss',name:'Gaussian',accent:'#3b82f6',fn:function(r,s){return Math.exp(-r*r/(2*s*s));},
+   op:'\\(L = -\\Delta\\)<br>\\(G(r) = e^{-r^2/2\\sigma^2}\\)',bias:'Smooth global fields. Low-pass filter, all frequencies weighted by Gaussian envelope.',tags:['smooth','global','symmetric']},
+  {id:'helm',name:'Helmholtz',accent:'#10b981',fn:function(r,s){return Math.exp(-Math.abs(r)/s)*Math.cos(Math.PI*r/s);},
+   op:'\\(L = -\\Delta + \\mu^2\\)<br>\\(G(r) = e^{-|r|/\\sigma} \\cos(\\pi r/\\sigma)\\)',bias:'Localized features and edges. Exponential decay removes global effects. Trivial null space.',tags:['localized','oscillatory','edges']},
+  {id:'gabor',name:'Gabor',accent:'#8b5cf6',fn:function(r,s){return Math.exp(-r*r/(2*s*s))*Math.cos(Math.PI*2.5*r/s);},
+   op:'\\(L = -\\Delta + x^2\\)<br>\\(G(r) = e^{-r^2/2\\sigma^2} \\cos(\\omega r)\\)',bias:'Localized oscillations — textures, periodic patterns. Gaussian envelope \\(\\times\\) frequency content.',tags:['Gabor atoms','multi-scale','textures']},
+  {id:'cauchy',name:'Cauchy',accent:'#f59e0b',fn:function(r,s){return 1/(1+r*r/(s*s));},
+   op:'Cauchy kernel<br>\\(G(r) = 1/(1 + r^2/\\sigma^2)\\)',bias:'Heavy-tailed decay, slower than Gaussian. Long-range dependencies, robust to outliers.',tags:['heavy tail','robust','bounded']},
+  {id:'lap',name:'Laplacian',accent:'#ef4444',fn:function(r,s){return Math.exp(-Math.abs(r)/s);},
+   op:'Laplace kernel<br>\\(G(r) = e^{-|r|/\\sigma}\\)',bias:'Exponential decay with cusp at r=0. Corresponds to \\(L_1\\) regularization — promotes sparse solutions.',tags:['sparsity','L1','cusp']},
+  {id:'ms',name:'Gauss + Helmholtz',accent:'#A51209',fn:function(r,s){return 0.6*Math.exp(-r*r/(2*s*s))+0.4*Math.exp(-Math.abs(r)/s)*Math.cos(Math.PI*r/s);},
+   op:'\\(\\gamma_1 G_{\\text{Gauss}} + \\gamma_2 G_{\\text{Helm}}\\)<br>smooth global + localized edges',bias:'Superposition of two operators by linearity. Gaussian captures the global trend; Helmholtz adds localized oscillatory detail. Constructive interference sharpens edges.',tags:['superposition','multi-kernel','linearity']},
+];
+var cur=ops[0];var sig=0.5;
+var opsRow=document.getElementById('f1_opsRow');
+ops.forEach(function(op){var b=document.createElement('button');b.className='ob'+(op===cur?' active':'');
+  b.textContent=op.name;if(op===cur){b.style.borderColor=op.accent;b.style.color=op.accent;b.style.background=op.accent+'0f';}
+  b.addEventListener('click',function(){cur=op;
+    Array.prototype.forEach.call(opsRow.children,function(x){x.classList.remove('active');x.style.borderColor='';x.style.color='';x.style.background='';});
+    b.classList.add('active');b.style.borderColor=op.accent;b.style.color=op.accent;b.style.background=op.accent+'0f';
+    updateInfo();draw2D();draw1D();});opsRow.appendChild(b);});
+function updateInfo(){
+  document.getElementById('f1_iName').textContent=cur.name+' Kernel';
+  document.getElementById('f1_iName').style.color=cur.accent;
+  document.getElementById('f1_iOp').innerHTML=cur.op;
+  document.getElementById('f1_iBias').innerHTML='<strong>Inductive Bias</strong>'+cur.bias+
+    '<div class="tagrow">'+cur.tags.map(function(t){return '<span class="tag">'+t+'</span>';}).join('')+'</div>';
+  if(window.renderMathInElement){
+    renderMathInElement(document.getElementById('f1_iOp'));
+    renderMathInElement(document.getElementById('f1_iBias'));
+  }}
+function hslRgb(h,s,l){let r,g,b;if(!s){r=g=b=l;}else{
+  const q=l<.5?l*(1+s):l+s-l*s,p=2*l-q,f=t=>{t=((t%1)+1)%1;
+  return t<1/6?p+(q-p)*6*t:t<.5?q:t<2/3?p+(q-p)*(2/3-t)*6:p};
+  r=f(h+1/3);g=f(h);b=f(h-1/3);}return[r*255|0,g*255|0,b*255|0];}
+function accentHue(hex){return {'#3b82f6':220,'#10b981':160,'#8b5cf6':260,'#f59e0b':38,'#ef4444':0,'#A51209':5}[hex]||220;}
+function draw2D(mx,my){
+  if(mx===undefined)mx=-1;if(my===undefined)my=-1;
+  var C=document.getElementById('f1_c2d'),ctx=C.getContext('2d'),SZ=310;
+  var hue=accentHue(cur.accent);
+  var mn=Infinity,mx2=-Infinity;
+  for(let i=0;i<SZ;i++)for(let j=0;j<SZ;j++){const r=Math.sqrt(((i-SZ/2)/(SZ/2.8))**2+((j-SZ/2)/(SZ/2.8))**2);const v=cur.fn(r,sig);mn=Math.min(mn,v);mx2=Math.max(mx2,v);}
+  const img=ctx.createImageData(SZ,SZ);const d=img.data;
+  for(let py=0;py<SZ;py++)for(let px=0;px<SZ;px++){
+    const r=Math.sqrt(((px-SZ/2)/(SZ/2.8))**2+((py-SZ/2)/(SZ/2.8))**2);
+    const v=(cur.fn(r,sig)-mn)/(mx2-mn+1e-9);
+    const[r2,g,b]=hslRgb(hue/360,.65,.08+v*.52);
+    const i=(py*SZ+px)*4;d[i]=r2;d[i+1]=g;d[i+2]=b;d[i+3]=255;}
+  ctx.putImageData(img,0,0);
+  if(mx>=0){ctx.strokeStyle='rgba(0,0,0,0.25)';ctx.lineWidth=1;ctx.setLineDash([4,4]);
+    ctx.beginPath();ctx.moveTo(mx,0);ctx.lineTo(mx,SZ);ctx.stroke();
+    ctx.beginPath();ctx.moveTo(0,my);ctx.lineTo(SZ,my);ctx.stroke();ctx.setLineDash([]);}
+  ctx.fillStyle='rgba(255,255,255,.6)';ctx.beginPath();ctx.arc(SZ/2,SZ/2,3,0,Math.PI*2);ctx.fill();
+  ctx.fillStyle='rgba(0,0,0,.4)';ctx.font="12px Roboto Mono, monospace";ctx.textAlign='center';
+  ctx.fillText('ζ¹ →',SZ-22,SZ-6);ctx.save();ctx.translate(14,SZ/2);ctx.rotate(-Math.PI/2);ctx.fillText('ζ²',0,0);ctx.restore();}
+function draw1D(){
+  const C=document.getElementById('f1_c1d'),ctx=C.getContext('2d'),W=310,H=96;
+  ctx.fillStyle='#ffffff';ctx.fillRect(0,0,W,H);
+  const vals=[];let mn=Infinity,mx2=-Infinity;
+  for(let i=0;i<=W;i++){const r=Math.abs((i-W/2)/(W/2.5));const v=cur.fn(r,sig);vals.push(v);mn=Math.min(mn,v);mx2=Math.max(mx2,v);}
+  const rng=mx2-mn||1;
+  if(mn<0){const zy=H-6-(0-mn)/rng*(H-14);ctx.strokeStyle='#e2e8f0';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,zy);ctx.lineTo(W,zy);ctx.stroke();}
+  const gr=ctx.createLinearGradient(0,0,0,H);gr.addColorStop(0,cur.accent+'cc');gr.addColorStop(1,cur.accent+'11');ctx.fillStyle=gr;
+  ctx.beginPath();ctx.moveTo(0,H);
+  for(let i=0;i<=W;i++)ctx.lineTo(i,H-6-(vals[i]-mn)/rng*(H-14));
+  ctx.lineTo(W,H);ctx.closePath();ctx.fill();
+  ctx.strokeStyle=cur.accent;ctx.lineWidth=2;ctx.beginPath();
+  for(let i=0;i<=W;i++){const y=H-6-(vals[i]-mn)/rng*(H-14);if(i===0)ctx.moveTo(0,y);else ctx.lineTo(i,y);}
+  ctx.stroke();
+  ctx.strokeStyle='#e2e8f0';ctx.lineWidth=1;ctx.beginPath();ctx.moveTo(0,H-1);ctx.lineTo(W,H-1);ctx.stroke();
+  ctx.beginPath();ctx.moveTo(W/2,0);ctx.lineTo(W/2,H);ctx.stroke();
+  ctx.fillStyle='#666666';ctx.font="11px Roboto Mono, monospace";ctx.textAlign='right';ctx.fillText('r →',W-4,H-4);
+  ctx.fillStyle=cur.accent;ctx.textAlign='left';ctx.fillText('G(r)',4,13);}
+document.getElementById('f1_sig').addEventListener('input',function(e){sig=parseFloat(e.target.value);
+  document.getElementById('f1_sigV').textContent=sig.toFixed(2);draw2D();draw1D();});
+document.getElementById('f1_c2d').addEventListener('mousemove',function(e){var r=e.target.getBoundingClientRect();
+  draw2D((e.clientX-r.left)/r.width*310,(e.clientY-r.top)/r.height*310);});
+document.getElementById('f1_c2d').addEventListener('mouseleave',function(){draw2D();});
+updateInfo();draw2D();draw1D();
+ })();</script>
+</div>
+<figcaption style="text-align:center; font-size:0.85em; color:#64748b; margin-top:8px; font-style:italic;"><strong>Figure 9.</strong> The operator gallery. Each operator \(L\) encodes a different inductive bias about function structure. Click an operator to inspect its Green's kernel — both as a 2D heatmap and a 1D cross-section. Adjust \(\sigma\) to see scale effects. Gaussian kernels produce smooth global fields; Helmholtz gives exponential decay for edges; Gabor encodes localized oscillations for textures; multi-scale combines resolutions via the exponential sum trick.</figcaption>
+</figure>
+<hr/>
+<h4 id="curved-manifolds">Curved Manifolds<a class="headerlink" href="#curved-manifolds" title="Permanent link">¶</a></h4>
+<p>On a curved manifold, the integration measure includes the metric volume element <span class="arithmatex">\(\sqrt{|g|}\)</span>, which mixes coordinates and breaks the Fubini factorization. IGL handles this by <strong>absorbing the metric into the source</strong>: define <span class="arithmatex">\(\hat{f}(\zeta) = \tilde{f}(\zeta) \cdot \sqrt{|g(\zeta)|}\)</span>. The integral factors cleanly, and the optimization finds whatever compensated source makes <span class="arithmatex">\(G * \hat{f}\)</span> fit the targets. The metric compensation is entirely implicit — we never compute <span class="arithmatex">\(\sqrt{|g|}\)</span> explicitly.</p>
+<div class="admonition warning">
+<p class="admonition-title">Compensated source limitation</p>
+<p>The learned <span class="arithmatex">\(\hat{f}\)</span> is not the physical source of any particular PDE. It is a “compensated” source that encodes the full geometry. If your goal is to <em>recover</em> the physical source term or the Green’s function of the manifold’s Laplace-Beltrami operator, IGL does not directly provide this — the compensated mechanism absorbs metric information into the learned source rather than exposing it. However, we have since developed methods to <strong>perfectly recover the metric tensor</strong> with theoretical guarantees for contractible manifolds (e.g. smooth MLP-generated manifolds, SPD manifolds). This will be the subject of a dedicated upcoming article.</p>
+</div>
+<hr/>
+<h4 id="resigl-igl-as-a-geometric-regularizer">ResIGL: IGL as a Geometric Regularizer<a class="headerlink" href="#resigl-igl-as-a-geometric-regularizer" title="Permanent link">¶</a></h4>
+<p>Because IGL is not a drop-in replacement for generic deep learning, the paper proposes a hybrid architecture:</p>
+<div class="arithmatex">\[u(x) = \underbrace{\int G(\xi, \zeta) f(\zeta) \, d\zeta}_{\text{IGL: topology + global trend}} + \underbrace{M(\xi)}_{\text{MLP: sharp residuals}}\]</div>
+<p>The IGL branch has few Stage-2 parameters (<span class="arithmatex">\(O(KR)\)</span>) and integration is a smoothing operation, so it is inherently topology-preserving. The MLP residual captures sharp features without destroying the underlying geometry.</p>
+<p>On the Swiss Roll with a discontinuous target <span class="arithmatex">\(y = \text{sign}(\sin(t))\)</span>, pure MLP produces tangled, crossing iso-height curves — geometric collapse. ResIGL keeps iso-height curves stratified while still fitting the sharp transitions. The IGL branch acts as a topological scaffold; the MLP refines within that scaffold. The iso-height comparison (Figure 18) and Figure 10 both illustrate this contrast.</p>
+<figure style="margin:1.5em auto;text-align:center;">
+<img alt="Pure MLP vs ResIGL iso-height lines" src="images/2026-03-21-intrinsic-greens-learning/igl_hybrid_ribbon.png" style="border-radius:8px;"/>
+<figcaption style="font-size:0.85em;color:#64748b;margin-top:6px;"><strong>Figure 18.</strong> Pure MLP vs ResIGL (Hybrid) iso-height lines in latent space. The MLP crosses and tangles curves; ResIGL keeps them stratified.</figcaption>
+</figure>
+<figure style="margin:2em 0;">
+<div class="igl-widget" id="igl-fig-0" style="border-radius:12px; border:1px solid #e2e8f0; overflow:hidden; padding:28px 20px 22px;">
+<style>:root { --bg:#f9f9f9;--bg-alt:#fff;--text:#171717;--muted:#666;--border:#e2e8f0;
+  --border-strong:#cbd5e1;--primary:#A51209;--blue:#3b82f6;--green:#10b981;
+  --amber:#f59e0b;--purple:#8b5cf6;--red:#ef4444; }
+@media(prefers-color-scheme:dark) { :root { --bg:#0a0a0a;--bg-alt:#171717;--text:#e2e2e2;--muted:#888;--border:#374151;--border-strong:#4b5563; } }
+#igl-fig-0, #igl-fig-0 * { margin:0;padding:0;box-sizing:border-box; }
+#igl-fig-0 { background:var(--bg);font-family:'Inter',sans-serif;display:flex;flex-direction:column;
+  align-items:center;padding:28px 20px 22px; }
+#igl-fig-0 .ey { font-size:11px;font-weight:500;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;text-align:center;margin-bottom:5px; }
+#igl-fig-0 .ti { font-size:20px;font-weight:600;color:var(--text);text-align:center;margin-bottom:3px; }
+#igl-fig-0 .su { font-size:13px;color:var(--muted);text-align:center;margin-bottom:18px; }
+#igl-fig-0 .cap { margin-top:14px;font-size:12.5px;color:var(--muted);max-width:700px;text-align:center;line-height:1.7; }
+#igl-fig-0 .cap em { color:var(--text);font-style:normal;font-weight:500; }
+#igl-fig-0 svg { display:block;max-width:100%;height:auto; }</style>
+
+<p class="ey">Architecture</p>
+<p class="ti">ResIGL: IGL as Geometric Scaffold + MLP Residual</p>
+<p class="su">pure MLP iso-curves tangle near discontinuities — ResIGL keeps them stratified</p>
+<svg style="width:760px;max-width:100%;" viewbox="0 0 760 430"><defs>
+<filter id="f0_cs"><fedropshadow dx="0" dy="2" flood-color="#000" flood-opacity="0.07" stddeviation="5"></fedropshadow></filter>
+</defs>
+<rect fill="var(--bg)" height="430" width="760"></rect>
+<!-- LEFT: Pure MLP -->
+<rect fill="var(--bg-alt)" filter="url(#f0_cs)" height="300" rx="12" stroke="var(--border)" stroke-width="1" width="350" x="14" y="14"></rect>
+<line stroke="var(--red)" stroke-linecap="round" stroke-width="2.5" x1="22" x2="356" y1="14" y2="14"></line>
+<text fill="var(--text)" font-family="'Source Sans Pro',sans-serif" font-size="14" font-weight="600" text-anchor="middle" x="189" y="38">Pure MLP</text>
+<text fill="var(--muted)" font-family="'Source Sans Pro',sans-serif" font-size="10" text-anchor="middle" x="189" y="53">target: sign(sin(t)) — discontinuous</text>
+<!-- Background bands left -->
+<rect fill="var(--blue)" fill-opacity="0.08" height="72" rx="4" width="322" x="28" y="62"></rect>
+<rect fill="var(--red)" fill-opacity="0.06" height="72" rx="4" width="322" x="28" y="134"></rect>
+<rect fill="var(--blue)" fill-opacity="0.08" height="72" rx="4" width="322" x="28" y="206"></rect>
+<!-- MLP iso-curves: TANGLED -->
+<g fill="none" stroke-linecap="round">
+<!-- +1 region: wavy but ok -->
+<path d="M 28,82 Q 90,88 140,78 Q 200,68 260,84 Q 310,96 350,80" opacity="0.5" stroke="var(--blue)" stroke-width="1.2"></path>
+<path d="M 28,108 Q 90,114 140,104 Q 200,94 260,110 Q 310,122 350,106" opacity="0.5" stroke="var(--blue)" stroke-width="1.2"></path>
+<!-- Boundary 1: tangled crossing -->
+<path d="M 28,130 Q 80,118 120,138 Q 160,158 200,134 Q 240,110 280,132 Q 320,152 350,134" opacity="0.7" stroke="var(--red)" stroke-dasharray="6 3" stroke-width="1.8"></path>
+<path d="M 28,142 Q 80,154 120,132 Q 160,110 200,140 Q 240,170 280,142 Q 320,114 350,140" opacity="0.7" stroke="var(--red)" stroke-dasharray="6 3" stroke-width="1.8"></path>
+<!-- -1 region: messy -->
+<path d="M 28,170 Q 90,178 140,166 Q 200,154 260,172 Q 310,186 350,168" opacity="0.45" stroke="var(--red)" stroke-width="1.2"></path>
+<!-- Boundary 2: tangled -->
+<path d="M 28,200 Q 80,188 120,208 Q 160,228 200,204 Q 240,180 280,202 Q 320,222 350,204" opacity="0.7" stroke="var(--red)" stroke-dasharray="6 3" stroke-width="1.8"></path>
+<path d="M 28,212 Q 80,224 120,202 Q 160,180 200,210 Q 240,240 280,212 Q 320,184 350,210" opacity="0.7" stroke="var(--red)" stroke-dasharray="6 3" stroke-width="1.8"></path>
+<!-- +1 region bottom -->
+<path d="M 28,240 Q 90,248 140,236 Q 200,224 260,242 Q 310,256 350,238" opacity="0.5" stroke="var(--blue)" stroke-width="1.2"></path>
+<path d="M 28,262 Q 90,268 140,258 Q 200,248 260,264 Q 310,276 350,260" opacity="0.5" stroke="var(--blue)" stroke-width="1.2"></path>
+</g>
+<!-- Annotation: curves cross -->
+<rect fill="var(--red)" fill-opacity="0.08" height="22" rx="5" stroke="var(--red)" stroke-opacity="0.4" stroke-width="1" width="120" x="220" y="282"></rect>
+<text fill="var(--red)" font-family="'Source Sans Pro',sans-serif" font-size="10" font-weight="500" text-anchor="middle" x="280" y="297">iso-curves cross ✗</text>
+<!-- RIGHT: ResIGL -->
+<rect fill="var(--bg-alt)" filter="url(#f0_cs)" height="300" rx="12" stroke="var(--border)" stroke-width="1" width="350" x="396" y="14"></rect>
+<line stroke="var(--green)" stroke-linecap="round" stroke-width="2.5" x1="404" x2="738" y1="14" y2="14"></line>
+<text fill="var(--text)" font-family="'Source Sans Pro',sans-serif" font-size="14" font-weight="600" text-anchor="middle" x="571" y="38">ResIGL (IGL + MLP residual)</text>
+<text fill="var(--muted)" font-family="'Source Sans Pro',sans-serif" font-size="10" text-anchor="middle" x="571" y="53">IGL scaffold preserves topology</text>
+<!-- Background bands right -->
+<rect fill="var(--blue)" fill-opacity="0.08" height="72" rx="4" width="322" x="410" y="62"></rect>
+<rect fill="var(--red)" fill-opacity="0.06" height="72" rx="4" width="322" x="410" y="134"></rect>
+<rect fill="var(--blue)" fill-opacity="0.08" height="72" rx="4" width="322" x="410" y="206"></rect>
+<!-- ResIGL iso-curves: STRATIFIED (clean parallel) -->
+<g fill="none" stroke-linecap="round">
+<path d="M 410,80 L 732,80" opacity="0.5" stroke="var(--blue)" stroke-width="1.2"></path>
+<path d="M 410,100 L 732,100" opacity="0.5" stroke="var(--blue)" stroke-width="1.2"></path>
+<path d="M 410,120 L 732,120" opacity="0.5" stroke="var(--blue)" stroke-width="1.2"></path>
+<!-- Crisp boundary -->
+<path d="M 410,134 L 732,134" opacity="0.3" stroke="var(--text)" stroke-width="2.5"></path>
+<!-- -1 region -->
+<path d="M 410,154 L 732,154" opacity="0.45" stroke="var(--red)" stroke-width="1.2"></path>
+<path d="M 410,170 L 732,170" opacity="0.45" stroke="var(--red)" stroke-width="1.2"></path>
+<path d="M 410,186 L 732,186" opacity="0.45" stroke="var(--red)" stroke-width="1.2"></path>
+<!-- Crisp boundary -->
+<path d="M 410,206 L 732,206" opacity="0.3" stroke="var(--text)" stroke-width="2.5"></path>
+<!-- +1 region bottom -->
+<path d="M 410,226 L 732,226" opacity="0.5" stroke="var(--blue)" stroke-width="1.2"></path>
+<path d="M 410,248 L 732,248" opacity="0.5" stroke="var(--blue)" stroke-width="1.2"></path>
+<path d="M 410,268 L 732,268" opacity="0.5" stroke="var(--blue)" stroke-width="1.2"></path>
+</g>
+<!-- Annotation: stratified -->
+<rect fill="var(--green)" fill-opacity="0.08" height="22" rx="5" stroke="var(--green)" stroke-opacity="0.4" stroke-width="1" width="108" x="600" y="282"></rect>
+<text fill="var(--green)" font-family="'Source Sans Pro',sans-serif" font-size="10" font-weight="500" text-anchor="middle" x="654" y="297">stratified ✓</text>
+<!-- Formula bar -->
+<rect fill="var(--bg-alt)" height="44" rx="8" stroke="var(--border)" stroke-width="1" width="732" x="14" y="330"></rect>
+<text fill="var(--text)" font-family="'Source Sans Pro',sans-serif" font-size="12" font-weight="600" text-anchor="middle" x="380" y="349">ResIGL:  u(x) = ∫G(ξ,ζ)f(ζ)dζ  +  M(ξ)</text>
+<text fill="var(--muted)" font-family="'Roboto Mono',monospace" font-size="10" text-anchor="middle" x="380" y="366">IGL branch: topology + global trend (few O(KR) params)  ·  MLP branch M(ξ): sharp residuals</text>
+<!-- Bottom labels -->
+<text fill="var(--muted)" font-family="'Source Sans Pro',sans-serif" font-size="11" text-anchor="middle" x="189" y="398">geometric collapse at discontinuity</text>
+<text fill="var(--muted)" font-family="'Source Sans Pro',sans-serif" font-size="11" text-anchor="middle" x="571" y="398">topology preserved · MLP fits sharp transitions</text>
+</svg>
+
+</div>
+<figcaption style="text-align:center; font-size:0.85em; color:#64748b; margin-top:8px; font-style:italic;"><strong>Figure 10.</strong> Topology preservation on a discontinuous Swiss Roll target \(\text{sign}(\sin(t))\). <em>Left:</em> pure MLP iso-height curves cross and tangle near the discontinuity — geometric collapse. <em>Right:</em> ResIGL (IGL integral branch + MLP residual) keeps iso-height curves cleanly stratified while still fitting the sharp boundary. The IGL branch acts as a topological scaffold; the MLP refines within it.</figcaption>
+</figure>
+<hr/>
+<h3 id="experiments">Experiments<a class="headerlink" href="#experiments" title="Permanent link">¶</a></h3>
+<p>In all experiments, the manifolds are embedded in ambient space via a <strong>random rotation</strong> so that intrinsic coordinates are never axis-aligned. This is critical: an axis-aligned embedding would make the tensor decomposition trivially separable, removing any need for the encoder to discover meaningful coordinates. The rotation ensures the encoder must genuinely learn the manifold structure.</p>
+<h4 id="topology-preservation-exp-1">Topology Preservation (Exp. 1)<a class="headerlink" href="#topology-preservation-exp-1" title="Permanent link">¶</a></h4>
+<p>On the Swiss Roll, two-stage training achieves over <span class="arithmatex">\(100\times\)</span> lower MSE than joint training, and recovers the correct 2D manifold topology (Figure 11). Joint training collapses to 1D or a tangled cluster. In the harder “rotated + coupled target” setting (target <span class="arithmatex">\(u = \sin(t)\cos(h)\)</span> where <span class="arithmatex">\(t, h\)</span> are the intrinsic coordinates), joint training fails completely while two-stage training acts as a blind source separator.</p>
+<figure style="margin:1.5em auto;text-align:center;">
+<img alt="Spectral IGL regression" src="images/2026-03-21-intrinsic-greens-learning/spectral_igl_regression.png" style="border-radius:8px;"/>
+<figcaption style="font-size:0.85em;color:#64748b;margin-top:6px;"><strong>Figure 11.</strong> Spectral IGL regression: (A) Learning curve, (B) Learned latent space via t-SNE, (C) Prediction vs ground truth.</figcaption>
+</figure>
+<h4 id="sample-efficiency-phase-transition-exp-2">Sample Efficiency Phase Transition (Exp. 2)<a class="headerlink" href="#sample-efficiency-phase-transition-exp-2" title="Permanent link">¶</a></h4>
+<p>On a 2D plane in <span class="arithmatex">\(\mathbb{R}^{100}\)</span>, two-stage training undergoes a sharp phase transition between <span class="arithmatex">\(N=200\)</span> and <span class="arithmatex">\(N=500\)</span>: all three Green’s kernels cross <span class="arithmatex">\(R^2 &gt; 0.9\)</span>, while jointly-trained methods plateau near 0.55–0.77 and never recover even at <span class="arithmatex">\(N=2000\)</span> (Figure 12).</p>
+<figure style="margin:1.5em auto;text-align:center;">
+<img alt="Sample efficiency comparison" src="images/2026-03-21-intrinsic-greens-learning/ablation3_sample_efficiency.png" style="width:50%;border-radius:8px;"/>
+<figcaption style="font-size:0.85em;color:#64748b;margin-top:6px;"><strong>Figure 12.</strong> Sample efficiency comparison on a rotated plane (D=100). The sharp phase transition between N=200–500 is exclusive to two-stage training.</figcaption>
+</figure>
+<h4 id="scalability-exp-3">Scalability (Exp. 3)<a class="headerlink" href="#scalability-exp-3" title="Permanent link">¶</a></h4>
+<p>Stage 2 cost scales linearly in <span class="arithmatex">\(d\)</span> and <span class="arithmatex">\(R\)</span>, and is negligible compared to the encoder across all tested scales. For <span class="arithmatex">\(K \leq 10\)</span>, <span class="arithmatex">\(R \leq 64\)</span>, <span class="arithmatex">\(d \leq 10\)</span>, Stage 2 adds less than 5% to total compute. The scaling plots confirm this (Figure 13), alongside accuracy vs. ambient dimension (Figure 14) and noise robustness (Figure 15).</p>
+<figure style="margin:1.5em auto;text-align:center;">
+<img alt="IGL computational scaling" src="images/2026-03-21-intrinsic-greens-learning/igl_linear_scaling.png" style="border-radius:8px;"/>
+<figcaption style="font-size:0.85em;color:#64748b;margin-top:6px;"><strong>Figure 13.</strong> IGL computational scaling. FLOPs, wall-clock time, and parameter count all scale linearly — the integral head adds negligible overhead to the encoder.</figcaption>
+</figure>
+<figure style="margin:1.5em auto;text-align:center;">
+<img alt="Accuracy vs ambient dimension" src="images/2026-03-21-intrinsic-greens-learning/fig2_accuracy_vs_D.png" style="width:50%;border-radius:8px;"/>
+<figcaption style="font-size:0.85em;color:#64748b;margin-top:6px;"><strong>Figure 14.</strong> Accuracy vs ambient dimension D. IGL maintains low test MSE as dimension grows, while MLP degrades.</figcaption>
+</figure>
+<figure style="margin:1.5em auto;text-align:center;">
+<img alt="Noise robustness" src="images/2026-03-21-intrinsic-greens-learning/fig3_noise_robustness.png" style="border-radius:8px;"/>
+<figcaption style="font-size:0.85em;color:#64748b;margin-top:6px;"><strong>Figure 15.</strong> Noise robustness. IGL's integration-based architecture is inherently more robust to target noise than differentiation-based methods.</figcaption>
+</figure>
+<h4 id="mnist-latent-space-regularization-exp-7">MNIST Latent Space Regularization (Exp. 7)<a class="headerlink" href="#mnist-latent-space-regularization-exp-7" title="Permanent link">¶</a></h4>
+<p>IGL is used as a regularizer for a convolutional autoencoder on MNIST (20k samples, 10 classes). A 64-dimensional latent space feeds both a CNN decoder (reconstruction) and an IGL head with learnable gates (classification).</p>
+<table>
+<thead>
+<tr>
+<th>Method</th>
+<th>MSE ↓</th>
+<th>Lin. Probe ↑</th>
+<th>Silhouette ↑</th>
+<th>Smooth ↓</th>
+<th>Active Dims</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>AE-only</td>
+<td>0.0021</td>
+<td>0.918</td>
+<td>0.060</td>
+<td>0.139</td>
+<td>64</td>
+</tr>
+<tr>
+<td>AE+KL</td>
+<td>0.0073</td>
+<td>0.933</td>
+<td>0.042</td>
+<td>0.156</td>
+<td>64</td>
+</tr>
+<tr>
+<td>AE+Contrastive</td>
+<td>0.0023</td>
+<td><strong>0.992</strong></td>
+<td><strong>0.744</strong></td>
+<td>0.172</td>
+<td>64</td>
+</tr>
+<tr>
+<td><strong>AE+IGL (Two-stage)</strong></td>
+<td>0.0036</td>
+<td>0.991</td>
+<td>0.630</td>
+<td><strong>0.122</strong></td>
+<td><strong>12</strong></td>
+</tr>
+<tr>
+<td>AE+IGL (Joint)</td>
+<td>0.0025</td>
+<td>0.990</td>
+<td>0.470</td>
+<td>0.123</td>
+<td>9</td>
+</tr>
+</tbody>
+</table>
+<p>AE+IGL (Two-stage) is the only method that simultaneously achieves near-optimal classification accuracy (0.991), strong geometric structure (silhouette 0.630), best label smoothness (0.122), <em>and</em> automatic dimension discovery (12 of 64 gates active). The discovered dimension of 12 is consistent with prior estimates of MNIST’s intrinsic dimension (10–15).</p>
+<p>Contrastive learning achieves the best silhouette score but retains all 64 dimensions and shows the worst label smoothness. Joint IGL gets comparable accuracy but lower silhouette — confirming that co-adaptation allows class collapse into point clusters. The two-stage mechanism is doing real work. The t-SNE visualisations (Figure 16) show the latent space structure.</p>
+<figure style="margin:1.5em auto;text-align:center;">
+<img alt="t-SNE visualizations" src="images/2026-03-21-intrinsic-greens-learning/fig_tsne.png" style="border-radius:8px;"/>
+<figcaption style="font-size:0.85em;color:#64748b;margin-top:6px;"><strong>Figure 16.</strong> t-SNE visualizations of the learned latent spaces. AE+IGL (Two-stage) produces well-separated, smooth class clusters while discovering only 12 active dimensions.</figcaption>
+</figure>
+<hr/>
+<h3 id="discussion">Discussion<a class="headerlink" href="#discussion" title="Permanent link">¶</a></h3>
+<h4 id="what-igl-does-not-provide-yet">What IGL Does Not Provide (Yet)<a class="headerlink" href="#what-igl-does-not-provide-yet" title="Permanent link">¶</a></h4>
+<ul>
+<li>IGL is <strong>not a general-purpose replacement for MLPs</strong>. It requires that the source admits low-rank tensor factorization in the learned coordinates, which is a structural assumption. <mark>Its strength lies in settings where geometric structure matters — low-data regimes, interpretability requirements, and problems where coordinate or dimension discovery is the goal.</mark></li>
+<li>It does not recover the physical Green’s function of the underlying manifold. The compensated source absorbs metric corrections, so the learned <span class="arithmatex">\(\hat{f}\)</span> is not the “true” source of any natural PDE. However, we already have solutions using Stäckel conditions and orthogonality pressure when the task is set as reconstruction (<span class="arithmatex">\(f(x) = x\)</span>).</li>
+<li>The encoder finds a chart that <strong>minimizes prediction error</strong>, which may or may not preserve manifold distances — isometric coordinate discovery is not guaranteed. We are exploring the use of Normalizing Flows to preserve isometry by construction rather than via a loss function term.</li>
+<li>The Stage-2 least squares solve is <span class="arithmatex">\(O(N \cdot (KR)^2)\)</span> — feasible for thousands of samples, not millions. We are working on recursive least squares and continuous Variable Projection to circumvent this limitation.</li>
+</ul>
+<h4 id="connection-to-related-work">Connection to Related Work<a class="headerlink" href="#connection-to-related-work" title="Permanent link">¶</a></h4>
+<p><strong>vs. KANs</strong>: Both decompose into univariate components. KANs use function <em>composition</em> (<span class="arithmatex">\(u = \sum_q \Phi_q(\sum_p \phi_{q,p}(x_p))\)</span>); IGL uses <em>integral convolution</em>. Crucially, IGL’s two-stage structure separates coordinate discovery from univariate fitting, while KANs optimize both simultaneously — hence the dimensional collapse problem.</p>
+<p><strong>vs. Neural Operators (DeepONet, FNO)</strong>: Neural operators learn the mapping <span class="arithmatex">\(f \mapsto u\)</span> as a function space mapping. IGL uses the PDE structure as an architectural prior for supervised learning, not as something to approximate. The operator <span class="arithmatex">\(L\)</span> is chosen, not learned from PDE data.</p>
+<p><strong>vs. PINNs</strong>: PINNs enforce physics via <span class="arithmatex">\(\|Lu_\theta - f\|^2\)</span> residuals and learn <span class="arithmatex">\(u\)</span> directly. IGL approaches from the integral side: <span class="arithmatex">\(u = G * f\)</span>, learn <span class="arithmatex">\(f\)</span>. The integral formulation inherits PDE structure without requiring differentiation of the network.</p>
+<p><strong>vs. Contrastive/VAE methods</strong>: These separate representation learning from prediction. IGL integrates them: the encoder’s gradient comes directly from prediction quality, mediated by whether the coordinates admit low-rank source decomposition.</p>
+<h3 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">¶</a></h3>
+<p>IGL reframes supervised learning as an inverse PDE problem: instead of approximating <span class="arithmatex">\(u\)</span> directly, learn a source term <span class="arithmatex">\(f\)</span> and integrate it against a Green’s kernel. The PDE framing is not decoration — it is structurally generative, producing tensor factorization, the two-stage algorithm, the gate mechanism, and the operator choice framework as natural consequences of a single principle. However, beyond solving PDEs on a given or unknown manifold, any positive-definite kernel defines an integral operator whose structure parallels Green’s convolution — and we are now exploring how to leverage this observation with attention mechanisms, whose exponential dot-product kernel shares the multiplicative structure of a separable Green’s function.</p>
+<p><mark>The central result is the factorized integral: by decomposing both source and Green’s function as low-rank tensors, Fubini’s theorem collapses a <span class="arithmatex">\(d\)</span>-dimensional integral to <span class="arithmatex">\(O(KRd)\)</span> cost, linear in intrinsic dimension.</mark> The two-stage (Variable Projection) algorithm ensures source capacity is fully exploited at every step, forcing the encoder to genuinely discover meaningful manifold coordinates rather than exploiting representational shortcuts.</p>
+<p>The experiments confirm three properties: topology preservation (two-stage training prevents dimensional collapse), sample efficiency (sharp phase transition vs. joint training), and automatic dimension discovery (12 of 64 gates active on MNIST, consistent with prior estimates of 10–15).</p>
+<p>IGL is best used as a <strong>geometric regularizer or parallel head</strong> alongside flexible models — not as a drop-in MLP replacement. Its advantages are strongest when the manifold structure matters for generalization: low-data regimes, interpretability requirements, or problems where coordinate discovery is the goal.</p>
+                </div>
+                
+                <!-- Mermaid Script -->
+                <script type="module">
+                    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+                    
+                    // Configure and initialize mermaid
+                    const initMermaid = async () => {
+                        try {
+                            await mermaid.initialize({ 
+                                startOnLoad: true,
+                                theme: document.documentElement.classList.contains('dark') ? 'dark' : 'default',
+                                securityLevel: 'loose',
+                                flowchart: {
+                                    useMaxWidth: false,
+                                    htmlLabels: true,
+                                    curve: 'basis',
+                                    padding: 20,
+                                    nodeSpacing: 50,
+                                    rankSpacing: 50
+                                },
+                                themeVariables: {
+                                    primaryColor: '#D97706',
+                                    primaryTextColor: '#2A2927',
+                                    primaryBorderColor: '#D97706',
+                                    lineColor: '#78716c',
+                                    secondaryColor: '#f5f5f4',
+                                    tertiaryColor: '#fafaf9',
+                                    background: '#ffffff',
+                                    mainBkg: '#ffffff',
+                                    secondBkg: '#f5f5f4',
+                                    tertiaryBkg: '#fafaf9'
+                                }
+                            });
+                            
+                            // Log any mermaid elements found
+                            const elements = document.querySelectorAll('.mermaid');
+                            console.log(`Mermaid initialized. Found ${elements.length} diagram(s)`);
+                            
+                            // Force render if elements exist
+                            if (elements.length > 0) {
+                                mermaid.contentLoaded();
+                            }
+                        } catch (error) {
+                            console.error('Mermaid initialization error:', error);
+                        }
+                    };
+                    
+                    // Initialize when DOM is ready
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', initMermaid);
+                    } else {
+                        // DOM already loaded
+                        await initMermaid();
+                    }
+                </script>
+            </article>
+
+            <!-- Giscus Comments Section -->
+            <div class="mt-16 pt-8 border-t border-stone-200 dark:border-stone-700">
+                <script src="https://giscus.app/client.js"
+                    data-repo="aquemy/aquemy.github.io"
+                    data-repo-id="MDEwOlJlcG9zaXRvcnkzMTM5NTY4OTU="
+                    data-category="Ideas"
+                    data-category-id="DIC_kwDOEraaH84CdPT4"
+                    data-mapping="pathname"
+                    data-strict="0"
+                    data-reactions-enabled="1"
+                    data-emit-metadata="1"
+                    data-input-position="top"
+                    data-theme="preferred_color_scheme"
+                    data-lang="en"
+                    data-loading="lazy"
+                    crossorigin="anonymous"
+                    async>
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+
+        </main>
+        <footer class="w-full max-w-4xl mx-auto text-center py-8 px-4 mt-6 border-t border-black/10 dark:border-white/10">
+    <div class="flex justify-center space-x-6 mb-4">
+        
+        <a href="mailto:alexandre@quemy.info" title="Email" class="footer-icon"><i class="fas fa-envelope"></i></a>
+        
+        
+        <a href="https://linkedin.com/in/aquemy" title="LinkedIn" target="_blank" class="footer-icon"><i class="fab fa-linkedin"></i></a>
+        
+        
+        <a href="http://github.com/aquemy" title="GitHub" target="_blank" class="footer-icon"><i class="fab fa-github"></i></a>
+        
+        
+        <a href="https://twitter.com/@alexandre_quemy" title="Twitter" target="_blank" class="footer-icon"><i class="fab fa-twitter"></i></a>
+        
+        <a href="https://orcid.org/0000-0002-5865-6403" title="ORCID" target="_blank" class="footer-icon"><i class="fab fa-orcid"></i></a>
+    </div>
+    <p class="text-xs text-stone-500 dark:text-stone-400">
+        © <span id="current-year"></span> Alexandre Quemy. All rights reserved.
+    </p>
+</footer> <!-- This is the footer -->
+    </div>
+    
+
+    <!-- Custom JavaScript -->
+    <script src="https://quemy.info/js/main.js"></script>
+
+    
+</body>
+</html>

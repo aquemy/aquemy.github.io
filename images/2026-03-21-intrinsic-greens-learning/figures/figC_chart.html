@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>IGL: Finding a Chart</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f9f9f9;--bg-alt:#fff;--text:#171717;--muted:#666;--border:#e2e8f0;
+      --primary:#A51209;--blue:#3b82f6;--green:#10b981;--amber:#f59e0b;--purple:#8b5cf6;}
+@media(prefers-color-scheme:dark){:root{--bg:#0a0a0a;--bg-alt:#171717;--text:#e2e2e2;--muted:#888;--border:#374151;}}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);font-family:'Inter',sans-serif;display:flex;flex-direction:column;align-items:center;padding:28px 20px 22px;}
+.ey{font-size:11px;font-weight:500;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;text-align:center;margin-bottom:5px;}
+.ti{font-family:'Inter',sans-serif;font-size:20px;color:var(--text);text-align:center;margin-bottom:3px;}
+.su{font-size:13px;color:var(--muted);text-align:center;margin-bottom:20px;}
+.cap{margin-top:14px;font-size:12.5px;color:var(--muted);max-width:700px;text-align:center;line-height:1.7;}
+.cap em{color:var(--text);font-style:normal;font-weight:500;}
+svg{display:block;max-width:100%;height:auto;}
+</style></head><body>
+<p class="ey">Encoder</p>
+<p class="ti">The Encoder Ψ Defines Curvilinear Coordinates on ℳ</p>
+<p class="su">iso-ξ¹ and iso-ξ² lines are curved in ℝᴰ but orthogonal in the intrinsic chart</p>
+<svg viewBox="0 0 760 390" style="width:760px;max-width:100%;"><defs>
+  <marker id="ah" markerWidth="7" markerHeight="6" refX="6.5" refY="3" orient="auto"><path d="M0,0.5 L7,3 L0,5.5 L1.5,3Z" fill="var(--muted)" opacity="0.7"/></marker>
+  <marker id="ah-r" markerWidth="7" markerHeight="6" refX="6.5" refY="3" orient="auto"><path d="M0,0.5 L7,3 L0,5.5 L1.5,3Z" fill="var(--primary)"/></marker>
+  <marker id="ah-g" markerWidth="7" markerHeight="6" refX="6.5" refY="3" orient="auto"><path d="M0,0.5 L7,3 L0,5.5 L1.5,3Z" fill="var(--green)"/></marker>
+  <filter id="cs"><feDropShadow dx="0" dy="2" stdDeviation="5" flood-color="#000" flood-opacity="0.07"/></filter>
+</defs>
+<rect width="760" height="390" fill="var(--bg)"/>
+
+<!-- LEFT card: manifold in ambient space with curvilinear coordinate grid -->
+<rect x="16" y="16" width="322" height="340" rx="12" fill="var(--bg-alt)" stroke="var(--border)" stroke-width="1" filter="url(#cs)"/>
+<text x="32" y="44" font-family="Inter,sans-serif" font-size="14" fill="var(--text)" opacity="0.9">Manifold ℳ in ℝᴰ</text>
+<text x="32" y="58" font-family="Inter,sans-serif" font-size="11" fill="var(--muted)">encoder Ψ defines curvilinear coordinates</text>
+
+<!-- The manifold: a gently bent strip, rendered as a shaded region with wavy edges -->
+<path d="M 40,90 C 60,78 120,72 180,80 C 220,86 268,92 318,82
+         L 318,302 C 268,312 220,316 180,310 C 120,302 60,296 40,290 Z"
+      fill="var(--primary)" fill-opacity="0.06" stroke="var(--primary)" stroke-opacity="0.2" stroke-width="1.5"/>
+
+<!-- ISO-ξ¹ LINES (horizontal parameter lines → curves on the manifold) -->
+<!-- These are the level sets of the first intrinsic coordinate: ξ¹ = const -->
+<!-- They appear as curved horizontal stripes on the bent manifold -->
+<g fill="none" stroke-linecap="round">
+  <path d="M 40,100 C 80,90 140,84 200,94 C 242,102 280,106 318,96"  stroke="var(--primary)" stroke-width="2"   opacity="0.75"/>
+  <path d="M 40,128 C 80,118 140,112 200,122 C 242,130 280,134 318,124" stroke="var(--primary)" stroke-width="1.5" opacity="0.55"/>
+  <path d="M 40,158 C 80,148 140,142 200,152 C 242,160 280,164 318,154" stroke="var(--primary)" stroke-width="1.5" opacity="0.5"/>
+  <path d="M 40,188 C 80,178 140,172 200,182 C 242,190 280,194 318,184" stroke="var(--primary)" stroke-width="1.5" opacity="0.5"/>
+  <path d="M 40,218 C 80,208 140,202 200,212 C 242,220 280,224 318,214" stroke="var(--primary)" stroke-width="1.5" opacity="0.55"/>
+  <path d="M 40,248 C 80,238 140,232 200,242 C 242,250 280,254 318,244" stroke="var(--primary)" stroke-width="1.5" opacity="0.55"/>
+  <path d="M 40,278 C 80,268 140,262 200,272 C 242,280 280,284 318,274" stroke="var(--primary)" stroke-width="2"   opacity="0.75"/>
+</g>
+<!-- ISO-ξ² LINES (vertical parameter lines → also curved) -->
+<g fill="none" stroke-linecap="round">
+  <path d="M 80,88 C 78,130 76,170 78,210 C 80,250 82,275 80,288"   stroke="var(--amber)" stroke-width="2"   opacity="0.7"/>
+  <path d="M 124,83 C 122,125 120,165 122,205 C 124,245 126,270 124,283" stroke="var(--amber)" stroke-width="1.5" opacity="0.5"/>
+  <path d="M 168,80 C 168,122 168,162 170,202 C 172,242 172,266 170,280" stroke="var(--amber)" stroke-width="1.5" opacity="0.5"/>
+  <path d="M 212,85 C 214,127 215,167 216,207 C 217,247 217,271 216,284" stroke="var(--amber)" stroke-width="1.5" opacity="0.5"/>
+  <path d="M 256,90 C 258,132 260,172 262,212 C 264,252 264,276 262,289" stroke="var(--amber)" stroke-width="1.5" opacity="0.5"/>
+  <path d="M 298,88 C 300,130 302,170 302,210 C 302,250 302,274 300,287" stroke="var(--amber)" stroke-width="2"   opacity="0.7"/>
+</g>
+
+<!-- Data points (same red/amber/purple) -->
+<g fill="var(--primary)"><circle cx="92" cy="112" r="4"/><circle cx="148" cy="104" r="3.5"/><circle cx="194" cy="112" r="4"/><circle cx="242" cy="108" r="3.5"/><circle cx="288" cy="112" r="3.5"/></g>
+<g fill="var(--amber)"><circle cx="86" cy="168" r="4"/><circle cx="138" cy="160" r="3.5"/><circle cx="182" cy="168" r="4"/><circle cx="232" cy="164" r="3.5"/><circle cx="278" cy="170" r="3.5"/></g>
+<g fill="var(--purple)"><circle cx="98" cy="224" r="4"/><circle cx="152" cy="218" r="3.5"/><circle cx="200" cy="226" r="4"/><circle cx="248" cy="222" r="3.5"/><circle cx="292" cy="228" r="3.5"/></g>
+<g fill="var(--primary)"><circle cx="90" cy="270" r="4"/><circle cx="144" cy="264" r="3.5"/><circle cx="190" cy="272" r="4"/><circle cx="238" cy="268" r="3.5"/></g>
+
+<!-- Labels for coordinate lines -->
+<text x="42" y="118" font-family="Inter,sans-serif" font-size="10" fill="var(--primary)" opacity="0.9" font-style="italic">ξ¹=0</text>
+<text x="42" y="285" font-family="Inter,sans-serif" font-size="10" fill="var(--primary)" opacity="0.9" font-style="italic">ξ¹=1</text>
+<text x="80" y="307" font-family="Inter,sans-serif" font-size="10" fill="var(--amber)" opacity="0.9" font-style="italic">ξ²=0</text>
+<text x="294" y="307" font-family="Inter,sans-serif" font-size="10" fill="var(--amber)" opacity="0.9" font-style="italic">ξ²=1</text>
+
+<!-- "NOT flat" annotation -->
+<rect x="186" y="125" width="92" height="26" rx="5" fill="var(--primary)" fill-opacity="0.07" stroke="var(--primary)" stroke-opacity="0.3" stroke-width="1"/>
+<text x="232" y="137" font-family="Inter,sans-serif" font-size="10" fill="var(--primary)" text-anchor="middle">curved coords</text>
+<text x="232" y="148" font-family="Inter,sans-serif" font-size="10" fill="var(--primary)" text-anchor="middle">in ambient ℝᴰ</text>
+
+<text x="177" y="330" font-family="Inter,sans-serif" font-size="11" fill="var(--muted)" text-anchor="middle">iso-ξ¹ (red) · iso-ξ² (amber) lines on ℳ</text>
+
+<!-- ─── CENTER ARROW ─────────────────────────────────────────────── -->
+<line x1="342" y1="195" x2="380" y2="195" stroke="var(--primary)" stroke-width="2.5" marker-end="url(#ah-r)"/>
+<text x="361" y="188" font-family="Inter,sans-serif" font-size="20" fill="var(--primary)" text-anchor="middle">Ψ</text>
+<text x="361" y="210" font-family="Inter,sans-serif" font-size="10" fill="var(--muted)" text-anchor="middle">ℝᴰ → ℝᵈ</text>
+
+<!-- RIGHT card: flat intrinsic chart -->
+<rect x="384" y="16" width="360" height="340" rx="12" fill="var(--bg-alt)" stroke="var(--border)" stroke-width="1" filter="url(#cs)"/>
+<text x="400" y="44" font-family="Inter,sans-serif" font-size="14" fill="var(--text)" opacity="0.9">Intrinsic Chart ℝᵈ</text>
+<text x="400" y="58" font-family="Inter,sans-serif" font-size="11" fill="var(--muted)">same points — coordinates now orthogonal and regular</text>
+
+<!-- Flat coordinate grid -->
+<rect x="406" y="72" width="322" height="240" rx="3" fill="var(--green)" fill-opacity="0.025" stroke="var(--border)" stroke-width="1"/>
+
+<!-- Regular grid lines (ISO-ξ¹ now straight horizontals) -->
+<g fill="none" stroke-linecap="round">
+  <line x1="406" y1="106" x2="728" y2="106" stroke="var(--primary)" stroke-width="2" opacity="0.7"/>
+  <line x1="406" y1="140" x2="728" y2="140" stroke="var(--primary)" stroke-width="1.5" opacity="0.5"/>
+  <line x1="406" y1="174" x2="728" y2="174" stroke="var(--primary)" stroke-width="1.5" opacity="0.5"/>
+  <line x1="406" y1="208" x2="728" y2="208" stroke="var(--primary)" stroke-width="1.5" opacity="0.5"/>
+  <line x1="406" y1="242" x2="728" y2="242" stroke="var(--primary)" stroke-width="1.5" opacity="0.5"/>
+  <line x1="406" y1="276" x2="728" y2="276" stroke="var(--primary)" stroke-width="1.5" opacity="0.5"/>
+  <line x1="406" y1="310" x2="728" y2="310" stroke="var(--primary)" stroke-width="2" opacity="0.7"/>
+</g>
+<!-- ISO-ξ² now straight verticals -->
+<g fill="none" stroke-linecap="round">
+  <line x1="460" y1="72" x2="460" y2="312" stroke="var(--amber)" stroke-width="2" opacity="0.7"/>
+  <line x1="514" y1="72" x2="514" y2="312" stroke="var(--amber)" stroke-width="1.5" opacity="0.5"/>
+  <line x1="568" y1="72" x2="568" y2="312" stroke="var(--amber)" stroke-width="1.5" opacity="0.5"/>
+  <line x1="622" y1="72" x2="622" y2="312" stroke="var(--amber)" stroke-width="1.5" opacity="0.5"/>
+  <line x1="676" y1="72" x2="676" y2="312" stroke="var(--amber)" stroke-width="1.5" opacity="0.5"/>
+  <line x1="728" y1="72" x2="728" y2="312" stroke="var(--amber)" stroke-width="2" opacity="0.7"/>
+</g>
+
+<!-- Same axes -->
+<line x1="406" y1="325" x2="735" y2="325" stroke="var(--text)" stroke-opacity="0.3" stroke-width="1.3" marker-end="url(#ah)"/>
+<line x1="406" y1="325" x2="406" y2="58" stroke="var(--text)" stroke-opacity="0.3" stroke-width="1.3" marker-end="url(#ah)"/>
+<text x="738" y="329" font-family="Inter,sans-serif" font-size="13" fill="var(--muted)">ξ¹</text>
+<text x="406" y="53" font-family="Inter,sans-serif" font-size="13" fill="var(--muted)" text-anchor="middle">ξ²</text>
+
+<!-- Data points at regular grid positions -->
+<g fill="var(--primary)"><circle cx="460" cy="106" r="4"/><circle cx="514" cy="106" r="3.5"/><circle cx="568" cy="106" r="4"/><circle cx="622" cy="106" r="3.5"/><circle cx="676" cy="106" r="3.5"/></g>
+<g fill="var(--amber)"><circle cx="460" cy="174" r="4"/><circle cx="514" cy="174" r="3.5"/><circle cx="568" cy="174" r="4"/><circle cx="622" cy="174" r="3.5"/><circle cx="676" cy="174" r="3.5"/></g>
+<g fill="var(--purple)"><circle cx="460" cy="242" r="4"/><circle cx="514" cy="242" r="3.5"/><circle cx="568" cy="242" r="4"/><circle cx="622" cy="242" r="3.5"/><circle cx="676" cy="242" r="3.5"/></g>
+<g fill="var(--primary)"><circle cx="460" cy="310" r="4"/><circle cx="514" cy="310" r="3.5"/><circle cx="568" cy="310" r="4"/><circle cx="622" cy="310" r="3.5"/></g>
+
+<!-- Axis labels on grid -->
+<text x="406" y="108" font-family="Inter,sans-serif" font-size="10" fill="var(--primary)" font-style="italic">ξ¹=0</text>
+<text x="406" y="312" font-family="Inter,sans-serif" font-size="10" fill="var(--primary)" font-style="italic">ξ¹=1</text>
+<text x="460" y="322" font-family="Inter,sans-serif" font-size="10" fill="var(--amber)" text-anchor="middle" font-style="italic">0</text>
+<text x="728" y="322" font-family="Inter,sans-serif" font-size="10" fill="var(--amber)" text-anchor="middle" font-style="italic">1</text>
+
+<!-- "flat" annotation -->
+<rect x="556" y="125" width="110" height="26" rx="5" fill="var(--green)" fill-opacity="0.08" stroke="var(--green)" stroke-opacity="0.3" stroke-width="1"/>
+<text x="611" y="137" font-family="Inter,sans-serif" font-size="10" fill="var(--green)" text-anchor="middle">orthogonal coords</text>
+<text x="611" y="148" font-family="Inter,sans-serif" font-size="10" fill="var(--green)" text-anchor="middle">regular grid ✓</text>
+
+<text x="567" y="355" font-family="Inter,sans-serif" font-size="11" fill="var(--muted)" text-anchor="middle">iso-ξ¹ and iso-ξ² lines are now straight and perpendicular</text>
+
+<!-- KEY INSIGHT box -->
+<rect x="16" y="362" width="728" height="24" rx="6" fill="var(--bg-alt)" stroke="var(--border)" stroke-width="1"/>
+<text x="380" y="378" font-family="Inter,sans-serif" font-size="11" fill="var(--muted)" text-anchor="middle">Ψ is NOT isometric — it seeks coordinates where the target function factorizes, not where distances are preserved</text>
+</svg>
+<p class="cap"><em>Left:</em> the manifold ℳ in ambient ℝᴰ, with the encoder's curvilinear coordinate grid overlaid. Red lines are iso-ξ¹ curves (constant ξ¹); amber lines are iso-ξ² curves. They curve through ambient space. <em>Right:</em> the same curves become a regular orthogonal grid in the intrinsic chart ℝᵈ. This is what Ψ computes.</p>
+</body></html>

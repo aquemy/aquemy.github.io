@@ -1,0 +1,347 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>r_NL vs Manifold Dimension</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter&family=Inter:wght@400;500;600&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f9f9f9;--bg-alt:#fff;--text:#171717;--muted:#666;--border:#e2e8f0;
+  --border-strong:#cbd5e1;--primary:#A51209;--blue:#3b82f6;--green:#10b981;
+  --amber:#f59e0b;--purple:#8b5cf6;--teal:#14b8a6;}
+@media(prefers-color-scheme:dark){:root{--bg:#0a0a0a;--bg-alt:#171717;--text:#e2e2e2;--muted:#888;--border:#374151;--border-strong:#4b5563;}}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);font-family:'Inter',sans-serif;display:flex;flex-direction:column;align-items:center;padding:28px 20px 22px;}
+.ey{font-size:11px;font-weight:500;color:var(--muted);letter-spacing:.1em;text-transform:uppercase;text-align:center;margin-bottom:5px;}
+.ti{font-family:'Inter',sans-serif;font-size:20px;color:var(--text);text-align:center;margin-bottom:3px;}
+.su{font-size:13px;color:var(--muted);text-align:center;margin-bottom:18px;}
+.cap{margin-top:14px;font-size:12.5px;color:var(--muted);max-width:720px;text-align:center;line-height:1.7;}
+.cap em{color:var(--text);font-style:normal;font-weight:500;}
+svg{display:block;max-width:100%;height:auto;}
+</style>
+</head>
+<body>
+<p class="ey">Dimensions</p>
+<p class="ti">d vs r_NL vs r_K — Three Different Notions of Dimension</p>
+<p class="su">the manifold's intrinsic dimension d, the embedding rank r_NL, and IGL's kernel-relative rank r_K are distinct quantities</p>
+
+<svg viewBox="0 0 760 760" style="width:760px;max-width:100%;">
+<defs>
+  <marker id="ah" markerWidth="7" markerHeight="6" refX="6.5" refY="3" orient="auto">
+    <path d="M0,0.5 L7,3 L0,5.5 L1.5,3Z" fill="var(--muted)" opacity="0.7"/></marker>
+  <marker id="ahr" markerWidth="7" markerHeight="6" refX="6.5" refY="3" orient="auto">
+    <path d="M0,0.5 L7,3 L0,5.5 L1.5,3Z" fill="var(--primary)"/></marker>
+  <marker id="ahg" markerWidth="7" markerHeight="6" refX="6.5" refY="3" orient="auto">
+    <path d="M0,0.5 L7,3 L0,5.5 L1.5,3Z" fill="var(--green)"/></marker>
+  <marker id="ahb" markerWidth="7" markerHeight="6" refX="6.5" refY="3" orient="auto">
+    <path d="M0,0.5 L7,3 L0,5.5 L1.5,3Z" fill="var(--blue)"/></marker>
+  <filter id="cs"><feDropShadow dx="0" dy="2" stdDeviation="5" flood-color="#000" flood-opacity="0.07"/></filter>
+  <!-- Saddle gradient for Swiss Roll surface -->
+  <linearGradient id="rollGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" stop-color="#A51209" stop-opacity="0.22"/>
+    <stop offset="50%" stop-color="#f59e0b" stop-opacity="0.16"/>
+    <stop offset="100%" stop-color="#A51209" stop-opacity="0.08"/>
+  </linearGradient>
+  <!-- MLP surface gradient -->
+  <linearGradient id="mlpGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+    <stop offset="0%" stop-color="#3b82f6" stop-opacity="0.22"/>
+    <stop offset="50%" stop-color="#8b5cf6" stop-opacity="0.16"/>
+    <stop offset="100%" stop-color="#3b82f6" stop-opacity="0.08"/>
+  </linearGradient>
+</defs>
+<rect width="760" height="760" fill="var(--bg)"/>
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     SECTION 1: Concrete examples (top half)
+     Two manifolds side by side: Swiss Roll vs MLP manifold
+═══════════════════════════════════════════════════════════════════ -->
+
+<!-- ─── CARD: Swiss Roll example (left) ────────────────────────────── -->
+<rect x="12" y="12" width="356" height="342" rx="12" fill="var(--bg-alt)" stroke="var(--border)" stroke-width="1" filter="url(#cs)"/>
+<line x1="20" y1="12" x2="360" y2="12" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round"/>
+
+<text x="190" y="36" font-family="Inter,sans-serif" font-size="14" fill="var(--text)" text-anchor="middle">Swiss Roll  ℳ ⊂ ℝ³</text>
+<text x="190" y="51" font-family="Inter,sans-serif" font-size="11" fill="var(--muted)" text-anchor="middle">periodic embedding: ι(t,h) = (t·cos t, t·sin t, h)</text>
+
+<!-- Swiss Roll manifold (isometric 2D projection showing the spiral) -->
+<!-- Show a 2D "top view" of the Swiss Roll as a spiral colored by t -->
+<!-- And separately, the 3 ambient coordinate functions -->
+
+<!-- The spiral (2D projection) -->
+<g transform="translate(105,195)">
+  <!-- Spiral path segments (approximated) -->
+  <!-- t from 1.5π to 4.5π: many turns -->
+  <path d="M 0,0 C 10,-8 22,-10 28,-4 C 34,2 32,14 24,20 C 16,26 4,26 -8,18 C -20,10 -26,-4 -22,-18 C -18,-32 -4,-44 14,-48 C 32,-52 50,-44 58,-30 C 66,-16 62,2 52,16 C 42,30 24,38 4,38 C -16,38 -36,28 -48,12 C -60,-4 -62,-24 -54,-42 C -46,-60 -28,-74 -8,-76 C 12,-78 32,-68 42,-52"
+        fill="none" stroke="url(#rollGrad)" stroke-width="16" stroke-linecap="round" opacity="0.35"/>
+  <path d="M 0,0 C 10,-8 22,-10 28,-4 C 34,2 32,14 24,20 C 16,26 4,26 -8,18 C -20,10 -26,-4 -22,-18 C -18,-32 -4,-44 14,-48 C 32,-52 50,-44 58,-30 C 66,-16 62,2 52,16 C 42,30 24,38 4,38 C -16,38 -36,28 -48,12 C -60,-4 -62,-24 -54,-42 C -46,-60 -28,-74 -8,-76 C 12,-78 32,-68 42,-52"
+        fill="none" stroke="var(--primary)" stroke-width="2.2" stroke-linecap="round" opacity="0.75"/>
+
+  <!-- d=2 parameter labels -->
+  <line x1="-5" y1="5" x2="-62" y2="32" stroke="var(--muted)" stroke-width="1" stroke-dasharray="3 2"/>
+  <text x="-66" y="32" font-family="Inter,sans-serif" font-size="10" fill="var(--muted)" text-anchor="end">t (angle)</text>
+  <line x1="5" y1="-3" x2="52" y2="-46" stroke="var(--muted)" stroke-width="1" stroke-dasharray="3 2"/>
+  <text x="56" y="-48" font-family="Inter,sans-serif" font-size="10" fill="var(--muted)">h (height)</text>
+</g>
+
+<!-- d badge -->
+<rect x="24" y="272" width="82" height="34" rx="7" fill="var(--primary)" fill-opacity="0.08" stroke="var(--primary)" stroke-opacity="0.4" stroke-width="1"/>
+<text x="65" y="286" font-family="Inter,sans-serif" font-size="11" fill="var(--primary)" text-anchor="middle" font-weight="600">d = 2</text>
+<text x="65" y="299" font-family="Inter,sans-serif" font-size="10" fill="var(--primary)" fill-opacity="0.85" text-anchor="middle">intrinsic dim</text>
+
+<!-- r_NL explanation for Swiss Roll -->
+<!-- Show the 3 ambient coordinates as separate 1D curves -->
+<text x="140" y="276" font-family="Inter,sans-serif" font-size="10" fill="var(--muted)">to reconstruct ℝ³, need 3 functions:</text>
+
+<!-- φ₁ = t·cos(t) -->
+<rect x="140" y="283" width="64" height="28" rx="4" fill="var(--amber)" fill-opacity="0.08" stroke="var(--amber)" stroke-opacity="0.35" stroke-width="1"/>
+<text x="172" y="296" font-family="JetBrains Mono,monospace" font-size="10" fill="var(--amber)" text-anchor="middle">φ₁=t·cos t</text>
+<text x="172" y="306" font-family="Inter,sans-serif" font-size="9" fill="var(--muted)" text-anchor="middle">x-coord</text>
+
+<!-- φ₂ = t·sin(t) -->
+<rect x="212" y="283" width="64" height="28" rx="4" fill="var(--blue)" fill-opacity="0.08" stroke="var(--blue)" stroke-opacity="0.35" stroke-width="1"/>
+<text x="244" y="296" font-family="JetBrains Mono,monospace" font-size="10" fill="var(--blue)" text-anchor="middle">φ₂=t·sin t</text>
+<text x="244" y="306" font-family="Inter,sans-serif" font-size="9" fill="var(--muted)" text-anchor="middle">y-coord</text>
+
+<!-- φ₃ = h -->
+<rect x="284" y="283" width="58" height="28" rx="4" fill="var(--green)" fill-opacity="0.08" stroke="var(--green)" stroke-opacity="0.35" stroke-width="1"/>
+<text x="313" y="296" font-family="JetBrains Mono,monospace" font-size="10" fill="var(--green)" text-anchor="middle">φ₃ = h</text>
+<text x="313" y="306" font-family="Inter,sans-serif" font-size="9" fill="var(--muted)" text-anchor="middle">z-coord</text>
+
+<!-- r_NL badge -->
+<rect x="140" y="319" width="202" height="24" rx="6" fill="var(--amber)" fill-opacity="0.08" stroke="var(--amber)" stroke-opacity="0.35" stroke-width="1"/>
+<text x="241" y="335" font-family="Inter,sans-serif" font-size="11" fill="var(--amber)" text-anchor="middle" font-weight="600">r_NL = r(ι) = 3  (periodic embedding)</text>
+
+<!-- Why r_NL > d: φ₁ and φ₂ are algebraically independent despite both depending on t -->
+<line x1="172" y1="283" x2="244" y2="283" stroke="var(--primary)" stroke-width="1" stroke-dasharray="3 2" opacity="0.5"/>
+<text x="208" y="278" font-family="Inter,sans-serif" font-size="9" fill="var(--primary)" text-anchor="middle">both depend on t, but</text>
+<text x="208" y="268" font-family="Inter,sans-serif" font-size="9" fill="var(--primary)" text-anchor="middle">algebraically independent</text>
+
+
+<!-- ─── CARD: MLP manifold example (right) ─────────────────────────── -->
+<rect x="392" y="12" width="356" height="342" rx="12" fill="var(--bg-alt)" stroke="var(--border)" stroke-width="1" filter="url(#cs)"/>
+<line x1="400" y1="12" x2="740" y2="12" stroke="var(--blue)" stroke-width="2.5" stroke-linecap="round"/>
+
+<text x="570" y="36" font-family="Inter,sans-serif" font-size="14" fill="var(--text)" text-anchor="middle">MLP Manifold  ℳ ⊂ ℝ⁵⁰</text>
+<text x="570" y="51" font-family="Inter,sans-serif" font-size="11" fill="var(--muted)" text-anchor="middle">aperiodic embedding: ι = W·tanh(Uθ + b),  θ ∈ ℝᵈ</text>
+
+<!-- Show a 2D latent space being mapped through MLP to R^50 -->
+<!-- Left: simple 2D "latent sheet" -->
+<g transform="translate(470,160)">
+  <!-- 2D latent space grid -->
+  <rect x="-45" y="-45" width="90" height="90" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="1"/>
+  <g stroke="var(--border)" stroke-width="0.7">
+    <line x1="-45" y1="-15" x2="45" y2="-15"/>
+    <line x1="-45" y1="15" x2="45" y2="15"/>
+    <line x1="-15" y1="-45" x2="-15" y2="45"/>
+    <line x1="15" y1="-45" x2="15" y2="45"/>
+  </g>
+  <!-- Data points on grid -->
+  <g fill="var(--blue)" opacity="0.8">
+    <circle cx="-30" cy="-30" r="3"/><circle cx="0" cy="-30" r="3"/><circle cx="30" cy="-30" r="3"/>
+    <circle cx="-30" cy="0" r="3"/><circle cx="0" cy="0" r="4"/><circle cx="30" cy="0" r="3"/>
+    <circle cx="-30" cy="30" r="3"/><circle cx="0" cy="30" r="3"/><circle cx="30" cy="30" r="3"/>
+  </g>
+  <text x="0" y="57" font-family="Inter,sans-serif" font-size="10" fill="var(--muted)" text-anchor="middle">θ ∈ ℝᵈ  (d=3)</text>
+</g>
+
+<!-- MLP arrow -->
+<line x1="516" y1="160" x2="540" y2="160" stroke="var(--blue)" stroke-width="2" marker-end="url(#ahb)"/>
+<text x="528" y="153" font-family="JetBrains Mono,monospace" font-size="10" fill="var(--blue)" text-anchor="middle">W·tanh</text>
+
+<!-- Ambient space: many coordinates, but all expressible from d nonlinear features -->
+<g transform="translate(630,135)">
+  <!-- Stack of 50 output dims, but only d=3 matter -->
+  <rect x="-28" y="-70" width="56" height="140" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="1"/>
+  <!-- Active dims (d=3) colored -->
+  <rect x="-24" y="-64" width="48" height="12" rx="2" fill="var(--blue)" opacity="0.5"/>
+  <rect x="-24" y="-48" width="48" height="12" rx="2" fill="var(--purple)" opacity="0.5"/>
+  <rect x="-24" y="-32" width="48" height="12" rx="2" fill="var(--teal)" opacity="0.5"/>
+  <!-- Remaining dims (gray, linearly derivable from d active) -->
+  <rect x="-24" y="-16" width="48" height="8" rx="1" fill="var(--muted)" opacity="0.2"/>
+  <rect x="-24" y="-4" width="48" height="8" rx="1" fill="var(--muted)" opacity="0.2"/>
+  <rect x="-24" y="8" width="48" height="8" rx="1" fill="var(--muted)" opacity="0.15"/>
+  <rect x="-24" y="20" width="48" height="8" rx="1" fill="var(--muted)" opacity="0.15"/>
+  <rect x="-24" y="32" width="48" height="8" rx="1" fill="var(--muted)" opacity="0.1"/>
+  <!-- ... dots -->
+  <text x="0" y="52" font-family="Inter,sans-serif" font-size="10" fill="var(--muted)" text-anchor="middle">⋮</text>
+  <text x="0" y="64" font-family="Inter,sans-serif" font-size="9" fill="var(--muted)" text-anchor="middle">D=50 dims</text>
+  <!-- Label active vs passive -->
+  <line x1="28" y1="-58" x2="42" y2="-58" stroke="var(--blue)" stroke-width="1"/>
+  <text x="45" y="-54" font-family="Inter,sans-serif" font-size="9" fill="var(--blue)">d=3 nonlinear</text>
+  <line x1="28" y1="-12" x2="42" y2="-12" stroke="var(--muted)" stroke-width="1"/>
+  <text x="45" y="-8" font-family="Inter,sans-serif" font-size="9" fill="var(--muted)">linear combos</text>
+  <text x="45" y="2" font-family="Inter,sans-serif" font-size="9" fill="var(--muted)">of the d=3</text>
+</g>
+
+<!-- Key insight: r_NL ≈ h (hidden width) but IGL finds d -->
+<rect x="404" y="270" width="168" height="64" rx="7" fill="var(--bg)" stroke="var(--border)" stroke-width="1"/>
+<text x="488" y="287" font-family="Inter,sans-serif" font-size="10" fill="var(--muted)" text-anchor="middle">Embedding rank r(ι):</text>
+<text x="488" y="302" font-family="JetBrains Mono,monospace" font-size="12" fill="var(--text)" text-anchor="middle" font-weight="600">r_NL ≈ h = 20</text>
+<text x="488" y="316" font-family="Inter,sans-serif" font-size="10" fill="var(--muted)" text-anchor="middle">(hidden layer width)</text>
+<text x="488" y="328" font-family="Inter,sans-serif" font-size="9" fill="var(--muted)" text-anchor="middle">PCA finds ≈20 components</text>
+
+<rect x="580" y="270" width="158" height="64" rx="7" fill="var(--green)" fill-opacity="0.07" stroke="var(--green)" stroke-opacity="0.4" stroke-width="1"/>
+<text x="659" y="287" font-family="Inter,sans-serif" font-size="10" fill="var(--green)" text-anchor="middle">IGL discovers:</text>
+<text x="659" y="302" font-family="JetBrains Mono,monospace" font-size="12" fill="var(--green)" text-anchor="middle" font-weight="600">r_K = d = 3</text>
+<text x="659" y="316" font-family="Inter,sans-serif" font-size="10" fill="var(--green)" text-anchor="middle">(aperiodic → d only)</text>
+<text x="659" y="328" font-family="Inter,sans-serif" font-size="9" fill="var(--green)" text-anchor="middle">tanh: maximally compressible</text>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     SECTION 2: The full hierarchy diagram (middle)
+═══════════════════════════════════════════════════════════════════ -->
+<rect x="12" y="366" width="736" height="178" rx="12" fill="var(--bg-alt)" stroke="var(--border)" stroke-width="1" filter="url(#cs)"/>
+<text x="380" y="388" font-family="Inter,sans-serif" font-size="15" fill="var(--text)" text-anchor="middle">The Task-Conditioned Dimension Hierarchy</text>
+<text x="380" y="403" font-family="Inter,sans-serif" font-size="11" fill="var(--muted)" text-anchor="middle">verified across 13 manifold settings · ~771 seeds</text>
+
+<!-- Number line with labeled ticks -->
+<!-- Scale: 0 to D=100+, but we show the key values -->
+<!-- Ticks at: d_eff(class), d, r_K, r_NL, D -->
+
+<!-- Axis line -->
+<line x1="46" y1="465" x2="720" y2="465" stroke="var(--border-strong)" stroke-width="2" marker-end="url(#ah)"/>
+
+<!-- Swiss Roll numbers: class=2, d=2, r_K=3, r_NL=3, D=3 -->
+<!-- MLP numbers: class=1, d=3, r_K=3, r_NL≈20, D=50 -->
+<!-- Torus numbers: class=1, d=3, r_K=6=r_NL, D=6 -->
+
+<!-- Show three rows: one per example -->
+<!-- ROW 1: Swiss Roll -->
+<text x="34" y="430" font-family="Inter,sans-serif" font-size="10" fill="var(--primary)" font-weight="600">Swiss Roll</text>
+<text x="34" y="441" font-family="JetBrains Mono,monospace" font-size="9" fill="var(--muted)">(d=2, D=3)</text>
+
+<!-- Map values to x positions: range [50, 700] for values [1, D=50+] -->
+<!-- x(v) = 50 + (v-1)/(50-1) * 650, but we use log scale feel -->
+<!-- Manual positions for nice spread: -->
+<!-- d_eff(class)=2 → x=140 -->
+<!-- d=2 → x=180 (same as class for Swiss Roll) -->
+<!-- r_K=3 → x=300 -->
+<!-- r_NL=3 → x=300 (same as r_K for Swiss Roll) -->
+<!-- D=3 → x=300 -->
+
+<!-- Swiss Roll row: class=d=2, r_K=r_NL=D=3 -->
+<!-- Circle at class=2: -->
+<circle cx="155" cy="430" r="8" fill="var(--primary)" fill-opacity="0.12" stroke="var(--primary)" stroke-width="1.5"/>
+<text x="155" y="434" font-family="JetBrains Mono,monospace" font-size="9" fill="var(--primary)" text-anchor="middle">2</text>
+<!-- Circle at r_K=r_NL=3: -->
+<circle cx="305" cy="430" r="8" fill="var(--amber)" fill-opacity="0.12" stroke="var(--amber)" stroke-width="1.5"/>
+<text x="305" y="434" font-family="JetBrains Mono,monospace" font-size="9" fill="var(--amber)" text-anchor="middle">3</text>
+<!-- Note that D=3 here too: -->
+<text x="305" y="449" font-family="Inter,sans-serif" font-size="8" fill="var(--muted)" text-anchor="middle">r_K=r_NL=D</text>
+<!-- Connection line -->
+<line x1="163" y1="430" x2="297" y2="430" stroke="var(--muted)" stroke-width="1" stroke-dasharray="3 2" opacity="0.5"/>
+<text x="230" y="425" font-family="Inter,sans-serif" font-size="8" fill="var(--muted)" text-anchor="middle">d_eff(class) = d = 2</text>
+<text x="155" y="449" font-family="Inter,sans-serif" font-size="8" fill="var(--muted)" text-anchor="middle">class=d</text>
+
+<!-- ROW 2: T³ torus -->
+<text x="34" y="479" font-family="Inter,sans-serif" font-size="10" fill="var(--teal)" font-weight="600">3-Torus T³</text>
+<text x="34" y="490" font-family="JetBrains Mono,monospace" font-size="9" fill="var(--muted)">(d=3, D=6)</text>
+
+<!-- class=1 at x=80 -->
+<circle cx="80" cy="479" r="8" fill="var(--primary)" fill-opacity="0.12" stroke="var(--primary)" stroke-width="1.5"/>
+<text x="80" y="483" font-family="JetBrains Mono,monospace" font-size="9" fill="var(--primary)" text-anchor="middle">1</text>
+<!-- d=3 at x=230 -->
+<circle cx="230" cy="479" r="8" fill="var(--green)" fill-opacity="0.12" stroke="var(--green)" stroke-width="1.5"/>
+<text x="230" y="483" font-family="JetBrains Mono,monospace" font-size="9" fill="var(--green)" text-anchor="middle">3</text>
+<!-- r_K=r_NL=6 at x=420 -->
+<circle cx="420" cy="479" r="8" fill="var(--amber)" fill-opacity="0.12" stroke="var(--amber)" stroke-width="1.5"/>
+<text x="420" y="483" font-family="JetBrains Mono,monospace" font-size="9" fill="var(--amber)" text-anchor="middle">6</text>
+<text x="420" y="496" font-family="Inter,sans-serif" font-size="8" fill="var(--muted)" text-anchor="middle">r_K=r_NL=D</text>
+<!-- Connections -->
+<line x1="88" y1="479" x2="222" y2="479" stroke="var(--muted)" stroke-width="1" stroke-dasharray="3 2" opacity="0.5"/>
+<line x1="238" y1="479" x2="412" y2="479" stroke="var(--muted)" stroke-width="1" stroke-dasharray="3 2" opacity="0.5"/>
+<text x="80" y="496" font-family="Inter,sans-serif" font-size="8" fill="var(--muted)" text-anchor="middle">class</text>
+<text x="230" y="496" font-family="Inter,sans-serif" font-size="8" fill="var(--muted)" text-anchor="middle">d = reg</text>
+
+<!-- ROW 3: MLP manifold (most important distinction) -->
+<text x="34" y="527" font-family="Inter,sans-serif" font-size="10" fill="var(--blue)" font-weight="600">MLP Manifold</text>
+<text x="34" y="538" font-family="JetBrains Mono,monospace" font-size="9" fill="var(--muted)">(d=3, D=50)</text>
+
+<!-- class=1 at x=80 -->
+<circle cx="80" cy="527" r="8" fill="var(--primary)" fill-opacity="0.12" stroke="var(--primary)" stroke-width="1.5"/>
+<text x="80" y="531" font-family="JetBrains Mono,monospace" font-size="9" fill="var(--primary)" text-anchor="middle">1</text>
+<!-- d=r_K=3 at x=230 -->
+<circle cx="230" cy="527" r="10" fill="var(--green)" fill-opacity="0.15" stroke="var(--green)" stroke-width="2"/>
+<text x="230" y="531" font-family="JetBrains Mono,monospace" font-size="10" fill="var(--green)" text-anchor="middle" font-weight="600">3</text>
+<text x="230" y="545" font-family="Inter,sans-serif" font-size="8" fill="var(--green)" text-anchor="middle" font-weight="600">d = r_K ←key</text>
+<!-- r_NL≈20 at x=560 -->
+<circle cx="560" cy="527" r="8" fill="var(--amber)" fill-opacity="0.12" stroke="var(--amber)" stroke-width="1.5"/>
+<text x="560" y="531" font-family="JetBrains Mono,monospace" font-size="9" fill="var(--amber)" text-anchor="middle">20</text>
+<text x="560" y="545" font-family="Inter,sans-serif" font-size="8" fill="var(--muted)" text-anchor="middle">r_NL ≈ h</text>
+<!-- D=50 at x=695 -->
+<circle cx="695" cy="527" r="8" fill="var(--muted)" fill-opacity="0.12" stroke="var(--muted)" stroke-opacity="0.4" stroke-width="1.5"/>
+<text x="695" y="531" font-family="JetBrains Mono,monospace" font-size="9" fill="var(--muted)" text-anchor="middle">50</text>
+<text x="695" y="545" font-family="Inter,sans-serif" font-size="8" fill="var(--muted)" text-anchor="middle">D</text>
+<!-- Connections -->
+<line x1="88" y1="527" x2="220" y2="527" stroke="var(--muted)" stroke-width="1" stroke-dasharray="3 2" opacity="0.5"/>
+<line x1="240" y1="527" x2="552" y2="527" stroke="var(--amber)" stroke-width="1.5" stroke-dasharray="5 3" opacity="0.6"/>
+<line x1="568" y1="527" x2="687" y2="527" stroke="var(--muted)" stroke-width="1" stroke-dasharray="3 2" opacity="0.5"/>
+<!-- Key gap annotation -->
+<text x="395" y="519" font-family="Inter,sans-serif" font-size="9" fill="var(--amber)" text-anchor="middle">PCA sees r_NL≈h, IGL sees d</text>
+<path d="M 242,521 L 550,521" fill="none" stroke="var(--amber)" stroke-width="1" stroke-dasharray="3 2" opacity="0.5" marker-end="url(#ah)"/>
+<text x="80" y="545" font-family="Inter,sans-serif" font-size="8" fill="var(--muted)" text-anchor="middle">class</text>
+
+<!-- Axis tick labels -->
+<!-- The big inequality -->
+<rect x="14" y="555" width="730" height="24" rx="5" fill="var(--bg)" stroke="var(--border)" stroke-width="1"/>
+<text x="379" y="571" font-family="JetBrains Mono,monospace" font-size="11" fill="var(--text)" text-anchor="middle">
+  d_eff(class) ≤ d = d_eff(reg) ≤ r_K = d_eff(recon) ≤ r_NL(ι) ≤ D
+</text>
+
+
+<!-- ═══════════════════════════════════════════════════════════════════
+     SECTION 3: What each quantity means (bottom legend)
+═══════════════════════════════════════════════════════════════════ -->
+<rect x="12" y="590" width="736" height="162" rx="12" fill="var(--bg-alt)" stroke="var(--border)" stroke-width="1" filter="url(#cs)"/>
+<text x="380" y="612" font-family="Inter,sans-serif" font-size="14" fill="var(--text)" text-anchor="middle">What Each Quantity Means</text>
+
+<!-- Four definition boxes (compact, 9px body to prevent overflow) -->
+<!-- d -->
+<rect x="24" y="622" width="164" height="118" rx="8" fill="var(--primary)" fill-opacity="0.05" stroke="var(--primary)" stroke-opacity="0.3" stroke-width="1"/>
+<text x="106" y="638" font-family="Inter,sans-serif" font-size="14" fill="var(--primary)" text-anchor="middle">d</text>
+<text x="106" y="652" font-family="Inter,sans-serif" font-size="10" fill="var(--muted)" text-anchor="middle">intrinsic dimension</text>
+<line x1="32" y1="658" x2="180" y2="658" stroke="var(--border)" stroke-width="0.8"/>
+<text x="32" y="671" font-family="Inter,sans-serif" font-size="9" fill="var(--muted)">• topological invariant</text>
+<text x="32" y="683" font-family="Inter,sans-serif" font-size="9" fill="var(--muted)">• min dims to parameterise ℳ</text>
+<text x="32" y="695" font-family="Inter,sans-serif" font-size="9" fill="var(--muted)">• recovered by regression task</text>
+<text x="32" y="707" font-family="Inter,sans-serif" font-size="9" fill="var(--muted)">• Brouwer invariance of domain</text>
+<text x="106" y="724" font-family="JetBrains Mono,monospace" font-size="9" fill="var(--primary)" text-anchor="middle">Swiss Roll: d = 2</text>
+
+<!-- r_NL -->
+<rect x="200" y="622" width="164" height="118" rx="8" fill="var(--amber)" fill-opacity="0.05" stroke="var(--amber)" stroke-opacity="0.3" stroke-width="1"/>
+<text x="282" y="638" font-family="Inter,sans-serif" font-size="13" fill="var(--amber)" text-anchor="middle">r_NL = r(ι)</text>
+<text x="282" y="652" font-family="Inter,sans-serif" font-size="10" fill="var(--muted)" text-anchor="middle">embedding rank</text>
+<line x1="208" y1="658" x2="356" y2="658" stroke="var(--border)" stroke-width="0.8"/>
+<text x="210" y="671" font-family="Inter,sans-serif" font-size="9" fill="var(--muted)">• min nonlinear functions φₖ</text>
+<text x="210" y="683" font-family="Inter,sans-serif" font-size="9" fill="var(--muted)">• s.t. ι = W·φ(θ)</text>
+<text x="210" y="695" font-family="Inter,sans-serif" font-size="9" fill="var(--muted)">• = nonzero PCA components</text>
+<text x="210" y="707" font-family="Inter,sans-serif" font-size="9" fill="var(--muted)">• d ≤ r_NL ≤ D</text>
+<text x="282" y="724" font-family="JetBrains Mono,monospace" font-size="9" fill="var(--amber)" text-anchor="middle">Swiss Roll: r_NL = 3 &gt; d</text>
+
+<!-- r_K -->
+<rect x="376" y="622" width="182" height="118" rx="8" fill="var(--green)" fill-opacity="0.05" stroke="var(--green)" stroke-opacity="0.35" stroke-width="1"/>
+<text x="467" y="638" font-family="Inter,sans-serif" font-size="13" fill="var(--green)" text-anchor="middle">r_K</text>
+<text x="467" y="652" font-family="Inter,sans-serif" font-size="10" fill="var(--muted)" text-anchor="middle">kernel-compatible rank</text>
+<line x1="384" y1="658" x2="550" y2="658" stroke="var(--border)" stroke-width="0.8"/>
+<text x="386" y="671" font-family="Inter,sans-serif" font-size="9" fill="var(--muted)">• what IGL gates discover</text>
+<text x="386" y="683" font-family="Inter,sans-serif" font-size="9" fill="var(--muted)">• for reconstruction task</text>
+<text x="386" y="695" font-family="Inter,sans-serif" font-size="9" fill="var(--muted)">• tanh/ReLU: r_K = d</text>
+<text x="386" y="707" font-family="Inter,sans-serif" font-size="9" fill="var(--muted)">• sin/torus: r_K = r_NL</text>
+<text x="467" y="724" font-family="JetBrains Mono,monospace" font-size="9" fill="var(--green)" text-anchor="middle">MLP-tanh: r_K = d = 3</text>
+
+<!-- Key gap -->
+<rect x="570" y="622" width="166" height="118" rx="8" fill="var(--blue)" fill-opacity="0.05" stroke="var(--blue)" stroke-opacity="0.3" stroke-width="1"/>
+<text x="653" y="638" font-family="Inter,sans-serif" font-size="13" fill="var(--blue)" text-anchor="middle">The Key Gap</text>
+<text x="653" y="652" font-family="Inter,sans-serif" font-size="10" fill="var(--muted)" text-anchor="middle">r_NL vs d vs r_K</text>
+<line x1="578" y1="658" x2="728" y2="658" stroke="var(--border)" stroke-width="0.8"/>
+<text x="580" y="671" font-family="Inter,sans-serif" font-size="9" fill="var(--muted)">• PCA measures r_NL</text>
+<text x="580" y="683" font-family="Inter,sans-serif" font-size="9" fill="var(--muted)">• topology fixes d</text>
+<text x="580" y="695" font-family="Inter,sans-serif" font-size="9" fill="var(--muted)">• IGL gates find r_K</text>
+<text x="580" y="707" font-family="Inter,sans-serif" font-size="9" fill="var(--muted)">• task shifts among these</text>
+<text x="653" y="724" font-family="JetBrains Mono,monospace" font-size="9" fill="var(--blue)" text-anchor="middle">reg=d · recon=r_K · PCA=r_NL</text>
+</svg>
+
+<p class="cap">
+<em>d (intrinsic dimension)</em> is a topological invariant: the minimum number of coordinates to parameterize the manifold. It is fixed by the shape, not the embedding. <em>r_NL = r(ι)</em> (embedding rank) is the minimum number of nonlinear functions φₖ(θ) such that all D ambient coordinates can be written as linear combinations: ι = W·φ(θ). For the Swiss Roll, t·cos(t) and t·sin(t) are algebraically independent despite both depending on the single parameter t — so r_NL = 3 &gt; d = 2. <em>r_K</em> (kernel-compatible rank) is what IGL's gates actually discover for reconstruction: for smooth aperiodic embeddings (MLP with tanh), r_K = d; for periodic embeddings (torus), r_K = r_NL. The full hierarchy d_eff(class) ≤ d ≤ r_K ≤ r_NL ≤ D is verified across 13 manifold settings.
+</p>
+</body>
+</html>
