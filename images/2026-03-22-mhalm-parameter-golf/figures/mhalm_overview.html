@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MHALM Overview</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f9f9f9;--bg-alt:#fff;--text:#171717;--muted:#6b7280;--border:#e2e8f0;
+  --blue:#3b82f6;--green:#10b981;--amber:#D97706;--purple:#8b5cf6;--primary:#A51209;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);font-family:'Source Sans Pro',sans-serif;display:flex;flex-direction:column;align-items:center;padding:20px 12px;}
+.ti{font-size:20px;font-weight:700;color:var(--text);text-align:center;margin-bottom:14px;}
+svg{display:block;max-width:100%;height:auto;}
+</style></head><body>
+<p class="ti">MHALM — Overall Model</p>
+<svg viewBox="0 0 580 640" style="width:580px;max-width:100%;">
+<rect width="580" height="640" fill="var(--bg)" rx="6"/>
+
+<!-- Center axis at x=290 -->
+
+<!-- ═══ TOKENS ═══ -->
+<rect x="165" y="14" width="250" height="38" rx="8" fill="var(--bg-alt)" stroke="var(--border)" stroke-width="1.2"/>
+<text x="290" y="38" font-family="'Source Sans Pro'" font-size="14" fill="var(--text)" text-anchor="middle" font-weight="600">Tokens [B, T]</text>
+
+<line x1="290" y1="52" x2="290" y2="68" stroke="#9ca3af" stroke-width="1.4"/>
+<polygon points="285,66 295,66 290,73" fill="#9ca3af"/>
+
+<!-- ═══ EMBEDDING ═══ -->
+<rect x="120" y="76" width="340" height="48" rx="8" fill="var(--bg-alt)" stroke="var(--border)" stroke-width="1.4"/>
+<text x="290" y="97" font-family="'Source Sans Pro'" font-size="14" fill="var(--text)" text-anchor="middle" font-weight="600">Embedding + BigramHash</text>
+<text x="290" y="114" font-family="'Roboto Mono'" font-size="10" fill="var(--muted)" text-anchor="middle">weight-tied E ∈ ℝ^{V×d_emb}</text>
+
+<line x1="290" y1="124" x2="290" y2="142" stroke="#9ca3af" stroke-width="1.4"/>
+<polygon points="285,140 295,140 290,147" fill="#9ca3af"/>
+
+<!-- ═══ BLOCK 0 ═══ -->
+<rect x="90" y="150" width="400" height="92" rx="12" fill="var(--blue)" fill-opacity="0.04" stroke="var(--blue)" stroke-opacity="0.35" stroke-width="2"/>
+<text x="290" y="180" font-family="'Source Sans Pro'" font-size="18" fill="var(--blue)" text-anchor="middle" font-weight="700">HybridAtlasBlock 0</text>
+<text x="290" y="202" font-family="'Roboto Mono'" font-size="11" fill="var(--muted)" text-anchor="middle">5 kernel heads · HeadScaler · ComplexSSM · CSA ×2</text>
+<text x="290" y="224" font-family="'Source Sans Pro'" font-size="11" fill="var(--blue)" text-anchor="middle" font-style="italic">(see Figure 5 for details)</text>
+
+<line x1="290" y1="242" x2="290" y2="260" stroke="#9ca3af" stroke-width="1.4"/>
+<polygon points="285,258 295,258 290,265" fill="#9ca3af"/>
+
+<!-- ═══ U-NET SKIP ═══ -->
+<rect x="90" y="268" width="400" height="42" rx="8" fill="#faf5ff" stroke="var(--purple)" stroke-opacity="0.3" stroke-width="1.4"/>
+<text x="290" y="294" font-family="'Roboto Mono'" font-size="12" fill="var(--purple)" text-anchor="middle" font-weight="500">U-Net skip: += proj(cat(z₀, z₁, z₂))</text>
+
+<!-- Skip connection: squared right-side path from Block 0 to U-Net skip -->
+<path d="M 490,196 L 520,196 L 520,289 L 490,289" fill="none" stroke="var(--purple)" stroke-opacity="0.4" stroke-width="1.2" stroke-dasharray="5 3"/>
+<polygon points="492,286 492,292 487,289" fill="var(--purple)" fill-opacity="0.4"/>
+<text x="530" y="245" font-family="'Roboto Mono'" font-size="12" fill="var(--purple)" fill-opacity="0.6" text-anchor="start">z₀,z₁,z₂</text>
+
+<line x1="290" y1="310" x2="290" y2="328" stroke="#9ca3af" stroke-width="1.4"/>
+<polygon points="285,326 295,326 290,333" fill="#9ca3af"/>
+
+<!-- ═══ BLOCK 1 ═══ -->
+<rect x="90" y="336" width="400" height="92" rx="12" fill="var(--blue)" fill-opacity="0.04" stroke="var(--blue)" stroke-opacity="0.35" stroke-width="2"/>
+<text x="290" y="366" font-family="'Source Sans Pro'" font-size="18" fill="var(--blue)" text-anchor="middle" font-weight="700">HybridAtlasBlock 1</text>
+<text x="290" y="388" font-family="'Roboto Mono'" font-size="11" fill="var(--muted)" text-anchor="middle">same structure, independent weights</text>
+<text x="290" y="410" font-family="'Source Sans Pro'" font-size="11" fill="var(--blue)" text-anchor="middle" font-style="italic">(see Figure 5 for details)</text>
+
+<line x1="290" y1="428" x2="290" y2="446" stroke="#9ca3af" stroke-width="1.4"/>
+<polygon points="285,444 295,444 290,451" fill="#9ca3af"/>
+
+<!-- ═══ OUTPUT PROJECTION ═══ -->
+<rect x="70" y="454" width="440" height="56" rx="10" fill="var(--primary)" fill-opacity="0.04" stroke="var(--primary)" stroke-opacity="0.25" stroke-width="1.4"/>
+<text x="290" y="477" font-family="'Source Sans Pro'" font-size="15" fill="var(--primary)" text-anchor="middle" font-weight="700">Output Projection</text>
+<text x="290" y="498" font-family="'Roboto Mono'" font-size="11" fill="var(--muted)" text-anchor="middle">softcap(W_out · H @ Eᵀ) → logits [B, T, V]</text>
+
+<!-- Weight-tying: squared left-side path from Embedding to Output -->
+<path d="M 120,100 L 48,100 L 48,482 L 70,482" fill="none" stroke="var(--text)" stroke-opacity="0.18" stroke-width="1.2" stroke-dasharray="5 3"/>
+<polygon points="68,479 68,485 73,482" fill="var(--text)" fill-opacity="0.18"/>
+<text x="38" y="294" font-family="'Roboto Mono'" font-size="12" fill="var(--muted)" text-anchor="middle" transform="rotate(-90 38 294)">weight-tied Eᵀ</text>
+
+<line x1="290" y1="510" x2="290" y2="528" stroke="#9ca3af" stroke-width="1.4"/>
+<polygon points="285,526 295,526 290,533" fill="#9ca3af"/>
+
+<!-- ═══ LOGITS ═══ -->
+<rect x="180" y="536" width="220" height="38" rx="8" fill="var(--bg-alt)" stroke="var(--border)" stroke-width="1.2"/>
+<text x="290" y="560" font-family="'Source Sans Pro'" font-size="14" fill="var(--text)" text-anchor="middle" font-weight="600">logits [B, T, V]</text>
+
+<!-- ═══ LEGEND ═══ -->
+<rect x="65" y="592" width="450" height="38" rx="7" fill="var(--bg-alt)" stroke="var(--border)" stroke-width="1"/>
+<text x="290" y="607" font-family="'Source Sans Pro'" font-size="11" fill="var(--text)" text-anchor="middle" font-weight="600">Key dimensions</text>
+<text x="290" y="623" font-family="'Roboto Mono'" font-size="10" fill="var(--muted)" text-anchor="middle">V=1024 · d_emb=512 · R_s=128 · 13.6M params · 10.8 MB int8+zstd</text>
+</svg>
+</body></html>

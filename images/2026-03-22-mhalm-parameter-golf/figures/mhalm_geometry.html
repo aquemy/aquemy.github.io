@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MHALM Geometric Intuition</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f9f9f9;--bg-alt:#fff;--text:#171717;--muted:#6b7280;--border:#e2e8f0;
+  --blue:#3b82f6;--green:#10b981;--amber:#D97706;--primary:#A51209;--purple:#8b5cf6;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);font-family:'Source Sans Pro',sans-serif;display:flex;flex-direction:column;align-items:center;padding:24px 16px;}
+.ti{font-size:18px;font-weight:700;color:var(--text);text-align:center;margin-bottom:4px;}
+.su{font-size:13px;color:var(--muted);text-align:center;margin-bottom:20px;}
+.eq-row{display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:20px;}
+.eq-box{background:var(--bg-alt);border:1px solid var(--border);border-radius:8px;padding:8px 14px;text-align:center;}
+.eq-box .eq{font-size:14px;color:var(--text);font-style:italic;}
+.eq-box .el{font-size:9px;color:var(--muted);margin-top:3px;font-family:'Roboto Mono',monospace;}
+.flow{display:flex;gap:0;align-items:stretch;width:100%;max-width:900px;flex-wrap:wrap;justify-content:center;}
+.flow-arrow{display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--muted);padding:0 6px;}
+.card{background:var(--bg-alt);border:1px solid var(--border);border-radius:10px;overflow:hidden;flex:1;min-width:180px;max-width:260px;}
+.card-head{padding:8px 12px;border-bottom:1px solid var(--border);display:flex;align-items:baseline;gap:6px;}
+.card-head .cn{font-size:12px;font-weight:700;}
+.card-head .cs{font-size:10px;color:var(--muted);font-style:italic;}
+.card-body{padding:12px;font-size:12px;color:var(--muted);line-height:1.6;}
+.card-body strong{color:var(--text);}
+.card-body svg{display:block;margin:0 auto 8px;max-width:100%;}
+.charts-row{display:flex;gap:10px;width:100%;max-width:900px;margin-top:16px;flex-wrap:wrap;justify-content:center;}
+.chart-card{background:var(--bg-alt);border:1px solid var(--border);border-radius:10px;overflow:hidden;flex:1;min-width:240px;}
+.chart-head{padding:8px 12px;border-bottom:1px solid var(--border);}
+.chart-head .cn{font-size:13px;font-weight:700;}
+.chart-head .cs{font-size:10px;color:var(--muted);font-style:italic;margin-left:6px;}
+.chart-body{padding:12px;}
+.chart-body svg{display:block;margin:0 auto 8px;max-width:100%;}
+.chart-desc{font-size:11px;color:var(--muted);line-height:1.6;text-align:center;}
+.chart-desc strong{color:var(--text);}
+.bottom-strip{width:100%;max-width:900px;background:var(--bg-alt);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-top:16px;text-align:center;font-size:12px;color:var(--muted);line-height:1.7;}
+.bottom-strip strong{color:var(--text);}
+</style></head><body>
+<p class="ti">MHALM: Learning Coordinate Charts on the Token Manifold</p>
+<p class="su">Three independent encoders discover complementary geometric views of the token embedding space</p>
+
+<!-- Equation strip -->
+<div class="eq-row">
+  <div class="eq-box"><div class="eq">\(\mathcal{X} \hookrightarrow \mathbb{R}^{d_\text{emb}}\)</div><div class="el">token embedding space</div></div>
+  <div class="eq-box"><div class="eq">\(\mathcal{M} \subset \mathcal{X}\)</div><div class="el">low-dim token manifold</div></div>
+  <div class="eq-box"><div class="eq">\(\Psi_k : \mathcal{M} \to [-1,1]^{d_\text{eff}}\)</div><div class="el">chart encoder (k = 0, 1, 2)</div></div>
+  <div class="eq-box"><div class="eq">\(\hat{y} = \Phi \, W_h\)</div><div class="el">learned readout</div></div>
+</div>
+
+<!-- Main flow: Manifold → 3 Charts -->
+<div class="flow">
+  <!-- Token Manifold -->
+  <div class="card">
+    <div class="card-head"><span class="cn" style="color:var(--text);">Token Manifold \(\mathcal{M}\)</span><span class="cs">in \(\mathbb{R}^{512}\)</span></div>
+    <div class="card-body">
+      <svg viewBox="0 0 200 160">
+        <!-- Manifold surface -->
+        <path d="M 20 100 C 40 60, 90 40, 120 35 C 150 30, 185 55, 185 85 C 185 115, 155 140, 120 140 C 85 140, 40 130, 20 100 Z"
+              fill="#eff6ff" stroke="#3b82f6" stroke-width="1.2" opacity="0.8"/>
+        <!-- Grid lines -->
+        <path d="M 35 95 C 60 75 100 65 120 62 C 150 58 175 70 182 88" fill="none" stroke="#93c5fd" stroke-width="0.7"/>
+        <path d="M 30 108 C 55 92 100 82 122 80 C 150 77 176 88 183 105" fill="none" stroke="#93c5fd" stroke-width="0.7"/>
+        <path d="M 70 42 C 68 70 70 100 70 130" fill="none" stroke="#93c5fd" stroke-width="0.7"/>
+        <path d="M 110 36 C 108 66 110 96 110 135" fill="none" stroke="#93c5fd" stroke-width="0.7"/>
+        <path d="M 150 42 C 148 70 150 100 150 130" fill="none" stroke="#93c5fd" stroke-width="0.7"/>
+        <!-- Token clusters -->
+        <circle cx="65" cy="88" r="4" fill="#3b82f6" opacity="0.7"/><circle cx="75" cy="98" r="3" fill="#3b82f6" opacity="0.6"/>
+        <circle cx="58" cy="100" r="2.5" fill="#3b82f6" opacity="0.5"/>
+        <text x="65" y="115" text-anchor="middle" font-size="7" fill="#3b82f6" font-style="italic">ocean, sea</text>
+        <circle cx="120" cy="60" r="4" fill="#D97706" opacity="0.7"/><circle cx="132" cy="68" r="3" fill="#D97706" opacity="0.6"/>
+        <circle cx="112" cy="72" r="2.5" fill="#D97706" opacity="0.5"/>
+        <text x="122" y="52" text-anchor="middle" font-size="7" fill="#D97706" font-style="italic">law, court</text>
+        <circle cx="160" cy="88" r="4" fill="#10b981" opacity="0.7"/><circle cx="170" cy="98" r="3" fill="#10b981" opacity="0.6"/>
+        <text x="165" y="115" text-anchor="middle" font-size="7" fill="#10b981" font-style="italic">data, 42</text>
+      </svg>
+      Tokens cluster into <strong>low-dimensional regions</strong>. Three independent encoders learn complementary coordinate charts on this manifold.
+    </div>
+  </div>
+
+  <div class="flow-arrow">→<br><span style="font-size:9px;">3 charts</span></div>
+
+  <!-- Three charts stacked -->
+  <div style="display:flex;flex-direction:column;gap:8px;flex:2;min-width:300px;">
+
+    <!-- Spherical Chart -->
+    <div class="chart-card">
+      <div class="chart-head"><span class="cn" style="color:var(--blue);">\(\Psi_0\) Spherical Chart</span><span class="cs">\(d_\text{eff} = 64\), Nyström causal kernel</span></div>
+      <div class="chart-body">
+        <svg viewBox="0 0 280 80">
+          <!-- Angular arcs -->
+          <path d="M 20 70 A 60 60 0 0 1 80 10" fill="none" stroke="#93c5fd" stroke-width="1"/>
+          <path d="M 40 70 A 50 50 0 0 1 90 20" fill="none" stroke="#93c5fd" stroke-width="0.8"/>
+          <path d="M 60 70 A 40 40 0 0 1 100 30" fill="none" stroke="#bfdbfe" stroke-width="0.6"/>
+          <!-- Points on arcs -->
+          <circle cx="35" cy="50" r="3" fill="#3b82f6" opacity="0.8"/><circle cx="55" cy="35" r="3" fill="#3b82f6" opacity="0.7"/>
+          <circle cx="75" cy="25" r="2.5" fill="#3b82f6" opacity="0.6"/><circle cx="48" cy="58" r="2.5" fill="#3b82f6" opacity="0.6"/>
+          <!-- Label -->
+          <text x="140" y="32" font-size="8.5" fill="#6b7280">Angular distance between</text>
+          <text x="140" y="44" font-size="8.5" fill="#6b7280">token positions. Tokens with</text>
+          <text x="140" y="56" font-size="8.5" fill="#6b7280">similar meaning → small angle.</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Gabor Chart -->
+    <div class="chart-card">
+      <div class="chart-head"><span class="cn" style="color:var(--green);">\(\Psi_1\) Gabor Chart</span><span class="cs">\(d_\text{eff} = 8\), Gaussian × oscillation</span></div>
+      <div class="chart-body">
+        <svg viewBox="0 0 280 80">
+          <!-- Gabor-like oscillations with envelope -->
+          <path d="M 10 40 Q 30 20 50 40 Q 70 60 90 40 Q 110 20 130 40" fill="none" stroke="#10b981" stroke-width="1.5" opacity="0.7"/>
+          <ellipse cx="70" cy="40" rx="50" ry="25" fill="#d1fae5" opacity="0.3" stroke="#10b981" stroke-width="0.5" stroke-dasharray="3 2"/>
+          <!-- Anchor points -->
+          <circle cx="40" cy="40" r="4" fill="#10b981" opacity="0.8"/><circle cx="70" cy="35" r="3.5" fill="#10b981" opacity="0.7"/>
+          <circle cx="100" cy="42" r="3" fill="#10b981" opacity="0.6"/>
+          <text x="40" y="72" font-size="7" fill="#10b981" text-anchor="middle">μ₁</text>
+          <text x="70" y="72" font-size="7" fill="#10b981" text-anchor="middle">μ₂</text>
+          <text x="100" y="72" font-size="7" fill="#10b981" text-anchor="middle">μ₃</text>
+          <!-- Label -->
+          <text x="150" y="32" font-size="8.5" fill="#6b7280">Localized oscillatory patterns.</text>
+          <text x="150" y="44" font-size="8.5" fill="#6b7280">Anchors μ concentrate in active</text>
+          <text x="150" y="56" font-size="8.5" fill="#6b7280">semantic subregions.</text>
+        </svg>
+      </div>
+    </div>
+
+    <!-- Laplacian Chart -->
+    <div class="chart-card">
+      <div class="chart-head"><span class="cn" style="color:var(--amber);">\(\Psi_2\) Laplacian Chart</span><span class="cs">\(d_\text{eff} = 12\), RBF kernels</span></div>
+      <div class="chart-body">
+        <svg viewBox="0 0 280 80">
+          <!-- RBF bumps -->
+          <ellipse cx="40" cy="40" rx="25" ry="25" fill="#fef3c7" opacity="0.4" stroke="#D97706" stroke-width="0.8"/>
+          <ellipse cx="40" cy="40" rx="15" ry="15" fill="#fef3c7" opacity="0.5"/>
+          <circle cx="40" cy="40" r="3" fill="#D97706" opacity="0.8"/>
+          <ellipse cx="100" cy="45" rx="20" ry="20" fill="#fef3c7" opacity="0.4" stroke="#D97706" stroke-width="0.8"/>
+          <ellipse cx="100" cy="45" rx="10" ry="10" fill="#fef3c7" opacity="0.5"/>
+          <circle cx="100" cy="45" r="3" fill="#D97706" opacity="0.8"/>
+          <!-- Label -->
+          <text x="150" y="32" font-size="8.5" fill="#6b7280">Proximity via RBF kernels.</text>
+          <text x="150" y="44" font-size="8.5" fill="#6b7280">Captures which tokens are</text>
+          <text x="150" y="56" font-size="8.5" fill="#6b7280">metrically close in semantic space.</text>
+        </svg>
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<!-- Bottom strip -->
+<div class="bottom-strip">
+  <strong>Stäckel separability:</strong> the three charts \(\Psi_0, \Psi_1, \Psi_2\) are trained to produce <strong>decorrelated coordinate axes</strong>
+  via a penalty \(\beta \cdot \|\text{off-diag}(\text{Cov}(z))\|^2\).
+  Each dimension captures an independent mode of variation — no single chart captures all structure, but together they form an <strong>atlas</strong> of the token manifold.
+</div>
+
+</body></html>

@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html lang="en"><head>
+<meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>MHALM AtlasBlock Detail</title>
+<link href="https://fonts.googleapis.com/css2?family=Source+Sans+Pro:wght@400;600;700&family=Roboto+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#f9f9f9;--bg-alt:#fff;--text:#171717;--muted:#6b7280;--border:#e2e8f0;
+  --blue:#3b82f6;--green:#10b981;--amber:#D97706;--purple:#8b5cf6;--primary:#A51209;--teal:#0d9488;}
+*{margin:0;padding:0;box-sizing:border-box;}
+body{background:var(--bg);font-family:'Source Sans Pro',sans-serif;display:flex;flex-direction:column;align-items:center;padding:20px 12px;}
+.ti{font-size:20px;font-weight:700;color:var(--text);text-align:center;margin-bottom:14px;}
+svg{display:block;max-width:100%;height:auto;}
+</style></head><body>
+<p class="ti">Inside a HybridAtlasBlock</p>
+<svg viewBox="0 0 900 760" style="width:900px;max-width:100%;">
+<rect width="900" height="760" fill="var(--bg)" rx="6"/>
+
+<!-- ═══ INPUT ═══ -->
+<rect x="330" y="10" width="240" height="36" rx="8" fill="var(--bg-alt)" stroke="var(--border)" stroke-width="1.2"/>
+<text x="450" y="33" font-family="'Source Sans Pro'" font-size="14" fill="var(--text)" text-anchor="middle" font-weight="600">Input x [B, T, d_emb]</text>
+<!-- Main vertical line down from Input -->
+<line x1="450" y1="46" x2="450" y2="58" stroke="#9ca3af" stroke-width="1.4"/>
+
+<!-- ═══ FAN-OUT: squared paths from Input to each head ═══ -->
+<!-- Horizontal bus at y=58, then vertical drops to each head top at y=72 -->
+<line x1="98" y1="58" x2="802" y2="58" stroke="#9ca3af" stroke-width="1.2"/>
+<line x1="98" y1="58" x2="98" y2="72" stroke="#9ca3af" stroke-width="1.2"/>
+<polygon points="94,70 102,70 98,77" fill="#9ca3af"/>
+<line x1="274" y1="58" x2="274" y2="72" stroke="#9ca3af" stroke-width="1.2"/>
+<polygon points="270,70 278,70 274,77" fill="#9ca3af"/>
+<line x1="450" y1="58" x2="450" y2="72" stroke="#9ca3af" stroke-width="1.2"/>
+<polygon points="446,70 454,70 450,77" fill="#9ca3af"/>
+<line x1="626" y1="58" x2="626" y2="72" stroke="#9ca3af" stroke-width="1.2"/>
+<polygon points="622,70 630,70 626,77" fill="#9ca3af"/>
+<line x1="802" y1="58" x2="802" y2="72" stroke="#9ca3af" stroke-width="1.2"/>
+<polygon points="798,70 806,70 802,77" fill="#9ca3af"/>
+
+<!-- ═══ FIVE HEADS — ALL AT SAME LEVEL ═══ -->
+<!-- Column positions: 20, 196, 372, 548, 724 (width 156 each, 20px gap) -->
+
+<!-- HEAD 0: Spherical -->
+<rect x="20" y="72" width="156" height="260" rx="10" fill="var(--blue)" fill-opacity="0.03" stroke="var(--blue)" stroke-opacity="0.2" stroke-width="1.4"/>
+<text x="98" y="94" font-family="'Source Sans Pro'" font-size="13" fill="var(--blue)" text-anchor="middle" font-weight="700">SPHERICAL</text>
+
+<rect x="34" y="106" width="128" height="32" rx="5" fill="var(--bg)" stroke="var(--blue)" stroke-opacity="0.2" stroke-width="1"/>
+<text x="98" y="126" font-family="'Roboto Mono'" font-size="10" fill="var(--text)" text-anchor="middle">Ψ₀ (H=700)</text>
+<text x="98" y="150" font-family="'Roboto Mono'" font-size="10" fill="var(--muted)" text-anchor="middle">↓ z₀</text>
+
+<rect x="34" y="160" width="128" height="32" rx="5" fill="var(--bg)" stroke="var(--blue)" stroke-opacity="0.2" stroke-width="1"/>
+<text x="98" y="180" font-family="'Roboto Mono'" font-size="10" fill="var(--text)" text-anchor="middle">Nyström (256 lm)</text>
+<text x="98" y="204" font-family="'Roboto Mono'" font-size="10" fill="var(--muted)" text-anchor="middle">↓ Φ₀</text>
+
+<rect x="34" y="214" width="128" height="32" rx="5" fill="var(--blue)" fill-opacity="0.08" stroke="var(--blue)" stroke-opacity="0.25" stroke-width="1"/>
+<text x="98" y="234" font-family="'Roboto Mono'" font-size="10" fill="var(--blue)" text-anchor="middle">Φ₀ @ W₀</text>
+
+<text x="98" y="264" font-family="'Roboto Mono'" font-size="12" fill="var(--blue)" text-anchor="middle" font-weight="500">→ logits₀</text>
+
+<!-- Fan-in line from Spherical -->
+<line x1="98" y1="278" x2="98" y2="340" stroke="var(--blue)" stroke-opacity="0.3" stroke-width="1"/>
+
+<!-- HEAD 1: Gabor -->
+<rect x="196" y="72" width="156" height="260" rx="10" fill="var(--green)" fill-opacity="0.03" stroke="var(--green)" stroke-opacity="0.2" stroke-width="1.4"/>
+<text x="274" y="94" font-family="'Source Sans Pro'" font-size="13" fill="var(--green)" text-anchor="middle" font-weight="700">GABOR</text>
+
+<rect x="210" y="106" width="128" height="32" rx="5" fill="var(--bg)" stroke="var(--green)" stroke-opacity="0.2" stroke-width="1"/>
+<text x="274" y="126" font-family="'Roboto Mono'" font-size="10" fill="var(--text)" text-anchor="middle">Ψ₁ (H=256)</text>
+<text x="274" y="150" font-family="'Roboto Mono'" font-size="10" fill="var(--muted)" text-anchor="middle">↓ z₁</text>
+
+<rect x="210" y="160" width="128" height="32" rx="5" fill="var(--bg)" stroke="var(--green)" stroke-opacity="0.2" stroke-width="1"/>
+<text x="274" y="180" font-family="'Roboto Mono'" font-size="10" fill="var(--text)" text-anchor="middle">Gabor (R=128)</text>
+<text x="274" y="204" font-family="'Roboto Mono'" font-size="10" fill="var(--muted)" text-anchor="middle">↓ Φ₁</text>
+
+<rect x="210" y="214" width="128" height="32" rx="5" fill="var(--green)" fill-opacity="0.08" stroke="var(--green)" stroke-opacity="0.25" stroke-width="1"/>
+<text x="274" y="234" font-family="'Roboto Mono'" font-size="10" fill="var(--green)" text-anchor="middle">Φ₁ @ W₁</text>
+
+<text x="274" y="264" font-family="'Roboto Mono'" font-size="12" fill="var(--green)" text-anchor="middle" font-weight="500">→ logits₁</text>
+
+<line x1="274" y1="278" x2="274" y2="340" stroke="var(--green)" stroke-opacity="0.3" stroke-width="1"/>
+
+<!-- HEAD 2: Laplacian -->
+<rect x="372" y="72" width="156" height="260" rx="10" fill="var(--amber)" fill-opacity="0.03" stroke="var(--amber)" stroke-opacity="0.2" stroke-width="1.4"/>
+<text x="450" y="94" font-family="'Source Sans Pro'" font-size="13" fill="var(--amber)" text-anchor="middle" font-weight="700">LAPLACIAN</text>
+
+<rect x="386" y="106" width="128" height="32" rx="5" fill="var(--bg)" stroke="var(--amber)" stroke-opacity="0.2" stroke-width="1"/>
+<text x="450" y="126" font-family="'Roboto Mono'" font-size="10" fill="var(--text)" text-anchor="middle">Ψ₂ (H=384)</text>
+<text x="450" y="150" font-family="'Roboto Mono'" font-size="10" fill="var(--muted)" text-anchor="middle">↓ z₂</text>
+
+<rect x="386" y="160" width="128" height="32" rx="5" fill="var(--bg)" stroke="var(--amber)" stroke-opacity="0.2" stroke-width="1"/>
+<text x="450" y="180" font-family="'Roboto Mono'" font-size="10" fill="var(--text)" text-anchor="middle">Laplacian (R=128)</text>
+<text x="450" y="204" font-family="'Roboto Mono'" font-size="10" fill="var(--muted)" text-anchor="middle">↓ Φ₂</text>
+
+<rect x="386" y="214" width="128" height="32" rx="5" fill="var(--amber)" fill-opacity="0.08" stroke="var(--amber)" stroke-opacity="0.25" stroke-width="1"/>
+<text x="450" y="234" font-family="'Roboto Mono'" font-size="10" fill="var(--amber)" text-anchor="middle">Φ₂ @ W₂</text>
+
+<text x="450" y="264" font-family="'Roboto Mono'" font-size="12" fill="var(--amber)" text-anchor="middle" font-weight="500">→ logits₂</text>
+
+<line x1="450" y1="278" x2="450" y2="340" stroke="var(--amber)" stroke-opacity="0.3" stroke-width="1"/>
+
+<!-- HEAD 3: Tucker GL -->
+<rect x="548" y="72" width="156" height="260" rx="10" fill="var(--purple)" fill-opacity="0.03" stroke="var(--purple)" stroke-opacity="0.2" stroke-width="1.4"/>
+<text x="626" y="94" font-family="'Source Sans Pro'" font-size="13" fill="var(--purple)" text-anchor="middle" font-weight="700">TUCKER GL</text>
+
+<!-- Dotted inputs from Gabor and Laplacian -->
+<text x="626" y="118" font-family="'Roboto Mono'" font-size="10" fill="var(--muted)" text-anchor="middle">from Gabor Φ₁</text>
+<text x="626" y="136" font-family="'Roboto Mono'" font-size="10" fill="var(--muted)" text-anchor="middle">from Laplacian Φ₂</text>
+
+<rect x="562" y="150" width="128" height="36" rx="5" fill="var(--bg)" stroke="var(--purple)" stroke-opacity="0.2" stroke-width="1"/>
+<text x="626" y="173" font-family="'Roboto Mono'" font-size="10" fill="var(--text)" text-anchor="middle">Φ₁ ⊙ Φ₂</text>
+
+<text x="626" y="204" font-family="'Roboto Mono'" font-size="10" fill="var(--muted)" text-anchor="middle">↓</text>
+
+<rect x="562" y="214" width="128" height="32" rx="5" fill="var(--purple)" fill-opacity="0.08" stroke="var(--purple)" stroke-opacity="0.25" stroke-width="1"/>
+<text x="626" y="234" font-family="'Roboto Mono'" font-size="10" fill="var(--purple)" text-anchor="middle">(Φ₁⊙Φ₂) @ W₃</text>
+
+<text x="626" y="264" font-family="'Roboto Mono'" font-size="12" fill="var(--purple)" text-anchor="middle" font-weight="500">→ logits₃</text>
+
+<line x1="626" y1="278" x2="626" y2="340" stroke="var(--purple)" stroke-opacity="0.3" stroke-width="1"/>
+
+<!-- Dotted lines from Gabor Φ₁ and Laplacian Φ₂ to Tucker GL — squared paths -->
+<!-- Gabor: exits right side of Gabor basis box, goes right along y=176 to Tucker -->
+<path d="M 338,176 L 450,176 L 450,145 L 548,145" fill="none" stroke="var(--green)" stroke-opacity="0.45" stroke-width="1.2" stroke-dasharray="5 3"/>
+<polygon points="546,142 546,148 551,145" fill="var(--green)" fill-opacity="0.45"/>
+<!-- Laplacian: exits right side of Laplacian basis box, goes right to Tucker -->
+<path d="M 514,176 L 536,176 L 536,155 L 548,155" fill="none" stroke="var(--amber)" stroke-opacity="0.45" stroke-width="1.2" stroke-dasharray="5 3"/>
+<polygon points="546,152 546,158 551,155" fill="var(--amber)" fill-opacity="0.45"/>
+
+<!-- HEAD 4: Linear -->
+<rect x="724" y="72" width="156" height="260" rx="10" fill="var(--teal)" fill-opacity="0.03" stroke="var(--teal)" stroke-opacity="0.2" stroke-width="1.4"/>
+<text x="802" y="94" font-family="'Source Sans Pro'" font-size="13" fill="var(--teal)" text-anchor="middle" font-weight="700">LINEAR</text>
+
+<text x="802" y="126" font-family="'Roboto Mono'" font-size="10" fill="var(--muted)" text-anchor="middle">raw input x</text>
+<text x="802" y="142" font-family="'Roboto Mono'" font-size="9" fill="var(--muted)" text-anchor="middle">(no encoder)</text>
+
+<text x="802" y="204" font-family="'Roboto Mono'" font-size="10" fill="var(--muted)" text-anchor="middle">↓</text>
+
+<rect x="738" y="214" width="128" height="32" rx="5" fill="var(--teal)" fill-opacity="0.08" stroke="var(--teal)" stroke-opacity="0.25" stroke-width="1"/>
+<text x="802" y="234" font-family="'Roboto Mono'" font-size="10" fill="var(--teal)" text-anchor="middle">x @ W₄</text>
+
+<text x="802" y="264" font-family="'Roboto Mono'" font-size="12" fill="var(--teal)" text-anchor="middle" font-weight="500">→ logits₄</text>
+
+<line x1="802" y1="278" x2="802" y2="340" stroke="var(--teal)" stroke-opacity="0.3" stroke-width="1"/>
+
+<!-- ═══ FAN-IN: squared paths from each head down to horizontal bus, then to HeadScaler ═══ -->
+<!-- Each head drops to y=348, horizontal bus at y=348, then center drops to HeadScaler -->
+<line x1="98" y1="340" x2="98" y2="348" stroke="var(--border)" stroke-width="1.2"/>
+<line x1="274" y1="340" x2="274" y2="348" stroke="var(--border)" stroke-width="1.2"/>
+<line x1="450" y1="340" x2="450" y2="348" stroke="var(--border)" stroke-width="1.2"/>
+<line x1="626" y1="340" x2="626" y2="348" stroke="var(--border)" stroke-width="1.2"/>
+<line x1="802" y1="340" x2="802" y2="348" stroke="var(--border)" stroke-width="1.2"/>
+<line x1="98" y1="348" x2="802" y2="348" stroke="var(--border)" stroke-width="1.2"/>
+<text x="450" y="363" font-family="'Source Sans Pro'" font-size="11" fill="var(--muted)" text-anchor="middle">↓ fan-in (5 logit tensors)</text>
+<line x1="450" y1="348" x2="450" y2="376" stroke="var(--border)" stroke-width="1.2"/>
+<polygon points="446,374 454,374 450,381" fill="#9ca3af"/>
+
+<!-- ═══ HEADSCALER ═══ -->
+<rect x="260" y="380" width="380" height="52" rx="10" fill="var(--primary)" fill-opacity="0.05" stroke="var(--primary)" stroke-opacity="0.25" stroke-width="1.4"/>
+<text x="450" y="402" font-family="'Source Sans Pro'" font-size="16" fill="var(--primary)" text-anchor="middle" font-weight="700">HeadScaler</text>
+<text x="450" y="422" font-family="'Roboto Mono'" font-size="10" fill="var(--muted)" text-anchor="middle">mixed = Σ softmax(αₖ) · softcap(logitsₖ)</text>
+
+<text x="450" y="452" font-family="'Source Sans Pro'" font-size="11" fill="var(--muted)" text-anchor="middle">↓ mixed [B, T, V]</text>
+
+<!-- ═══ COMPLEXSSM ═══ -->
+<rect x="190" y="464" width="520" height="60" rx="10" fill="#eff6ff" stroke="var(--blue)" stroke-opacity="0.25" stroke-width="1.4"/>
+<text x="450" y="490" font-family="'Source Sans Pro'" font-size="16" fill="var(--blue)" text-anchor="middle" font-weight="700">ComplexSSM</text>
+<text x="450" y="512" font-family="'Roboto Mono'" font-size="11" fill="var(--muted)" text-anchor="middle">hₜ = exp(λ+iω)·hₜ₋₁ + uₜ  ·  parallel scan</text>
+
+<text x="450" y="542" font-family="'Source Sans Pro'" font-size="11" fill="var(--muted)" text-anchor="middle">↓ H [B, T, 2R_s]</text>
+
+<!-- ═══ CAUSAL SELF-ATTENTION ═══ -->
+<rect x="190" y="554" width="520" height="60" rx="10" fill="#faf5ff" stroke="var(--purple)" stroke-opacity="0.25" stroke-width="1.4"/>
+<text x="450" y="580" font-family="'Source Sans Pro'" font-size="16" fill="var(--purple)" text-anchor="middle" font-weight="700">CausalSelfAttention ×2</text>
+<text x="450" y="602" font-family="'Roboto Mono'" font-size="11" fill="var(--muted)" text-anchor="middle">RoPE · 8 heads · q_gain · residual skip</text>
+
+<!-- Residual skip — squared path -->
+<path d="M 710,464 L 736,464 L 736,584 L 710,584" fill="none" stroke="var(--muted)" stroke-width="1.2" stroke-dasharray="5 3"/>
+<text x="748" y="528" font-family="'Roboto Mono'" font-size="12" fill="var(--muted)" transform="rotate(90 748 528)">skip</text>
+
+<text x="450" y="640" font-family="'Roboto Mono'" font-size="14" fill="var(--text)" text-anchor="middle" font-weight="500">↓ H_out [B, T, 2R_s]</text>
+
+<!-- ═══ STÄCKEL NOTE ═══ -->
+<rect x="110" y="658" width="680" height="30" rx="6" fill="#f3f4f6" stroke="var(--border)" stroke-width="1"/>
+<text x="450" y="678" font-family="'Roboto Mono'" font-size="10" fill="var(--muted)" text-anchor="middle">Stäckel penalty: β·‖off-diag(Cov(z))‖² — decorrelated coordinate axes across charts</text>
+
+<!-- ═══ LEGEND ═══ -->
+<rect x="110" y="704" width="680" height="42" rx="7" fill="var(--bg-alt)" stroke="var(--border)" stroke-width="1"/>
+<text x="450" y="722" font-family="'Source Sans Pro'" font-size="11" fill="var(--text)" text-anchor="middle" font-weight="600">Key dimensions</text>
+<text x="450" y="738" font-family="'Roboto Mono'" font-size="10" fill="var(--muted)" text-anchor="middle">V=1024 · d_emb=512 · d_max=128 · R=128 · R_s=128 · 8 attn heads</text>
+
+
+</svg>
+</body></html>

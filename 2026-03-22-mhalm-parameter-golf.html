@@ -1,0 +1,1158 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PWL24785Z6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-PWL24785Z6');
+    </script>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Alexandre Quemy" />
+    <meta name="description" content="Personal website of Alexandre Quemy, Tech Staff and Researcher in AI." />
+    <title>Alexandre Quemy - Blog - MHALM: When Geometric Kernels Meet Language Modelling</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Source Sans Pro', 'sans-serif'],
+              serif: ['Lora', 'serif'],
+            },
+            colors: {
+              paper: '#F8F6F1',
+              ink: '#2A2927',
+              accent: {
+                light: '#D97706', // amber-600
+                dark: '#FBBF24'   // amber-400
+              },
+              'dark-bg': '#192231',
+              'dark-ink': '#E2E0DB',
+            }
+          }
+        }
+      }
+    </script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Source+Sans+Pro:wght@400;600;700&family=Roboto+Mono&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX for Math Rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, { delimiters: [ {left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}, {left: '\\(', right: '\\)', display: false}, {left: '\\[', right: '\\]', display: true} ]});"></script>
+    
+    <!-- Custom Styles and Theming -->
+    <link rel="stylesheet" href="https://quemy.info/css/custom.css">
+    <link rel="stylesheet" href="https://quemy.info/css/friendly.css">
+
+    <script>
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+</head>
+<body class="bg-paper dark:bg-dark-bg text-ink dark:text-dark-ink font-sans transition-colors duration-500 antialiased">
+    
+    <!-- Background Animation Layer (only populated on index.html) -->
+    <div class="fixed inset-0 z-0">
+        
+    </div>
+
+    <!-- Main Content Layer -->
+    <div class="relative z-10">
+        <nav class="w-full max-w-4xl mx-auto py-6 px-4 flex justify-between items-center">
+    <a href="./index.html" class="font-serif text-xl font-bold hover:text-accent-light dark:hover:text-accent-dark transition-colors">
+        Alexandre Quemy
+    </a>
+    <div class="flex items-center space-x-6">
+        <div class="hidden md:flex items-center space-x-6 text-sm font-semibold tracking-wider uppercase">
+            <a href="./research.html" class="nav-link" data-page="research">Research</a>
+            <a href="./cv.html" class="nav-link" data-page="cv">CV</a>
+            <a href="./blog.html" class="nav-link" data-page="blog">Blog</a>
+        </div>
+        <button id="theme-toggle" class="w-8 h-8 flex items-center justify-center rounded-full text-ink dark:text-dark-ink hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+             <i id="theme-toggle-dark-icon" class="fas fa-moon hidden"></i>
+             <i id="theme-toggle-light-icon" class="fas fa-sun hidden"></i>
+        </button>
+        <button id="mobile-menu-button" class="md:hidden text-2xl">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div id="mobile-menu" class="hidden md:hidden fixed inset-0 bg-paper/80 dark:bg-dark-bg/80 backdrop-blur-sm z-50">
+    <div class="flex justify-end p-4">
+        <button id="mobile-menu-close" class="text-3xl">×</button>
+    </div>
+    <div class="flex flex-col items-center justify-center h-full space-y-8 text-2xl font-semibold tracking-wider uppercase">
+        <a href="./index.html" class="nav-link" data-page="index">Home</a>
+        <a href="./research.html" class="nav-link" data-page="research">Research</a>
+        <a href="./cv.html" class="nav-link" data-page="cv">CV</a>
+        <a href="./blog.html" class="nav-link" data-page="blog">Blog</a>
+    </div>
+</div>
+        <main>  <!-- class="fade-in"> -->
+            
+<div class="w-full max-w-7xl mx-auto py-12 px-4">
+    <!-- Header moved outside the grid for proper alignment -->
+    <header class="max-w-5xl mx-auto mb-12 text-center lg:text-left">
+        <a href="https://quemy.info/blog.html" class="text-sm text-accent-light dark:text-accent-dark hover:underline mb-4 inline-block">← Back to all posts</a>
+        <h1 class="font-sans text-4xl md:text-5xl font-black text-ink dark:text-dark-ink leading-tight">MHALM: When Geometric Kernels Meet Language Modelling</h1>
+        <p class="mt-4 text-stone-500 dark:text-stone-400">2026-03-22 · Mathematics</p>
+    </header>
+
+    <div class="lg:grid lg:grid-cols-5 lg:gap-16">
+        <!-- Sticky Sidebar for Table of Contents (now wider) -->
+        <aside class="hidden lg:block lg:col-span-1">
+            <div class="sticky top-24">
+                <h3 class="font-semibold text-sm uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-4">ON THIS PAGE</h3>
+                <div id="toc-sidebar">
+                    <!-- ToC will be moved here by JavaScript -->
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Main Article Content -->
+        <div class="lg:col-span-4">
+            <article class="fade-in">
+                <div id="prose-content" class="prose lg:prose-lg dark:prose-invert max-w-none">
+                    <div class="toc">
+<ul>
+<li><a href="#the-parameter-golf-challenge">The Parameter Golf Challenge</a></li>
+<li><a href="#the-core-idea-from-greens-functions-to-token-prediction">The Core Idea: From Green’s Functions to Token Prediction</a></li>
+<li><a href="#the-architecture">The Architecture</a></li>
+<li><a href="#results">Results</a></li>
+<li><a href="#what-i-learned">What I Learned</a></li>
+<li><a href="#whats-next">What’s Next</a></li>
+</ul>
+</div>
+<p>This is a companion post to my <a href="2026-03-21-intrinsic-greens-learning.html">IGL article</a>. There, I teased “AtlasBlock for Language Models” as a future direction. This post is that future — I decided over the weekend to give a try to OpenAI’s <strong>Parameter Golf Challenge</strong> with IGL, building <strong>MHALM</strong> (Multi-Head Atlas Language Model), a language model entirely on IGL’s geometric kernel framework. The goal was not to win but to stress-test whether IGL’s ideas could work at all for token prediction. They can.</p>
+<hr/>
+<h3 id="the-parameter-golf-challenge">The Parameter Golf Challenge<a class="headerlink" href="#the-parameter-golf-challenge" title="Permanent link">¶</a></h3>
+<p><a href="https://github.com/openai/parameter-golf">OpenAI’s Parameter Golf</a> is a competition with brutal constraints: build the best language model within a <strong>16 MB artifact</strong>, trained in <strong>10 minutes on 8×H100 GPUs</strong>, evaluated on <a href="https://huggingface.co/datasets/HuggingFaceFW/fineweb">FineWeb</a> using <strong>bits-per-byte (bpb)</strong> — lower is better.</p>
+<p>OpenAI provides a <a href="https://github.com/openai/parameter-golf/blob/main/records/track_10min_16mb/2026-03-17_NaiveBaseline/train_gpt.py">baseline</a> — a 9-layer decoder-only transformer (d=512, V=1024, context 1024) with grouped-query attention (8 heads, 4 KV heads). Looking at the current submission track, most entries focus on engineering tricks to squeeze more performance out of transformer variants. My goal was different: leverage IGL to build a fundamentally different architecture and see how close it could get to the baseline.</p>
+<hr/>
+<h3 id="the-core-idea-from-greens-functions-to-token-prediction">The Core Idea: From Green’s Functions to Token Prediction<a class="headerlink" href="#the-core-idea-from-greens-functions-to-token-prediction" title="Permanent link">¶</a></h3>
+<h4 id="igl-in-a-nutshell">IGL in a Nutshell<a class="headerlink" href="#igl-in-a-nutshell" title="Permanent link">¶</a></h4>
+<p>The <a href="2026-03-21-intrinsic-greens-learning.html">Intrinsic Green’s Learning (IGL)</a> framework starts from the manifold hypothesis: data lives on a low-dimensional manifold <span class="arithmatex">\(\mathcal{M} \subset \mathbb{R}^D\)</span>, with intrinsic dimension <span class="arithmatex">\(d \ll D\)</span>. Rather than letting a network discover this structure implicitly, IGL bakes it into the architecture.</p>
+<p>The core idea is to frame the target function <span class="arithmatex">\(u\)</span> as the solution to a linear PDE: <span class="arithmatex">\(Lu = f\)</span>, where <span class="arithmatex">\(L\)</span> is a differential operator and <span class="arithmatex">\(f\)</span> is a <strong>learned source term</strong>. The solution is given by convolution with the Green’s function: <span class="arithmatex">\(u(\xi) = \int G(\xi, \zeta) f(\zeta) \, d\zeta\)</span>. This is not a physical claim — it is an architectural choice that buys a crucial property: <mark>linearity in the source weights</mark>. Once an encoder <span class="arithmatex">\(\Psi\)</span> maps data to intrinsic coordinates <span class="arithmatex">\(\xi\)</span>, finding the optimal source reduces to linear least squares.</p>
+<p>In practice, this yields a three-step pipeline: (1) an encoder <span class="arithmatex">\(\Psi\)</span> maps input <span class="arithmatex">\(x \in \mathbb{R}^D\)</span> to intrinsic coordinates <span class="arithmatex">\(\xi \in \mathbb{R}^d\)</span>, (2) a kernel basis <span class="arithmatex">\(\Phi(\xi)\)</span> is evaluated — this is where the Green’s function structure lives — and (3) a readout matrix <span class="arithmatex">\(W\)</span> maps <span class="arithmatex">\(\Phi\)</span> to predictions. The kernel generates large effective weight matrices on the fly from compact parameters, which is where the compression comes from.</p>
+<figure style="margin:2em 0;">
+<img alt="The IGL pipeline" src="images/2026-03-21-intrinsic-greens-learning/igl_pipeline.png" style="width:100%;max-width:none;border:1px solid #e2e8f0;border-radius:10px;padding:12px;background:#fff;"/>
+<figcaption style="text-align:center;font-size:0.85em;color:#64748b;margin-top:8px;"><strong>Figure 1.</strong> The IGL pipeline (from the <a href="2026-03-21-intrinsic-greens-learning.html">companion article</a>). Encoder Ψ maps data from manifold M ⊂ ℝ<sup>D</sup> to intrinsic coordinates ξ ∈ ℝ<sup>d</sup>. The tensor source f̂(ζ) is defined by anchor points. Green's convolution G∗f̂ yields the solution u(ξ).</figcaption>
+</figure>
+<p>See the <a href="2026-03-21-intrinsic-greens-learning.html">companion article</a> for the full derivation.</p>
+<h4 id="from-manifolds-to-token-embeddings">From Manifolds to Token Embeddings<a class="headerlink" href="#from-manifolds-to-token-embeddings" title="Permanent link">¶</a></h4>
+<p>How does this apply to language modelling? In Parameter Golf, the vocabulary has <span class="arithmatex">\(V = 1024\)</span> tokens embedded in <span class="arithmatex">\(\mathbb{R}^{512}\)</span>. These token embeddings form a discrete manifold — a structured point cloud with geometric regularity that IGL can exploit. An encoder <span class="arithmatex">\(\Psi\)</span> maps token embeddings to intrinsic coordinates; different kernel bases capture different geometric aspects of this token manifold. Figure 2 illustrates the mapping and how MHALM extends IGL’s single chart to multiple complementary charts.</p>
+<figure style="margin:2em 0;">
+<div class="igl-widget" id="igl-fig-3" style="border-radius:12px; border:1px solid #e2e8f0; overflow:hidden; padding:28px 20px 22px;">
+<style>:root { --bg:#f9f9f9;--bg-alt:#fff;--text:#171717;--muted:#6b7280;--border:#e2e8f0;
+  --blue:#3b82f6;--green:#10b981;--amber:#D97706;--purple:#8b5cf6;--primary:#A51209; }
+#igl-fig-3, #igl-fig-3 * { margin:0;padding:0;box-sizing:border-box; }
+#igl-fig-3 { background:var(--bg);font-family:'Source Sans Pro',sans-serif;display:flex;flex-direction:column;align-items:center;padding:20px 12px; }
+#igl-fig-3 .ti { font-size:20px;font-weight:700;color:var(--text);text-align:center;margin-bottom:14px; }
+#igl-fig-3 svg { display:block;max-width:100%;height:auto; }</style>
+
+<p class="ti">IGL: Single Global Chart with Operator-Conditioned Readout</p>
+<svg style="width:900px;max-width:100%;" viewbox="0 0 900 620">
+<rect fill="var(--bg)" height="620" rx="6" width="900"></rect>
+<!-- ════════════════════════════════════════════════ -->
+<!-- PANEL (A): Token Embedding Space                -->
+<!-- ════════════════════════════════════════════════ -->
+<text fill="var(--text)" font-family="'Source Sans Pro'" font-size="16" font-weight="700" x="20" y="24">(A) Token Embedding Space ℝ<tspan baseline-shift="super" font-size="11">D</tspan></text>
+<rect fill="var(--bg-alt)" height="260" rx="10" stroke="var(--border)" stroke-width="1.4" width="340" x="20" y="34"></rect>
+<text fill="var(--muted)" font-family="'Roboto Mono'" font-size="10" text-anchor="end" x="310" y="56">D = 512</text>
+<!-- Manifold blob -->
+<path d="M 80,120 C 100,80 200,60 260,90 C 310,110 320,160 300,200 C 280,240 220,260 170,250 C 110,240 60,200 60,160 C 60,140 70,130 80,120 Z" fill="var(--blue)" fill-opacity="0.06" stroke="var(--blue)" stroke-opacity="0.3" stroke-width="1.4"></path>
+<text fill="var(--blue)" font-family="'Source Sans Pro'" font-size="11" font-style="italic" text-anchor="middle" x="170" y="78">Manifold M (d ≪ 512)</text>
+<!-- Token embedding dots -->
+<circle cx="100" cy="210" fill="var(--text)" r="4.5"></circle>
+<text fill="var(--green)" font-family="'Roboto Mono'" font-size="9" x="88" y="228">x₁</text>
+<circle cx="120" cy="195" fill="var(--text)" r="3.5"></circle>
+<circle cx="140" cy="220" fill="var(--text)" r="3.5"></circle>
+<circle cx="150" cy="160" fill="var(--text)" r="4.5"></circle>
+<text fill="var(--green)" font-family="'Roboto Mono'" font-size="9" x="130" y="158">x₃</text>
+<circle cx="180" cy="145" fill="var(--text)" r="3.5"></circle>
+<circle cx="240" cy="150" fill="var(--text)" r="4.5"></circle>
+<text fill="var(--green)" font-family="'Roboto Mono'" font-size="9" x="248" y="148">x₆</text>
+<circle cx="220" cy="170" fill="var(--text)" r="3.5"></circle>
+<circle cx="270" cy="120" fill="var(--text)" r="3.5"></circle>
+<circle cx="250" cy="105" fill="var(--text)" r="3.5"></circle>
+<circle cx="200" cy="115" fill="var(--text)" r="3.5"></circle>
+<circle cx="130" cy="140" fill="var(--text)" r="3.5"></circle>
+<circle cx="280" cy="180" fill="var(--text)" r="3.5"></circle>
+<circle cx="160" cy="190" fill="var(--text)" r="3.5"></circle>
+<text fill="var(--blue)" font-family="'Roboto Mono'" font-size="10" text-anchor="middle" x="190" y="270">V = 1024 tokens</text>
+<!-- ════════════════════════════════════════════════ -->
+<!-- ARROW: Encoder Ψ_θ                              -->
+<!-- ════════════════════════════════════════════════ -->
+<line stroke="var(--green)" stroke-width="2.5" x1="380" x2="510" y1="164" y2="164"></line>
+<polygon fill="var(--green)" points="507,157 507,171 520,164"></polygon>
+<text fill="var(--green)" font-family="'Source Sans Pro'" font-size="15" font-weight="700" text-anchor="middle" x="445" y="150">Encoder Ψ<tspan baseline-shift="sub" font-size="10">θ</tspan></text>
+<text fill="var(--muted)" font-family="'Roboto Mono'" font-size="10" text-anchor="middle" x="445" y="186">MLP: ℝ<tspan baseline-shift="super" font-size="8">D</tspan> → ℝ<tspan baseline-shift="super" font-size="8">d</tspan></text>
+<!-- ════════════════════════════════════════════════ -->
+<!-- PANEL (B): Latent / Intrinsic Coordinates       -->
+<!-- ════════════════════════════════════════════════ -->
+<text fill="var(--text)" font-family="'Source Sans Pro'" font-size="16" font-weight="700" x="540" y="24">(B) Intrinsic Coordinates ℝ<tspan baseline-shift="super" font-size="11">d</tspan></text>
+<rect fill="var(--bg-alt)" height="260" rx="10" stroke="var(--amber)" stroke-opacity="0.4" stroke-width="1.4" width="340" x="540" y="34"></rect>
+<text fill="var(--amber)" font-family="'Roboto Mono'" font-size="10" text-anchor="end" x="830" y="56">d_max = 128</text>
+<!-- Axes -->
+<line stroke="var(--muted)" stroke-width="1" x1="570" x2="570" y1="270" y2="50"></line>
+<polygon fill="var(--muted)" points="567,54 573,54 570,46"></polygon>
+<text fill="var(--muted)" font-family="'Roboto Mono'" font-size="10" text-anchor="end" x="560" y="52">z₂</text>
+<line stroke="var(--muted)" stroke-width="1" x1="570" x2="860" y1="270" y2="270"></line>
+<polygon fill="var(--muted)" points="856,267 856,273 864,270"></polygon>
+<text fill="var(--muted)" font-family="'Roboto Mono'" font-size="10" x="868" y="274">z₁</text>
+<!-- Anchor grid (×) -->
+<text fill="var(--primary)" font-family="'Roboto Mono'" font-size="13" text-anchor="middle" x="610" y="78">×</text>
+<text fill="var(--primary)" font-family="'Roboto Mono'" font-size="13" text-anchor="middle" x="670" y="78">×</text>
+<text fill="var(--primary)" font-family="'Roboto Mono'" font-size="13" text-anchor="middle" x="730" y="78">×</text>
+<text fill="var(--primary)" font-family="'Roboto Mono'" font-size="13" text-anchor="middle" x="790" y="78">×</text>
+<text fill="var(--primary)" font-family="'Roboto Mono'" font-size="13" text-anchor="middle" x="840" y="78">×</text>
+<text fill="var(--primary)" font-family="'Roboto Mono'" font-size="13" text-anchor="middle" x="610" y="130">×</text>
+<text fill="var(--primary)" font-family="'Roboto Mono'" font-size="13" text-anchor="middle" x="670" y="130">×</text>
+<text fill="var(--primary)" font-family="'Roboto Mono'" font-size="13" text-anchor="middle" x="730" y="130">×</text>
+<text fill="var(--primary)" font-family="'Roboto Mono'" font-size="13" text-anchor="middle" x="790" y="130">×</text>
+<text fill="var(--primary)" font-family="'Roboto Mono'" font-size="13" text-anchor="middle" x="840" y="130">×</text>
+<text fill="var(--primary)" font-family="'Roboto Mono'" font-size="13" text-anchor="middle" x="610" y="182">×</text>
+<text fill="var(--primary)" font-family="'Roboto Mono'" font-size="13" text-anchor="middle" x="670" y="182">×</text>
+<text fill="var(--primary)" font-family="'Roboto Mono'" font-size="13" text-anchor="middle" x="790" y="182">×</text>
+<text fill="var(--primary)" font-family="'Roboto Mono'" font-size="13" text-anchor="middle" x="840" y="182">×</text>
+<text fill="var(--primary)" font-family="'Roboto Mono'" font-size="13" text-anchor="middle" x="610" y="234">×</text>
+<text fill="var(--primary)" font-family="'Roboto Mono'" font-size="13" text-anchor="middle" x="670" y="234">×</text>
+<text fill="var(--primary)" font-family="'Roboto Mono'" font-size="13" text-anchor="middle" x="730" y="234">×</text>
+<text fill="var(--primary)" font-family="'Roboto Mono'" font-size="13" text-anchor="middle" x="790" y="234">×</text>
+<text fill="var(--primary)" font-family="'Roboto Mono'" font-size="13" text-anchor="middle" x="840" y="234">×</text>
+<!-- Concentric circles: kernel basis evaluation -->
+<circle cx="730" cy="170" fill="none" r="22" stroke="var(--purple)" stroke-opacity="0.15" stroke-width="1"></circle>
+<circle cx="730" cy="170" fill="none" r="44" stroke="var(--purple)" stroke-opacity="0.1" stroke-width="1"></circle>
+<circle cx="730" cy="170" fill="none" r="66" stroke="var(--purple)" stroke-opacity="0.06" stroke-width="1"></circle>
+<!-- Mapped token dots (green) -->
+<circle cx="640" cy="210" fill="var(--green)" r="4.5"></circle>
+<text fill="var(--green)" font-family="'Roboto Mono'" font-size="9" x="622" y="220">z₁</text>
+<circle cx="700" cy="145" fill="var(--green)" r="4.5"></circle>
+<text fill="var(--green)" font-family="'Roboto Mono'" font-size="9" x="700" y="138">z₃</text>
+<circle cx="800" cy="158" fill="var(--green)" r="4.5"></circle>
+<text fill="var(--green)" font-family="'Roboto Mono'" font-size="9" x="810" y="156">z₆</text>
+<circle cx="660" cy="170" fill="var(--green)" r="3.5"></circle>
+<circle cx="720" cy="190" fill="var(--green)" r="3.5"></circle>
+<circle cx="750" cy="115" fill="var(--green)" r="3.5"></circle>
+<circle cx="680" cy="100" fill="var(--green)" r="3.5"></circle>
+<circle cx="770" cy="200" fill="var(--green)" r="3.5"></circle>
+<circle cx="620" cy="150" fill="var(--green)" r="3.5"></circle>
+<circle cx="740" cy="160" fill="var(--green)" r="3.5"></circle>
+<circle cx="710" cy="210" fill="var(--green)" r="3.5"></circle>
+<circle cx="780" cy="110" fill="var(--green)" r="3.5"></circle>
+<!-- Anchor label -->
+<text fill="var(--primary)" font-family="'Roboto Mono'" font-size="10" text-anchor="middle" x="730" y="258">θ_r (anchor grid)</text>
+<!-- ════════════════════════════════════════════════ -->
+<!-- PANEL (C): Single Chart vs Multi-Chart          -->
+<!-- ════════════════════════════════════════════════ -->
+<line stroke="var(--border)" stroke-width="1" x1="20" x2="880" y1="316" y2="316"></line>
+<text fill="var(--text)" font-family="'Source Sans Pro'" font-size="16" font-weight="700" x="20" y="344">(C) One Global Chart vs. Atlas: Multiple Charts</text>
+<!-- Left: IGL Single Chart -->
+<text fill="var(--blue)" font-family="'Source Sans Pro'" font-size="13" font-weight="700" text-anchor="middle" x="140" y="372">One Global Chart</text>
+<!-- Blob -->
+<path d="M 70,410 C 85,390 140,380 190,395 C 230,405 240,430 225,455 C 210,475 150,480 110,470 C 70,460 55,435 70,410 Z" fill="var(--blue)" fill-opacity="0.08" stroke="var(--blue)" stroke-opacity="0.3" stroke-width="1.2"></path>
+<line stroke="var(--green)" stroke-width="1.5" x1="140" x2="140" y1="485" y2="505"></line>
+<polygon fill="var(--green)" points="136,503 144,503 140,510"></polygon>
+<text fill="var(--muted)" font-family="'Roboto Mono'" font-size="9" text-anchor="middle" x="140" y="524">Ψ: M → ℝ<tspan baseline-shift="super" font-size="7">d</tspan></text>
+<!-- Single coordinate box -->
+<rect fill="var(--bg-alt)" height="40" rx="6" stroke="var(--blue)" stroke-opacity="0.3" stroke-width="1" width="120" x="80" y="534"></rect>
+<line stroke="var(--muted)" stroke-width="0.8" x1="100" x2="100" y1="568" y2="542"></line>
+<polygon fill="var(--muted)" points="98,544 102,544 100,540"></polygon>
+<line stroke="var(--muted)" stroke-width="0.8" x1="86" x2="180" y1="560" y2="560"></line>
+<polygon fill="var(--muted)" points="176,558 176,562 182,560"></polygon>
+<text fill="var(--muted)" font-family="'Source Sans Pro'" font-size="10" text-anchor="middle" x="140" y="590">Single coordinate system</text>
+<!-- Center: MHALM Multi-Chart Atlas -->
+<text fill="var(--text)" font-family="'Source Sans Pro'" font-size="13" font-weight="700" text-anchor="middle" x="450" y="372">Atlas: Three Global Charts</text>
+<!-- Same manifold blob, covered entirely by all 3 charts -->
+<path d="M 370,410 C 385,390 440,380 490,395 C 530,405 540,430 525,455 C 510,475 450,480 410,470 C 370,460 355,435 370,410 Z" fill="none" stroke="var(--muted)" stroke-opacity="0.2" stroke-width="1.2"></path>
+<!-- All three charts cover the ENTIRE manifold (global, not local) -->
+<!-- Spherical chart (blue) — full coverage, offset slightly for visibility -->
+<path d="M 370,410 C 385,390 440,380 490,395 C 530,405 540,430 525,455 C 510,475 450,480 410,470 C 370,460 355,435 370,410 Z" fill="var(--blue)" fill-opacity="0.08" stroke="var(--blue)" stroke-dasharray="4 2" stroke-opacity="0.25" stroke-width="1" transform="translate(-3,-3)"></path>
+<!-- Gabor chart (green) — full coverage -->
+<path d="M 370,410 C 385,390 440,380 490,395 C 530,405 540,430 525,455 C 510,475 450,480 410,470 C 370,460 355,435 370,410 Z" fill="var(--green)" fill-opacity="0.08" stroke="var(--green)" stroke-dasharray="4 2" stroke-opacity="0.25" stroke-width="1"></path>
+<!-- Laplacian chart (amber) — full coverage -->
+<path d="M 370,410 C 385,390 440,380 490,395 C 530,405 540,430 525,455 C 510,475 450,480 410,470 C 370,460 355,435 370,410 Z" fill="var(--amber)" fill-opacity="0.08" stroke="var(--amber)" stroke-dasharray="4 2" stroke-opacity="0.25" stroke-width="1" transform="translate(3,3)"></path>
+<!-- Arrows from the same manifold to 3 coordinate boxes -->
+<line stroke="var(--blue)" stroke-width="1.2" x1="430" x2="370" y1="475" y2="510"></line>
+<polygon fill="var(--blue)" points="367,507 373,512 370,515"></polygon>
+<line stroke="var(--green)" stroke-width="1.2" x1="450" x2="450" y1="475" y2="510"></line>
+<polygon fill="var(--green)" points="446,508 454,508 450,515"></polygon>
+<line stroke="var(--amber)" stroke-width="1.2" x1="470" x2="530" y1="475" y2="510"></line>
+<polygon fill="var(--amber)" points="527,507 533,512 530,515"></polygon>
+<!-- 3 small coordinate boxes -->
+<rect fill="var(--blue)" fill-opacity="0.06" height="36" rx="5" stroke="var(--blue)" stroke-opacity="0.25" stroke-width="1" width="70" x="335" y="518"></rect>
+<text fill="var(--blue)" font-family="'Roboto Mono'" font-size="9" text-anchor="middle" x="370" y="540">Ψ₀</text>
+<rect fill="var(--green)" fill-opacity="0.06" height="36" rx="5" stroke="var(--green)" stroke-opacity="0.25" stroke-width="1" width="70" x="415" y="518"></rect>
+<text fill="var(--green)" font-family="'Roboto Mono'" font-size="9" text-anchor="middle" x="450" y="540">Ψ₁</text>
+<rect fill="var(--amber)" fill-opacity="0.06" height="36" rx="5" stroke="var(--amber)" stroke-opacity="0.25" stroke-width="1" width="70" x="495" y="518"></rect>
+<text fill="var(--amber)" font-family="'Roboto Mono'" font-size="9" text-anchor="middle" x="530" y="540">Ψ₂</text>
+<text fill="var(--blue)" font-family="'Source Sans Pro'" font-size="9" text-anchor="middle" x="370" y="572">Chart 1</text>
+<text fill="var(--green)" font-family="'Source Sans Pro'" font-size="9" text-anchor="middle" x="450" y="572">Chart 2</text>
+<text fill="var(--amber)" font-family="'Source Sans Pro'" font-size="9" text-anchor="middle" x="530" y="572">Chart 3</text>
+<text fill="var(--muted)" font-family="'Source Sans Pro'" font-size="10" text-anchor="middle" x="450" y="596">Three global charts, different views</text>
+<!-- Right: Explanation box -->
+<rect fill="var(--bg-alt)" height="150" rx="8" stroke="var(--border)" stroke-width="1.2" width="260" x="610" y="380"></rect>
+<text fill="var(--text)" font-family="'Source Sans Pro'" font-size="12" font-weight="700" x="630" y="403">Why an Atlas?</text>
+<text fill="var(--muted)" font-family="'Source Sans Pro'" font-size="10" x="630" y="422">
+<tspan dy="0" x="630">Unlike a classical atlas, these charts</tspan>
+<tspan dy="16" x="630">are not local — each one is global.</tspan>
+<tspan dy="22" fill="var(--text)" font-weight="600" x="630">All three encoders see every token.</tspan>
+<tspan dy="16" x="630">They differ in what they measure:</tspan>
+<tspan dy="16" x="630">angles (Ψ₀), oscillations (Ψ₁),</tspan>
+<tspan dy="16" x="630">or proximity (Ψ₂).</tspan>
+</text>
+</svg>
+
+</div>
+<figcaption style="text-align:center; font-size:0.85em; color:#64748b; margin-top:8px; font-style:italic;"><strong>Figure 2.</strong> From token embeddings to intrinsic coordinates. (A) Token embeddings in ℝ<sup>512</sup> form a manifold. (B) Encoder Ψ maps them to intrinsic coordinates where a kernel basis (anchor grid θ<sub>r</sub>) captures geometric structure. (C) Unlike a classical atlas, the charts here are all global — each encoder sees every token, but measures different geometric properties (angles, oscillations, proximity).</figcaption>
+</figure>
+<div class="admonition definition">
+<p class="admonition-title">The Parameter Budget Argument</p>
+<p>In a standard LM, the output projection <span class="arithmatex">\(W \in \mathbb{R}^{d \times V}\)</span> maps hidden states to vocabulary logits. For <span class="arithmatex">\(V = 1024\)</span> and <span class="arithmatex">\(d = 256\)</span>, that’s 262K parameters per head — and MHALM has 5 heads × 2 blocks. Storing all these <span class="arithmatex">\(W\)</span> matrices would consume ~12 MB of the 16 MB budget. IGL’s kernel structure keeps the design matrices <span class="arithmatex">\(\Phi\)</span> compact, while the readout matrices <span class="arithmatex">\(W\)</span> are trained end-to-end as <strong>learned readout matrices</strong>.</p>
+</div>
+<p>This naturally leads to the name: in topology, an <a href="https://en.wikipedia.org/wiki/Atlas_(topology)">atlas</a> is a collection of charts that together describe a manifold — each chart maps a region to coordinates. In this case, the name is admittedly a bit of a misnomer: the charts don’t cover different <em>regions</em> of the token manifold, but capture different <em>geometric properties</em> of the same manifold — angular structure (Spherical), oscillatory patterns (Gabor), and proximity (Laplacian). Multiple complementary coordinate systems, each revealing structure the others miss. Instead of one monolithic attention mechanism, our architecture uses <strong>multiple geometric kernel heads</strong>, each computing a different view of the embedding space, then combining their predictions.</p>
+<hr/>
+<h3 id="the-architecture">The Architecture<a class="headerlink" href="#the-architecture" title="Permanent link">¶</a></h3>
+<p>The resulting architecture — the <strong>Multi-Head Atlas Language Model (MHALM)</strong> — replaces transformer attention with a multi-kernel geometric readout. The core building block is the <strong>HybridAtlasBlock</strong>: five kernel heads that each compute a different geometric view of the token manifold, combined by a learned mixer, then processed by a temporal stack. Two such blocks, stacked with a skip connection, form the full model.</p>
+<h4 id="the-hybridatlasblock">The HybridAtlasBlock<a class="headerlink" href="#the-hybridatlasblock" title="Permanent link">¶</a></h4>
+<h5 id="the-encoders-charts">The Encoders (Charts)<a class="headerlink" href="#the-encoders-charts" title="Permanent link">¶</a></h5>
+<p>Three independent MLP encoders map token embeddings to intrinsic coordinates — each one a chart on the token manifold. Their widths are asymmetric, matched to the complexity of the kernel they feed:</p>
+<ul>
+<li><strong><span class="arithmatex">\(\Psi_0\)</span></strong> (H=700): the widest encoder, feeds the Spherical head.</li>
+<li><strong><span class="arithmatex">\(\Psi_1\)</span></strong> (H=256): feeds the Gabor head.</li>
+<li><strong><span class="arithmatex">\(\Psi_2\)</span></strong> (H=384): feeds the Laplacian head.</li>
+</ul>
+<p>These widths were chosen by rough trial and error under time pressure — a more systematic search over encoder capacities is needed.</p>
+<p>These are the charts of the atlas — three independent coordinate systems, each specialised for a different geometric structure. A <strong>Stäckel separability penalty</strong> (<span class="arithmatex">\(\beta \cdot \|\text{off-diag}(\text{Cov}(z))\|^2\)</span>) encourages the encoded coordinates to be geometrically independent across axes — the discrete analogue of a Stäckel separable Laplace-Beltrami operator.</p>
+<figure style="margin:2em 0;">
+<div class="igl-widget" id="igl-fig-2" style="border-radius:12px; border:1px solid #e2e8f0; overflow:hidden; padding:28px 20px 22px;">
+<style>:root { --bg:#f9f9f9;--bg-alt:#fff;--text:#171717;--muted:#6b7280;--border:#e2e8f0;
+  --blue:#3b82f6;--green:#10b981;--amber:#D97706;--primary:#A51209;--purple:#8b5cf6; }
+#igl-fig-2, #igl-fig-2 * { margin:0;padding:0;box-sizing:border-box; }
+#igl-fig-2 { background:var(--bg);font-family:'Source Sans Pro',sans-serif;display:flex;flex-direction:column;align-items:center;padding:24px 16px; }
+#igl-fig-2 .ti { font-size:18px;font-weight:700;color:var(--text);text-align:center;margin-bottom:4px; }
+#igl-fig-2 .su { font-size:13px;color:var(--muted);text-align:center;margin-bottom:20px; }
+#igl-fig-2 .eq-row { display:flex;gap:10px;justify-content:center;flex-wrap:wrap;margin-bottom:20px; }
+#igl-fig-2 .eq-box { background:var(--bg-alt);border:1px solid var(--border);border-radius:8px;padding:8px 14px;text-align:center; }
+#igl-fig-2 .eq-box .eq { font-size:14px;color:var(--text);font-style:italic; }
+#igl-fig-2 .eq-box .el { font-size:9px;color:var(--muted);margin-top:3px;font-family:'Roboto Mono',monospace; }
+#igl-fig-2 .flow { display:flex;gap:0;align-items:stretch;width:100%;max-width:900px;flex-wrap:wrap;justify-content:center; }
+#igl-fig-2 .flow-arrow { display:flex;align-items:center;justify-content:center;font-size:20px;color:var(--muted);padding:0 6px; }
+#igl-fig-2 .card { background:var(--bg-alt);border:1px solid var(--border);border-radius:10px;overflow:hidden;flex:1;min-width:180px;max-width:260px; }
+#igl-fig-2 .card-head { padding:8px 12px;border-bottom:1px solid var(--border);display:flex;align-items:baseline;gap:6px; }
+#igl-fig-2 .card-head .cn { font-size:12px;font-weight:700; }
+#igl-fig-2 .card-head .cs { font-size:10px;color:var(--muted);font-style:italic; }
+#igl-fig-2 .card-body { padding:12px;font-size:12px;color:var(--muted);line-height:1.6; }
+#igl-fig-2 .card-body strong { color:var(--text); }
+#igl-fig-2 .card-body svg { display:block;margin:0 auto 8px;max-width:100%; }
+#igl-fig-2 .charts-row { display:flex;gap:10px;width:100%;max-width:900px;margin-top:16px;flex-wrap:wrap;justify-content:center; }
+#igl-fig-2 .chart-card { background:var(--bg-alt);border:1px solid var(--border);border-radius:10px;overflow:hidden;flex:1;min-width:240px; }
+#igl-fig-2 .chart-head { padding:8px 12px;border-bottom:1px solid var(--border); }
+#igl-fig-2 .chart-head .cn { font-size:13px;font-weight:700; }
+#igl-fig-2 .chart-head .cs { font-size:10px;color:var(--muted);font-style:italic;margin-left:6px; }
+#igl-fig-2 .chart-body { padding:12px; }
+#igl-fig-2 .chart-body svg { display:block;margin:0 auto 8px;max-width:100%; }
+#igl-fig-2 .chart-desc { font-size:11px;color:var(--muted);line-height:1.6;text-align:center; }
+#igl-fig-2 .chart-desc strong { color:var(--text); }
+#igl-fig-2 .bottom-strip { width:100%;max-width:900px;background:var(--bg-alt);border:1px solid var(--border);border-radius:10px;padding:12px 16px;margin-top:16px;text-align:center;font-size:12px;color:var(--muted);line-height:1.7; }
+#igl-fig-2 .bottom-strip strong { color:var(--text); }</style>
+
+<p class="ti">MHALM: Learning Coordinate Charts on the Token Manifold</p>
+<p class="su">Three independent encoders discover complementary geometric views of the token embedding space</p>
+ Equation strip 
+<div class="eq-row">
+<div class="eq-box"><div class="eq">\(\mathcal{X} \hookrightarrow \mathbb{R}^{d_\text{emb}}\)</div><div class="el">token embedding space</div></div>
+<div class="eq-box"><div class="eq">\(\mathcal{M} \subset \mathcal{X}\)</div><div class="el">low-dim token manifold</div></div>
+<div class="eq-box"><div class="eq">\(\Psi_k : \mathcal{M} \to [-1,1]^{d_\text{eff}}\)</div><div class="el">chart encoder (k = 0, 1, 2)</div></div>
+<div class="eq-box"><div class="eq">\(\hat{y} = \Phi \, W_h\)</div><div class="el">learned readout</div></div>
+</div>
+ Main flow: Manifold → 3 Charts 
+<div class="flow">
+<!-- Token Manifold -->
+<div class="card">
+<div class="card-head"><span class="cn" style="color:var(--text);">Token Manifold \(\mathcal{M}\)</span><span class="cs">in \(\mathbb{R}^{512}\)</span></div>
+<div class="card-body">
+<svg viewbox="0 0 200 160">
+<!-- Manifold surface -->
+<path d="M 20 100 C 40 60, 90 40, 120 35 C 150 30, 185 55, 185 85 C 185 115, 155 140, 120 140 C 85 140, 40 130, 20 100 Z" fill="#eff6ff" opacity="0.8" stroke="#3b82f6" stroke-width="1.2"></path>
+<!-- Grid lines -->
+<path d="M 35 95 C 60 75 100 65 120 62 C 150 58 175 70 182 88" fill="none" stroke="#93c5fd" stroke-width="0.7"></path>
+<path d="M 30 108 C 55 92 100 82 122 80 C 150 77 176 88 183 105" fill="none" stroke="#93c5fd" stroke-width="0.7"></path>
+<path d="M 70 42 C 68 70 70 100 70 130" fill="none" stroke="#93c5fd" stroke-width="0.7"></path>
+<path d="M 110 36 C 108 66 110 96 110 135" fill="none" stroke="#93c5fd" stroke-width="0.7"></path>
+<path d="M 150 42 C 148 70 150 100 150 130" fill="none" stroke="#93c5fd" stroke-width="0.7"></path>
+<!-- Token clusters -->
+<circle cx="65" cy="88" fill="#3b82f6" opacity="0.7" r="4"></circle><circle cx="75" cy="98" fill="#3b82f6" opacity="0.6" r="3"></circle>
+<circle cx="58" cy="100" fill="#3b82f6" opacity="0.5" r="2.5"></circle>
+<text fill="#3b82f6" font-size="7" font-style="italic" text-anchor="middle" x="65" y="115">ocean, sea</text>
+<circle cx="120" cy="60" fill="#D97706" opacity="0.7" r="4"></circle><circle cx="132" cy="68" fill="#D97706" opacity="0.6" r="3"></circle>
+<circle cx="112" cy="72" fill="#D97706" opacity="0.5" r="2.5"></circle>
+<text fill="#D97706" font-size="7" font-style="italic" text-anchor="middle" x="122" y="52">law, court</text>
+<circle cx="160" cy="88" fill="#10b981" opacity="0.7" r="4"></circle><circle cx="170" cy="98" fill="#10b981" opacity="0.6" r="3"></circle>
+<text fill="#10b981" font-size="7" font-style="italic" text-anchor="middle" x="165" y="115">data, 42</text>
+</svg>
+      Tokens cluster into <strong>low-dimensional regions</strong>. Three independent encoders learn complementary coordinate charts on this manifold.
+    </div>
+</div>
+<div class="flow-arrow">→<br/><span style="font-size:9px;">3 charts</span></div>
+<!-- Three charts stacked -->
+<div style="display:flex;flex-direction:column;gap:8px;flex:2;min-width:300px;">
+<!-- Spherical Chart -->
+<div class="chart-card">
+<div class="chart-head"><span class="cn" style="color:var(--blue);">\(\Psi_0\) Spherical Chart</span><span class="cs">\(d_\text{eff} = 64\), Nyström causal kernel</span></div>
+<div class="chart-body">
+<svg viewbox="0 0 280 80">
+<!-- Angular arcs -->
+<path d="M 20 70 A 60 60 0 0 1 80 10" fill="none" stroke="#93c5fd" stroke-width="1"></path>
+<path d="M 40 70 A 50 50 0 0 1 90 20" fill="none" stroke="#93c5fd" stroke-width="0.8"></path>
+<path d="M 60 70 A 40 40 0 0 1 100 30" fill="none" stroke="#bfdbfe" stroke-width="0.6"></path>
+<!-- Points on arcs -->
+<circle cx="35" cy="50" fill="#3b82f6" opacity="0.8" r="3"></circle><circle cx="55" cy="35" fill="#3b82f6" opacity="0.7" r="3"></circle>
+<circle cx="75" cy="25" fill="#3b82f6" opacity="0.6" r="2.5"></circle><circle cx="48" cy="58" fill="#3b82f6" opacity="0.6" r="2.5"></circle>
+<!-- Label -->
+<text fill="#6b7280" font-size="8.5" x="140" y="32">Angular distance between</text>
+<text fill="#6b7280" font-size="8.5" x="140" y="44">token positions. Tokens with</text>
+<text fill="#6b7280" font-size="8.5" x="140" y="56">similar meaning → small angle.</text>
+</svg>
+</div>
+</div>
+<!-- Gabor Chart -->
+<div class="chart-card">
+<div class="chart-head"><span class="cn" style="color:var(--green);">\(\Psi_1\) Gabor Chart</span><span class="cs">\(d_\text{eff} = 8\), Gaussian × oscillation</span></div>
+<div class="chart-body">
+<svg viewbox="0 0 280 80">
+<!-- Gabor-like oscillations with envelope -->
+<path d="M 10 40 Q 30 20 50 40 Q 70 60 90 40 Q 110 20 130 40" fill="none" opacity="0.7" stroke="#10b981" stroke-width="1.5"></path>
+<ellipse cx="70" cy="40" fill="#d1fae5" opacity="0.3" rx="50" ry="25" stroke="#10b981" stroke-dasharray="3 2" stroke-width="0.5"></ellipse>
+<!-- Anchor points -->
+<circle cx="40" cy="40" fill="#10b981" opacity="0.8" r="4"></circle><circle cx="70" cy="35" fill="#10b981" opacity="0.7" r="3.5"></circle>
+<circle cx="100" cy="42" fill="#10b981" opacity="0.6" r="3"></circle>
+<text fill="#10b981" font-size="7" text-anchor="middle" x="40" y="72">μ₁</text>
+<text fill="#10b981" font-size="7" text-anchor="middle" x="70" y="72">μ₂</text>
+<text fill="#10b981" font-size="7" text-anchor="middle" x="100" y="72">μ₃</text>
+<!-- Label -->
+<text fill="#6b7280" font-size="8.5" x="150" y="32">Localized oscillatory patterns.</text>
+<text fill="#6b7280" font-size="8.5" x="150" y="44">Anchors μ concentrate in active</text>
+<text fill="#6b7280" font-size="8.5" x="150" y="56">semantic subregions.</text>
+</svg>
+</div>
+</div>
+<!-- Laplacian Chart -->
+<div class="chart-card">
+<div class="chart-head"><span class="cn" style="color:var(--amber);">\(\Psi_2\) Laplacian Chart</span><span class="cs">\(d_\text{eff} = 12\), RBF kernels</span></div>
+<div class="chart-body">
+<svg viewbox="0 0 280 80">
+<!-- RBF bumps -->
+<ellipse cx="40" cy="40" fill="#fef3c7" opacity="0.4" rx="25" ry="25" stroke="#D97706" stroke-width="0.8"></ellipse>
+<ellipse cx="40" cy="40" fill="#fef3c7" opacity="0.5" rx="15" ry="15"></ellipse>
+<circle cx="40" cy="40" fill="#D97706" opacity="0.8" r="3"></circle>
+<ellipse cx="100" cy="45" fill="#fef3c7" opacity="0.4" rx="20" ry="20" stroke="#D97706" stroke-width="0.8"></ellipse>
+<ellipse cx="100" cy="45" fill="#fef3c7" opacity="0.5" rx="10" ry="10"></ellipse>
+<circle cx="100" cy="45" fill="#D97706" opacity="0.8" r="3"></circle>
+<!-- Label -->
+<text fill="#6b7280" font-size="8.5" x="150" y="32">Proximity via RBF kernels.</text>
+<text fill="#6b7280" font-size="8.5" x="150" y="44">Captures which tokens are</text>
+<text fill="#6b7280" font-size="8.5" x="150" y="56">metrically close in semantic space.</text>
+</svg>
+</div>
+</div>
+</div>
+</div>
+ Bottom strip 
+<div class="bottom-strip">
+<strong>Stäckel separability:</strong> the three charts \(\Psi_0, \Psi_1, \Psi_2\) are trained to produce <strong>decorrelated coordinate axes</strong>
+  via a penalty \(\beta \cdot \|\text{off-diag}(\text{Cov}(z))\|^2\).
+  Each dimension captures an independent mode of variation — no single chart captures all structure, but together they form an <strong>atlas</strong> of the token manifold.
+</div>
+
+</div>
+<figcaption style="text-align:center; font-size:0.85em; color:#64748b; margin-top:8px; font-style:italic;"><strong>Figure 3.</strong> IGL geometric intuition for MHALM. Token embeddings live on a manifold in high-dimensional space. Three independent encoders (\(\Psi_0, \Psi_1, \Psi_2\)) learn complementary coordinate charts — spherical (angular), Gabor (oscillatory), and Laplacian (proximity) — capturing different geometric aspects of the token manifold. The Stäckel separability constraint ensures coordinate axes remain independent.</figcaption>
+</figure>
+<h5 id="the-five-kernel-heads">The Five Kernel Heads<a class="headerlink" href="#the-five-kernel-heads" title="Permanent link">¶</a></h5>
+<p>Each head takes encoder output (or raw input) and produces vocabulary logits through a different kernel family:</p>
+<p><strong>Spherical head.</strong> Encoder <span class="arithmatex">\(\Psi_0\)</span> maps tokens to coordinates <span class="arithmatex">\(z_0\)</span>. A <strong>Nyström causal kernel</strong> with 256 landmarks approximates a large kernel matrix without materialising it — computing <span class="arithmatex">\(\Phi_0(z_0)\)</span> as a low-rank factorisation. The readout <span class="arithmatex">\(W_0\)</span> maps <span class="arithmatex">\(\Phi_0\)</span> to logits. Unlike the other heads, the Spherical head doesn’t correspond to a single PDE operator — it approximates a <strong>causal token-to-token kernel</strong> using landmark positions, with a learnable <a href="https://en.wikipedia.org/wiki/Gegenbauer_polynomials">Gegenbauer polynomial</a> mixture. Gegenbauer polynomials <span class="arithmatex">\(C_n^{(\alpha)}\)</span> are the natural basis for zonal functions on the sphere <span class="arithmatex">\(S^{d-1}\)</span> — they generalise Legendre polynomials to arbitrary dimension and form an orthogonal basis for functions of the cosine angle between two vectors. Using a learned mixture of Gegenbauer polynomials lets the kernel express arbitrary angular similarity profiles beyond simple cosine similarity. Where Gabor and Laplacian operate in <em>encoder coordinate space</em> (anchor-to-token), the Spherical head operates in <em>token-to-token space</em> (position-to-position), making it structurally closer to attention.</p>
+<p><strong>Gabor head.</strong> Encoder <span class="arithmatex">\(\Psi_1\)</span> maps tokens to coordinates <span class="arithmatex">\(z_1\)</span>. A <strong>Gabor basis</strong> evaluates <span class="arithmatex">\(\Phi_1(z_1)\)</span> against <span class="arithmatex">\(R=128\)</span> learned anchors. In the IGL framework, this corresponds to the <strong>Helmholtz operator</strong> <span class="arithmatex">\(-\Delta + \kappa^2 I\)</span> with Gaussian window: the Green’s function of the Helmholtz equation produces localised oscillatory responses — Gabor wavelets <span class="arithmatex">\(\phi(z) = \exp(-\|z-\mu\|^2 / 2\sigma^2) \cdot \cos(k^\top z + \varphi)\)</span>. Each basis function is a localised oscillation centred at an anchor point, capturing frequency-like patterns — features that are both localised in space and have a characteristic frequency. The readout <span class="arithmatex">\(W_1\)</span> maps <span class="arithmatex">\(\Phi_1\)</span> to logits.</p>
+<p><strong>Laplacian head.</strong> Encoder <span class="arithmatex">\(\Psi_2\)</span> maps tokens to coordinates <span class="arithmatex">\(z_2\)</span>. An <strong>RBF mixture</strong> with <span class="arithmatex">\(R=128\)</span> learned anchors evaluates <span class="arithmatex">\(\Phi_2(z_2)\)</span>. This corresponds to the <strong>negative Laplacian</strong> <span class="arithmatex">\(-\Delta\)</span> — the heat kernel / Poisson equation. The Green’s function is a radial basis function: <span class="arithmatex">\(\phi(z) = \exp(-\|z-\mu\|^2 / 2\sigma^2)\)</span>. This is the original IGL basis, the most thoroughly validated family. It captures smooth, global proximity structure: tokens close in encoder space get similar kernel responses. The readout <span class="arithmatex">\(W_2\)</span> maps <span class="arithmatex">\(\Phi_2\)</span> to logits.</p>
+<p><strong>Tucker GL head.</strong> No dedicated encoder — this head takes the <strong>Hadamard product</strong> <span class="arithmatex">\(\Phi_1 \odot \Phi_2\)</span> of the Gabor and Laplacian bases. In PDE terms, this is an <strong>operator product</strong> — the conjunction of Helmholtz (oscillatory) and Laplacian (proximity) structure. The Hadamard product of two separable kernels is itself separable, so the tensor structure is preserved. This is a Tucker decomposition of the joint kernel, capturing geometric conjunctions (“oscillatory <em>and</em> proximate”) that neither basis alone can represent. Crucially, this head is essentially <strong>parameter-free</strong> beyond its readout: it reuses <span class="arithmatex">\(\Phi_1\)</span> and <span class="arithmatex">\(\Phi_2\)</span> already computed by the Gabor and Laplacian heads, adding model expressivity at near-zero cost. The readout <span class="arithmatex">\(W_3\)</span> maps the product to logits.</p>
+<p><strong>Linear head.</strong> No encoder, no kernel — takes the raw input <span class="arithmatex">\(x\)</span> directly and maps it through <span class="arithmatex">\(W_4\)</span> to logits. In PDE terms, this is the <strong>identity operator</strong> <span class="arithmatex">\(L = I\)</span>, where <span class="arithmatex">\(G = \delta\)</span> — the “kernel basis” is just the raw input itself. This serves as a baseline: if the embedding already carries useful structure, a simple linear readout should capture it. The fact that it contributes meaningfully (removing it costs +0.04 nats) suggests the embedding learns useful representations even without geometric processing.</p>
+<h5 id="headscaler-and-temporal-processing">HeadScaler and Temporal Processing<a class="headerlink" href="#headscaler-and-temporal-processing" title="Permanent link">¶</a></h5>
+<p>A <strong>HeadScaler</strong> combines the five logit tensors with learned softmax weights: <span class="arithmatex">\(\text{mixed} = \sum_k \text{softmax}(\alpha_k) \cdot \text{softcap}(\text{logits}_k)\)</span>. The softcap prevents any single head from dominating early in training.</p>
+<p>The mixed logits then pass through the temporal stack:</p>
+<ol>
+<li><strong>ComplexSSM</strong> — a state-space model with complex eigenvalues (<span class="arithmatex">\(h_t = e^{\lambda + i\omega} \cdot h_{t-1} + u_t\)</span>), implemented via parallel scan. This captures long-range temporal dependencies at O(T) cost, inspired by Mamba-2.</li>
+<li><strong>CausalSelfAttention ×2</strong> — two layers of standard causal attention with RoPE positional encoding, 8 heads, and query gain. A residual skip connects the SSM output to the attention output.</li>
+</ol>
+<h5 id="a-note-on-dimension-discovery">A Note on Dimension Discovery<a class="headerlink" href="#a-note-on-dimension-discovery" title="Permanent link">¶</a></h5>
+<p>In the IGL framework, <strong>Matryoshka truncation</strong> can be used to discover the effective dimension each kernel needs: during training, each head randomly samples <span class="arithmatex">\(k_m \sim \text{Uniform}\{1, \ldots, d_{\max}\}\)</span> and truncates to that dimension, producing nested representations. This was tested early on and worked well (zero collapse failures, unlike Hard Concrete gates). However, for the competition submission, dimension discovery was removed — knowing the optimal per-head dimension is valuable for research but costs FLOPS at inference, and the challenge rewards raw bpb, not interpretability.</p>
+<figure style="margin:2em 0;">
+<div class="igl-widget" id="igl-fig-1" style="border-radius:12px; border:1px solid #e2e8f0; overflow:hidden; padding:28px 20px 22px;">
+<style>:root { --bg:#f9f9f9;--bg-alt:#fff;--text:#171717;--muted:#6b7280;--border:#e2e8f0;
+  --blue:#3b82f6;--green:#10b981;--amber:#D97706;--purple:#8b5cf6;--primary:#A51209;--teal:#0d9488; }
+#igl-fig-1, #igl-fig-1 * { margin:0;padding:0;box-sizing:border-box; }
+#igl-fig-1 { background:var(--bg);font-family:'Source Sans Pro',sans-serif;display:flex;flex-direction:column;align-items:center;padding:20px 12px; }
+#igl-fig-1 .ti { font-size:20px;font-weight:700;color:var(--text);text-align:center;margin-bottom:14px; }
+#igl-fig-1 svg { display:block;max-width:100%;height:auto; }</style>
+
+<p class="ti">Inside a HybridAtlasBlock</p>
+<svg style="width:900px;max-width:100%;" viewbox="0 0 900 760">
+<rect fill="var(--bg)" height="760" rx="6" width="900"></rect>
+<!-- ═══ INPUT ═══ -->
+<rect fill="var(--bg-alt)" height="36" rx="8" stroke="var(--border)" stroke-width="1.2" width="240" x="330" y="10"></rect>
+<text fill="var(--text)" font-family="'Source Sans Pro'" font-size="14" font-weight="600" text-anchor="middle" x="450" y="33">Input x [B, T, d_emb]</text>
+<!-- Main vertical line down from Input -->
+<line stroke="#9ca3af" stroke-width="1.4" x1="450" x2="450" y1="46" y2="58"></line>
+<!-- ═══ FAN-OUT: squared paths from Input to each head ═══ -->
+<!-- Horizontal bus at y=58, then vertical drops to each head top at y=72 -->
+<line stroke="#9ca3af" stroke-width="1.2" x1="98" x2="802" y1="58" y2="58"></line>
+<line stroke="#9ca3af" stroke-width="1.2" x1="98" x2="98" y1="58" y2="72"></line>
+<polygon fill="#9ca3af" points="94,70 102,70 98,77"></polygon>
+<line stroke="#9ca3af" stroke-width="1.2" x1="274" x2="274" y1="58" y2="72"></line>
+<polygon fill="#9ca3af" points="270,70 278,70 274,77"></polygon>
+<line stroke="#9ca3af" stroke-width="1.2" x1="450" x2="450" y1="58" y2="72"></line>
+<polygon fill="#9ca3af" points="446,70 454,70 450,77"></polygon>
+<line stroke="#9ca3af" stroke-width="1.2" x1="626" x2="626" y1="58" y2="72"></line>
+<polygon fill="#9ca3af" points="622,70 630,70 626,77"></polygon>
+<line stroke="#9ca3af" stroke-width="1.2" x1="802" x2="802" y1="58" y2="72"></line>
+<polygon fill="#9ca3af" points="798,70 806,70 802,77"></polygon>
+<!-- ═══ FIVE HEADS — ALL AT SAME LEVEL ═══ -->
+<!-- Column positions: 20, 196, 372, 548, 724 (width 156 each, 20px gap) -->
+<!-- HEAD 0: Spherical -->
+<rect fill="var(--blue)" fill-opacity="0.03" height="260" rx="10" stroke="var(--blue)" stroke-opacity="0.2" stroke-width="1.4" width="156" x="20" y="72"></rect>
+<text fill="var(--blue)" font-family="'Source Sans Pro'" font-size="13" font-weight="700" text-anchor="middle" x="98" y="94">SPHERICAL</text>
+<rect fill="var(--bg)" height="32" rx="5" stroke="var(--blue)" stroke-opacity="0.2" stroke-width="1" width="128" x="34" y="106"></rect>
+<text fill="var(--text)" font-family="'Roboto Mono'" font-size="10" text-anchor="middle" x="98" y="126">Ψ₀ (H=700)</text>
+<text fill="var(--muted)" font-family="'Roboto Mono'" font-size="10" text-anchor="middle" x="98" y="150">↓ z₀</text>
+<rect fill="var(--bg)" height="32" rx="5" stroke="var(--blue)" stroke-opacity="0.2" stroke-width="1" width="128" x="34" y="160"></rect>
+<text fill="var(--text)" font-family="'Roboto Mono'" font-size="10" text-anchor="middle" x="98" y="180">Nyström (256 lm)</text>
+<text fill="var(--muted)" font-family="'Roboto Mono'" font-size="10" text-anchor="middle" x="98" y="204">↓ Φ₀</text>
+<rect fill="var(--blue)" fill-opacity="0.08" height="32" rx="5" stroke="var(--blue)" stroke-opacity="0.25" stroke-width="1" width="128" x="34" y="214"></rect>
+<text fill="var(--blue)" font-family="'Roboto Mono'" font-size="10" text-anchor="middle" x="98" y="234">Φ₀ @ W₀</text>
+<text fill="var(--blue)" font-family="'Roboto Mono'" font-size="12" font-weight="500" text-anchor="middle" x="98" y="264">→ logits₀</text>
+<!-- Fan-in line from Spherical -->
+<line stroke="var(--blue)" stroke-opacity="0.3" stroke-width="1" x1="98" x2="98" y1="278" y2="340"></line>
+<!-- HEAD 1: Gabor -->
+<rect fill="var(--green)" fill-opacity="0.03" height="260" rx="10" stroke="var(--green)" stroke-opacity="0.2" stroke-width="1.4" width="156" x="196" y="72"></rect>
+<text fill="var(--green)" font-family="'Source Sans Pro'" font-size="13" font-weight="700" text-anchor="middle" x="274" y="94">GABOR</text>
+<rect fill="var(--bg)" height="32" rx="5" stroke="var(--green)" stroke-opacity="0.2" stroke-width="1" width="128" x="210" y="106"></rect>
+<text fill="var(--text)" font-family="'Roboto Mono'" font-size="10" text-anchor="middle" x="274" y="126">Ψ₁ (H=256)</text>
+<text fill="var(--muted)" font-family="'Roboto Mono'" font-size="10" text-anchor="middle" x="274" y="150">↓ z₁</text>
+<rect fill="var(--bg)" height="32" rx="5" stroke="var(--green)" stroke-opacity="0.2" stroke-width="1" width="128" x="210" y="160"></rect>
+<text fill="var(--text)" font-family="'Roboto Mono'" font-size="10" text-anchor="middle" x="274" y="180">Gabor (R=128)</text>
+<text fill="var(--muted)" font-family="'Roboto Mono'" font-size="10" text-anchor="middle" x="274" y="204">↓ Φ₁</text>
+<rect fill="var(--green)" fill-opacity="0.08" height="32" rx="5" stroke="var(--green)" stroke-opacity="0.25" stroke-width="1" width="128" x="210" y="214"></rect>
+<text fill="var(--green)" font-family="'Roboto Mono'" font-size="10" text-anchor="middle" x="274" y="234">Φ₁ @ W₁</text>
+<text fill="var(--green)" font-family="'Roboto Mono'" font-size="12" font-weight="500" text-anchor="middle" x="274" y="264">→ logits₁</text>
+<line stroke="var(--green)" stroke-opacity="0.3" stroke-width="1" x1="274" x2="274" y1="278" y2="340"></line>
+<!-- HEAD 2: Laplacian -->
+<rect fill="var(--amber)" fill-opacity="0.03" height="260" rx="10" stroke="var(--amber)" stroke-opacity="0.2" stroke-width="1.4" width="156" x="372" y="72"></rect>
+<text fill="var(--amber)" font-family="'Source Sans Pro'" font-size="13" font-weight="700" text-anchor="middle" x="450" y="94">LAPLACIAN</text>
+<rect fill="var(--bg)" height="32" rx="5" stroke="var(--amber)" stroke-opacity="0.2" stroke-width="1" width="128" x="386" y="106"></rect>
+<text fill="var(--text)" font-family="'Roboto Mono'" font-size="10" text-anchor="middle" x="450" y="126">Ψ₂ (H=384)</text>
+<text fill="var(--muted)" font-family="'Roboto Mono'" font-size="10" text-anchor="middle" x="450" y="150">↓ z₂</text>
+<rect fill="var(--bg)" height="32" rx="5" stroke="var(--amber)" stroke-opacity="0.2" stroke-width="1" width="128" x="386" y="160"></rect>
+<text fill="var(--text)" font-family="'Roboto Mono'" font-size="10" text-anchor="middle" x="450" y="180">Laplacian (R=128)</text>
+<text fill="var(--muted)" font-family="'Roboto Mono'" font-size="10" text-anchor="middle" x="450" y="204">↓ Φ₂</text>
+<rect fill="var(--amber)" fill-opacity="0.08" height="32" rx="5" stroke="var(--amber)" stroke-opacity="0.25" stroke-width="1" width="128" x="386" y="214"></rect>
+<text fill="var(--amber)" font-family="'Roboto Mono'" font-size="10" text-anchor="middle" x="450" y="234">Φ₂ @ W₂</text>
+<text fill="var(--amber)" font-family="'Roboto Mono'" font-size="12" font-weight="500" text-anchor="middle" x="450" y="264">→ logits₂</text>
+<line stroke="var(--amber)" stroke-opacity="0.3" stroke-width="1" x1="450" x2="450" y1="278" y2="340"></line>
+<!-- HEAD 3: Tucker GL -->
+<rect fill="var(--purple)" fill-opacity="0.03" height="260" rx="10" stroke="var(--purple)" stroke-opacity="0.2" stroke-width="1.4" width="156" x="548" y="72"></rect>
+<text fill="var(--purple)" font-family="'Source Sans Pro'" font-size="13" font-weight="700" text-anchor="middle" x="626" y="94">TUCKER GL</text>
+<!-- Dotted inputs from Gabor and Laplacian -->
+<text fill="var(--muted)" font-family="'Roboto Mono'" font-size="10" text-anchor="middle" x="626" y="118">from Gabor Φ₁</text>
+<text fill="var(--muted)" font-family="'Roboto Mono'" font-size="10" text-anchor="middle" x="626" y="136">from Laplacian Φ₂</text>
+<rect fill="var(--bg)" height="36" rx="5" stroke="var(--purple)" stroke-opacity="0.2" stroke-width="1" width="128" x="562" y="150"></rect>
+<text fill="var(--text)" font-family="'Roboto Mono'" font-size="10" text-anchor="middle" x="626" y="173">Φ₁ ⊙ Φ₂</text>
+<text fill="var(--muted)" font-family="'Roboto Mono'" font-size="10" text-anchor="middle" x="626" y="204">↓</text>
+<rect fill="var(--purple)" fill-opacity="0.08" height="32" rx="5" stroke="var(--purple)" stroke-opacity="0.25" stroke-width="1" width="128" x="562" y="214"></rect>
+<text fill="var(--purple)" font-family="'Roboto Mono'" font-size="10" text-anchor="middle" x="626" y="234">(Φ₁⊙Φ₂) @ W₃</text>
+<text fill="var(--purple)" font-family="'Roboto Mono'" font-size="12" font-weight="500" text-anchor="middle" x="626" y="264">→ logits₃</text>
+<line stroke="var(--purple)" stroke-opacity="0.3" stroke-width="1" x1="626" x2="626" y1="278" y2="340"></line>
+<!-- Dotted lines from Gabor Φ₁ and Laplacian Φ₂ to Tucker GL — squared paths -->
+<!-- Gabor: exits right side of Gabor basis box, goes right along y=176 to Tucker -->
+<path d="M 338,176 L 450,176 L 450,145 L 548,145" fill="none" stroke="var(--green)" stroke-dasharray="5 3" stroke-opacity="0.45" stroke-width="1.2"></path>
+<polygon fill="var(--green)" fill-opacity="0.45" points="546,142 546,148 551,145"></polygon>
+<!-- Laplacian: exits right side of Laplacian basis box, goes right to Tucker -->
+<path d="M 514,176 L 536,176 L 536,155 L 548,155" fill="none" stroke="var(--amber)" stroke-dasharray="5 3" stroke-opacity="0.45" stroke-width="1.2"></path>
+<polygon fill="var(--amber)" fill-opacity="0.45" points="546,152 546,158 551,155"></polygon>
+<!-- HEAD 4: Linear -->
+<rect fill="var(--teal)" fill-opacity="0.03" height="260" rx="10" stroke="var(--teal)" stroke-opacity="0.2" stroke-width="1.4" width="156" x="724" y="72"></rect>
+<text fill="var(--teal)" font-family="'Source Sans Pro'" font-size="13" font-weight="700" text-anchor="middle" x="802" y="94">LINEAR</text>
+<text fill="var(--muted)" font-family="'Roboto Mono'" font-size="10" text-anchor="middle" x="802" y="126">raw input x</text>
+<text fill="var(--muted)" font-family="'Roboto Mono'" font-size="9" text-anchor="middle" x="802" y="142">(no encoder)</text>
+<text fill="var(--muted)" font-family="'Roboto Mono'" font-size="10" text-anchor="middle" x="802" y="204">↓</text>
+<rect fill="var(--teal)" fill-opacity="0.08" height="32" rx="5" stroke="var(--teal)" stroke-opacity="0.25" stroke-width="1" width="128" x="738" y="214"></rect>
+<text fill="var(--teal)" font-family="'Roboto Mono'" font-size="10" text-anchor="middle" x="802" y="234">x @ W₄</text>
+<text fill="var(--teal)" font-family="'Roboto Mono'" font-size="12" font-weight="500" text-anchor="middle" x="802" y="264">→ logits₄</text>
+<line stroke="var(--teal)" stroke-opacity="0.3" stroke-width="1" x1="802" x2="802" y1="278" y2="340"></line>
+<!-- ═══ FAN-IN: squared paths from each head down to horizontal bus, then to HeadScaler ═══ -->
+<!-- Each head drops to y=348, horizontal bus at y=348, then center drops to HeadScaler -->
+<line stroke="var(--border)" stroke-width="1.2" x1="98" x2="98" y1="340" y2="348"></line>
+<line stroke="var(--border)" stroke-width="1.2" x1="274" x2="274" y1="340" y2="348"></line>
+<line stroke="var(--border)" stroke-width="1.2" x1="450" x2="450" y1="340" y2="348"></line>
+<line stroke="var(--border)" stroke-width="1.2" x1="626" x2="626" y1="340" y2="348"></line>
+<line stroke="var(--border)" stroke-width="1.2" x1="802" x2="802" y1="340" y2="348"></line>
+<line stroke="var(--border)" stroke-width="1.2" x1="98" x2="802" y1="348" y2="348"></line>
+<text fill="var(--muted)" font-family="'Source Sans Pro'" font-size="11" text-anchor="middle" x="450" y="363">↓ fan-in (5 logit tensors)</text>
+<line stroke="var(--border)" stroke-width="1.2" x1="450" x2="450" y1="348" y2="376"></line>
+<polygon fill="#9ca3af" points="446,374 454,374 450,381"></polygon>
+<!-- ═══ HEADSCALER ═══ -->
+<rect fill="var(--primary)" fill-opacity="0.05" height="52" rx="10" stroke="var(--primary)" stroke-opacity="0.25" stroke-width="1.4" width="380" x="260" y="380"></rect>
+<text fill="var(--primary)" font-family="'Source Sans Pro'" font-size="16" font-weight="700" text-anchor="middle" x="450" y="402">HeadScaler</text>
+<text fill="var(--muted)" font-family="'Roboto Mono'" font-size="10" text-anchor="middle" x="450" y="422">mixed = Σ softmax(αₖ) · softcap(logitsₖ)</text>
+<text fill="var(--muted)" font-family="'Source Sans Pro'" font-size="11" text-anchor="middle" x="450" y="452">↓ mixed [B, T, V]</text>
+<!-- ═══ COMPLEXSSM ═══ -->
+<rect fill="#eff6ff" height="60" rx="10" stroke="var(--blue)" stroke-opacity="0.25" stroke-width="1.4" width="520" x="190" y="464"></rect>
+<text fill="var(--blue)" font-family="'Source Sans Pro'" font-size="16" font-weight="700" text-anchor="middle" x="450" y="490">ComplexSSM</text>
+<text fill="var(--muted)" font-family="'Roboto Mono'" font-size="11" text-anchor="middle" x="450" y="512">hₜ = exp(λ+iω)·hₜ₋₁ + uₜ  ·  parallel scan</text>
+<text fill="var(--muted)" font-family="'Source Sans Pro'" font-size="11" text-anchor="middle" x="450" y="542">↓ H [B, T, 2R_s]</text>
+<!-- ═══ CAUSAL SELF-ATTENTION ═══ -->
+<rect fill="#faf5ff" height="60" rx="10" stroke="var(--purple)" stroke-opacity="0.25" stroke-width="1.4" width="520" x="190" y="554"></rect>
+<text fill="var(--purple)" font-family="'Source Sans Pro'" font-size="16" font-weight="700" text-anchor="middle" x="450" y="580">CausalSelfAttention ×2</text>
+<text fill="var(--muted)" font-family="'Roboto Mono'" font-size="11" text-anchor="middle" x="450" y="602">RoPE · 8 heads · q_gain · residual skip</text>
+<!-- Residual skip — squared path -->
+<path d="M 710,464 L 736,464 L 736,584 L 710,584" fill="none" stroke="var(--muted)" stroke-dasharray="5 3" stroke-width="1.2"></path>
+<text fill="var(--muted)" font-family="'Roboto Mono'" font-size="12" transform="rotate(90 748 528)" x="748" y="528">skip</text>
+<text fill="var(--text)" font-family="'Roboto Mono'" font-size="14" font-weight="500" text-anchor="middle" x="450" y="640">↓ H_out [B, T, 2R_s]</text>
+<!-- ═══ STÄCKEL NOTE ═══ -->
+<rect fill="#f3f4f6" height="30" rx="6" stroke="var(--border)" stroke-width="1" width="680" x="110" y="658"></rect>
+<text fill="var(--muted)" font-family="'Roboto Mono'" font-size="10" text-anchor="middle" x="450" y="678">Stäckel penalty: β·‖off-diag(Cov(z))‖² — decorrelated coordinate axes across charts</text>
+<!-- ═══ LEGEND ═══ -->
+<rect fill="var(--bg-alt)" height="42" rx="7" stroke="var(--border)" stroke-width="1" width="680" x="110" y="704"></rect>
+<text fill="var(--text)" font-family="'Source Sans Pro'" font-size="11" font-weight="600" text-anchor="middle" x="450" y="722">Key dimensions</text>
+<text fill="var(--muted)" font-family="'Roboto Mono'" font-size="10" text-anchor="middle" x="450" y="738">V=1024 · d_emb=512 · d_max=128 · R=128 · R_s=128 · 8 attn heads</text>
+</svg>
+
+</div>
+<figcaption style="text-align:center; font-size:0.85em; color:#64748b; margin-top:8px; font-style:italic;"><strong>Figure 5.</strong> Inside a HybridAtlasBlock. Five kernel heads — Spherical, Gabor, Laplacian, Tucker GL, and Linear — all at the same level, each producing logits that are combined by a HeadScaler mixer. The mixed signal flows through a ComplexSSM with parallel scan, then two CausalSelfAttention layers with RoPE.</figcaption>
+</figure>
+<h4 id="the-full-model">The Full Model<a class="headerlink" href="#the-full-model" title="Permanent link">¶</a></h4>
+<p>Two HybridAtlasBlocks are stacked to form the complete MHALM architecture (Figure 4):</p>
+<ol>
+<li><strong>Embedding + BigramHash</strong> — a weight-tied embedding <span class="arithmatex">\(E \in \mathbb{R}^{V \times d_{\text{emb}}}\)</span> maps tokens to vectors, augmented with a bigram hash for local context.</li>
+<li><strong>HybridAtlasBlock 0</strong> — the first block processes the embedded tokens through its five heads and temporal stack.</li>
+<li><strong>U-Net skip connection</strong> — the encoder outputs (<span class="arithmatex">\(z_0, z_1, z_2\)</span>) from Block 0 are projected and added to the block’s output, providing a direct path for geometric information.</li>
+<li><strong>HybridAtlasBlock 1</strong> — the second block, with independent weights, refines the representation.</li>
+<li><strong>Output projection</strong> — <span class="arithmatex">\(\text{softcap}(W_{\text{out}} \cdot H \cdot E^\top)\)</span> produces final logits, reusing the embedding matrix <span class="arithmatex">\(E\)</span> (weight tying).</li>
+</ol>
+<figure style="margin:2em 0;">
+<div class="igl-widget" id="igl-fig-0" style="border-radius:12px; border:1px solid #e2e8f0; overflow:hidden; padding:28px 20px 22px;">
+<style>:root { --bg:#f9f9f9;--bg-alt:#fff;--text:#171717;--muted:#6b7280;--border:#e2e8f0;
+  --blue:#3b82f6;--green:#10b981;--amber:#D97706;--purple:#8b5cf6;--primary:#A51209; }
+#igl-fig-0, #igl-fig-0 * { margin:0;padding:0;box-sizing:border-box; }
+#igl-fig-0 { background:var(--bg);font-family:'Source Sans Pro',sans-serif;display:flex;flex-direction:column;align-items:center;padding:20px 12px; }
+#igl-fig-0 .ti { font-size:20px;font-weight:700;color:var(--text);text-align:center;margin-bottom:14px; }
+#igl-fig-0 svg { display:block;max-width:100%;height:auto; }</style>
+
+<p class="ti">MHALM — Overall Model</p>
+<svg style="width:580px;max-width:100%;" viewbox="0 0 580 640">
+<rect fill="var(--bg)" height="640" rx="6" width="580"></rect>
+<!-- Center axis at x=290 -->
+<!-- ═══ TOKENS ═══ -->
+<rect fill="var(--bg-alt)" height="38" rx="8" stroke="var(--border)" stroke-width="1.2" width="250" x="165" y="14"></rect>
+<text fill="var(--text)" font-family="'Source Sans Pro'" font-size="14" font-weight="600" text-anchor="middle" x="290" y="38">Tokens [B, T]</text>
+<line stroke="#9ca3af" stroke-width="1.4" x1="290" x2="290" y1="52" y2="68"></line>
+<polygon fill="#9ca3af" points="285,66 295,66 290,73"></polygon>
+<!-- ═══ EMBEDDING ═══ -->
+<rect fill="var(--bg-alt)" height="48" rx="8" stroke="var(--border)" stroke-width="1.4" width="340" x="120" y="76"></rect>
+<text fill="var(--text)" font-family="'Source Sans Pro'" font-size="14" font-weight="600" text-anchor="middle" x="290" y="97">Embedding + BigramHash</text>
+<text fill="var(--muted)" font-family="'Roboto Mono'" font-size="10" text-anchor="middle" x="290" y="114">weight-tied E ∈ ℝ^{V×d_emb}</text>
+<line stroke="#9ca3af" stroke-width="1.4" x1="290" x2="290" y1="124" y2="142"></line>
+<polygon fill="#9ca3af" points="285,140 295,140 290,147"></polygon>
+<!-- ═══ BLOCK 0 ═══ -->
+<rect fill="var(--blue)" fill-opacity="0.04" height="92" rx="12" stroke="var(--blue)" stroke-opacity="0.35" stroke-width="2" width="400" x="90" y="150"></rect>
+<text fill="var(--blue)" font-family="'Source Sans Pro'" font-size="18" font-weight="700" text-anchor="middle" x="290" y="180">HybridAtlasBlock 0</text>
+<text fill="var(--muted)" font-family="'Roboto Mono'" font-size="11" text-anchor="middle" x="290" y="202">5 kernel heads · HeadScaler · ComplexSSM · CSA ×2</text>
+<text fill="var(--blue)" font-family="'Source Sans Pro'" font-size="11" font-style="italic" text-anchor="middle" x="290" y="224">(see Figure 5 for details)</text>
+<line stroke="#9ca3af" stroke-width="1.4" x1="290" x2="290" y1="242" y2="260"></line>
+<polygon fill="#9ca3af" points="285,258 295,258 290,265"></polygon>
+<!-- ═══ U-NET SKIP ═══ -->
+<rect fill="#faf5ff" height="42" rx="8" stroke="var(--purple)" stroke-opacity="0.3" stroke-width="1.4" width="400" x="90" y="268"></rect>
+<text fill="var(--purple)" font-family="'Roboto Mono'" font-size="12" font-weight="500" text-anchor="middle" x="290" y="294">U-Net skip: += proj(cat(z₀, z₁, z₂))</text>
+<!-- Skip connection: squared right-side path from Block 0 to U-Net skip -->
+<path d="M 490,196 L 520,196 L 520,289 L 490,289" fill="none" stroke="var(--purple)" stroke-dasharray="5 3" stroke-opacity="0.4" stroke-width="1.2"></path>
+<polygon fill="var(--purple)" fill-opacity="0.4" points="492,286 492,292 487,289"></polygon>
+<text fill="var(--purple)" fill-opacity="0.6" font-family="'Roboto Mono'" font-size="12" text-anchor="start" x="530" y="245">z₀,z₁,z₂</text>
+<line stroke="#9ca3af" stroke-width="1.4" x1="290" x2="290" y1="310" y2="328"></line>
+<polygon fill="#9ca3af" points="285,326 295,326 290,333"></polygon>
+<!-- ═══ BLOCK 1 ═══ -->
+<rect fill="var(--blue)" fill-opacity="0.04" height="92" rx="12" stroke="var(--blue)" stroke-opacity="0.35" stroke-width="2" width="400" x="90" y="336"></rect>
+<text fill="var(--blue)" font-family="'Source Sans Pro'" font-size="18" font-weight="700" text-anchor="middle" x="290" y="366">HybridAtlasBlock 1</text>
+<text fill="var(--muted)" font-family="'Roboto Mono'" font-size="11" text-anchor="middle" x="290" y="388">same structure, independent weights</text>
+<text fill="var(--blue)" font-family="'Source Sans Pro'" font-size="11" font-style="italic" text-anchor="middle" x="290" y="410">(see Figure 5 for details)</text>
+<line stroke="#9ca3af" stroke-width="1.4" x1="290" x2="290" y1="428" y2="446"></line>
+<polygon fill="#9ca3af" points="285,444 295,444 290,451"></polygon>
+<!-- ═══ OUTPUT PROJECTION ═══ -->
+<rect fill="var(--primary)" fill-opacity="0.04" height="56" rx="10" stroke="var(--primary)" stroke-opacity="0.25" stroke-width="1.4" width="440" x="70" y="454"></rect>
+<text fill="var(--primary)" font-family="'Source Sans Pro'" font-size="15" font-weight="700" text-anchor="middle" x="290" y="477">Output Projection</text>
+<text fill="var(--muted)" font-family="'Roboto Mono'" font-size="11" text-anchor="middle" x="290" y="498">softcap(W_out · H @ Eᵀ) → logits [B, T, V]</text>
+<!-- Weight-tying: squared left-side path from Embedding to Output -->
+<path d="M 120,100 L 48,100 L 48,482 L 70,482" fill="none" stroke="var(--text)" stroke-dasharray="5 3" stroke-opacity="0.18" stroke-width="1.2"></path>
+<polygon fill="var(--text)" fill-opacity="0.18" points="68,479 68,485 73,482"></polygon>
+<text fill="var(--muted)" font-family="'Roboto Mono'" font-size="12" text-anchor="middle" transform="rotate(-90 38 294)" x="38" y="294">weight-tied Eᵀ</text>
+<line stroke="#9ca3af" stroke-width="1.4" x1="290" x2="290" y1="510" y2="528"></line>
+<polygon fill="#9ca3af" points="285,526 295,526 290,533"></polygon>
+<!-- ═══ LOGITS ═══ -->
+<rect fill="var(--bg-alt)" height="38" rx="8" stroke="var(--border)" stroke-width="1.2" width="220" x="180" y="536"></rect>
+<text fill="var(--text)" font-family="'Source Sans Pro'" font-size="14" font-weight="600" text-anchor="middle" x="290" y="560">logits [B, T, V]</text>
+<!-- ═══ LEGEND ═══ -->
+<rect fill="var(--bg-alt)" height="38" rx="7" stroke="var(--border)" stroke-width="1" width="450" x="65" y="592"></rect>
+<text fill="var(--text)" font-family="'Source Sans Pro'" font-size="11" font-weight="600" text-anchor="middle" x="290" y="607">Key dimensions</text>
+<text fill="var(--muted)" font-family="'Roboto Mono'" font-size="10" text-anchor="middle" x="290" y="623">V=1024 · d_emb=512 · R_s=128 · 13.6M params · 10.8 MB int8+zstd</text>
+</svg>
+
+</div>
+<figcaption style="text-align:center; font-size:0.85em; color:#64748b; margin-top:8px; font-style:italic;"><strong>Figure 4.</strong> MHALM overall model. Tokens pass through a weight-tied embedding, two stacked HybridAtlasBlocks with a U-Net skip connection between them, and an output projection that reuses the embedding matrix.</figcaption>
+</figure>
+<hr/>
+<h3 id="results">Results<a class="headerlink" href="#results" title="Permanent link">¶</a></h3>
+<table>
+<thead>
+<tr>
+<th>Metric</th>
+<th>Value</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong>Competition bpb</strong></td>
+<td><strong>1.4574</strong></td>
+</tr>
+<tr>
+<td>Val loss (nats)</td>
+<td>2.4607</td>
+</tr>
+<tr>
+<td>Artifact size</td>
+<td>10.8 MB / 16 MB</td>
+</tr>
+<tr>
+<td>Stored params</td>
+<td>13.6M</td>
+</tr>
+<tr>
+<td>Training steps</td>
+<td>6,857</td>
+</tr>
+<tr>
+<td>Training time</td>
+<td>594s on 8×H100</td>
+</tr>
+<tr>
+<td>Step time (compiled)</td>
+<td>87 ms/step</td>
+</tr>
+<tr>
+<td>SWA checkpoints</td>
+<td>201</td>
+</tr>
+</tbody>
+</table>
+<details class="training-log">
+<summary>📋 Full training log (v1)</summary>
+<pre>
+FineWeb: 80 train shards, 1 val shards
+train_loader:dataset:fineweb10B_sp1024 train_shards:80
+val_loader:tokens:62021846
+val_bpb:enabled tokenizer_kind=sentencepiece tokenizer_path=/workspace/parameter-golf/data/tokenizers/fineweb_1024_bpe.model
+model_params:13631099
+world_size:8 train_batch_tokens:524288 train_seq_len:1024 max_wallclock_seconds:600.000
+architecture:MHALM L=2 H=700 R=128 R_s=128 bigram_vocab=10240
+step:50/5940 train_loss:5.1160 train_time:42809ms step_avg:856.18ms
+step:100/5940 train_loss:4.4082 train_time:46631ms step_avg:466.31ms
+step:150/5940 train_loss:3.9050 train_time:50458ms step_avg:336.39ms
+step:200/5940 train_loss:3.6059 train_time:54305ms step_avg:271.52ms
+step:200/5940 val_loss:3.6478 val_bpb:5.2626 est_bpb:2.1568 train_time:71312ms step_avg:356.56ms
+step:250/5940 train_loss:3.4682 train_time:75147ms step_avg:300.59ms
+step:300/5940 train_loss:3.3736 train_time:78978ms step_avg:263.26ms
+step:350/5940 train_loss:3.3056 train_time:83467ms step_avg:238.48ms
+step:400/5940 train_loss:3.2089 train_time:87299ms step_avg:218.25ms
+step:400/5940 val_loss:3.2268 val_bpb:4.6552 est_bpb:1.9079 train_time:87518ms step_avg:218.79ms
+  Refined: 81 ms/step → est_total=6652
+step:450/6652 train_loss:3.2282 train_time:91347ms step_avg:202.99ms
+step:500/6652 train_loss:3.1729 train_time:95170ms step_avg:190.34ms
+step:550/6652 train_loss:3.0824 train_time:98996ms step_avg:179.99ms
+step:600/6652 train_loss:3.0977 train_time:102827ms step_avg:171.38ms
+step:600/6652 val_loss:3.0833 val_bpb:4.4483 est_bpb:1.8231 train_time:103047ms step_avg:171.75ms
+step:650/6652 train_loss:3.1019 train_time:106873ms step_avg:164.42ms
+step:700/6652 train_loss:3.0062 train_time:110709ms step_avg:158.16ms
+step:750/6652 train_loss:3.1286 train_time:114549ms step_avg:152.73ms
+step:800/6652 train_loss:3.0584 train_time:118387ms step_avg:147.98ms
+step:800/6652 val_loss:2.9894 val_bpb:4.3128 est_bpb:1.7676 train_time:118606ms step_avg:148.26ms
+step:850/6652 train_loss:2.9202 train_time:122442ms step_avg:144.05ms
+step:900/6652 train_loss:2.9602 train_time:126283ms step_avg:140.31ms
+step:950/6652 train_loss:2.9743 train_time:130121ms step_avg:136.97ms
+step:1000/6652 train_loss:2.8816 train_time:133958ms step_avg:133.96ms
+step:1000/6652 val_loss:2.9333 val_bpb:4.2318 est_bpb:1.7344 train_time:134178ms step_avg:134.18ms
+step:1050/6652 train_loss:2.9228 train_time:138019ms step_avg:131.45ms
+step:1100/6652 train_loss:2.9035 train_time:141868ms step_avg:128.97ms
+step:1150/6652 train_loss:2.8642 train_time:145711ms step_avg:126.71ms
+step:1200/6652 train_loss:2.8431 train_time:149635ms step_avg:124.70ms
+step:1200/6652 val_loss:2.8907 val_bpb:4.1705 est_bpb:1.7092 train_time:149853ms step_avg:124.88ms
+step:1250/6652 train_loss:2.8910 train_time:153697ms step_avg:122.96ms
+step:1300/6652 train_loss:2.8959 train_time:157536ms step_avg:121.18ms
+step:1350/6652 train_loss:2.8669 train_time:161373ms step_avg:119.54ms
+step:1400/6652 train_loss:2.8688 train_time:165213ms step_avg:118.01ms
+step:1400/6652 val_loss:2.8587 val_bpb:4.1243 est_bpb:1.6903 train_time:165431ms step_avg:118.17ms
+step:1450/6652 train_loss:2.8232 train_time:169269ms step_avg:116.74ms
+step:1500/6652 train_loss:2.8378 train_time:173115ms step_avg:115.41ms
+step:1550/6652 train_loss:2.8369 train_time:177332ms step_avg:114.41ms
+step:1600/6652 train_loss:2.8903 train_time:181162ms step_avg:113.23ms
+step:1600/6652 val_loss:2.8317 val_bpb:4.0853 est_bpb:1.6743 train_time:181380ms step_avg:113.36ms
+step:1650/6652 train_loss:2.8032 train_time:185203ms step_avg:112.24ms
+step:1700/6652 train_loss:2.8109 train_time:189031ms step_avg:111.19ms
+step:1750/6652 train_loss:2.8637 train_time:192859ms step_avg:110.21ms
+step:1800/6652 train_loss:2.8606 train_time:196685ms step_avg:109.27ms
+step:1800/6652 val_loss:2.7987 val_bpb:4.0377 est_bpb:1.6548 train_time:196905ms step_avg:109.39ms
+step:1850/6652 train_loss:2.7811 train_time:200734ms step_avg:108.50ms
+step:1900/6652 train_loss:2.7883 train_time:204563ms step_avg:107.66ms
+step:1950/6652 train_loss:2.7400 train_time:208396ms step_avg:106.87ms
+step:2000/6652 train_loss:2.7773 train_time:212224ms step_avg:106.11ms
+step:2000/6652 val_loss:2.7707 val_bpb:3.9973 est_bpb:1.6382 train_time:212442ms step_avg:106.22ms
+step:2050/6652 train_loss:2.7165 train_time:216271ms step_avg:105.50ms
+step:2100/6652 train_loss:2.7933 train_time:220103ms step_avg:104.81ms
+step:2150/6652 train_loss:2.7398 train_time:223931ms step_avg:104.15ms
+step:2200/6652 train_loss:2.7860 train_time:227759ms step_avg:103.53ms
+step:2200/6652 val_loss:2.7322 val_bpb:3.9417 est_bpb:1.6155 train_time:227979ms step_avg:103.63ms
+step:2250/6652 train_loss:2.7376 train_time:231809ms step_avg:103.03ms
+step:2300/6652 train_loss:2.6855 train_time:235639ms step_avg:102.45ms
+step:2350/6652 train_loss:2.7192 train_time:239467ms step_avg:101.90ms
+step:2400/6652 train_loss:2.6708 train_time:243298ms step_avg:101.37ms
+step:2400/6652 val_loss:2.7013 val_bpb:3.8971 est_bpb:1.5972 train_time:243516ms step_avg:101.47ms
+step:2450/6652 train_loss:2.6720 train_time:247346ms step_avg:100.96ms
+step:2500/6652 train_loss:2.7050 train_time:251174ms step_avg:100.47ms
+step:2550/6652 train_loss:2.6407 train_time:255004ms step_avg:100.00ms
+step:2600/6652 train_loss:2.6422 train_time:258836ms step_avg:99.55ms
+step:2600/6652 val_loss:2.6716 val_bpb:3.8543 est_bpb:1.5796 train_time:259054ms step_avg:99.64ms
+step:2650/6652 train_loss:2.6318 train_time:262882ms step_avg:99.20ms
+step:2700/6652 train_loss:2.7187 train_time:266715ms step_avg:98.78ms
+step:2750/6652 train_loss:2.6519 train_time:270558ms step_avg:98.38ms
+step:2800/6652 train_loss:2.6581 train_time:274403ms step_avg:98.00ms
+step:2800/6652 val_loss:2.6463 val_bpb:3.8178 est_bpb:1.5647 train_time:274621ms step_avg:98.08ms
+step:2850/6652 train_loss:2.6416 train_time:278456ms step_avg:97.70ms
+step:2900/6652 train_loss:2.6657 train_time:282297ms step_avg:97.34ms
+step:2950/6652 train_loss:2.6675 train_time:286133ms step_avg:96.99ms
+step:3000/6652 train_loss:2.6363 train_time:289968ms step_avg:96.66ms
+step:3000/6652 val_loss:2.6187 val_bpb:3.7779 est_bpb:1.5483 train_time:290187ms step_avg:96.73ms
+step:3050/6652 train_loss:2.5439 train_time:294032ms step_avg:96.40ms
+step:3100/6652 train_loss:2.6148 train_time:298224ms step_avg:96.20ms
+step:3150/6652 train_loss:2.5663 train_time:302057ms step_avg:95.89ms
+step:3200/6652 train_loss:2.6009 train_time:305888ms step_avg:95.59ms
+step:3200/6652 val_loss:2.5937 val_bpb:3.7420 est_bpb:1.5336 train_time:306105ms step_avg:95.66ms
+step:3250/6652 train_loss:2.5873 train_time:309935ms step_avg:95.36ms
+step:3300/6652 train_loss:2.6085 train_time:313767ms step_avg:95.08ms
+step:3350/6652 train_loss:2.6770 train_time:317596ms step_avg:94.80ms
+step:3400/6652 train_loss:2.5753 train_time:321428ms step_avg:94.54ms
+step:3400/6652 val_loss:2.5850 val_bpb:3.7294 est_bpb:1.5284 train_time:321645ms step_avg:94.60ms
+step:3450/6652 train_loss:2.6232 train_time:325471ms step_avg:94.34ms
+step:3500/6652 train_loss:2.5399 train_time:329305ms step_avg:94.09ms
+step:3550/6652 train_loss:2.5382 train_time:333137ms step_avg:93.84ms
+step:3600/6652 train_loss:2.5801 train_time:336964ms step_avg:93.60ms
+step:3600/6652 val_loss:2.5629 val_bpb:3.6975 est_bpb:1.5154 train_time:337182ms step_avg:93.66ms
+step:3650/6652 train_loss:2.5886 train_time:341013ms step_avg:93.43ms
+step:3700/6652 train_loss:2.5715 train_time:344838ms step_avg:93.20ms
+step:3750/6652 train_loss:2.5622 train_time:348667ms step_avg:92.98ms
+step:3800/6652 train_loss:2.5529 train_time:352496ms step_avg:92.76ms
+step:3800/6652 val_loss:2.5505 val_bpb:3.6796 est_bpb:1.5080 train_time:352714ms step_avg:92.82ms
+step:3850/6652 train_loss:2.5438 train_time:356542ms step_avg:92.61ms
+step:3900/6652 train_loss:2.5986 train_time:360445ms step_avg:92.42ms
+step:3950/6652 train_loss:2.5702 train_time:364312ms step_avg:92.23ms
+step:4000/6652 train_loss:2.5410 train_time:368181ms step_avg:92.05ms
+step:4000/6652 val_loss:2.5379 val_bpb:3.6614 est_bpb:1.5006 train_time:368399ms step_avg:92.10ms
+step:4050/6652 train_loss:2.5595 train_time:372284ms step_avg:91.92ms
+step:4100/6652 train_loss:2.5386 train_time:376152ms step_avg:91.74ms
+step:4150/6652 train_loss:2.4298 train_time:380032ms step_avg:91.57ms
+step:4200/6652 train_loss:2.4827 train_time:383922ms step_avg:91.41ms
+step:4200/6652 val_loss:2.5262 val_bpb:3.6445 est_bpb:1.4936 train_time:384352ms step_avg:91.51ms
+step:4250/6652 train_loss:2.5405 train_time:388231ms step_avg:91.35ms
+step:4300/6652 train_loss:2.5484 train_time:392101ms step_avg:91.19ms
+step:4350/6652 train_loss:2.4827 train_time:395983ms step_avg:91.03ms
+step:4400/6652 train_loss:2.4675 train_time:399849ms step_avg:90.87ms
+step:4400/6652 val_loss:2.5104 val_bpb:3.6218 est_bpb:1.4843 train_time:400065ms step_avg:90.92ms
+step:4450/6652 train_loss:2.4926 train_time:403933ms step_avg:90.77ms
+step:4500/6652 train_loss:2.5089 train_time:407827ms step_avg:90.63ms
+step:4550/6652 train_loss:2.5015 train_time:411693ms step_avg:90.48ms
+step:4600/6652 train_loss:2.5078 train_time:415919ms step_avg:90.42ms
+step:4600/6652 val_loss:2.5102 val_bpb:3.6214 est_bpb:1.4842 train_time:416136ms step_avg:90.46ms
+step:4650/6652 train_loss:2.5209 train_time:420017ms step_avg:90.33ms
+step:4700/6652 train_loss:2.4790 train_time:423885ms step_avg:90.19ms
+step:4750/6652 train_loss:2.4991 train_time:427751ms step_avg:90.05ms
+step:4800/6652 train_loss:2.5007 train_time:431634ms step_avg:89.92ms
+step:4800/6652 val_loss:2.4971 val_bpb:3.6025 est_bpb:1.4764 train_time:431847ms step_avg:89.97ms
+step:4850/6652 train_loss:2.5201 train_time:435714ms step_avg:89.84ms
+step:4900/6652 train_loss:2.4749 train_time:439580ms step_avg:89.71ms
+step:4950/6652 train_loss:2.4810 train_time:443466ms step_avg:89.59ms
+step:5000/6652 train_loss:2.4619 train_time:447332ms step_avg:89.47ms
+step:5000/6652 val_loss:2.4851 val_bpb:3.5853 est_bpb:1.4694 train_time:447760ms step_avg:89.55ms
+step:5050/6652 train_loss:2.4520 train_time:451627ms step_avg:89.43ms
+step:5100/6652 train_loss:2.4890 train_time:455510ms step_avg:89.32ms
+step:5150/6652 train_loss:2.4227 train_time:459376ms step_avg:89.20ms
+step:5200/6652 train_loss:2.5266 train_time:463241ms step_avg:89.08ms
+step:5200/6652 val_loss:2.4833 val_bpb:3.5826 est_bpb:1.4683 train_time:463458ms step_avg:89.13ms
+step:5250/6652 train_loss:2.5109 train_time:467339ms step_avg:89.02ms
+step:5300/6652 train_loss:2.5179 train_time:471206ms step_avg:88.91ms
+step:5350/6652 train_loss:2.5262 train_time:475072ms step_avg:88.80ms
+step:5400/6652 train_loss:2.4881 train_time:478954ms step_avg:88.70ms
+step:5400/6652 val_loss:2.4820 val_bpb:3.5807 est_bpb:1.4675 train_time:479169ms step_avg:88.73ms
+step:5450/6652 train_loss:2.4434 train_time:483034ms step_avg:88.63ms
+step:5500/6652 train_loss:2.4327 train_time:486902ms step_avg:88.53ms
+step:5550/6652 train_loss:2.4115 train_time:490784ms step_avg:88.43ms
+step:5600/6652 train_loss:2.4591 train_time:494649ms step_avg:88.33ms
+step:5600/6652 val_loss:2.4751 val_bpb:3.5708 est_bpb:1.4635 train_time:494865ms step_avg:88.37ms
+step:5650/6652 train_loss:2.4178 train_time:498732ms step_avg:88.27ms
+step:5700/6652 train_loss:2.5184 train_time:502617ms step_avg:88.18ms
+step:5750/6652 train_loss:2.5329 train_time:506486ms step_avg:88.08ms
+step:5800/6652 train_loss:2.4388 train_time:510363ms step_avg:87.99ms
+step:5800/6652 val_loss:2.4706 val_bpb:3.5643 est_bpb:1.4608 train_time:510580ms step_avg:88.03ms
+step:5850/6652 train_loss:2.3956 train_time:514465ms step_avg:87.94ms
+step:5900/6652 train_loss:2.4696 train_time:518337ms step_avg:87.85ms
+step:5950/6652 train_loss:2.4395 train_time:522208ms step_avg:87.77ms
+step:6000/6652 train_loss:2.4357 train_time:526093ms step_avg:87.68ms
+step:6000/6652 val_loss:2.4624 val_bpb:3.5526 est_bpb:1.4560 train_time:526306ms step_avg:87.72ms
+step:6050/6652 train_loss:2.4417 train_time:530190ms step_avg:87.63ms
+step:6100/6652 train_loss:2.3727 train_time:534061ms step_avg:87.55ms
+step:6150/6652 train_loss:2.4610 train_time:538339ms step_avg:87.53ms
+step:6200/6652 train_loss:2.4728 train_time:542210ms step_avg:87.45ms
+step:6200/6652 val_loss:2.4590 val_bpb:3.5475 est_bpb:1.4539 train_time:542427ms step_avg:87.49ms
+step:6250/6652 train_loss:2.4487 train_time:546297ms step_avg:87.41ms
+step:6300/6652 train_loss:2.4478 train_time:550195ms step_avg:87.33ms
+step:6350/6652 train_loss:2.4534 train_time:554064ms step_avg:87.25ms
+step:6400/6652 train_loss:2.4868 train_time:557931ms step_avg:87.18ms
+step:6400/6652 val_loss:2.4592 val_bpb:3.5479 est_bpb:1.4541 train_time:558150ms step_avg:87.21ms
+step:6450/6652 train_loss:2.4497 train_time:562034ms step_avg:87.14ms
+step:6500/6652 train_loss:2.4323 train_time:565904ms step_avg:87.06ms
+step:6550/6652 train_loss:2.4779 train_time:569774ms step_avg:86.99ms
+step:6600/6652 train_loss:2.4531 train_time:573659ms step_avg:86.92ms
+step:6600/6652 val_loss:2.4648 val_bpb:3.5560 est_bpb:1.4574 train_time:573876ms step_avg:86.95ms
+step:6650/6652 train_loss:2.5227 train_time:577754ms step_avg:86.88ms
+step:6700/6652 train_loss:2.4683 train_time:581633ms step_avg:86.81ms
+step:6750/6652 train_loss:2.4895 train_time:585523ms step_avg:86.74ms
+step:6800/6652 train_loss:2.4921 train_time:589396ms step_avg:86.68ms
+step:6800/6652 val_loss:2.4600 val_bpb:3.5491 est_bpb:1.4545 train_time:589612ms step_avg:86.71ms
+step:6850/6652 train_loss:2.4732 train_time:593484ms step_avg:86.64ms
+
+Wallclock limit approaching (594s). Stopping.
+stopping_early: wallclock_cap train_time:594036ms step:6857/6652
+SWA: applying average of 201 checkpoints
+peak memory allocated: 13103 MiB reserved: 14844 MiB
+Serialized model: 27262198 bytes
+Code size: 72677 bytes
+Total submission size: 11042207 bytes
+Serialized model int8+zstd: 10969530 bytes
+Total submission size int8+zstd: 11042207 bytes
+final val_loss:2.4607 val_bpb:1.457371 eval_time:37682ms
+</pre>
+</details>
+<p><strong>An honest look at the numbers.</strong> The final bpb of 1.4574 is not competitive with the top submissions — heavily optimised transformer variants achieve significantly lower scores. There are both fundamental and technical reasons for this.</p>
+<p><strong>The fundamental reason</strong> is simple: <mark>this was a weekend project built on an architecture designed for geometry, not language</mark>. Transformer-based LMs benefit from years of engineering efforts — every component has been ablated, tuned, and hardened across thousands of experiments. IGL, by contrast, was designed as a tool to study manifold geometry, not to predict the next token. Adapting it to language modelling required improvising an entirely new architecture in a few days, with design choices based on intuition and a handful of quick experiments rather than systematic search. Many choices are likely suboptimal — I simply didn’t have time to find out which ones — and to be frank, I have never engineered and optimised a model for 8×H100 before.</p>
+<p>The technical reasons compound this:</p>
+<ol>
+<li>
+<p><strong>GPU utilisation is poor.</strong> The asymmetric encoder architecture (three different hidden widths: H=700, 256, 384) triggers <code>torch._dynamo</code> recompilation warnings across all 8 ranks — the compiler can’t fuse operations efficiently when tensor shapes vary between heads. The training log shows early steps at 393 ms/step, gradually improving to 87 ms/step after compilation stabilises, but this is still slower than optimised baselines.</p>
+</li>
+<li>
+<p><strong>The architecture is not designed for throughput.</strong> Product kernels, Nyström landmark computation, and per-head routing involve operations that don’t map cleanly to GPU matmul units. Standard attention is brutally efficient on modern hardware because it’s just matrix multiplications. MHALM trades GPU efficiency for geometric structure.</p>
+</li>
+<li>
+<p><strong>The model was still improving when time ran out.</strong> The wallclock limit hit at step 6,857 of an estimated 6,652 — and the validation loss was still decreasing (2.4607 nats at the final evaluation). More training time would help, but the architecture’s throughput disadvantage means it sees fewer tokens in the same 10-minute window.</p>
+</li>
+</ol>
+<p>Despite these limitations, MHALM shows that <mark>geometric kernels can at least produce a functioning language model within competition constraints</mark> — not competitive with optimised transformers, but a starting point for an architecture that was never designed for this task. The bpb curve shows steady improvement throughout training, and the 10.8 MB artifact leaves 5.2 MB of headroom that a more optimised version could reinvest.</p>
+<p>Key ablation results show each kernel head contributes measurably:</p>
+<table>
+<thead>
+<tr>
+<th>Head removed</th>
+<th>Loss increase (nats)</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Spherical</td>
+<td>+0.80</td>
+</tr>
+<tr>
+<td>Tucker GL</td>
+<td>+0.12</td>
+</tr>
+<tr>
+<td>Gabor</td>
+<td>+0.08</td>
+</tr>
+<tr>
+<td>Laplacian</td>
+<td>+0.06</td>
+</tr>
+<tr>
+<td>Linear</td>
+<td>+0.04</td>
+</tr>
+</tbody>
+</table>
+<p>The <strong>linear head</strong> (raw encoder output, no kernel) is surprisingly effective as a standalone component — suggesting that the encoder itself learns useful representations even without geometric structure. But the full 5-head ensemble outperforms any single head.</p>
+<hr/>
+<h3 id="what-i-learned">What I Learned<a class="headerlink" href="#what-i-learned" title="Permanent link">¶</a></h3>
+<h4 id="the-vp-trick-works-then-i-moved-beyond-it">The VP trick works — then I moved beyond it<a class="headerlink" href="#the-vp-trick-works-then-i-moved-beyond-it" title="Permanent link">¶</a></h4>
+<p>The original architecture used Variable Projection (VP). The idea: the readout matrix <span class="arithmatex">\(W\)</span> is not a learned parameter — it is computed analytically at each forward pass as <span class="arithmatex">\(W^* = (\Phi^\top\Phi + \lambda I)^{-1}\Phi^\top Y\)</span>, a ridge regression solve. The design matrix <span class="arithmatex">\(\Phi\)</span> comes from the kernel basis evaluated at the current encoder outputs. Since <span class="arithmatex">\(W^*\)</span> is recomputed from scratch every step, it never needs to be stored in the artifact — only the encoder and kernel parameters are saved. This means that a lot of effective weights did not have to be stored at all, freeing parameter budget for the parts that matter. Despite computing <span class="arithmatex">\(W^*\)</span> at runtime, this is not slow: the sufficient statistics <span class="arithmatex">\(\Sigma = \Phi^\top\Phi\)</span> and <span class="arithmatex">\(\Phi^\top Y\)</span> are accumulated incrementally via Recursive Least Squares (RLS) — each new token is a cheap rank-1 update rather than a full solve from scratch.</p>
+<p>However, VP caused problems in the LM setting. The analytical solve blocks gradient flow through <span class="arithmatex">\(W^*\)</span> into the encoder — the encoder only receives gradients through <span class="arithmatex">\(\Phi\)</span>, not through the optimal weights themselves. This creates a gradient bottleneck. Additionally, the Recursive Least Squares (RLS) accumulation used EMA statistics that assumed a stationary <span class="arithmatex">\(\Phi\)</span> geometry, but the encoder changes <span class="arithmatex">\(\Phi\)</span> every step, mixing statistics from different geometric configurations.</p>
+<p>Ultimately, I abandoned VP because it was designed for IGL’s geometric diagnosis use case, where preventing dimension collapse and discovering intrinsic dimension are the primary goals. In the competition, we don’t need dimension discovery — we need raw bpb. <strong>Learned readout matrices</strong> trained end-to-end with standard backprop beat the analytically optimal VP by 0.18 nats while being 26% faster. The encoder benefits more from seeing every token with full gradients than from having a perfect linear solve.</p>
+<h4 id="normalisation-matters-more-than-expected">Normalisation matters more than expected<a class="headerlink" href="#normalisation-matters-more-than-expected" title="Permanent link">¶</a></h4>
+<p>Applying <strong>row-sum normalisation</strong> to the Nyström kernel head improved loss by 0.20 nats — not from better expressivity but from better gradient conditioning. Small numerical details compound.</p>
+<h4 id="matryoshka-beats-hard-concrete">Matryoshka beats Hard Concrete<a class="headerlink" href="#matryoshka-beats-hard-concrete" title="Permanent link">¶</a></h4>
+<p>Hard Concrete gates — which work well for IGL on simple tabular data — showed persistent dimension collapse on more complex embeddings, regardless of the gating variant tried. This led us to replace Hard Concrete with Matryoshka truncation (random prefix sampling) in the IGL framework itself, not just for MHALM. Matryoshka is strictly better: zero collapse failures, comparable dimension discovery, simpler implementation. A dedicated article will cover the dimension collapse problem and the Matryoshka solution in detail. For the final competition submission, Matryoshka was disabled to save FLOPS — but it remains the right tool for future research on per-head effective dimension.</p>
+<hr/>
+<h3 id="whats-next">What’s Next<a class="headerlink" href="#whats-next" title="Permanent link">¶</a></h3>
+<p>MHALM is a proof of concept. The competition forced choices — fixed vocabulary, limited training time, specific data — that may not reflect the architecture’s full potential. Several research directions are open.</p>
+<h4 id="systematic-ablations-and-hyperparameter-tuning">Systematic Ablations and Hyperparameter Tuning<a class="headerlink" href="#systematic-ablations-and-hyperparameter-tuning" title="Permanent link">¶</a></h4>
+<p>Many architecture choices were made by intuition under time pressure. A proper ablation study should cover:</p>
+<ul>
+<li><strong>Head count and composition</strong>: Is 5 heads optimal? Which heads contribute most at different training stages?</li>
+<li><strong>Encoder widths</strong>: The asymmetric widths (H=700, 256, 384) were chosen heuristically. Uniform widths might improve GPU utilisation at some quality cost.</li>
+<li><strong>Dimension budgets</strong>: <span class="arithmatex">\(d_{\max}\)</span> was increased from 64 to 128 between iterations — systematic sweeps over <span class="arithmatex">\(d_{\max}\)</span>, <span class="arithmatex">\(R\)</span>, and <span class="arithmatex">\(R_s\)</span> would reveal the Pareto frontier.</li>
+<li><strong>SSM vs. attention balance</strong>: The ComplexSSM + 2×CausalSelfAttention stack was never ablated against alternatives (more SSM layers, fewer attention layers, or vice versa).</li>
+</ul>
+<h4 id="input-dependent-anchors">Input-Dependent Anchors<a class="headerlink" href="#input-dependent-anchors" title="Permanent link">¶</a></h4>
+<p>The most important architectural opportunity. Currently, the Gabor and Laplacian kernel bases use <strong>fixed learned anchors</strong> <span class="arithmatex">\(\mu \in \mathbb{R}^{R \times d_{\text{eff}}}\)</span> — the same for every token, every sequence, every document. The kernel <span class="arithmatex">\(\phi(z_t)\)</span> measures how close token <span class="arithmatex">\(t\)</span>‘s encoder output is to each fixed anchor.</p>
+<p>This was a constraint inherited from the original VP architecture, where <span class="arithmatex">\(W^*\)</span> was solved analytically and required a fixed design matrix <span class="arithmatex">\(\Phi\)</span>. With learned readout matrices (V1), this constraint no longer exists — the gradient flows through whatever computation produced <span class="arithmatex">\(\Phi\)</span>.</p>
+<p>Two strategies of increasing expressivity:</p>
+<p><strong>Per-token prototype attention</strong> (moderate). Learn <span class="arithmatex">\(R_{\text{proto}}\)</span> anchor prototypes and compute per-sequence anchor positions as a soft mixture weighted by the current document’s content. Cost is O(T×R).</p>
+<p><strong>Full dynamic anchors via cross-attention</strong> (most expressive). Replace fixed anchors with a cross-attention mechanism: <span class="arithmatex">\(R\)</span> learnable query vectors attend to the sequence to produce data-dependent anchor positions. Each anchor becomes a soft average of sequence positions, weighted by similarity to its learned query. This is structurally equivalent to cross-attention between <span class="arithmatex">\(R\)</span> learnable queries and the sequence, followed by RBF kernel evaluation — a hybrid between attention and kernel methods at O(T×R) cost rather than O(T²).</p>
+<p>The theoretical connection is precise: dynamic anchors make the coordinate charts <strong>domain-adaptive</strong>. For a document about marine biology, the anchors concentrate where ocean-related tokens cluster in encoder space. This is the atlas concept made literal — the kernel basis shifts to place its anchor density where the current document’s tokens concentrate in manifold space.</p>
+<h4 id="broader-directions">Broader Directions<a class="headerlink" href="#broader-directions" title="Permanent link">¶</a></h4>
+<ul>
+<li><strong>Scaling</strong>: Can multi-kernel readouts compete with attention at larger scales?</li>
+<li><strong>Task-conditioned dimension</strong>: Each head discovers a different <span class="arithmatex">\(d_{\text{eff}}\)</span> — what do these dimensions mean linguistically?</li>
+<li><strong>Metric recovery</strong>: Can we recover the Riemannian metric of the token manifold from the learned charts?</li>
+</ul>
+<p>These are the subjects of upcoming articles. The <a href="2026-03-21-intrinsic-greens-learning.html">IGL article</a> covers the foundational theory; this post shows the first step toward applying it to the most demanding setting in modern ML.</p>
+                </div>
+                
+                <!-- Mermaid Script -->
+                <script type="module">
+                    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+                    
+                    // Configure and initialize mermaid
+                    const initMermaid = async () => {
+                        try {
+                            await mermaid.initialize({ 
+                                startOnLoad: true,
+                                theme: document.documentElement.classList.contains('dark') ? 'dark' : 'default',
+                                securityLevel: 'loose',
+                                flowchart: {
+                                    useMaxWidth: false,
+                                    htmlLabels: true,
+                                    curve: 'basis',
+                                    padding: 20,
+                                    nodeSpacing: 50,
+                                    rankSpacing: 50
+                                },
+                                themeVariables: {
+                                    primaryColor: '#D97706',
+                                    primaryTextColor: '#2A2927',
+                                    primaryBorderColor: '#D97706',
+                                    lineColor: '#78716c',
+                                    secondaryColor: '#f5f5f4',
+                                    tertiaryColor: '#fafaf9',
+                                    background: '#ffffff',
+                                    mainBkg: '#ffffff',
+                                    secondBkg: '#f5f5f4',
+                                    tertiaryBkg: '#fafaf9'
+                                }
+                            });
+                            
+                            // Log any mermaid elements found
+                            const elements = document.querySelectorAll('.mermaid');
+                            console.log(`Mermaid initialized. Found ${elements.length} diagram(s)`);
+                            
+                            // Force render if elements exist
+                            if (elements.length > 0) {
+                                mermaid.contentLoaded();
+                            }
+                        } catch (error) {
+                            console.error('Mermaid initialization error:', error);
+                        }
+                    };
+                    
+                    // Initialize when DOM is ready
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', initMermaid);
+                    } else {
+                        // DOM already loaded
+                        await initMermaid();
+                    }
+                </script>
+            </article>
+
+            <!-- Giscus Comments Section -->
+            <div class="mt-16 pt-8 border-t border-stone-200 dark:border-stone-700">
+                <script src="https://giscus.app/client.js"
+                    data-repo="aquemy/aquemy.github.io"
+                    data-repo-id="MDEwOlJlcG9zaXRvcnkzMTM5NTY4OTU="
+                    data-category="Ideas"
+                    data-category-id="DIC_kwDOEraaH84CdPT4"
+                    data-mapping="pathname"
+                    data-strict="0"
+                    data-reactions-enabled="1"
+                    data-emit-metadata="1"
+                    data-input-position="top"
+                    data-theme="preferred_color_scheme"
+                    data-lang="en"
+                    data-loading="lazy"
+                    crossorigin="anonymous"
+                    async>
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+
+        </main>
+        <footer class="w-full max-w-4xl mx-auto text-center py-8 px-4 mt-6 border-t border-black/10 dark:border-white/10">
+    <div class="flex justify-center space-x-6 mb-4">
+        
+        <a href="mailto:alexandre@quemy.info" title="Email" class="footer-icon"><i class="fas fa-envelope"></i></a>
+        
+        
+        <a href="https://linkedin.com/in/aquemy" title="LinkedIn" target="_blank" class="footer-icon"><i class="fab fa-linkedin"></i></a>
+        
+        
+        <a href="http://github.com/aquemy" title="GitHub" target="_blank" class="footer-icon"><i class="fab fa-github"></i></a>
+        
+        
+        <a href="https://twitter.com/@alexandre_quemy" title="Twitter" target="_blank" class="footer-icon"><i class="fab fa-twitter"></i></a>
+        
+        <a href="https://orcid.org/0000-0002-5865-6403" title="ORCID" target="_blank" class="footer-icon"><i class="fab fa-orcid"></i></a>
+    </div>
+    <p class="text-xs text-stone-500 dark:text-stone-400">
+        © <span id="current-year"></span> Alexandre Quemy. All rights reserved.
+    </p>
+</footer> <!-- This is the footer -->
+    </div>
+    
+
+    <!-- Custom JavaScript -->
+    <script src="https://quemy.info/js/main.js"></script>
+
+    
+</body>
+</html>
