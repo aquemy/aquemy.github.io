@@ -144,6 +144,7 @@
 </ul>
 </div>
 <h3 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">¶</a></h3>
+<p><em>The code and training logs for this submission are available in the <a href="https://github.com/openai/parameter-golf/pull/2145">Parameter Golf PR #2145</a>.</em></p>
 <p>This is a follow-up to the <a href="2026-03-22-mhalm-parameter-golf.html">original MHALM blog post</a>. If you haven’t read that one, the short version is: MHALM is an experimental language model architecture that replaces the transformer’s attention + MLP blocks with <a href="2026-03-21-intrinsic-greens-learning.html">IGL’s</a> kernel-based readout on learned Stäckel coordinates.</p>
 <p>The bet is simple: token embeddings live on a low-dimensional manifold (<a href="https://www.ams.org/journals/bull/2016-53-01/S0273-0979-2015-01515-0/">Fefferman et al., 2016</a>), and standard transformers (<a href="https://arxiv.org/abs/1706.03762">Vaswani et al., 2017</a>) ignore this structure — they compute dense <span class="arithmatex">\(O(T^2)\)</span> attention over the full head dimension <span class="arithmatex">\(d_h\)</span>. If you can find nonlinear coordinates where the attention kernel separates into a product of 1D kernels, three things follow:</p>
 <ol>
