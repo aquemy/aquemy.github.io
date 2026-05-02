@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8">
+<style>
+  body {
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: transparent;
+  }
+  .diagram {
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 16px;
+  }
+  svg text {
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+  }
+</style>
+</head>
+<body>
+<div class="diagram">
+<svg viewBox="0 0 640 540" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <marker id="arrowDown" viewBox="0 0 10 10" refX="5" refY="10"
+            markerWidth="8" markerHeight="8" orient="auto">
+      <path d="M 0 0 L 5 10 L 10 0 z" fill="#475569"/>
+    </marker>
+    <marker id="arrowLeft" viewBox="0 0 10 10" refX="0" refY="5"
+            markerWidth="8" markerHeight="8">
+      <path d="M 10 0 L 0 5 L 10 10 z" fill="#ca8a04"/>
+    </marker>
+    <linearGradient id="blockGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#e0f2fe"/>
+      <stop offset="100%" stop-color="#bae6fd"/>
+    </linearGradient>
+    <linearGradient id="embedGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#fef3c7"/>
+      <stop offset="100%" stop-color="#fde68a"/>
+    </linearGradient>
+    <linearGradient id="outGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0%" stop-color="#dcfce7"/>
+      <stop offset="100%" stop-color="#bbf7d0"/>
+    </linearGradient>
+  </defs>
+
+  <!-- Title -->
+  <text x="280" y="26" text-anchor="middle" font-size="15" font-weight="700" fill="#1e293b">MHALM V2 &#8212; Overall Architecture</text>
+
+  <!-- Tokens -->
+  <rect x="195" y="42" width="170" height="32" rx="6" fill="#f1f5f9" stroke="#94a3b8" stroke-width="1.5"/>
+  <text x="280" y="63" text-anchor="middle" font-size="12" font-weight="600" fill="#334155">Tokens (V = 1024)</text>
+
+  <!-- Arrow: down -->
+  <polyline points="280,74 280,88 275,83 280,94 285,83 280,88" fill="#475569" stroke="none"/>
+  <line x1="280" y1="74" x2="280" y2="88" stroke="#475569" stroke-width="1.5"/>
+  <!-- Simple triangle arrowhead -->
+  <polygon points="273,86 280,96 287,86" fill="#475569"/>
+
+  <!-- Embedding -->
+  <rect x="80" y="98" width="400" height="46" rx="8" fill="url(#embedGrad)" stroke="#d97706" stroke-width="1.5"/>
+  <text x="280" y="118" text-anchor="middle" font-size="11.5" font-weight="600" fill="#92400e">Embedding (512-d) + BigramHash (160-d) + SmearGate</text>
+  <text x="280" y="134" text-anchor="middle" font-size="10" fill="#78350f">Tied weights &#183; Crushed init (&#963;=0.005) &#183; lr=0.05</text>
+
+  <!-- Arrow -->
+  <line x1="280" y1="144" x2="280" y2="156" stroke="#475569" stroke-width="1.5"/>
+  <polygon points="273,154 280,164 287,154" fill="#475569"/>
+
+  <!-- RMSNorm -->
+  <rect x="210" y="166" width="140" height="28" rx="6" fill="#f8fafc" stroke="#94a3b8" stroke-width="1"/>
+  <text x="280" y="185" text-anchor="middle" font-size="11" fill="#475569">RMSNorm</text>
+
+  <!-- Arrow -->
+  <line x1="280" y1="194" x2="280" y2="206" stroke="#475569" stroke-width="1.5"/>
+  <polygon points="273,204 280,214 287,204" fill="#475569"/>
+
+  <!-- Block 0 -->
+  <rect x="80" y="216" width="400" height="54" rx="10" fill="url(#blockGrad)" stroke="#0284c7" stroke-width="2"/>
+  <text x="280" y="238" text-anchor="middle" font-size="13" font-weight="700" fill="#0c4a6e">HybridAtlasBlock 0</text>
+  <text x="280" y="256" text-anchor="middle" font-size="10" fill="#0369a1">3 Encoders &#8594; Temporal (SSM &#8214; Attn) &#215; 2 &#8594; 5 Kernel Heads &#8594; Readout</text>
+
+  <!-- Arrow -->
+  <line x1="280" y1="270" x2="280" y2="282" stroke="#475569" stroke-width="1.5"/>
+  <polygon points="273,280 280,290 287,280" fill="#475569"/>
+
+  <!-- Block 1 -->
+  <rect x="80" y="292" width="400" height="54" rx="10" fill="url(#blockGrad)" stroke="#0284c7" stroke-width="2"/>
+  <text x="280" y="314" text-anchor="middle" font-size="13" font-weight="700" fill="#0c4a6e">HybridAtlasBlock 1</text>
+  <text x="280" y="332" text-anchor="middle" font-size="10" fill="#0369a1">3 Encoders &#8594; Temporal (SSM &#8214; Attn) &#215; 2 &#8594; 5 Kernel Heads &#8594; Readout</text>
+
+  <!-- U-Net skip: right-side bracket Block 0 to Block 1 -->
+  <line x1="480" y1="243" x2="510" y2="243" stroke="#ca8a04" stroke-width="2" stroke-dasharray="6,4"/>
+  <line x1="510" y1="243" x2="510" y2="319" stroke="#ca8a04" stroke-width="2" stroke-dasharray="6,4"/>
+  <line x1="510" y1="319" x2="486" y2="319" stroke="#ca8a04" stroke-width="2" stroke-dasharray="6,4"/>
+  <!-- Left-pointing arrowhead for skip -->
+  <polygon points="486,313 476,319 486,325" fill="#ca8a04"/>
+  <text x="522" y="276" font-size="10" font-weight="600" fill="#854d0e">U-Net</text>
+  <text x="522" y="289" font-size="10" fill="#854d0e">Skip</text>
+
+  <!-- Arrow -->
+  <line x1="280" y1="346" x2="280" y2="358" stroke="#475569" stroke-width="1.5"/>
+  <polygon points="273,356 280,366 287,356" fill="#475569"/>
+
+  <!-- Output -->
+  <rect x="120" y="368" width="320" height="44" rx="8" fill="url(#outGrad)" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="280" y="387" text-anchor="middle" font-size="11.5" font-weight="600" fill="#14532d">W_out &#8594; Logits (1024)</text>
+  <text x="280" y="403" text-anchor="middle" font-size="10" fill="#166534">soft_cap(30.0) &#183; temporal + spatial paths</text>
+
+  <!-- Arrow -->
+  <line x1="280" y1="412" x2="280" y2="424" stroke="#475569" stroke-width="1.5"/>
+  <polygon points="273,422 280,432 287,422" fill="#475569"/>
+
+  <!-- Loss -->
+  <rect x="200" y="434" width="160" height="30" rx="6" fill="#fce7f3" stroke="#db2777" stroke-width="1.5"/>
+  <text x="280" y="454" text-anchor="middle" font-size="11" font-weight="600" fill="#9d174d">Cross-Entropy Loss</text>
+
+  <!-- Parameter summary -->
+  <rect x="40" y="484" width="560" height="50" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1"/>
+  <text x="320" y="505" text-anchor="middle" font-size="11" font-weight="600" fill="#334155">18.3M params &#183; 13.0 MB artifact (int8 + zstd-22) &#183; 2 blocks &#183; 5 kernel heads</text>
+  <text x="320" y="523" text-anchor="middle" font-size="10" fill="#64748b">Muon (2D matrices) + AdamW (scalars, gates) &#183; Stiefel enforcement every step</text>
+</svg>
+</div>
+</body>
+</html>

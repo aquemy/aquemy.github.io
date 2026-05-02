@@ -1,0 +1,1178 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PWL24785Z6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-PWL24785Z6');
+    </script>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Alexandre Quemy" />
+    <meta name="description" content="Personal website of Alexandre Quemy, Tech Staff and Researcher in AI." />
+    <title>Alexandre Quemy - Blog - MHALM: Attention Through Geometry</title>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Source Sans Pro', 'sans-serif'],
+              serif: ['Lora', 'serif'],
+            },
+            colors: {
+              paper: '#F8F6F1',
+              ink: '#2A2927',
+              accent: {
+                light: '#D97706', // amber-600
+                dark: '#FBBF24'   // amber-400
+              },
+              'dark-bg': '#192231',
+              'dark-ink': '#E2E0DB',
+            }
+          }
+        }
+      }
+    </script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Source+Sans+Pro:wght@400;600;700&family=Roboto+Mono&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX for Math Rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, { delimiters: [ {left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}, {left: '\\(', right: '\\)', display: false}, {left: '\\[', right: '\\]', display: true} ]});"></script>
+    
+    <!-- Custom Styles and Theming -->
+    <link rel="stylesheet" href="https://quemy.info/css/custom.css">
+    <link rel="stylesheet" href="https://quemy.info/css/friendly.css">
+
+    <script>
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+</head>
+<body class="bg-paper dark:bg-dark-bg text-ink dark:text-dark-ink font-sans transition-colors duration-500 antialiased">
+    
+    <!-- Background Animation Layer (only populated on index.html) -->
+    <div class="fixed inset-0 z-0">
+        
+    </div>
+
+    <!-- Main Content Layer -->
+    <div class="relative z-10">
+        <nav class="w-full max-w-4xl mx-auto py-6 px-4 flex justify-between items-center">
+    <a href="./index.html" class="font-serif text-xl font-bold hover:text-accent-light dark:hover:text-accent-dark transition-colors">
+        Alexandre Quemy
+    </a>
+    <div class="flex items-center space-x-6">
+        <div class="hidden md:flex items-center space-x-6 text-sm font-semibold tracking-wider uppercase">
+            <a href="./research.html" class="nav-link" data-page="research">Research</a>
+            <a href="./cv.html" class="nav-link" data-page="cv">CV</a>
+            <a href="./blog.html" class="nav-link" data-page="blog">Blog</a>
+        </div>
+        <button id="theme-toggle" class="w-8 h-8 flex items-center justify-center rounded-full text-ink dark:text-dark-ink hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+             <i id="theme-toggle-dark-icon" class="fas fa-moon hidden"></i>
+             <i id="theme-toggle-light-icon" class="fas fa-sun hidden"></i>
+        </button>
+        <button id="mobile-menu-button" class="md:hidden text-2xl">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div id="mobile-menu" class="hidden md:hidden fixed inset-0 bg-paper/80 dark:bg-dark-bg/80 backdrop-blur-sm z-50">
+    <div class="flex justify-end p-4">
+        <button id="mobile-menu-close" class="text-3xl">×</button>
+    </div>
+    <div class="flex flex-col items-center justify-center h-full space-y-8 text-2xl font-semibold tracking-wider uppercase">
+        <a href="./index.html" class="nav-link" data-page="index">Home</a>
+        <a href="./research.html" class="nav-link" data-page="research">Research</a>
+        <a href="./cv.html" class="nav-link" data-page="cv">CV</a>
+        <a href="./blog.html" class="nav-link" data-page="blog">Blog</a>
+    </div>
+</div>
+        <main>  <!-- class="fade-in"> -->
+            
+<div class="w-full max-w-7xl mx-auto py-12 px-4">
+    <!-- Header moved outside the grid for proper alignment -->
+    <header class="max-w-5xl mx-auto mb-12 text-center lg:text-left">
+        <a href="https://quemy.info/blog.html" class="text-sm text-accent-light dark:text-accent-dark hover:underline mb-4 inline-block">← Back to all posts</a>
+        <h1 class="font-sans text-4xl md:text-5xl font-black text-ink dark:text-dark-ink leading-tight">MHALM: Attention Through Geometry</h1>
+        <p class="mt-4 text-stone-500 dark:text-stone-400">2026-04-29 · Machine Learning</p>
+    </header>
+
+    <div class="lg:grid lg:grid-cols-5 lg:gap-16">
+        <!-- Sticky Sidebar for Table of Contents (now wider) -->
+        <aside class="hidden lg:block lg:col-span-1">
+            <div class="sticky top-24">
+                <h3 class="font-semibold text-sm uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-4">ON THIS PAGE</h3>
+                <div id="toc-sidebar">
+                    <!-- ToC will be moved here by JavaScript -->
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Main Article Content -->
+        <div class="lg:col-span-4">
+            <article class="fade-in">
+                <div id="prose-content" class="prose lg:prose-lg dark:prose-invert max-w-none">
+                    <div class="toc">
+<ul>
+<li><a href="#introduction">Introduction</a></li>
+<li><a href="#from-v1-to-v2">From V1 to V2</a></li>
+<li><a href="#the-v2-architecture">The V2 architecture</a></li>
+<li><a href="#ablation-results">Ablation results</a></li>
+<li><a href="#putting-the-numbers-in-context">Putting the numbers in context</a></li>
+<li><a href="#what-comes-next">What comes next</a></li>
+<li><a href="#conclusion">Conclusion</a></li>
+</ul>
+</div>
+<h3 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">¶</a></h3>
+<p>This is a follow-up to the <a href="2026-03-22-mhalm-parameter-golf.html">original MHALM blog post</a>. If you haven’t read that one, the short version is: MHALM is an experimental language model architecture that replaces the transformer’s attention + MLP blocks with IGL’s kernel-based readout on learned Stäckel coordinates.</p>
+<p>The bet is simple: token embeddings live on a low-dimensional manifold (<a href="https://www.ams.org/journals/bull/2016-53-01/S0273-0979-2015-01515-0/">Fefferman et al., 2016</a>), and standard transformers (<a href="https://arxiv.org/abs/1706.03762">Vaswani et al., 2017</a>) ignore this structure — they compute dense <span class="arithmatex">\(O(T^2)\)</span> attention over the full head dimension <span class="arithmatex">\(d_h\)</span>. If you can find nonlinear coordinates where the attention kernel separates into a product of 1D kernels, three things follow:</p>
+<ol>
+<li><strong>Parameter efficiency</strong> — the readout stores 1D basis functions instead of <span class="arithmatex">\(R \times V\)</span> weight matrices, saving massive parameter count at large vocabularies. In the competition I operated at <span class="arithmatex">\(V = 1024\)</span> where this advantage is negligible, but at <span class="arithmatex">\(V = 50\text{K}\)</span>+ it becomes significant.</li>
+<li><strong>Linear-time spatial readout</strong> — the kernel heads evaluate at <span class="arithmatex">\(O(T \cdot R)\)</span> instead of <span class="arithmatex">\(O(T^2)\)</span>, because the factorised kernel enables per-axis precomputation. V2’s temporal path still uses standard <span class="arithmatex">\(O(T^2)\)</span> attention alongside the SSM, but the spatial path is already linear in <span class="arithmatex">\(T\)</span>.</li>
+<li><strong>Geometric inductive bias</strong> — the Stäckel constraint and Stiefel enforcement give the model a structured prior on the manifold. V2 demonstrates this concretely: Weyl spectral init and z-space processing both produced measurable gains.</li>
+</ol>
+<p>In March I entered MHALM V1 into the <a href="https://parameter-golf.com">Parameter Golf</a> competition and got 1.46 bpb — far from the 1.23 bpb of the heavily optimised transformer baseline. Since then I’ve run 45+ ablations, combining architectural changes (processing in Stäckel coordinates, Weyl spectral initialisation) with engineering fixes (Stiefel enforcement, cuFFT SSM, Muon routing) to reach <strong>1.35 bpb</strong> — closing 47% of the gap to the transformer. Perhaps the most telling result: when given the freedom to balance the spatial (geometric) and temporal (SSM + attention) paths, the model consistently upweights the geometric one — the token manifold’s structure carries genuine predictive signal.</p>
+<p>The remaining gap is likely a mix of hardware disadvantage and format mismatch. MHALM’s kernel operations (<code>exp</code>, <code>cos</code>, <code>sqrt</code>) run on CUDA ALUs at ~60 TFLOPS while the transformer’s matmuls hit H100 Tensor Cores at ~989 TFLOPS — a 15× hardware penalty that translates directly into fewer tokens seen per wallclock. The 10-minute speedrun format of Parameter Golf amplifies this: it measures <em>which architecture learns faster per H100-second</em>, not which learns better. At iso-tokens the gap narrows (+0.27 → +0.11 val_loss), which is consistent with higher data efficiency per token — but at this stage it is not possible to extrapolate whether the gap would close at convergence. A proper comparison would require iso-token evaluation on converged models, or at minimum a setting where MHALM’s advantages — larger vocabularies where the VP trick saves parameters, longer sequences where separable kernels scale — actually come into play.</p>
+<p>Regardless of these future considerations, here’s what I learned.</p>
+<h3 id="from-v1-to-v2">From V1 to V2<a class="headerlink" href="#from-v1-to-v2" title="Permanent link">¶</a></h3>
+<p>V1 had the right ingredients — three chart encoders, multi-kernel readout, SSM + attention — but several implementation choices limited it. The temporal processing (SSM and attention) operated on the 1024-dim vocabulary logits rather than the encoded Stäckel coordinates, meaning the attention’s QK dot product had no geometric meaning. The Stiefel enforcement used <code>torch.linalg.matrix_norm(ord=2)</code>, which silently triggered cuSOLVER host-device synchronisation and crushed throughput. The SSM used a Python-level parallel scan instead of cuFFT. And the SSM eigenvalues were initialised randomly instead of from the Weyl-law spectrum of the Stäckel metric.</p>
+<p>V2 fixes all of these: temporal processing moves to the encoded <span class="arithmatex">\(z\)</span>-space, Stiefel enforcement uses power-iteration (no host-device sync), the SSM uses cuFFT causal convolution, and eigenvalues are initialised from Weyl’s law. The result is the same architecture with better-grounded design choices — and −0.107 bpb to show for it.</p>
+<table>
+<thead>
+<tr>
+<th>Version</th>
+<th style="text-align: center;">val_bpb</th>
+<th style="text-align: center;">Hardware</th>
+<th style="text-align: center;">Tokens seen</th>
+<th style="text-align: center;">Artifact</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>V1 (March)</td>
+<td style="text-align: center;">1.4574</td>
+<td style="text-align: center;">8×H100</td>
+<td style="text-align: center;">3.59B</td>
+<td style="text-align: center;">11.0 MB</td>
+</tr>
+<tr>
+<td><strong>V2 (April, best)</strong></td>
+<td style="text-align: center;"><strong>1.3477</strong></td>
+<td style="text-align: center;"><strong>8×H100</strong></td>
+<td style="text-align: center;"><strong>3.19B</strong></td>
+<td style="text-align: center;"><strong>13.0 MB</strong></td>
+</tr>
+<tr>
+<td>Transformer baseline</td>
+<td style="text-align: center;"><strong>1.2268</strong></td>
+<td style="text-align: center;">8×H100</td>
+<td style="text-align: center;">7.19B</td>
+<td style="text-align: center;">—</td>
+</tr>
+</tbody>
+</table>
+<p><strong>−0.107 bpb</strong> from V1 to V2. V2 closed about 47% of the V1→transformer gap.</p>
+<figure style="margin:2em 0;">
+<div class="igl-widget" id="igl-fig-4" style="border-radius:12px; border:1px solid #e2e8f0; overflow:hidden; padding:28px 20px 22px;">
+<style>#igl-fig-4 {  margin: 0; padding: 0; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; background: transparent;  }
+#igl-fig-4 .diagram {  max-width: 820px; margin: 0 auto; padding: 16px;  }
+#igl-fig-4 svg text {  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;  }</style>
+
+<div class="diagram">
+<svg viewbox="0 0 830 320" xmlns="http://www.w3.org/2000/svg">
+<text fill="#1e293b" font-size="14" font-weight="700" text-anchor="middle" x="415.0" y="22">Training Curves: MHALM V2 vs Transformer Baseline (8×H100)</text>
+<rect fill="#f8fafc" height="20" rx="4" stroke="#e2e8f0" stroke-width="1" width="170" x="330" y="32"></rect>
+<line stroke="#3b82f6" stroke-width="2.5" x1="340" x2="358" y1="42" y2="42"></line>
+<text fill="#334155" font-size="10" x="362" y="46">MHALM V2</text>
+<line stroke="#ef4444" stroke-width="2.5" x1="420" x2="438" y1="42" y2="42"></line>
+<text fill="#334155" font-size="10" x="442" y="46">Transformer</text>
+<rect fill="#fafafa" height="180" rx="4" stroke="#e2e8f0" stroke-width="1" width="220" x="55" y="75"></rect>
+<text fill="#334155" font-size="10.5" font-weight="600" text-anchor="middle" x="165.0" y="65">val_loss vs Wallclock Time</text>
+<line stroke="#e2e8f0" stroke-width="0.5" x1="55" x2="275" y1="255.0" y2="255.0"></line>
+<text fill="#94a3b8" font-size="8" text-anchor="end" x="50" y="258.0">2.0</text>
+<line stroke="#e2e8f0" stroke-width="0.5" x1="55" x2="275" y1="195.0" y2="195.0"></line>
+<text fill="#94a3b8" font-size="8" text-anchor="end" x="50" y="198.0">2.4</text>
+<line stroke="#e2e8f0" stroke-width="0.5" x1="55" x2="275" y1="135.0" y2="135.0"></line>
+<text fill="#94a3b8" font-size="8" text-anchor="end" x="50" y="138.0">2.8</text>
+<line stroke="#e2e8f0" stroke-width="0.5" x1="55" x2="275" y1="75.0" y2="75.0"></line>
+<text fill="#94a3b8" font-size="8" text-anchor="end" x="50" y="78.0">3.2</text>
+<line stroke="#e2e8f0" stroke-width="0.5" x1="55.0" x2="55.0" y1="75" y2="255"></line>
+<text fill="#94a3b8" font-size="8" text-anchor="middle" x="55.0" y="267">0</text>
+<line stroke="#e2e8f0" stroke-width="0.5" x1="110.0" x2="110.0" y1="75" y2="255"></line>
+<text fill="#94a3b8" font-size="8" text-anchor="middle" x="110.0" y="267">150</text>
+<line stroke="#e2e8f0" stroke-width="0.5" x1="165.0" x2="165.0" y1="75" y2="255"></line>
+<text fill="#94a3b8" font-size="8" text-anchor="middle" x="165.0" y="267">300</text>
+<line stroke="#e2e8f0" stroke-width="0.5" x1="220.0" x2="220.0" y1="75" y2="255"></line>
+<text fill="#94a3b8" font-size="8" text-anchor="middle" x="220.0" y="267">450</text>
+<line stroke="#e2e8f0" stroke-width="0.5" x1="275.0" x2="275.0" y1="75" y2="255"></line>
+<text fill="#94a3b8" font-size="8" text-anchor="middle" x="275.0" y="267">600</text>
+<text fill="#64748b" font-size="9" text-anchor="middle" x="165.0" y="281">Time (seconds)</text>
+<text fill="#64748b" font-size="9" text-anchor="middle" transform="rotate(-90,20,165.0)" x="20" y="165.0">val_loss</text>
+<polyline fill="none" points="58.2,129.0 61.4,170.4 64.6,187.3 67.8,197.7 71.1,204.6 74.2,209.5 77.5,212.7 80.7,215.0 83.9,217.4 87.2,219.6 90.4,220.9 93.6,222.5 96.8,221.8 100.1,224.8 103.3,225.8 106.5,226.7 109.7,227.1 112.9,228.3 116.1,228.8 119.3,229.5 122.6,230.1 125.8,230.1 129.0,230.8 132.2,231.4 135.4,232.1 138.6,232.0 141.8,232.6 145.0,232.6 148.2,233.0 151.4,233.6 154.6,233.7 157.9,234.2 161.0,234.6 164.2,234.9 167.5,235.1 170.6,235.3 173.8,235.7 177.1,235.8 180.3,236.3 183.4,236.6 186.7,236.8 189.9,236.8 193.1,237.3 196.3,237.3 199.5,237.4 202.7,237.6 205.9,237.9 209.1,238.0 212.3,238.1 215.5,238.1 218.7,238.6 221.9,238.6 225.1,238.7 228.3,238.9 231.5,239.1 234.7,239.2 237.9,239.2 241.1,239.3 244.3,239.7 247.5,239.8 250.8,239.9 254.0,239.9 257.2,240.1 260.4,241.3 263.6,242.4 266.8,243.7 270.0,244.7 273.2,245.7 275.0,246.1" stroke="#ef4444" stroke-linejoin="round" stroke-width="2.5"></polyline>
+<polyline fill="none" points="64.6,92.2 71.6,138.3 78.6,153.6 85.7,162.4 92.7,168.5 99.7,171.8 106.7,172.0 113.8,173.6 120.9,178.1 127.9,181.3 134.9,185.4 141.9,187.7 148.9,191.4 155.9,192.8 162.9,196.1 170.1,197.9 177.1,199.6 184.1,201.3 191.3,203.0 198.4,204.6 205.5,205.7 212.6,208.3 219.9,209.5 227.0,212.5 234.1,212.1 241.2,213.0 248.3,213.4 255.4,215.6 262.5,215.8 269.6,216.4" stroke="#3b82f6" stroke-linejoin="round" stroke-width="2.5"></polyline>
+<rect fill="#fafafa" height="180" rx="4" stroke="#e2e8f0" stroke-width="1" width="220" x="310" y="75"></rect>
+<text fill="#334155" font-size="10.5" font-weight="600" text-anchor="middle" x="420.0" y="65">val_loss vs Tokens Seen</text>
+<line stroke="#e2e8f0" stroke-width="0.5" x1="310" x2="530" y1="255.0" y2="255.0"></line>
+<text fill="#94a3b8" font-size="8" text-anchor="end" x="305" y="258.0">2.0</text>
+<line stroke="#e2e8f0" stroke-width="0.5" x1="310" x2="530" y1="195.0" y2="195.0"></line>
+<text fill="#94a3b8" font-size="8" text-anchor="end" x="305" y="198.0">2.4</text>
+<line stroke="#e2e8f0" stroke-width="0.5" x1="310" x2="530" y1="135.0" y2="135.0"></line>
+<text fill="#94a3b8" font-size="8" text-anchor="end" x="305" y="138.0">2.8</text>
+<line stroke="#e2e8f0" stroke-width="0.5" x1="310" x2="530" y1="75.0" y2="75.0"></line>
+<text fill="#94a3b8" font-size="8" text-anchor="end" x="305" y="78.0">3.2</text>
+<line stroke="#e2e8f0" stroke-width="0.5" x1="310.0" x2="310.0" y1="75" y2="255"></line>
+<text fill="#94a3b8" font-size="8" text-anchor="middle" x="310.0" y="267">0</text>
+<line stroke="#e2e8f0" stroke-width="0.5" x1="354.0" x2="354.0" y1="75" y2="255"></line>
+<text fill="#94a3b8" font-size="8" text-anchor="middle" x="354.0" y="267">1.5</text>
+<line stroke="#e2e8f0" stroke-width="0.5" x1="398.0" x2="398.0" y1="75" y2="255"></line>
+<text fill="#94a3b8" font-size="8" text-anchor="middle" x="398.0" y="267">3</text>
+<line stroke="#e2e8f0" stroke-width="0.5" x1="442.0" x2="442.0" y1="75" y2="255"></line>
+<text fill="#94a3b8" font-size="8" text-anchor="middle" x="442.0" y="267">4.5</text>
+<line stroke="#e2e8f0" stroke-width="0.5" x1="486.0" x2="486.0" y1="75" y2="255"></line>
+<text fill="#94a3b8" font-size="8" text-anchor="middle" x="486.0" y="267">6</text>
+<line stroke="#e2e8f0" stroke-width="0.5" x1="530.0" x2="530.0" y1="75" y2="255"></line>
+<text fill="#94a3b8" font-size="8" text-anchor="middle" x="530.0" y="267">7.5</text>
+<text fill="#64748b" font-size="9" text-anchor="middle" x="420.0" y="281">Tokens (billions)</text>
+<polyline fill="none" points="313.1,129.0 316.2,170.4 319.2,187.3 322.3,197.7 325.4,204.6 328.5,209.5 331.5,212.7 334.6,215.0 337.7,217.4 340.8,219.6 343.8,220.9 346.9,222.5 350.0,221.8 353.1,224.8 356.1,225.8 359.2,226.7 362.3,227.1 365.4,228.3 368.4,228.8 371.5,229.5 374.6,230.1 377.7,230.1 380.7,230.8 383.8,231.4 386.9,232.1 390.0,232.0 393.0,232.6 396.1,232.6 399.2,233.0 402.3,233.6 405.4,233.7 408.4,234.2 411.5,234.6 414.6,234.9 417.7,235.1 420.7,235.3 423.8,235.7 426.9,235.8 430.0,236.3 433.0,236.6 436.1,236.8 439.2,236.8 442.3,237.3 445.3,237.3 448.4,237.4 451.5,237.6 454.6,237.9 457.6,238.0 460.7,238.1 463.8,238.1 466.9,238.6 469.9,238.6 473.0,238.7 476.1,238.9 479.2,239.1 482.2,239.2 485.3,239.2 488.4,239.3 491.5,239.7 494.6,239.8 497.6,239.9 500.7,239.9 503.8,240.1 506.9,241.3 509.9,242.4 513.0,243.7 516.1,244.7 519.2,245.7 520.9,246.1" stroke="#ef4444" stroke-linejoin="round" stroke-width="2.5"></polyline>
+<polyline fill="none" points="313.1,92.2 316.2,138.3 319.2,153.6 322.3,162.4 325.4,168.5 328.5,171.8 331.5,172.0 334.6,173.6 337.7,178.1 340.8,181.3 343.8,185.4 346.9,187.7 350.0,191.4 353.1,192.8 356.1,196.1 359.2,197.9 362.3,199.6 365.4,201.3 368.4,203.0 371.5,204.6 374.6,205.7 377.7,208.3 380.7,209.5 383.8,212.5 386.9,212.1 390.0,213.0 393.0,213.4 396.1,215.6 399.2,215.8 402.3,216.4" stroke="#3b82f6" stroke-linejoin="round" stroke-width="2.5"></polyline>
+<rect fill="#fafafa" height="180" rx="4" stroke="#e2e8f0" stroke-width="1" width="220" x="565" y="75"></rect>
+<text fill="#334155" font-size="10.5" font-weight="600" text-anchor="middle" x="675.0" y="65">bpb vs Tokens (iso-token)</text>
+<line stroke="#e2e8f0" stroke-width="0.5" x1="565" x2="785" y1="255.0" y2="255.0"></line>
+<text fill="#94a3b8" font-size="8" text-anchor="end" x="560" y="258.0">1.1</text>
+<line stroke="#e2e8f0" stroke-width="0.5" x1="565" x2="785" y1="215.0" y2="215.0"></line>
+<text fill="#94a3b8" font-size="8" text-anchor="end" x="560" y="218.0">1.3</text>
+<line stroke="#e2e8f0" stroke-width="0.5" x1="565" x2="785" y1="175.0" y2="175.0"></line>
+<text fill="#94a3b8" font-size="8" text-anchor="end" x="560" y="178.0">1.5</text>
+<line stroke="#e2e8f0" stroke-width="0.5" x1="565" x2="785" y1="135.0" y2="135.0"></line>
+<text fill="#94a3b8" font-size="8" text-anchor="end" x="560" y="138.0">1.7</text>
+<line stroke="#e2e8f0" stroke-width="0.5" x1="565" x2="785" y1="95.0" y2="95.0"></line>
+<text fill="#94a3b8" font-size="8" text-anchor="end" x="560" y="98.0">1.9</text>
+<line stroke="#e2e8f0" stroke-width="0.5" x1="565.0" x2="565.0" y1="75" y2="255"></line>
+<text fill="#94a3b8" font-size="8" text-anchor="middle" x="565.0" y="267">0</text>
+<line stroke="#e2e8f0" stroke-width="0.5" x1="609.0" x2="609.0" y1="75" y2="255"></line>
+<text fill="#94a3b8" font-size="8" text-anchor="middle" x="609.0" y="267">0.7</text>
+<line stroke="#e2e8f0" stroke-width="0.5" x1="653.0" x2="653.0" y1="75" y2="255"></line>
+<text fill="#94a3b8" font-size="8" text-anchor="middle" x="653.0" y="267">1.4</text>
+<line stroke="#e2e8f0" stroke-width="0.5" x1="697.0" x2="697.0" y1="75" y2="255"></line>
+<text fill="#94a3b8" font-size="8" text-anchor="middle" x="697.0" y="267">2.1</text>
+<line stroke="#e2e8f0" stroke-width="0.5" x1="741.0" x2="741.0" y1="75" y2="255"></line>
+<text fill="#94a3b8" font-size="8" text-anchor="middle" x="741.0" y="267">2.8</text>
+<line stroke="#e2e8f0" stroke-width="0.5" x1="785.0" x2="785.0" y1="75" y2="255"></line>
+<text fill="#94a3b8" font-size="8" text-anchor="middle" x="785.0" y="267">3.5</text>
+<text fill="#64748b" font-size="9" text-anchor="middle" x="675.0" y="281">Tokens (billions)</text>
+<polyline fill="none" points="571.6,138.6 578.2,171.3 584.8,184.7 591.4,192.8 598.0,198.3 604.5,202.2 611.1,204.7 617.7,206.5 624.3,208.4 630.9,210.1 637.5,211.1 644.1,212.5 650.7,211.9 657.3,214.2 663.9,215.0 670.5,215.7 677.0,216.0 683.6,217.0 690.2,217.4 696.8,218.0 703.4,218.4 710.0,218.5 716.6,219.0 723.2,219.4 729.8,220.0 736.4,219.9 743.0,220.4 749.5,220.4 756.1,220.7 762.7,221.2 769.3,221.3 775.9,221.6 782.5,222.0" stroke="#ef4444" stroke-linejoin="round" stroke-width="2.5"></polyline>
+<polyline fill="none" points="571.6,110.1 578.2,146.5 584.8,158.5 591.4,165.5 598.0,170.3 604.5,172.9 611.1,173.1 617.7,174.3 624.3,177.9 630.9,180.4 637.5,183.6 644.1,185.4 650.7,188.4 657.3,189.4 663.9,192.1 670.5,193.5 677.0,194.8 683.6,196.1 690.2,197.5 696.8,198.8 703.4,199.6 710.0,201.7 716.6,202.7 723.2,205.0 729.8,204.7 736.4,205.4 743.0,205.7 749.5,207.4 756.1,207.6 762.7,208.1" stroke="#3b82f6" stroke-linejoin="round" stroke-width="2.5"></polyline>
+<text fill="#64748b" font-size="8.5" font-style="italic" text-anchor="end" x="780" y="90">Gap narrowing</text>
+<text fill="#94a3b8" font-size="8" text-anchor="start" x="580" y="247">+0.14</text>
+<text fill="#94a3b8" font-size="8" text-anchor="end" x="770" y="247">+0.03</text>
+</svg>
+</div>
+
+</div>
+<figcaption style="text-align:center; font-size:0.85em; color:#64748b; margin-top:8px; font-style:italic;"><strong>Figure 3.</strong> Training curves on 8&#215;H100. Left: val_loss vs wallclock &#8212; the transformer is faster per second (Tensor Core advantage). Centre: val_loss vs tokens seen &#8212; at matched tokens, the gap narrows from +0.27 to +0.11. Right: bpb vs tokens (iso-token) &#8212; MHALM's learning curve is steeper and still closing at the end of training.</figcaption>
+</figure>
+<h3 id="the-v2-architecture">The V2 architecture<a class="headerlink" href="#the-v2-architecture" title="Permanent link">¶</a></h3>
+<p>Here’s what V2 looks like in detail.</p>
+<p>The starting point is the IGL (Inverse Green’s Learning) framework. The attention kernel <span class="arithmatex">\(K(q_i, k_j) = \exp(q_i^\top k_j / \sqrt{d_h})\)</span> defines an integral operator — a Green’s function acting on the token sequence. If one can find coordinates where this operator <strong>separates</strong> — factorises into a product of independent 1D operators — then the full kernel decomposes into a product of 1D kernels, each computable independently. This is the <a href="https://en.wikipedia.org/wiki/St%C3%A4ckel_matrix">Stäckel separability condition</a> (Stäckel, 1891; <a href="https://press.princeton.edu/books/paperback/9780691627748/separable-systems-of-stackel">Eisenhart, 1934</a>): in the right coordinate system, the metric becomes diagonal, the PDE separates, and the Green’s function factors.</p>
+<p>The problem is that Stäckel coordinates are not the standard embedding coordinates. They are a <strong>nonlinear</strong> coordinate system on the token manifold where the metric induced by the attention kernel is (approximately) diagonal. Finding them is the encoder’s job: learn a nonlinear map <span class="arithmatex">\(\Psi: \mathbb{R}^{d_\text{emb}} \to \mathbb{R}^d\)</span> such that the pullback metric <span class="arithmatex">\(\Psi^* g\)</span> is as close to diagonal as possible. Once you have such coordinates, the kernel heads can evaluate separable kernel functions (Gabor, Laplacian, Nyström) cheaply — each head computes spatial similarity in the space where the geometry is factored.</p>
+<figure style="margin:2em 0;">
+<div class="igl-widget" id="igl-fig-3" style="border-radius:12px; border:1px solid #e2e8f0; overflow:hidden; padding:28px 20px 22px;">
+<style>#igl-fig-3 { 
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: transparent;
+   }
+#igl-fig-3 .diagram { 
+    max-width: 760px;
+    margin: 0 auto;
+    padding: 16px;
+   }
+#igl-fig-3 svg text { 
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+   }</style>
+
+<div class="diagram">
+<svg viewbox="0 0 760 440" xmlns="http://www.w3.org/2000/svg">
+<!-- Title -->
+<text fill="#1e293b" font-size="15" font-weight="700" text-anchor="middle" x="380" y="24">Attention in Generic vs Stäckel Coordinates</text>
+<!-- ====== LEFT: Generic coordinates ====== -->
+<rect fill="#fef2f2" height="390" rx="12" stroke="#fca5a5" stroke-width="1.5" width="340" x="20" y="40"></rect>
+<text fill="#991b1b" font-size="13" font-weight="700" text-anchor="middle" x="190" y="64">Generic Coordinates</text>
+<text fill="#b91c1c" font-size="10" text-anchor="middle" x="190" y="82">All dimensions coupled</text>
+<!-- Grid showing full coupling: d_h x d_h matrix -->
+<!-- Dense matrix visualization -->
+<rect fill="#fee2e2" height="140" rx="4" stroke="#ef4444" stroke-width="1" width="140" x="70" y="100"></rect>
+<!-- Fill with colored cells to show dense coupling -->
+<!-- Row 1 -->
+<rect fill="#ef4444" height="17" opacity="0.7" width="17" x="72" y="102"></rect>
+<rect fill="#f87171" height="17" opacity="0.5" width="17" x="91" y="102"></rect>
+<rect fill="#ef4444" height="17" opacity="0.6" width="17" x="110" y="102"></rect>
+<rect fill="#f87171" height="17" opacity="0.4" width="17" x="129" y="102"></rect>
+<rect fill="#ef4444" height="17" opacity="0.7" width="17" x="148" y="102"></rect>
+<rect fill="#f87171" height="17" opacity="0.5" width="17" x="167" y="102"></rect>
+<rect fill="#ef4444" height="17" opacity="0.6" width="17" x="186" y="102"></rect>
+<!-- Row 2 -->
+<rect fill="#f87171" height="17" opacity="0.5" width="17" x="72" y="121"></rect>
+<rect fill="#ef4444" height="17" opacity="0.8" width="17" x="91" y="121"></rect>
+<rect fill="#f87171" height="17" opacity="0.4" width="17" x="110" y="121"></rect>
+<rect fill="#ef4444" height="17" opacity="0.6" width="17" x="129" y="121"></rect>
+<rect fill="#f87171" height="17" opacity="0.7" width="17" x="148" y="121"></rect>
+<rect fill="#ef4444" height="17" opacity="0.5" width="17" x="167" y="121"></rect>
+<rect fill="#f87171" height="17" opacity="0.6" width="17" x="186" y="121"></rect>
+<!-- Row 3 -->
+<rect fill="#ef4444" height="17" opacity="0.6" width="17" x="72" y="140"></rect>
+<rect fill="#f87171" height="17" opacity="0.4" width="17" x="91" y="140"></rect>
+<rect fill="#ef4444" height="17" opacity="0.7" width="17" x="110" y="140"></rect>
+<rect fill="#f87171" height="17" opacity="0.5" width="17" x="129" y="140"></rect>
+<rect fill="#ef4444" height="17" opacity="0.6" width="17" x="148" y="140"></rect>
+<rect fill="#f87171" height="17" opacity="0.8" width="17" x="167" y="140"></rect>
+<rect fill="#ef4444" height="17" opacity="0.4" width="17" x="186" y="140"></rect>
+<!-- Row 4 -->
+<rect fill="#f87171" height="17" opacity="0.4" width="17" x="72" y="159"></rect>
+<rect fill="#ef4444" height="17" opacity="0.6" width="17" x="91" y="159"></rect>
+<rect fill="#f87171" height="17" opacity="0.5" width="17" x="110" y="159"></rect>
+<rect fill="#ef4444" height="17" opacity="0.7" width="17" x="129" y="159"></rect>
+<rect fill="#f87171" height="17" opacity="0.4" width="17" x="148" y="159"></rect>
+<rect fill="#ef4444" height="17" opacity="0.6" width="17" x="167" y="159"></rect>
+<rect fill="#f87171" height="17" opacity="0.5" width="17" x="186" y="159"></rect>
+<!-- Row 5 -->
+<rect fill="#ef4444" height="17" opacity="0.7" width="17" x="72" y="178"></rect>
+<rect fill="#f87171" height="17" opacity="0.7" width="17" x="91" y="178"></rect>
+<rect fill="#ef4444" height="17" opacity="0.6" width="17" x="110" y="178"></rect>
+<rect fill="#f87171" height="17" opacity="0.4" width="17" x="129" y="178"></rect>
+<rect fill="#ef4444" height="17" opacity="0.8" width="17" x="148" y="178"></rect>
+<rect fill="#f87171" height="17" opacity="0.5" width="17" x="167" y="178"></rect>
+<rect fill="#ef4444" height="17" opacity="0.7" width="17" x="186" y="178"></rect>
+<!-- Row 6 -->
+<rect fill="#f87171" height="17" opacity="0.5" width="17" x="72" y="197"></rect>
+<rect fill="#ef4444" height="17" opacity="0.5" width="17" x="91" y="197"></rect>
+<rect fill="#f87171" height="17" opacity="0.8" width="17" x="110" y="197"></rect>
+<rect fill="#ef4444" height="17" opacity="0.6" width="17" x="129" y="197"></rect>
+<rect fill="#f87171" height="17" opacity="0.5" width="17" x="148" y="197"></rect>
+<rect fill="#ef4444" height="17" opacity="0.7" width="17" x="167" y="197"></rect>
+<rect fill="#f87171" height="17" opacity="0.4" width="17" x="186" y="197"></rect>
+<!-- Row 7 -->
+<rect fill="#ef4444" height="17" opacity="0.6" width="17" x="72" y="216"></rect>
+<rect fill="#f87171" height="17" opacity="0.6" width="17" x="91" y="216"></rect>
+<rect fill="#ef4444" height="17" opacity="0.4" width="17" x="110" y="216"></rect>
+<rect fill="#f87171" height="17" opacity="0.5" width="17" x="129" y="216"></rect>
+<rect fill="#ef4444" height="17" opacity="0.7" width="17" x="148" y="216"></rect>
+<rect fill="#f87171" height="17" opacity="0.6" width="17" x="167" y="216"></rect>
+<rect fill="#ef4444" height="17" opacity="0.8" width="17" x="186" y="216"></rect>
+<!-- Labels -->
+<text fill="#991b1b" font-size="10" text-anchor="middle" x="140" y="252">Metric g (dense, d<tspan dy="-4" font-size="8">h</tspan><tspan dy="4"> × d</tspan><tspan dy="-4" font-size="8">h</tspan><tspan dy="4">)</tspan></text>
+<!-- Kernel formula -->
+<text fill="#7f1d1d" font-size="11" font-weight="600" text-anchor="middle" x="190" y="280">K(q, k) = exp(qᵀ k / √d<tspan dy="-3" font-size="8">h</tspan><tspan dy="3">)</tspan></text>
+<!-- Cost box -->
+<rect fill="#fecaca" height="50" rx="6" stroke="#ef4444" stroke-width="1" width="270" x="55" y="300"></rect>
+<text fill="#991b1b" font-size="11" font-weight="600" text-anchor="middle" x="190" y="320">Cost: O(T² · d<tspan dy="-3" font-size="8">h</tspan><tspan dy="3">)</tspan></text>
+<text fill="#b91c1c" font-size="10" text-anchor="middle" x="190" y="338">All T² pairs, full d<tspan dy="-3" font-size="8">h</tspan><tspan dy="3"> dot product each</tspan></text>
+<!-- Problem annotation -->
+<rect fill="#fff1f2" height="56" rx="6" stroke="#fda4af" stroke-width="1" width="270" x="55" y="360"></rect>
+<text fill="#9f1239" font-size="10" text-anchor="middle" x="190" y="380">Sum over j of products over s:</text>
+<text fill="#9f1239" font-size="10" font-weight="600" text-anchor="middle" x="190" y="396">Σ<tspan dy="-3" font-size="8">j</tspan><tspan dy="3"> Π</tspan><tspan dy="-3" font-size="8">s</tspan><tspan dy="3"> K</tspan><tspan dy="-3" font-size="8">s</tspan><tspan dy="3">(q</tspan><tspan dy="-3" font-size="8">s</tspan><tspan dy="3">, k</tspan><tspan dy="-3" font-size="8">s</tspan><tspan dy="3">) ≠ Π</tspan><tspan dy="-3" font-size="8">s</tspan><tspan dy="3"> Σ</tspan><tspan dy="-3" font-size="8">j</tspan><tspan dy="3"> K</tspan><tspan dy="-3" font-size="8">s</tspan><tspan dy="3"></tspan></text>
+<text fill="#be123c" font-size="9" text-anchor="middle" x="190" y="410">Cannot precompute per axis!</text>
+<!-- ====== RIGHT: Stackel coordinates ====== -->
+<rect fill="#f0fdf4" height="390" rx="12" stroke="#86efac" stroke-width="1.5" width="340" x="400" y="40"></rect>
+<text fill="#166534" font-size="13" font-weight="700" text-anchor="middle" x="570" y="64">Stäckel Coordinates</text>
+<text fill="#15803d" font-size="10" text-anchor="middle" x="570" y="82">Dimensions independent (diagonal metric)</text>
+<!-- Diagonal matrix visualization -->
+<rect fill="#dcfce7" height="140" rx="4" stroke="#22c55e" stroke-width="1" width="140" x="450" y="100"></rect>
+<!-- Diagonal cells only -->
+<rect fill="#22c55e" height="17" opacity="0.8" width="17" x="452" y="102"></rect>
+<rect fill="#16a34a" height="17" opacity="0.7" width="17" x="471" y="121"></rect>
+<rect fill="#22c55e" height="17" opacity="0.8" width="17" x="490" y="140"></rect>
+<rect fill="#16a34a" height="17" opacity="0.6" width="17" x="509" y="159"></rect>
+<rect fill="#22c55e" height="17" opacity="0.7" width="17" x="528" y="178"></rect>
+<rect fill="#16a34a" height="17" opacity="0.8" width="17" x="547" y="197"></rect>
+<rect fill="#22c55e" height="17" opacity="0.7" width="17" x="566" y="216"></rect>
+<!-- Off-diagonal: very light / empty -->
+<!-- (implicitly empty = white background of container) -->
+<!-- Labels -->
+<text fill="#166534" font-size="10" text-anchor="middle" x="520" y="252">Metric Ψ*g (diagonal, d × d)</text>
+<!-- Kernel formula: factored -->
+<text fill="#14532d" font-size="11" font-weight="600" text-anchor="middle" x="570" y="280">K = Π<tspan dy="-3" font-size="8">s=1..d</tspan><tspan dy="3"> K</tspan><tspan dy="-3" font-size="8">s</tspan><tspan dy="3">(z</tspan><tspan dy="-3" font-size="8">s</tspan><tspan dy="3">, z'</tspan><tspan dy="-3" font-size="8">s</tspan><tspan dy="3">)</tspan></text>
+<!-- Cost box -->
+<rect fill="#bbf7d0" height="50" rx="6" stroke="#22c55e" stroke-width="1" width="270" x="435" y="300"></rect>
+<text fill="#166534" font-size="11" font-weight="600" text-anchor="middle" x="570" y="320">Cost: O(R · T · d<tspan dy="-3" font-size="8">h</tspan><tspan dy="3">)  — linear in T</tspan></text>
+<text fill="#15803d" font-size="10" text-anchor="middle" x="570" y="338">Precompute per axis, evaluate per query</text>
+<!-- Solution annotation -->
+<rect fill="#f0fdf4" height="56" rx="6" stroke="#86efac" stroke-width="1" width="270" x="435" y="360"></rect>
+<text fill="#166534" font-size="10" text-anchor="middle" x="570" y="380">Density factorises → sums factorise:</text>
+<text fill="#166534" font-size="10" font-weight="600" text-anchor="middle" x="570" y="396">Precompute S<tspan dy="-3" font-size="8">n</tspan><tspan dy="3"> = Σ</tspan><tspan dy="-3" font-size="8">j</tspan><tspan dy="3"> Ψ</tspan><tspan dy="-3" font-size="8">n</tspan><tspan dy="3">(z</tspan><tspan dy="-3" font-size="8">j</tspan><tspan dy="3">) · v</tspan><tspan dy="-3" font-size="8">j</tspan><tspan dy="3"></tspan></text>
+<text fill="#15803d" font-size="9" text-anchor="middle" x="570" y="410">R = C(d+D, D) features, d = intrinsic dim</text>
+<!-- Central arrow -->
+<text fill="#475569" font-size="28" font-weight="700" text-anchor="middle" x="380" y="168">→</text>
+<text fill="#64748b" font-size="10" font-weight="600" text-anchor="middle" x="380" y="192">Encoder Ψ</text>
+</svg>
+</div>
+
+</div>
+<figcaption style="text-align:center; font-size:0.85em; color:#64748b; margin-top:8px; font-style:italic;"><strong>Figure 0.</strong> Stäckel vs non-Stäckel coordinates for attention. Left: in generic coordinates, the attention kernel couples all dimensions — every token pair requires a full $d_h$-dimensional dot product. Right: in Stäckel coordinates, the kernel factorises into a product of independent 1D kernels, each computable separately.</figcaption>
+</figure>
+<p><strong>The VP trick: parameter savings at scale.</strong> In a standard transformer, the output projection stores an <span class="arithmatex">\(H \times d_h \times V\)</span> weight tensor — every head needs a full <span class="arithmatex">\(d_h \times V\)</span> matrix to map from head space to vocabulary. In MHALM, the spatial anchors are tied to the vocabulary embeddings rather than requiring separate readout matrices: the kernel readout uses <span class="arithmatex">\(R\)</span> anchor points with 1D basis functions per axis. The readout weight is <span class="arithmatex">\(R \times V\)</span>, but because the kernel factorises, <span class="arithmatex">\(R\)</span> can be kept small (256 in V2) regardless of vocabulary size. At <span class="arithmatex">\(V = 1024\)</span> (the Parameter Golf setting), this saves almost nothing. But at <span class="arithmatex">\(V = 50\text{K}\)</span> (GPT-2) or <span class="arithmatex">\(V = 128\text{K}\)</span> (LLaMA-3), the VP trick could save 30–40% of total model weights.</p>
+<p><strong>Complexity reduction via Stäckel coordinates.</strong> Standard softmax attention computes all <span class="arithmatex">\(T^2\)</span> pairwise scores in <span class="arithmatex">\(d_h\)</span> dimensions: cost <span class="arithmatex">\(O(T^2 \cdot d_h)\)</span> per head. When the kernel separates in Stäckel coordinates of intrinsic dimension <span class="arithmatex">\(d \ll d_h\)</span>, each 1D kernel can be approximated by a degree-<span class="arithmatex">\(D\)</span> polynomial feature map, giving <span class="arithmatex">\(R = \binom{d+D}{D}\)</span> features. The attention sum then factorises into a precompute step (<span class="arithmatex">\(O(R \cdot T \cdot d_h)\)</span>, once per sequence) and a per-query evaluation (<span class="arithmatex">\(O(R \cdot d_h)\)</span> per token) — total <span class="arithmatex">\(O(R \cdot T \cdot d_h)\)</span>, <strong>linear in sequence length</strong>. At <span class="arithmatex">\(d = 50\)</span>, <span class="arithmatex">\(D = 1\)</span>: <span class="arithmatex">\(R = 51\)</span>, the framework predicts a speedup of 1 to 2 orders of magnitude over standard attention (this is a theoretical bound for the polynomial-feature formulation, not yet realised in V2). The key insight is that the speedup comes from operating at the intrinsic dimension <span class="arithmatex">\(d\)</span> of the data manifold, not the ambient head dimension <span class="arithmatex">\(d_h\)</span>.</p>
+<p>MHALM instantiates this with <strong>three learned coordinate encoders</strong> (an “atlas” of the token manifold) followed by <strong>kernel-based spatial readout</strong> in the encoded space and <strong>temporal processing</strong> (SSM + attention) that also operates in the encoded coordinates, where the QK dot product is geometrically meaningful.</p>
+<figure style="margin:2em 0;">
+<div class="igl-widget" id="igl-fig-2" style="border-radius:12px; border:1px solid #e2e8f0; overflow:hidden; padding:28px 20px 22px;">
+<style>#igl-fig-2 { 
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: transparent;
+   }
+#igl-fig-2 .diagram { 
+    max-width: 640px;
+    margin: 0 auto;
+    padding: 16px;
+   }
+#igl-fig-2 svg text { 
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+   }</style>
+
+<div class="diagram">
+<svg viewbox="0 0 640 540" xmlns="http://www.w3.org/2000/svg">
+<defs>
+<marker id="f2_arrowDown" markerheight="8" markerwidth="8" orient="auto" refx="5" refy="10" viewbox="0 0 10 10">
+<path d="M 0 0 L 5 10 L 10 0 z" fill="#475569"></path>
+</marker>
+<marker id="f2_arrowLeft" markerheight="8" markerwidth="8" refx="0" refy="5" viewbox="0 0 10 10">
+<path d="M 10 0 L 0 5 L 10 10 z" fill="#ca8a04"></path>
+</marker>
+<lineargradient id="f2_blockGrad" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#e0f2fe"></stop>
+<stop offset="100%" stop-color="#bae6fd"></stop>
+</lineargradient>
+<lineargradient id="f2_embedGrad" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#fef3c7"></stop>
+<stop offset="100%" stop-color="#fde68a"></stop>
+</lineargradient>
+<lineargradient id="f2_outGrad" x1="0" x2="0" y1="0" y2="1">
+<stop offset="0%" stop-color="#dcfce7"></stop>
+<stop offset="100%" stop-color="#bbf7d0"></stop>
+</lineargradient>
+</defs>
+<!-- Title -->
+<text fill="#1e293b" font-size="15" font-weight="700" text-anchor="middle" x="280" y="26">MHALM V2 — Overall Architecture</text>
+<!-- Tokens -->
+<rect fill="#f1f5f9" height="32" rx="6" stroke="#94a3b8" stroke-width="1.5" width="170" x="195" y="42"></rect>
+<text fill="#334155" font-size="12" font-weight="600" text-anchor="middle" x="280" y="63">Tokens (V = 1024)</text>
+<!-- Arrow: down -->
+<polyline fill="#475569" points="280,74 280,88 275,83 280,94 285,83 280,88" stroke="none"></polyline>
+<line stroke="#475569" stroke-width="1.5" x1="280" x2="280" y1="74" y2="88"></line>
+<!-- Simple triangle arrowhead -->
+<polygon fill="#475569" points="273,86 280,96 287,86"></polygon>
+<!-- Embedding -->
+<rect fill="url(#f2_embedGrad)" height="46" rx="8" stroke="#d97706" stroke-width="1.5" width="400" x="80" y="98"></rect>
+<text fill="#92400e" font-size="11.5" font-weight="600" text-anchor="middle" x="280" y="118">Embedding (512-d) + BigramHash (160-d) + SmearGate</text>
+<text fill="#78350f" font-size="10" text-anchor="middle" x="280" y="134">Tied weights · Crushed init (σ=0.005) · lr=0.05</text>
+<!-- Arrow -->
+<line stroke="#475569" stroke-width="1.5" x1="280" x2="280" y1="144" y2="156"></line>
+<polygon fill="#475569" points="273,154 280,164 287,154"></polygon>
+<!-- RMSNorm -->
+<rect fill="#f8fafc" height="28" rx="6" stroke="#94a3b8" stroke-width="1" width="140" x="210" y="166"></rect>
+<text fill="#475569" font-size="11" text-anchor="middle" x="280" y="185">RMSNorm</text>
+<!-- Arrow -->
+<line stroke="#475569" stroke-width="1.5" x1="280" x2="280" y1="194" y2="206"></line>
+<polygon fill="#475569" points="273,204 280,214 287,204"></polygon>
+<!-- Block 0 -->
+<rect fill="url(#f2_blockGrad)" height="54" rx="10" stroke="#0284c7" stroke-width="2" width="400" x="80" y="216"></rect>
+<text fill="#0c4a6e" font-size="13" font-weight="700" text-anchor="middle" x="280" y="238">HybridAtlasBlock 0</text>
+<text fill="#0369a1" font-size="10" text-anchor="middle" x="280" y="256">3 Encoders → Temporal (SSM ‖ Attn) × 2 → 5 Kernel Heads → Readout</text>
+<!-- Arrow -->
+<line stroke="#475569" stroke-width="1.5" x1="280" x2="280" y1="270" y2="282"></line>
+<polygon fill="#475569" points="273,280 280,290 287,280"></polygon>
+<!-- Block 1 -->
+<rect fill="url(#f2_blockGrad)" height="54" rx="10" stroke="#0284c7" stroke-width="2" width="400" x="80" y="292"></rect>
+<text fill="#0c4a6e" font-size="13" font-weight="700" text-anchor="middle" x="280" y="314">HybridAtlasBlock 1</text>
+<text fill="#0369a1" font-size="10" text-anchor="middle" x="280" y="332">3 Encoders → Temporal (SSM ‖ Attn) × 2 → 5 Kernel Heads → Readout</text>
+<!-- U-Net skip: right-side bracket Block 0 to Block 1 -->
+<line stroke="#ca8a04" stroke-dasharray="6,4" stroke-width="2" x1="480" x2="510" y1="243" y2="243"></line>
+<line stroke="#ca8a04" stroke-dasharray="6,4" stroke-width="2" x1="510" x2="510" y1="243" y2="319"></line>
+<line stroke="#ca8a04" stroke-dasharray="6,4" stroke-width="2" x1="510" x2="486" y1="319" y2="319"></line>
+<!-- Left-pointing arrowhead for skip -->
+<polygon fill="#ca8a04" points="486,313 476,319 486,325"></polygon>
+<text fill="#854d0e" font-size="10" font-weight="600" x="522" y="276">U-Net</text>
+<text fill="#854d0e" font-size="10" x="522" y="289">Skip</text>
+<!-- Arrow -->
+<line stroke="#475569" stroke-width="1.5" x1="280" x2="280" y1="346" y2="358"></line>
+<polygon fill="#475569" points="273,356 280,366 287,356"></polygon>
+<!-- Output -->
+<rect fill="url(#f2_outGrad)" height="44" rx="8" stroke="#16a34a" stroke-width="1.5" width="320" x="120" y="368"></rect>
+<text fill="#14532d" font-size="11.5" font-weight="600" text-anchor="middle" x="280" y="387">W_out → Logits (1024)</text>
+<text fill="#166534" font-size="10" text-anchor="middle" x="280" y="403">soft_cap(30.0) · temporal + spatial paths</text>
+<!-- Arrow -->
+<line stroke="#475569" stroke-width="1.5" x1="280" x2="280" y1="412" y2="424"></line>
+<polygon fill="#475569" points="273,422 280,432 287,422"></polygon>
+<!-- Loss -->
+<rect fill="#fce7f3" height="30" rx="6" stroke="#db2777" stroke-width="1.5" width="160" x="200" y="434"></rect>
+<text fill="#9d174d" font-size="11" font-weight="600" text-anchor="middle" x="280" y="454">Cross-Entropy Loss</text>
+<!-- Parameter summary -->
+<rect fill="#f8fafc" height="50" rx="8" stroke="#cbd5e1" stroke-width="1" width="560" x="40" y="484"></rect>
+<text fill="#334155" font-size="11" font-weight="600" text-anchor="middle" x="320" y="505">18.3M params · 13.0 MB artifact (int8 + zstd-22) · 2 blocks · 5 kernel heads</text>
+<text fill="#64748b" font-size="10" text-anchor="middle" x="320" y="523">Muon (2D matrices) + AdamW (scalars, gates) · Stiefel enforcement every step</text>
+</svg>
+</div>
+
+</div>
+<figcaption style="text-align:center; font-size:0.85em; color:#64748b; margin-top:8px; font-style:italic;"><strong>Figure 1.</strong> MHALM overall architecture. Tokens pass through embedding + bigram context, then two stacked HybridAtlasBlocks with a U-Net skip connection, producing logits via combined temporal and spatial paths.</figcaption>
+</figure>
+<h4 id="data-flow">Data flow<a class="headerlink" href="#data-flow" title="Permanent link">¶</a></h4>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code>tokens
+  → Embedding(1024, 512) + BigramHash(16384×160, −0.011 bpb at zero FLOPs) + SmearGate
+  → RMSNorm
+  → HybridAtlasBlock × 2  (with U-Net skip connection)
+  → W_out → logits (soft_cap 30.0)
+</code></pre></div></td></tr></table></div>
+<p>Each <strong>HybridAtlasBlock</strong> has three stages:</p>
+<figure style="margin:2em 0;">
+<div class="igl-widget" id="igl-fig-1" style="border-radius:12px; border:1px solid #e2e8f0; overflow:hidden; padding:28px 20px 22px;">
+<style>#igl-fig-1 { 
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: transparent;
+   }
+#igl-fig-1 .diagram { 
+    max-width: 780px;
+    margin: 0 auto;
+    padding: 16px;
+   }
+#igl-fig-1 svg text { 
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+   }</style>
+
+<div class="diagram">
+<svg viewbox="0 0 780 830" xmlns="http://www.w3.org/2000/svg">
+<!-- Title -->
+<text fill="#1e293b" font-size="16" font-weight="700" text-anchor="middle" x="390" y="28">Inside a HybridAtlasBlock</text>
+<!-- Input -->
+<rect fill="#f1f5f9" height="32" rx="6" stroke="#94a3b8" stroke-width="1.5" width="180" x="300" y="44"></rect>
+<text fill="#334155" font-size="12" font-weight="600" text-anchor="middle" x="390" y="65">Input x ∈ R⁵¹²</text>
+<line stroke="#475569" stroke-width="1.5" x1="390" x2="390" y1="76" y2="92"></line>
+<polygon fill="#475569" points="383,90 390,100 397,90"></polygon>
+<!-- STAGE 1: ENCODERS -->
+<rect fill="#eff6ff" height="120" rx="10" stroke="#3b82f6" stroke-width="1.5" width="700" x="40" y="104"></rect>
+<text fill="#1d4ed8" font-size="12" font-weight="700" x="60" y="124">STAGE 1 — Chart Encoders</text>
+<rect fill="#dbeafe" height="72" rx="8" stroke="#60a5fa" stroke-width="1.2" width="200" x="60" y="134"></rect>
+<text fill="#1e40af" font-size="12" font-weight="600" text-anchor="middle" x="160" y="154">Encoder Ψ₀</text>
+<text fill="#1e40af" font-size="10" text-anchor="middle" x="160" y="170">512 → 4×SiLU → 160</text>
+<text fill="#1e40af" font-size="10" text-anchor="middle" x="160" y="186">tanh(z/τ) · Stiefel</text>
+<text fill="#2563eb" font-size="9" font-weight="600" text-anchor="middle" x="160" y="200">→ z₀</text>
+<rect fill="#dbeafe" height="72" rx="8" stroke="#60a5fa" stroke-width="1.2" width="200" x="290" y="134"></rect>
+<text fill="#1e40af" font-size="12" font-weight="600" text-anchor="middle" x="390" y="154">Encoder Ψ₁</text>
+<text fill="#1e40af" font-size="10" text-anchor="middle" x="390" y="170">512 → 4×SiLU → 160</text>
+<text fill="#1e40af" font-size="10" text-anchor="middle" x="390" y="186">tanh(z/τ) · Stiefel</text>
+<text fill="#2563eb" font-size="9" font-weight="600" text-anchor="middle" x="390" y="200">→ z₁</text>
+<rect fill="#dbeafe" height="72" rx="8" stroke="#60a5fa" stroke-width="1.2" width="200" x="520" y="134"></rect>
+<text fill="#1e40af" font-size="12" font-weight="600" text-anchor="middle" x="620" y="154">Encoder Ψ₂</text>
+<text fill="#1e40af" font-size="10" text-anchor="middle" x="620" y="170">512 → 4×SiLU → 160</text>
+<text fill="#1e40af" font-size="10" text-anchor="middle" x="620" y="186">tanh(z/τ) · Stiefel</text>
+<text fill="#2563eb" font-size="9" font-weight="600" text-anchor="middle" x="620" y="200">→ z₂</text>
+<!-- === ROUTING ZONE === -->
+<!-- Two labeled arrows going straight down from the Stage 1 box -->
+<!-- Left arrow: z_cat to temporal -->
+<line stroke="#22c55e" stroke-width="2" x1="200" x2="200" y1="224" y2="280"></line>
+<polygon fill="#22c55e" points="193,278 200,288 207,278"></polygon>
+<rect fill="#e0e7ff" height="20" rx="4" stroke="#818cf8" stroke-width="1" width="180" x="110" y="238"></rect>
+<text fill="#4338ca" font-size="10" font-weight="600" text-anchor="middle" x="200" y="252">z_cat = [z₀,z₁,z₂] ∈ R⁴⁸⁰</text>
+<!-- Right arrow: individual z's to spatial -->
+<line stroke="#eab308" stroke-width="2" x1="580" x2="580" y1="224" y2="280"></line>
+<polygon fill="#eab308" points="573,278 580,288 587,278"></polygon>
+<rect fill="#fefce8" height="20" rx="4" stroke="#eab308" stroke-width="1" width="180" x="490" y="238"></rect>
+<text fill="#a16207" font-size="10" font-weight="600" text-anchor="middle" x="580" y="252">z₀, z₁, z₂ individually</text>
+<!-- ====== LEFT: TEMPORAL PATH ====== -->
+<rect fill="#f0fdf4" height="290" rx="10" stroke="#22c55e" stroke-width="1.5" width="360" x="40" y="294"></rect>
+<text fill="#15803d" font-size="12" font-weight="700" x="60" y="316">TEMPORAL PATH</text>
+<text fill="#15803d" font-size="10" x="60" y="332">on z_cat (all 3 encoders concatenated)</text>
+<!-- Pass 1 -->
+<rect fill="#dcfce7" height="96" rx="8" stroke="#4ade80" stroke-width="1.2" width="320" x="60" y="344"></rect>
+<text fill="#166534" font-size="11" font-weight="600" text-anchor="middle" x="220" y="362">Pass 1</text>
+<rect fill="#bbf7d0" height="52" rx="6" stroke="#22c55e" stroke-width="1" width="120" x="78" y="370"></rect>
+<text fill="#14532d" font-size="10.5" font-weight="600" text-anchor="middle" x="138" y="390">FFT SSM</text>
+<text fill="#166534" font-size="9" text-anchor="middle" x="138" y="404">cuFFT · Weyl init</text>
+<text fill="#166534" font-size="9" text-anchor="middle" x="138" y="416">O(T log T)</text>
+<text fill="#16a34a" font-size="18" font-weight="700" text-anchor="middle" x="208" y="400">‖</text>
+<rect fill="#bbf7d0" height="52" rx="6" stroke="#22c55e" stroke-width="1" width="140" x="220" y="370"></rect>
+<text fill="#14532d" font-size="10.5" font-weight="600" text-anchor="middle" x="290" y="390">Attention</text>
+<text fill="#166534" font-size="9" text-anchor="middle" x="290" y="404">8 heads · RoPE · XSA</text>
+<text fill="#166534" font-size="9" text-anchor="middle" x="290" y="416">2 layers</text>
+<rect fill="#86efac" height="16" rx="3" stroke="#22c55e" stroke-width="1" width="220" x="110" y="426"></rect>
+<text fill="#14532d" font-size="9" font-weight="600" text-anchor="middle" x="220" y="438">σ(g) · SSM + (1-σ) · Attn</text>
+<!-- Arrow to pass 2 -->
+<line stroke="#475569" stroke-width="1.5" x1="220" x2="220" y1="442" y2="456"></line>
+<polygon fill="#475569" points="213,454 220,464 227,454"></polygon>
+<!-- Pass 2 -->
+<rect fill="#dcfce7" height="46" rx="8" stroke="#4ade80" stroke-width="1.2" width="320" x="60" y="466"></rect>
+<text fill="#166534" font-size="11" font-weight="600" text-anchor="middle" x="220" y="486">Pass 2 (refinement)</text>
+<text fill="#166534" font-size="9.5" text-anchor="middle" x="220" y="502">Same SSM ‖ Attn, independent weights, on residual</text>
+<!-- Temporal output -->
+<line stroke="#475569" stroke-width="1.5" x1="220" x2="220" y1="512" y2="536"></line>
+<polygon fill="#475569" points="213,534 220,544 227,534"></polygon>
+<rect fill="#86efac" height="24" rx="5" stroke="#16a34a" stroke-width="1.2" width="180" x="130" y="548"></rect>
+<text fill="#14532d" font-size="11" font-weight="600" text-anchor="middle" x="220" y="565">H_temporal ∈ R²⁵⁶</text>
+<!-- ====== RIGHT: SPATIAL PATH ====== -->
+<rect fill="#fefce8" height="262" rx="10" stroke="#eab308" stroke-width="1.5" width="320" x="420" y="294"></rect>
+<text fill="#a16207" font-size="12" font-weight="700" x="440" y="316">SPATIAL PATH</text>
+<text fill="#a16207" font-size="10" x="440" y="332">Each encoder → its dedicated kernel head</text>
+<!-- All 5 heads in a single evenly-spaced row -->
+<!-- Box width=52, gap=6, 5 boxes = 5*52+4*6 = 284. Start at x=438 -->
+<rect fill="#fef9c3" height="64" rx="5" stroke="#facc15" stroke-width="1" width="52" x="438" y="344"></rect>
+<text fill="#854d0e" font-size="9" font-weight="600" text-anchor="middle" x="464" y="358">Nystrom</text>
+<text fill="#92400e" font-size="7.5" text-anchor="middle" x="464" y="372">Ψ₀ → z₀</text>
+<text fill="#92400e" font-size="7.5" text-anchor="middle" x="464" y="384">Gegenbauer</text>
+<text fill="#92400e" font-size="7.5" text-anchor="middle" x="464" y="396">R=256</text>
+<rect fill="#fef9c3" height="64" rx="5" stroke="#facc15" stroke-width="1" width="52" x="496" y="344"></rect>
+<text fill="#854d0e" font-size="9" font-weight="600" text-anchor="middle" x="522" y="358">Gabor</text>
+<text fill="#92400e" font-size="7.5" text-anchor="middle" x="522" y="372">Ψ₁ → z₁</text>
+<text fill="#92400e" font-size="7.5" text-anchor="middle" x="522" y="384">Gauss×cos</text>
+<text fill="#92400e" font-size="7.5" text-anchor="middle" x="522" y="396">R=256</text>
+<rect fill="#fef9c3" height="64" rx="5" stroke="#facc15" stroke-width="1" width="52" x="554" y="344"></rect>
+<text fill="#854d0e" font-size="9" font-weight="600" text-anchor="middle" x="580" y="358">Laplacian</text>
+<text fill="#92400e" font-size="7.5" text-anchor="middle" x="580" y="372">Ψ₂ → z₂</text>
+<text fill="#92400e" font-size="7.5" text-anchor="middle" x="580" y="384">RBF mix</text>
+<text fill="#92400e" font-size="7.5" text-anchor="middle" x="580" y="396">R=256</text>
+<rect fill="#fef9c3" height="64" rx="5" stroke="#facc15" stroke-width="1" width="52" x="612" y="344"></rect>
+<text fill="#854d0e" font-size="9" font-weight="600" text-anchor="middle" x="638" y="358">Tucker</text>
+<text fill="#92400e" font-size="7.5" text-anchor="middle" x="638" y="372">z₁×z₂</text>
+<text fill="#92400e" font-size="7.5" text-anchor="middle" x="638" y="384">cross-enc</text>
+<text fill="#92400e" font-size="7.5" text-anchor="middle" x="638" y="396">R=256</text>
+<rect fill="#fef9c3" height="64" rx="5" stroke="#facc15" stroke-width="1" width="52" x="670" y="344"></rect>
+<text fill="#854d0e" font-size="9" font-weight="600" text-anchor="middle" x="696" y="358">Linear</text>
+<text fill="#92400e" font-size="7.5" text-anchor="middle" x="696" y="372">Ψ₀ → z₀</text>
+<text fill="#92400e" font-size="7.5" text-anchor="middle" x="696" y="384">raw (no K)</text>
+<text fill="#92400e" font-size="7.5" text-anchor="middle" x="696" y="396">d=160</text>
+<!-- Connector lines from all 5 heads to horizontal bar -->
+<line stroke="#92400e" stroke-width="1" x1="464" x2="464" y1="408" y2="428"></line>
+<line stroke="#92400e" stroke-width="1" x1="522" x2="522" y1="408" y2="428"></line>
+<line stroke="#92400e" stroke-width="1" x1="580" x2="580" y1="408" y2="428"></line>
+<line stroke="#92400e" stroke-width="1" x1="638" x2="638" y1="408" y2="428"></line>
+<line stroke="#92400e" stroke-width="1" x1="696" x2="696" y1="408" y2="428"></line>
+<!-- Horizontal bar -->
+<line stroke="#92400e" stroke-width="1.2" x1="464" x2="696" y1="428" y2="428"></line>
+<!-- Single line down to GEMM -->
+<line stroke="#475569" stroke-width="1.5" x1="580" x2="580" y1="428" y2="448"></line>
+<polygon fill="#475569" points="573,446 580,456 587,446"></polygon>
+<!-- Stacked GEMM -->
+<rect fill="#fae8ff" height="32" rx="6" stroke="#c026d3" stroke-width="1.2" width="250" x="455" y="460"></rect>
+<text fill="#86198f" font-size="10" font-weight="600" text-anchor="middle" x="580" y="476">Stacked GEMM · HeadScaler</text>
+<text fill="#a21caf" font-size="9" text-anchor="middle" x="580" y="488">Φ_all · W_all → mixed</text>
+<!-- Spatial output -->
+<line stroke="#475569" stroke-width="1.5" x1="580" x2="580" y1="492" y2="510"></line>
+<polygon fill="#475569" points="573,508 580,518 587,508"></polygon>
+<rect fill="#fde68a" height="24" rx="5" stroke="#eab308" stroke-width="1.2" width="180" x="490" y="520"></rect>
+<text fill="#92400e" font-size="11" font-weight="600" text-anchor="middle" x="580" y="537">mixed ∈ R¹⁰²⁴</text>
+<!-- ====== COMBINATION ====== -->
+<line stroke="#22c55e" stroke-width="1.5" x1="220" x2="220" y1="572" y2="600"></line>
+<line stroke="#eab308" stroke-width="1.5" x1="580" x2="580" y1="544" y2="600"></line>
+<line stroke="#475569" stroke-width="1.5" x1="220" x2="580" y1="600" y2="600"></line>
+<line stroke="#475569" stroke-width="1.5" x1="390" x2="390" y1="600" y2="620"></line>
+<polygon fill="#475569" points="383,618 390,628 397,618"></polygon>
+<rect fill="#f1f5f9" height="40" rx="8" stroke="#64748b" stroke-width="1.5" width="460" x="160" y="630"></rect>
+<text fill="#334155" font-size="11" font-weight="600" text-anchor="middle" x="390" y="648">logits = W_out(H_temporal) · Eᵀ + γ × mixed</text>
+<text fill="#64748b" font-size="9.5" text-anchor="middle" x="390" y="662">γ init=0: temporal first, spatial opens gradually</text>
+<rect fill="#f8fafc" height="36" rx="6" stroke="#cbd5e1" stroke-width="1" width="460" x="160" y="686"></rect>
+<text fill="#64748b" font-size="10" font-style="italic" text-anchor="middle" x="390" y="702">mixed is accumulated across both blocks;</text>
+<text fill="#64748b" font-size="10" font-style="italic" text-anchor="middle" x="390" y="716">combination happens at the model output, not inside each block</text>
+</svg>
+</div>
+
+</div>
+<figcaption style="text-align:center; font-size:0.85em; color:#64748b; margin-top:8px; font-style:italic;"><strong>Figure 2.</strong> Inside a HybridAtlasBlock. Three chart encoders produce Stäckel coordinates, which fork into two parallel paths: a temporal path (z_cat → 2-pass SSM ∥ Attention → H_temporal) and a spatial path where each encoder feeds its dedicated kernel head (Ψ₀→Nyström, Ψ₁→Gabor, Ψ₂→Laplacian). The paths are combined at the model output.</figcaption>
+</figure>
+<h5 id="stage-1-chart-encoders-512-160-3">Stage 1 — Chart encoders (512 → 160 × 3)<a class="headerlink" href="#stage-1-chart-encoders-512-160-3" title="Permanent link">¶</a></h5>
+<p>Three independent <strong>ChartEncoders</strong> map the 512-dim token embedding into 160-dim Stäckel coordinates. Each encoder is a 4-hidden-layer MLP (SiLU activations, pre-norm residuals) followed by a tanh output with learnable per-dimension temperature. The output weights are <strong>Stiefel-enforced</strong> (<a href="https://press.princeton.edu/absil">Absil et al., 2008</a>) — projected back to the orthogonal manifold after every optimizer step via <a href="https://en.wikipedia.org/wiki/Newton%27s_method#Matrix_square_root">Newton-Schulz iteration</a> (<a href="https://doi.org/10.1137/0708036">Björck &amp; Bowie, 1971</a>) with power-iteration spectral norm (−0.048 bpb from enforcement alone; −0.065 bpb once the implementation bug was fixed — the single largest improvement in V2). This is distinct from <a href="https://kellerjordan.github.io/posts/muon/">Muon</a> (Jordan, 2024), which applies an orthogonalising Newton step <em>inside the optimizer</em> (on the gradient momentum): Stiefel enforcement is a hard constraint on the <em>weights themselves</em>, guaranteeing orthogonal encoder output dimensions regardless of the optimizer used.</p>
+<p><strong>Why three encoders?</strong> A single coordinate chart cannot cover a manifold with non-trivial topology — this is a theorem in differential geometry (no single chart covers the sphere). But there’s a more concrete reason: each encoder feeds a <strong>dedicated kernel head</strong> — Ψ₀ feeds the Nyström (spherical) head, Ψ₁ feeds the Gabor (oscillatory) head, Ψ₂ feeds the Laplacian (proximity) head. This lets each encoder specialise its learned coordinates for the geometric property its kernel measures. The temporal path uses the concatenation <span class="arithmatex">\(z_\text{cat} = [z_0, z_1, z_2]\)</span>, giving it access to all three perspectives simultaneously.</p>
+<p><strong>Why Stiefel enforcement?</strong> Without it, the encoder output dimensions tend to collapse — multiple axes learn the same direction, wasting capacity. The orthogonality constraint ensures the 160 output dimensions span distinct directions, maximising the information per coordinate.</p>
+<p><strong>Why tanh with learnable temperature?</strong> The tanh bounds the coordinates to <span class="arithmatex">\([-1, 1]\)</span>, preventing unbounded drift during training, while the per-dimension temperature <span class="arithmatex">\(\tau\)</span> controls how much of the <span class="arithmatex">\([-1, 1]\)</span> range each axis uses — a form of learned dynamic range.</p>
+<p><strong>Why 4 hidden layers?</strong> Deeper encoders (n=6) give −0.076 bpb but cost training steps due to higher per-step time. With n=4 and the Stäckel penalty active, the quality is recovered at 3M fewer parameters and 11% more training steps — a better trade-off under the 10-minute wallclock budget.</p>
+<p>The three encoders form an atlas: three overlapping coordinate charts on the token manifold. Their outputs are concatenated into <span class="arithmatex">\(z_\text{cat} \in \mathbb{R}^{480}\)</span>.</p>
+<h5 id="stage-2-temporal-processing-in-stackel-coordinates-2-pass-refinement">Stage 2 — Temporal processing in Stäckel coordinates (2-pass refinement)<a class="headerlink" href="#stage-2-temporal-processing-in-stackel-coordinates-2-pass-refinement" title="Permanent link">¶</a></h5>
+<p>This is the key architectural insight of V2: temporal processing happens in the <strong>encoded coordinate space</strong> <span class="arithmatex">\(z_\text{cat}\)</span>, not in the vocabulary-sized output space. Since <span class="arithmatex">\(z\)</span> lives where the metric is approximately diagonal, attention’s QK dot product is geometrically meaningful there.</p>
+<p><strong>Why temporal processing at all?</strong> The kernel heads provide <em>spatial</em> readout — similarity between the current token and learned anchors — but no mechanism for propagating information <em>across time</em>. A language model needs to condition on context: “the” means different things after different histories. The SSM and attention branches provide complementary temporal capabilities.</p>
+<p>Two parallel branches, applied twice (2-pass refinement):</p>
+<ul>
+<li><strong>FFT SSM</strong> — a complex-diagonal LTI state-space model in the <a href="https://arxiv.org/abs/2206.11893">S4D</a> (<a href="https://arxiv.org/abs/2206.11893">Gu et al., 2022</a>) family, implemented as causal convolution via cuFFT. Eigenvalues initialised from Weyl’s law rather than the standard log-spaced default. Cost: <span class="arithmatex">\(O(T \log T)\)</span>.</li>
+<li><strong>Causal self-attention</strong> — 8-head attention with <a href="https://arxiv.org/abs/2104.09864">RoPE</a> (<a href="https://arxiv.org/abs/2104.09864">Su et al., 2021</a>) and <a href="https://github.com/KellerJordan/modded-nanogpt">XSA</a> (exclusive self-attention: project out the self-alignment component; −0.002 bpb at zero parameter cost — the only competition technique that helped MHALM). 2 layers per pass.</li>
+</ul>
+<p><strong>Why SSM?</strong> It provides cheap long-range context propagation — every token receives a summary of the full history at <span class="arithmatex">\(O(T \log T)\)</span> cost. The Weyl-law initialisation sets the SSM’s frequency spectrum to match the eigenvalue growth predicted by the Stäckel metric, giving it a physics-informed starting point.</p>
+<p><strong>Why keep attention?</strong> Pure SSMs struggle with associative recall — retrieving a specific earlier token based on content. Attention excels at this. Running both in parallel and gating the mixture lets the model route each token through whichever mechanism is more useful.</p>
+<p>The branches are combined via a learned sigmoid gate: <span class="arithmatex">\(H = g \cdot H_\text{SSM} + (1-g) \cdot H_\text{attn}\)</span>.</p>
+<p>Mathematically, the two passes work as follows. Let <span class="arithmatex">\(f_\theta\)</span> denote the gated SSM+Attention operator (with independent weights per pass):</p>
+<p><strong>Pass 1</strong> — initial temporal context:</p>
+<div class="arithmatex">\[H^{(1)} = \sigma(g_1) \cdot \text{SSM}_1(z_\text{cat}) + (1 - \sigma(g_1)) \cdot \text{Attn}_1(W_\text{proj}^{(1)} \, z_\text{cat})\]</div>
+<p><strong>Pass 2</strong> — refinement on residual:</p>
+<div class="arithmatex">\[z_\text{cat}^{(2)} = \text{LayerNorm}(W_\text{back}^{(2)} \, H^{(1)}) + z_\text{cat}\]</div>
+<div class="arithmatex">\[H^{(2)} = \sigma(g_2) \cdot \text{SSM}_2(z_\text{cat}^{(2)}) + (1 - \sigma(g_2)) \cdot \text{Attn}_2(W_\text{proj}^{(2)} \, z_\text{cat}^{(2)})\]</div>
+<p>The key is the <strong>residual injection</strong> in <span class="arithmatex">\(z_\text{cat}^{(2)}\)</span>: the second pass receives the original Stäckel coordinates <span class="arithmatex">\(z_\text{cat}\)</span> <em>plus</em> a learned projection of what Pass 1 produced. This means Pass 2 operates on a representation that combines the raw geometry with first-order temporal context — it can refine the temporal dependencies without losing the geometric signal. All weights (<span class="arithmatex">\(g_1, g_2, W_\text{proj}^{(1)}, W_\text{proj}^{(2)}, W_\text{back}^{(2)}\)</span>, SSM and attention parameters) are <strong>independent</strong> between passes — weight tying was tested and failed catastrophically (+0.375 bpb).</p>
+<p><strong>Why 2 passes?</strong> A single pass captures first-order temporal dependencies. The second pass corrects the residual: it sees what the first pass produced and can fix errors or capture higher-order interactions that the first pass missed. This is analogous to iterative refinement in numerical methods.</p>
+<h5 id="stage-3-kernel-heads-spatial-readout">Stage 3 — Kernel heads (spatial readout)<a class="headerlink" href="#stage-3-kernel-heads-spatial-readout" title="Permanent link">¶</a></h5>
+<p><strong>Why multiple kernel heads?</strong> Different kernel functions capture different geometric properties of the token manifold. A Gabor kernel detects oscillatory patterns (periodic structure in the coordinates), a Laplacian kernel measures proximity (smooth decay with distance), and the Nyström kernel approximates the full attention matrix via landmark points. No single kernel can capture all these properties simultaneously — the multi-kernel design lets the model express a rich family of spatial relationships, analogous to how multi-head attention lets different heads attend to different patterns.</p>
+<p>Five kernel heads compute token-to-anchor similarities, each on its <strong>dedicated encoder’s output</strong>. Each head defines a feature map <span class="arithmatex">\(\Phi: \mathbb{R}^d \to \mathbb{R}^R\)</span> that maps a token’s Stäckel coordinates to a vector of <span class="arithmatex">\(R\)</span> kernel evaluations against learned anchor points <span class="arithmatex">\(\{\mu_r\}_{r=1}^R\)</span>:</p>
+<table>
+<thead>
+<tr>
+<th>Head</th>
+<th>Input</th>
+<th>Kernel</th>
+<th>What it captures</th>
+<th style="text-align: center;">R</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td><strong><a href="https://papers.nips.cc/paper/2000/hash/19de10adbaa1b2ee13571571b2826f4d-Abstract.html">Nyström</a></strong></td>
+<td><span class="arithmatex">\(z_0\)</span> (Ψ₀)</td>
+<td>Gegenbauer on cosine similarity</td>
+<td>Global token-to-token attention (causal)</td>
+<td style="text-align: center;">256</td>
+</tr>
+<tr>
+<td><strong>Gabor</strong></td>
+<td><span class="arithmatex">\(z_1\)</span> (Ψ₁)</td>
+<td>Gaussian × cosine</td>
+<td>Oscillatory / periodic structure</td>
+<td style="text-align: center;">256</td>
+</tr>
+<tr>
+<td><strong>Laplacian</strong></td>
+<td><span class="arithmatex">\(z_2\)</span> (Ψ₂)</td>
+<td>Gaussian + Laplacian + Matérn-3/2</td>
+<td>Proximity / smooth decay</td>
+<td style="text-align: center;">256</td>
+</tr>
+<tr>
+<td><strong>Tucker GL</strong></td>
+<td><span class="arithmatex">\(z_1 \times z_2\)</span></td>
+<td>Gabor × Laplacian</td>
+<td>Conjunctions (oscillatory AND proximate)</td>
+<td style="text-align: center;">256</td>
+</tr>
+<tr>
+<td><strong>Linear</strong></td>
+<td><span class="arithmatex">\(z_0\)</span> (Ψ₀)</td>
+<td>None (identity)</td>
+<td>Direct coordinate-to-prediction path</td>
+<td style="text-align: center;">160</td>
+</tr>
+</tbody>
+</table>
+<p>In detail:</p>
+<p><strong><a href="https://papers.nips.cc/paper/2000/hash/19de10adbaa1b2ee13571571b2826f4d-Abstract.html">Nyström</a> (causal spherical, on <span class="arithmatex">\(z_0\)</span>)</strong> (<a href="https://papers.nips.cc/paper/2000/hash/19de10adbaa1b2ee13571571b2826f4d-Abstract.html">Williams &amp; Seeger, 2001</a>)<strong>.</strong> Approximates full token-to-token attention via <span class="arithmatex">\(R = 256\)</span> landmark points. Tokens and landmarks are <span class="arithmatex">\(\ell_2\)</span>-normalised, and the kernel is a Gegenbauer polynomial mixture on cosine similarity:</p>
+<div class="arithmatex">\[\Phi_r(z) = \Big[\alpha_1 P_1(c_r) + \alpha_2 P_2(c_r) + \alpha_3 P_3(c_r)\Big] \cdot m_r \cdot e^{-\eta \cdot \Delta t_r}\]</div>
+<p>where <span class="arithmatex">\(c_r = \hat{z}^\top \hat{\mu}_r\)</span> is the cosine similarity, <span class="arithmatex">\(P_n\)</span> are Gegenbauer polynomials (<span class="arithmatex">\(P_1 = \tfrac{1+c}{2}\)</span>, <span class="arithmatex">\(P_2 = \tfrac{3c^2-1}{2}\)</span>, <span class="arithmatex">\(P_3 = \tfrac{5c^3-3c}{2}\)</span>), <span class="arithmatex">\(m_r\)</span> is the causal mask (zero for future landmarks), and <span class="arithmatex">\(e^{-\eta \Delta t_r}\)</span> is a temporal decay.</p>
+<p><strong><a href="https://en.wikipedia.org/wiki/Gabor_filter">Gabor</a> (on <span class="arithmatex">\(z_1\)</span>)</strong> (<a href="https://doi.org/10.1049/ji-3-2.1946.0074">Gabor, 1946</a>)<strong>.</strong> Captures oscillatory structure — periodic patterns in Ψ₁’s coordinate system. Each anchor has a position <span class="arithmatex">\(\mu_r\)</span>, a wave vector <span class="arithmatex">\(k_r\)</span>, a width <span class="arithmatex">\(\sigma_r\)</span>, and a phase <span class="arithmatex">\(\varphi_r\)</span>:</p>
+<div class="arithmatex">\[\Phi_r(z) = \exp\!\Big(-\frac{\|z - \mu_r\|^2}{2\sigma_r^2}\Big) \cdot \cos(z^\top k_r + \varphi_r)\]</div>
+<p>The Gaussian window localises the response; the cosine detects frequency content at the anchor’s characteristic scale.</p>
+<p><strong>Laplacian (on <span class="arithmatex">\(z_2\)</span>).</strong> Measures proximity in Ψ₂’s coordinate system via a learnable RBF mixture. Three kernel families with complementary smoothness properties:</p>
+<div class="arithmatex">\[\Phi_r(z) = \alpha_0 \exp\!\Big(-\frac{d_r^2}{2\sigma_r^2}\Big) + \alpha_1 \exp\!\Big(-\frac{d_r}{\sigma_r}\Big) + \alpha_2 \Big(1 + \frac{\sqrt{3}\, d_r}{\sigma_r}\Big)\exp\!\Big(-\frac{\sqrt{3}\, d_r}{\sigma_r}\Big)\]</div>
+<p>where <span class="arithmatex">\(d_r = \|z - \mu_r\|\)</span> and the three terms are Gaussian, Laplacian, and <a href="https://en.wikipedia.org/wiki/Mat%C3%A9rn_covariance_function">Matérn-3/2</a> kernels respectively (<a href="http://www.gaussianprocess.org/gpml/">Rasmussen &amp; Williams, 2006</a>). A temporal bandwidth modulation <span class="arithmatex">\(\sigma_r^2 \leftarrow \sigma_r^2(1 + \gamma \cdot t/T)\)</span> widens the bandwidth for later sequence positions.</p>
+<p><strong>Tucker GL (cross-encoder: <span class="arithmatex">\(z_1 \times z_2\)</span>).</strong> Captures conjunctions — “oscillatory AND proximate” — via the element-wise product of Gabor and Laplacian outputs:</p>
+<div class="arithmatex">\[\Phi_r^\text{Tucker}(z) = \Phi_r^\text{Gabor}(z) \cdot \Phi_r^\text{Laplacian}(z)\]</div>
+<p>No additional parameters beyond those of the Gabor and Laplacian heads.</p>
+<p><strong>Linear (on <span class="arithmatex">\(z_0\)</span>).</strong> A non-kernel baseline: the raw encoded coordinates <span class="arithmatex">\(z_0 \in \mathbb{R}^{160}\)</span> used directly as features, with no nonlinear kernel transformation.</p>
+<p>All five heads are stacked into a single GEMM for the readout: <span class="arithmatex">\(\text{mixed} = \Phi_\text{all} \cdot W_\text{all}\)</span>, where <span class="arithmatex">\(\Phi_\text{all} \in \mathbb{R}^{B \times T \times (4 \times 256 + 160)}\)</span>. Per-head learnable scales (softmax-normalised) control the mixture. The 5-head ensemble was not ablated per-head (removing individual heads); kernel diversity was validated as a whole against degenerate baselines (identity encoders, frozen anchors, MLP replacement). The asymmetric dual-encoder variant of Nyström was tested and rejected (+0.030 bpb — the symmetric single-encoder design is superior).</p>
+<h5 id="output">Output<a class="headerlink" href="#output" title="Permanent link">¶</a></h5>
+<p>The final logits combine temporal and spatial paths:</p>
+<div class="arithmatex">\[\text{logits} = \text{softcap}\big(W_\text{out}(H_\text{temporal}) \cdot E^\top + \gamma \cdot \text{mixed}_\text{spatial},\; 30.0\big)\]</div>
+<p>where <span class="arithmatex">\(\gamma\)</span> (the <code>geom_scale</code> gate) is initialised to 0 — the spatial kernel path opens gradually during training.</p>
+<p><strong>Why two separate paths?</strong> The temporal path (SSM + attention) captures sequential dependencies; the spatial path (kernel heads) captures geometric structure in the Stäckel coordinates. Combining them at the logit level lets each path specialise without interfering. Initialising <span class="arithmatex">\(\gamma = 0\)</span> ensures the temporal path establishes stable gradients first; the spatial path then opens once the encoders have learned meaningful coordinates.</p>
+<h5 id="the-model-prefers-the-spatial-path">The model prefers the spatial path<a class="headerlink" href="#the-model-prefers-the-spatial-path" title="Permanent link">¶</a></h5>
+<p>I ran a convex sweep on the temporal/spatial balance (<span class="arithmatex">\(\alpha = 0.27, 0.50, 0.73\)</span>) and also let <span class="arithmatex">\(\gamma\)</span> be learned freely. The model consistently learned <span class="arithmatex">\(\gamma \approx 1.33\)</span> — it <strong>upweighted the spatial kernel path</strong> beyond equal balance. The convex sweep confirmed this: <span class="arithmatex">\(\alpha = 0.73\)</span> (favouring spatial) beat <span class="arithmatex">\(\alpha = 0.27\)</span> (favouring temporal) by −0.003 bpb. The geometric kernel readout carries more signal than the temporal SSM+attention path for next-token prediction in this architecture. This is one of the strongest reasons to pursue the geometric approach: the spatial path — which is the novel, IGL-derived component — is not a marginal add-on that the model tolerates. It is at least as important as the more traditional temporal one. The token manifold’s geometry contains genuine signal for prediction, and the architecture is learning to exploit it.</p>
+<h5 id="parameter-budget">Parameter budget<a class="headerlink" href="#parameter-budget" title="Permanent link">¶</a></h5>
+<table>
+<thead>
+<tr>
+<th>Component</th>
+<th style="text-align: center;">Parameters</th>
+<th style="text-align: center;">%</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>3 ChartEncoders × 2 blocks</td>
+<td style="text-align: center;">8.4M</td>
+<td style="text-align: center;">46%</td>
+</tr>
+<tr>
+<td>5 kernel readout matrices × 2 blocks</td>
+<td style="text-align: center;">2.4M</td>
+<td style="text-align: center;">13%</td>
+</tr>
+<tr>
+<td>BigramHash (16384×160 + projection)</td>
+<td style="text-align: center;">2.7M</td>
+<td style="text-align: center;">15%</td>
+</tr>
+<tr>
+<td>4 SSMs (2 per block, 2-pass)</td>
+<td style="text-align: center;">0.6M</td>
+<td style="text-align: center;">3%</td>
+</tr>
+<tr>
+<td>8 Attention layers (2 per pass × 2 passes × 2 blocks)</td>
+<td style="text-align: center;">2.1M</td>
+<td style="text-align: center;">12%</td>
+</tr>
+<tr>
+<td>Basis params (anchors, σ, φ)</td>
+<td style="text-align: center;">0.25M</td>
+<td style="text-align: center;">1%</td>
+</tr>
+<tr>
+<td>Other (embeddings, gates, norms, skip)</td>
+<td style="text-align: center;">1.8M</td>
+<td style="text-align: center;">10%</td>
+</tr>
+<tr>
+<td><strong>Total</strong></td>
+<td style="text-align: center;"><strong>18.3M</strong></td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<p>Compressed artifact: <strong>13.0 MB</strong> (int8 per-tensor quantisation + zstd-22).</p>
+<h5 id="training">Training<a class="headerlink" href="#training" title="Permanent link">¶</a></h5>
+<p>The optimizer is <strong>decoupled</strong>: <a href="https://kellerjordan.github.io/posts/muon/">Muon</a> (momentum 0.92→0.99, 1500-step warmup) for all 2D weight matrices (encoders, attention QKV/proj, SSM projections), AdamW at varying learning rates for everything else (1e-4 for basis params, 3e-4 for gates, 0.05 for embeddings). Whole-model <code>torch.compile</code> with a 3-step compile warmup before the training clock starts (−0.005 bpb + 16% speed; step 1 at 105ms instead of 1400ms).</p>
+<p><strong>Why decoupled?</strong> Muon’s equivariant Newton step accelerates training on 2D weight matrices (−0.022 bpb from extending it to attention and SSM projections), but applying it to scalar parameters (gate biases, kernel anchors, temperatures) destabilises Stiefel enforcement — full Muon trained at +0.038 bpb. The decoupling lets each parameter type use the optimizer suited to its geometry.</p>
+<p>A soft <strong>Stäckel penalty</strong> encourages diagonal covariance of the encoded coordinates. For each encoder output <span class="arithmatex">\(z \in \mathbb{R}^{B \times T \times d}\)</span>, I compute the empirical covariance <span class="arithmatex">\(C = z^\top z / N\)</span> and penalise its off-diagonal energy:</p>
+<div class="arithmatex">\[\mathcal{L}_\text{Stäckel} = \beta \cdot \frac{\sum_{i \neq j} C_{ij}^2}{d(d-1)}\]</div>
+<p>with <span class="arithmatex">\(\beta = 0.02\)</span>, subsampled to 4096 tokens for efficiency. This nudges the learned metric toward separability — if <span class="arithmatex">\(C\)</span> is diagonal, the coordinate axes are statistically independent, which is the Stäckel condition in the empirical limit. The penalty is soft: the model is free to violate it if the task loss demands correlated coordinates, but in practice it converges to near-diagonal covariance. With deep encoders (n=6), the penalty is redundant — Stiefel enforcement alone suffices. But with shallow encoders (n=4, as in V2), the penalty is needed: the shallow encoder can’t enforce statistical independence of coordinates on its own.</p>
+<hr/>
+<h3 id="ablation-results">Ablation results<a class="headerlink" href="#ablation-results" title="Permanent link">¶</a></h3>
+<figure style="margin:2em 0;">
+<div class="igl-widget" id="igl-fig-0" style="border-radius:12px; border:1px solid #e2e8f0; overflow:hidden; padding:28px 20px 22px;">
+<style>#igl-fig-0 { 
+    margin: 0;
+    padding: 0;
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+    background: transparent;
+   }
+#igl-fig-0 .diagram { 
+    max-width: 720px;
+    margin: 0 auto;
+    padding: 16px;
+   }
+#igl-fig-0 svg text { 
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+   }</style>
+
+<div class="diagram">
+<svg viewbox="0 0 720 340" xmlns="http://www.w3.org/2000/svg">
+<!-- Title -->
+<text fill="#1e293b" font-size="15" font-weight="700" text-anchor="middle" x="360" y="24">V1 → V2 Improvement Attribution (est_bpb)</text>
+<!-- Legend -->
+<rect fill="#f8fafc" height="50" rx="6" stroke="#e2e8f0" stroke-width="1" width="200" x="510" y="38"></rect>
+<rect fill="#fbbf24" height="12" rx="2" width="12" x="522" y="50"></rect>
+<text fill="#475569" font-size="10.5" x="540" y="61">Bug fix</text>
+<rect fill="#818cf8" height="12" rx="2" width="12" x="598" y="50"></rect>
+<text fill="#475569" font-size="10.5" x="616" y="61">Architecture</text>
+<rect fill="#94a3b8" height="12" rx="2" width="12" x="522" y="68"></rect>
+<text fill="#475569" font-size="10.5" x="540" y="79">Engineering</text>
+<!-- Vertical axis -->
+<line stroke="#cbd5e1" stroke-width="1" x1="220" x2="220" y1="108" y2="302"></line>
+<!-- Scale gridlines: max is 0.065, use 400px = 0.065 → 1 bpb = 6154px -->
+<line stroke="#e2e8f0" stroke-dasharray="4,4" stroke-width="0.5" x1="328" x2="328" y1="108" y2="302"></line>
+<text fill="#94a3b8" font-size="9" text-anchor="middle" x="328" y="318">-0.02</text>
+<line stroke="#e2e8f0" stroke-dasharray="4,4" stroke-width="0.5" x1="435" x2="435" y1="108" y2="302"></line>
+<text fill="#94a3b8" font-size="9" text-anchor="middle" x="435" y="318">-0.04</text>
+<line stroke="#e2e8f0" stroke-dasharray="4,4" stroke-width="0.5" x1="543" x2="543" y1="108" y2="302"></line>
+<text fill="#94a3b8" font-size="9" text-anchor="middle" x="543" y="318">-0.06</text>
+<text fill="#94a3b8" font-size="9" text-anchor="middle" x="220" y="318">0</text>
+<!-- Axis label -->
+<text fill="#64748b" font-size="11" text-anchor="middle" x="400" y="336">est_bpb reduction (competition metric)</text>
+<!-- Bars: scale 400px = 0.065 bpb, so multiply by 6154 -->
+<!-- Stiefel fix: 0.065 = 400px — Bug fix -->
+<rect fill="#fbbf24" height="26" opacity="0.85" rx="4" width="400" x="220" y="112"></rect>
+<text fill="#334155" font-size="11" text-anchor="end" x="214" y="130">Stiefel fix</text>
+<text fill="#92400e" font-size="10" font-weight="600" text-anchor="start" x="626" y="130">-0.065</text>
+<!-- Weyl init: 0.062 = 382px — Architecture -->
+<rect fill="#818cf8" height="26" opacity="0.85" rx="4" width="382" x="220" y="142"></rect>
+<text fill="#334155" font-size="11" text-anchor="end" x="214" y="160">Weyl spectral init</text>
+<text fill="#4338ca" font-size="10" font-weight="600" text-anchor="start" x="608" y="160">-0.062</text>
+<!-- d_max: 0.036 = 222px — Engineering -->
+<rect fill="#94a3b8" height="26" opacity="0.85" rx="4" width="222" x="220" y="172"></rect>
+<text fill="#334155" font-size="11" text-anchor="end" x="214" y="190">d_max 128→160</text>
+<text fill="#475569" font-size="10" font-weight="600" text-anchor="start" x="448" y="190">-0.036</text>
+<!-- z-space processing: 0.034 = 209px — Architecture -->
+<rect fill="#818cf8" height="26" opacity="0.85" rx="4" width="209" x="220" y="202"></rect>
+<text fill="#334155" font-size="11" text-anchor="end" x="214" y="220">z-space processing</text>
+<text fill="#4338ca" font-size="10" font-weight="600" text-anchor="start" x="435" y="220">-0.034</text>
+<!-- FFT SSM: 0.031 = 191px — Engineering -->
+<rect fill="#94a3b8" height="26" opacity="0.85" rx="4" width="191" x="220" y="232"></rect>
+<text fill="#334155" font-size="11" text-anchor="end" x="214" y="250">FFT SSM (cuFFT)</text>
+<text fill="#475569" font-size="10" font-weight="600" text-anchor="start" x="417" y="250">-0.031</text>
+<!-- Muon routing: 0.022 = 135px — Engineering -->
+<rect fill="#94a3b8" height="26" opacity="0.85" rx="4" width="135" x="220" y="262"></rect>
+<text fill="#334155" font-size="11" text-anchor="end" x="214" y="280">Muon routing</text>
+<text fill="#475569" font-size="10" font-weight="600" text-anchor="start" x="361" y="280">-0.022</text>
+<!-- torch.compile: 0.005 = 31px — Engineering -->
+<rect fill="#94a3b8" height="26" opacity="0.85" rx="4" width="31" x="220" y="292"></rect>
+<text fill="#334155" font-size="11" text-anchor="end" x="214" y="310">torch.compile</text>
+<text fill="#475569" font-size="10" font-weight="600" text-anchor="start" x="257" y="310">-0.005</text>
+</svg>
+</div>
+
+</div>
+<figcaption style="text-align:center; font-size:0.85em; color:#64748b; margin-top:8px; font-style:italic;"><strong>Figure 4.</strong> Attribution of V1 → V2 gains by category (est_bpb). Each bar shows the impact measured independently against its own baseline — the gains interact and overlap, so they sum to more than the total −0.107 bpb improvement.</figcaption>
+</figure>
+<p>Here’s the attribution of where the V1→V2 gains came from (converted to est_bpb, the competition metric):</p>
+<table>
+<thead>
+<tr>
+<th>Change</th>
+<th style="text-align: center;">Impact (est_bpb)</th>
+<th style="text-align: center;">Type</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>Stiefel enforcement fix (power iteration)</td>
+<td style="text-align: center;">−0.065</td>
+<td style="text-align: center;">Bug fix</td>
+</tr>
+<tr>
+<td>Weyl spectral SSM initialisation</td>
+<td style="text-align: center;">−0.062</td>
+<td style="text-align: center;">Architecture</td>
+</tr>
+<tr>
+<td>d_max 128 → 160 (Tensor Core alignment)</td>
+<td style="text-align: center;">−0.036</td>
+<td style="text-align: center;">Engineering</td>
+</tr>
+<tr>
+<td>z-space temporal processing (SSM + attention on z, not on logits)</td>
+<td style="text-align: center;">−0.034</td>
+<td style="text-align: center;">Architecture</td>
+</tr>
+<tr>
+<td>FFT SSM (cuFFT causal convolution)</td>
+<td style="text-align: center;">−0.031</td>
+<td style="text-align: center;">Engineering</td>
+</tr>
+<tr>
+<td>Surgical Muon routing</td>
+<td style="text-align: center;">−0.022</td>
+<td style="text-align: center;">Engineering</td>
+</tr>
+<tr>
+<td>torch.compile whole-model</td>
+<td style="text-align: center;">−0.005</td>
+<td style="text-align: center;">Engineering</td>
+</tr>
+</tbody>
+</table>
+<p>The largest single gain came from fixing the Stiefel enforcement. The original <code>torch.linalg.matrix_norm(ord=2)</code> call silently triggered cuSOLVER host-device synchronisation, breaking CUDA graphs and crushing throughput. Replacing it with power iteration removed the performance cliff and unlocked headroom for the architectural gains to matter.</p>
+<h4 id="what-worked">What worked<a class="headerlink" href="#what-worked" title="Permanent link">¶</a></h4>
+<p><strong>z-space temporal processing (−0.034 bpb).</strong> The V1 architecture applied SSM and attention to the 1024-dim mixed output — the vocabulary-sized logit space. V2 moved these operations to the encoded coordinates <span class="arithmatex">\(z_\text{cat}\)</span> (480-dim). This is not just a dimensionality reduction: <span class="arithmatex">\(z\)</span> lives in the space where the metric is approximately diagonal, so attention’s QK dot product computes distances that respect the manifold geometry rather than operating on an arbitrary post-kernel mixture. The SSM similarly benefits — its recurrence propagates information along geometrically meaningful axes rather than coupled logit dimensions.</p>
+<p><strong>Weyl spectral SSM initialisation (−0.062 bpb, zero parameters).</strong> The SSM’s complex eigenvalues <span class="arithmatex">\(\lambda_k = -\sigma_k + i\omega_k\)</span> control which frequencies the recurrence propagates. Random initialisation forces the model to discover the right frequency spectrum from scratch. <a href="https://en.wikipedia.org/wiki/Weyl_law">Weyl’s law</a> (<a href="https://doi.org/10.1007/BF01456804">Weyl, 1911</a>) predicts the asymptotic eigenvalue growth of the Laplacian on a Riemannian manifold: <span class="arithmatex">\(\omega_n \sim n^{1/d}\)</span> where <span class="arithmatex">\(d\)</span> is the intrinsic dimension. I set the SSM frequencies to a 50/50 blend of Weyl frequencies (<span class="arithmatex">\(n\pi / R_s\)</span>) and log-spaced frequencies, giving the SSM a physics-informed starting point that matches the spectral structure of the Stäckel metric. This is the cleanest example of IGL theory transferring directly to language modelling — at zero additional parameters.</p>
+<p><strong>Surgical Muon routing (−0.022 bpb).</strong> Muon’s Newton step provides equivariant updates that respect the geometry of weight matrices. V1 applied Muon only to encoder weights. V2 extended it to attention QKV/proj and SSM projections — any 2D weight matrix in the architecture. The key constraint: Muon must not be applied to scalar parameters (gates, temperatures, kernel anchors), where it destabilises the Stiefel manifold constraints (+0.038 bpb with full Muon). The surgical routing — Muon for matrices, AdamW for scalars — lets each parameter type use the optimiser suited to its geometry.</p>
+<h4 id="what-didnt-work">What didn’t work<a class="headerlink" href="#what-didnt-work" title="Permanent link">¶</a></h4>
+<p>Not all failures are equal. Some ideas are theoretically sound but penalised by the competition’s 10-minute wallclock format, which favours fast steps over better-but-slower architectures. I distinguish between ideas that are <strong>fundamentally flawed</strong> and ideas that are <strong>format-disadvantaged</strong>.</p>
+<p><strong>Fundamentally flawed:</strong></p>
+<ul>
+<li>
+<p><strong>Phi-normalisation</strong> (+0.013 bpb): I normalised the kernel design matrix rows before readout — L2 normalisation for Gabor (preserving sign from cosine oscillation), softmax for Laplacian (making positive RBF outputs a probability distribution), Nyström unchanged (already row-sum normalised). The idea was to make kernel outputs scale-invariant. The result: it destroyed load-bearing magnitude information. The raw kernel outputs carry useful scale information — how strongly a token matches an anchor — that the readout weights rely on. Normalising it away forces the model to reconstruct scale from other signals, at a net cost.</p>
+</li>
+<li>
+<p><strong>Competition techniques</strong> (+0.036 to +0.041 bpb): EMA, QK-Gain, and Muon-EQ are tricks borrowed from competitors on the regular transformer track of Parameter Golf (Keller Jordan’s modded-nanoGPT and its derivatives). They were tuned for the transformer baseline’s specific architecture and training dynamics. <strong>EMA</strong> (exponential moving average of weights, decay=0.997): +0.015 bpb — <a href="https://arxiv.org/abs/1803.05407">SWA</a> (<a href="https://arxiv.org/abs/1803.05407">Izmailov et al., 2018</a>) works better for Stiefel architectures because averaging on the orthogonal manifold requires different interpolation than Euclidean averaging. <strong>QK-Gain</strong> (learnable per-head scalar gain on queries, set to 5.0): +0.041 bpb — it oversaturates the tanh-bounded Stäckel coordinates, pushing them into the flat tails where gradients vanish. The default gain of 1.5 already accounts for the bounded range. Only <strong>XSA</strong> (exclusive self-attention: project out the self-alignment component, −0.002 bpb) transferred successfully — it’s architecture-agnostic.</p>
+</li>
+</ul>
+<p><strong>Format-disadvantaged</strong> (may work at larger scale or longer training):</p>
+<ul>
+<li>
+<p><strong>Koopman propagator</strong> (+0.050 bpb): <a href="https://en.wikipedia.org/wiki/Koopman_operator">Koopman operator theory</a> (Koopman, 1931; Budišić et al., 2012) shows that any nonlinear dynamical system can be represented as a <em>linear</em> operator acting on a lifted space of observables. If you find the right set of observables — functions of the state — the nonlinear dynamics become a linear map in that space. Applied to MHALM, the idea was to replace attention with this linearisation: lift <span class="arithmatex">\(z_\text{cat}\)</span> to a higher-dimensional space via a polynomial (<a href="https://en.wikipedia.org/wiki/Carleman_linearization">Carleman linearisation</a> at degree 2: concatenate <span class="arithmatex">\(z_\text{cat}\)</span> with <span class="arithmatex">\(z_\text{cat}^2\)</span>, expanding 384-dim to 768-dim), then apply a single linear projection <span class="arithmatex">\(W \in \mathbb{R}^{768 \times 256}\)</span>. The result: +0.050 bpb. The degree-2 polynomial lift is too crude to capture the content-based retrieval that attention provides — it can represent quadratic interactions but not the sharp, input-dependent routing of softmax. Language requires precise associative recall (“which earlier token matches this query?”), not just smooth quadratic mixing. To be honest, the evidence here is not just a format issue: D-koopman ran 2708 steps vs 1422 for the baseline (90% more tokens, since the single GEMM is much faster than attention), and still ended +0.050 bpb worse. More tokens didn’t help — the degree-2 lift is genuinely insufficient. But the fix paths are concrete: (1) higher-degree lifts on <em>Stäckel coordinates</em> — at intrinsic dimension <span class="arithmatex">\(d = 160\)</span>, not the ambient 384-dim, which keeps <span class="arithmatex">\(R = \binom{d+p}{p}\)</span> tractable; (2) learned Koopman dictionaries (<a href="https://arxiv.org/abs/1408.4408">EDMD</a>-style autoencoder where the latent dynamics are constrained to be linear; <a href="https://arxiv.org/abs/1408.4408">Williams et al., 2015</a>); (3) input-dependent observables, which connects to Mamba’s selectivity — the lifting functions should depend on the current token. This is still work in progress on my side.</p>
+</li>
+<li>
+<p><strong>Dual encoder</strong> (+0.030 bpb): standard attention uses separate <span class="arithmatex">\(W_Q\)</span> and <span class="arithmatex">\(W_K\)</span> projections — queries and keys live in different spaces. MHALM’s Nyström head uses a single encoder Ψ₀ for both query tokens and landmark keys, enforcing <span class="arithmatex">\(s(i,j) = s(j,i)\)</span> (symmetric kernel). The dual encoder variant adds a second encoder Ψ_K (H=256) specifically for landmarks, breaking the symmetry: <span class="arithmatex">\(s(i,j) = K(\Psi_Q(x_i), \Psi_K(x_j)) \neq s(j,i)\)</span>. Cost: +920K parameters. Per-step, the dual encoder was actually better — at 1400 matched steps, it led by −0.028 bpb. But the 26% speed penalty (155ms vs 123ms per step) meant fewer total steps in the wallclock budget, and the net result was +0.030 bpb. In a longer training regime where per-step cost is amortised, the asymmetric representation might learn finer-grained attention patterns.</p>
+</li>
+<li>
+<p><strong>Depth recurrence</strong> (+0.375 bpb in V2): instead of two independent blocks with separate weights, use a single block iterated <span class="arithmatex">\(L = 2\)</span> times (<a href="https://en.wikipedia.org/wiki/Magnus_expansion">Magnus expansion</a>, first-order approximation: <span class="arithmatex">\(e^{L_1 + L_2} \approx e^{2L}\)</span>; <a href="https://doi.org/10.1002/cpa.3160070404">Magnus, 1954</a>). This frees ~2.5M parameters that can be reinvested into wider encoders. In isolation, weight-tying was genuinely positive: −0.041 bpb with 21% more steps (1723 vs 1422, since shared weights are cheaper). But combined with the full V2 architecture (spectral init, 2-pass temporal), it catastrophically failed at +0.375 bpb. The root cause is gradient interference: Pass 2 must correct the residual from Pass 1, but shared weights receive conflicting gradients from both roles. The Magnus theory predicts this should work — the issue is training dynamics, not architecture. Promising fix paths: (1) detached residual (stop gradients from Pass 1 to Pass 2, so each pass trains independently); (2) progressive unfreezing (train Pass 1 first, then unfreeze sharing); (3) partial weight sharing (share SSM weights — which are frequency-based and should be universal — but keep attention weights independent). All of these require longer training runs to validate.</p>
+</li>
+<li>
+<p><strong>More layers</strong> (L=3, −0.025 bpb per-token but rejected): adding a third HybridAtlasBlock with shallower encoders (n=4 to fit the parameter budget) showed −0.025 bpb improvement over L=2 at matched steps (1446 vs 1439). The per-token learning efficiency was better. But the compressed artifact hit 18.2 MB, exceeding the 16 MB competition limit. L=3 is a promising direction for settings without an artifact size constraint.</p>
+</li>
+<li>
+<p><strong>Input-dependent anchors</strong> (+0.021 bpb under competition format): MHALM’s kernel heads use fixed learned anchors — positions <span class="arithmatex">\(\mu_r\)</span>, widths <span class="arithmatex">\(\sigma_r\)</span>, frequencies <span class="arithmatex">\(k_r\)</span> are constant at inference. The SSM is similarly LTI. This means the model cannot selectively propagate or forget information depending on the current token — the same limitation that separated <a href="https://arxiv.org/abs/2111.00396">S4</a>/<a href="https://arxiv.org/abs/2212.14052">H3</a> from <a href="https://arxiv.org/abs/2312.00752">Mamba</a> (<a href="https://arxiv.org/abs/2111.00396">Gu et al., 2021</a>; <a href="https://arxiv.org/abs/2312.00752">Gu &amp; Dao, 2023</a>). The fix: make the anchors functions of the input (<span class="arithmatex">\(\mu_r(x)\)</span>, <span class="arithmatex">\(\sigma_r(x)\)</span>, <span class="arithmatex">\(k_r(x)\)</span>), so different tokens attend to different geometric neighbourhoods in Stäckel space. I made a preliminary attempt — input-dependent bandwidth modulation (<span class="arithmatex">\(\sigma_r(x) = \sigma_r \cdot (1 + 0.5\tanh(W_\sigma z))\)</span>) combined with a selective SSM — which showed +0.021 bpb due to +15ms/step overhead. The mechanism learned non-trivial modulation patterns; the wallclock penalty killed it. Re-evaluating with full input-dependent anchors and a proper training budget is the top priority.</p>
+</li>
+</ul>
+<h3 id="putting-the-numbers-in-context">Putting the numbers in context<a class="headerlink" href="#putting-the-numbers-in-context" title="Permanent link">¶</a></h3>
+<p>The competition format also imposes constraints worth understanding when interpreting the V2 result:</p>
+<p><strong>Hardware.</strong> H100 Tensor Cores do BF16 matmul at ~989 TFLOPS. MHALM’s Gabor/Laplacian/Nyström kernels use <code>exp</code>, <code>cos</code>, <code>sqrt</code> — ALU-bound ops at ~60 TFLOPS on CUDA cores. That’s a 15× hardware efficiency gap. V2’s 2.2× step-time ratio is actually the best achievable given this — meaning the architecture is already well-optimised for the hardware it’s fighting against.</p>
+<p><strong>Walltime vs learning efficiency.</strong> MHALM sees 3.19B tokens vs the transformer’s 7.19B in the same 10-minute wallclock. The competition measures “which learns better per H100-second?” — not “which learns better per token?” At iso-tokens (matched data, matched batch), the gap narrows from +0.27 → +0.11 val_loss and is still closing at the end of training. The gap narrows with more tokens, consistent with higher data efficiency, though I cannot extrapolate to crossover from this data.</p>
+<p><strong>The baseline is heavily engineered.</strong> The provided baseline is a modded-nanoGPT variant with <a href="https://kellerjordan.github.io/posts/muon/">Muon</a> optimizer, Flash SDP attention, and ReLU² MLPs — already a well-optimised transformer tuned for FineWeb + H100. A vanilla transformer without these tricks would most likely score higher than MHALM’s 1.35 bpb.</p>
+<p><strong>V=1024 hides IGL’s main lever.</strong> IGL’s marquee feature — the VP trick where you don’t store <span class="arithmatex">\(R \times V\)</span> readout matrices — saves almost nothing at <span class="arithmatex">\(V = 1024\)</span>. At <span class="arithmatex">\(V = 50\text{K}\)</span> or <span class="arithmatex">\(V = 128\text{K}\)</span>, the VP trick could save 30–40% of total model weights.</p>
+<h3 id="what-comes-next">What comes next<a class="headerlink" href="#what-comes-next" title="Permanent link">¶</a></h3>
+<p>The results so far — 45+ ablations, a 47% gap closure, theory-driven initialisations that work out of the box, and a spatial path the model actively prefers — suggest this direction is worth pursuing seriously. But I’ve reached the limit of what I can reasonably fund in compute on my own. The next steps (iso-token scaling to 1B parameters, long-context evaluation, input-dependent anchors at convergence) require sustained multi-node GPU access that my personal budget can’t absorb.</p>
+<blockquote>
+<p><strong>Looking for support.</strong> If you’re a lab, a compute sponsor, or a researcher interested in geometric approaches to language modelling, I’d welcome collaboration — whether that’s compute credits, mentoring, or just a conversation. You can reach me at <a href="mailto:alexandre@quemy.info">alexandre@quemy.info</a>.</p>
+</blockquote>
+<h4 id="the-theoretical-framework">The theoretical framework<a class="headerlink" href="#the-theoretical-framework" title="Permanent link">¶</a></h4>
+<p>MHALM is one instantiation of a broader theoretical programme that connects the transformer’s attention block to differential geometry and PDEs. The attention kernel <span class="arithmatex">\(K(q, k) = \exp(q^\top k / \sqrt{d_h})\)</span> defines a Green’s function; the Stäckel separability condition identifies when that Green’s function factorises; and the IGL convolution formula turns the factorisation into a concrete linear-time computation. I am developing this framework into a full treatment — linking attention, MLP, LayerNorm, and the residual stream to operators on the token manifold (<a href="https://en.wikipedia.org/wiki/Witten_index">Witten Laplacian</a> (<a href="https://doi.org/10.4310/jdg/1214437492">Witten, 1982</a>), Koopman propagator, Weyl spectral theory). The goal is a complete PDE dictionary for the transformer, where each architectural choice has a geometric interpretation and each geometric insight suggests a concrete architectural improvement — as Weyl spectral init already demonstrated.</p>
+<h4 id="breaking-free-from-the-competition-format">Breaking free from the competition format<a class="headerlink" href="#breaking-free-from-the-competition-format" title="Permanent link">¶</a></h4>
+<p>Parameter Golf proved MHALM works and improves, but its 10-minute speedrun on H100s is the wrong surface to evaluate a kernel-based architecture. The GEMM-optimised transformer runs at 989 TFLOPS on Tensor Cores; MHALM’s kernel ops run at ~60 TFLOPS on CUDA ALUs. In this format, MHALM doesn’t stand a chance — yet. Moreover, the IGL theory provides a path to making MHALM fully GEMM-native: structured polynomial feature maps can replace the explicit <code>exp</code>/<code>cos</code> kernel evaluations with matrix multiplications, leveraging a similar trick as the <a href="https://arxiv.org/abs/2009.14794">Performer</a> (<a href="https://arxiv.org/abs/2009.14794">Choromanski et al., 2020</a>) but with deterministic, Stäckel-structured features instead of random Fourier ones. This would likely eliminate the hardware penalty.</p>
+<p>The immediate plan is to <strong>extend MHALM to a regime where its strengths actually matter</strong>:</p>
+<ul>
+<li><strong>Iso-token evaluation at convergence.</strong> Train both architectures to the same number of tokens on Pile or FineWeb (10–30B tokens at <a href="https://arxiv.org/abs/2203.15556">Chinchilla ratio</a> (<a href="https://arxiv.org/abs/2203.15556">Hoffmann et al., 2022</a>)), at scales from 125M to 1B parameters. Evaluate on standard zero-shot benchmarks (LAMBADA, HellaSwag, PIQA, ARC). The iso-token gap was already narrowing sharply (+0.27 → +0.11 val_loss at 3B tokens) — I want to see where it goes at convergence.</li>
+<li><strong>Large vocabularies.</strong> At <span class="arithmatex">\(V = 50\text{K}\)</span>+ the VP trick saves 30–40% of model weights. Parameter Golf’s <span class="arithmatex">\(V = 1024\)</span> hides this entirely.</li>
+<li><strong>Long sequences.</strong> The LTI SSM with cuFFT should extrapolate to 2K–16K without retraining, where transformer’s <span class="arithmatex">\(O(T^2)\)</span> cost becomes prohibitive.</li>
+</ul>
+<h4 id="re-validating-promising-ideas">Re-validating promising ideas<a class="headerlink" href="#re-validating-promising-ideas" title="Permanent link">¶</a></h4>
+<p>Several ideas showed theoretically sound foundations and promising per-step results but were killed by the speedrun format. With a longer training budget, I want to revisit:</p>
+<ul>
+<li><strong>Koopman propagator</strong> — the degree-2 lift was too crude, but higher-degree lifts on Stäckel coordinates (at intrinsic dimension <span class="arithmatex">\(d\)</span>, not ambient <span class="arithmatex">\(d_h\)</span>) and learned Koopman dictionaries are concrete next steps.</li>
+<li><strong>Depth recurrence</strong> — weight-tying worked in isolation (−0.041 bpb) but failed in combination due to gradient interference. Detached residuals, progressive unfreezing, or partial sharing (SSM shared, attention independent) could fix the training dynamics.</li>
+<li><strong>Dual encoder</strong> — per-step quality was better (−0.028 bpb at matched steps), just too slow for the wallclock budget.</li>
+<li><strong>More layers</strong> (L=3) — genuine per-token improvement (−0.025 bpb), rejected only for artifact size.</li>
+<li><strong>Input-dependent anchors</strong> — the most important open direction, and the top priority for re-evaluation with a proper training budget (see the format-disadvantaged section above for details and preliminary results).</li>
+</ul>
+<h4 id="diagnostic-experiments">Diagnostic experiments<a class="headerlink" href="#diagnostic-experiments" title="Permanent link">¶</a></h4>
+<p>Before scaling up, cheap diagnostics can validate or kill the direction:</p>
+<ul>
+<li><strong>MQAR (multi-query associative recall)</strong> (<a href="https://arxiv.org/abs/2312.04927">Arora et al., 2024</a>)<strong>:</strong> does MHALM’s kernel readout provide recall capacity that gated-convolutions lack? If MHALM scales linearly in <span class="arithmatex">\(d\)</span> on MQAR like vanilla gated-conv, the recall story is broken and input-dependent anchors are needed before further scaling.</li>
+<li><strong>“Is it just a kernel method?” ablation:</strong> three degenerate baselines (identity encoders, frozen anchors, MLP replacement) to confirm the architecture adds value beyond the kernel.</li>
+<li><strong>Atlas specialisation check:</strong> do the three encoders learn distinct coordinate charts, or do they collapse to identical representations?</li>
+</ul>
+<h3 id="conclusion">Conclusion<a class="headerlink" href="#conclusion" title="Permanent link">¶</a></h3>
+<p>After 45+ ablations, MHALM V2 reaches 1.35 bpb — closing about half the gap to the transformer baseline, despite a significant hardware disadvantage on kernel operations.</p>
+<p>The architecture runs end-to-end and improves with iteration. The model prefers the spatial (geometric) path over the temporal one when given the choice. Two theory-driven changes — Weyl spectral initialisation and processing in Stäckel coordinates — produced measurable gains at zero or minimal parameter cost. These were predictions from the IGL framework, not post-hoc tuning.</p>
+<p>Not everything worked though (yet?!). The Koopman propagator, depth recurrence in combination, and input-dependent anchors all failed under the competition format. Some of these are likely format-specific (the 10-minute wallclock penalises anything that adds per-step cost), some may be genuine limitations. Disentangling the two requires longer training runs and iso-token comparisons — experiments I haven’t been able to run yet.</p>
+<p>The path forward is concrete: iso-token evaluation at convergence, input-dependent anchors with a proper training budget, and a GEMM-native formulation of the kernel readout. The theoretical framework connecting attention to differential geometry and PDEs is being developed in parallel.</p>
+<p>If any of this is interesting to you, <a href="mailto:alexandre@quemy.info">I’d be happy to talk</a>.</p>
+                </div>
+                
+                <!-- Mermaid Script -->
+                <script type="module">
+                    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+                    
+                    // Configure and initialize mermaid
+                    const initMermaid = async () => {
+                        try {
+                            await mermaid.initialize({ 
+                                startOnLoad: true,
+                                theme: document.documentElement.classList.contains('dark') ? 'dark' : 'default',
+                                securityLevel: 'loose',
+                                flowchart: {
+                                    useMaxWidth: false,
+                                    htmlLabels: true,
+                                    curve: 'basis',
+                                    padding: 20,
+                                    nodeSpacing: 50,
+                                    rankSpacing: 50
+                                },
+                                themeVariables: {
+                                    primaryColor: '#D97706',
+                                    primaryTextColor: '#2A2927',
+                                    primaryBorderColor: '#D97706',
+                                    lineColor: '#78716c',
+                                    secondaryColor: '#f5f5f4',
+                                    tertiaryColor: '#fafaf9',
+                                    background: '#ffffff',
+                                    mainBkg: '#ffffff',
+                                    secondBkg: '#f5f5f4',
+                                    tertiaryBkg: '#fafaf9'
+                                }
+                            });
+                            
+                            // Log any mermaid elements found
+                            const elements = document.querySelectorAll('.mermaid');
+                            console.log(`Mermaid initialized. Found ${elements.length} diagram(s)`);
+                            
+                            // Force render if elements exist
+                            if (elements.length > 0) {
+                                mermaid.contentLoaded();
+                            }
+                        } catch (error) {
+                            console.error('Mermaid initialization error:', error);
+                        }
+                    };
+                    
+                    // Initialize when DOM is ready
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', initMermaid);
+                    } else {
+                        // DOM already loaded
+                        await initMermaid();
+                    }
+                </script>
+            </article>
+
+            <!-- Giscus Comments Section -->
+            <div class="mt-16 pt-8 border-t border-stone-200 dark:border-stone-700">
+                <script src="https://giscus.app/client.js"
+                    data-repo="aquemy/aquemy.github.io"
+                    data-repo-id="MDEwOlJlcG9zaXRvcnkzMTM5NTY4OTU="
+                    data-category="Ideas"
+                    data-category-id="DIC_kwDOEraaH84CdPT4"
+                    data-mapping="pathname"
+                    data-strict="0"
+                    data-reactions-enabled="1"
+                    data-emit-metadata="1"
+                    data-input-position="top"
+                    data-theme="preferred_color_scheme"
+                    data-lang="en"
+                    data-loading="lazy"
+                    crossorigin="anonymous"
+                    async>
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+
+        </main>
+        <footer class="w-full max-w-4xl mx-auto text-center py-8 px-4 mt-6 border-t border-black/10 dark:border-white/10">
+    <div class="flex justify-center space-x-6 mb-4">
+        
+        <a href="mailto:alexandre@quemy.info" title="Email" class="footer-icon"><i class="fas fa-envelope"></i></a>
+        
+        
+        <a href="https://linkedin.com/in/aquemy" title="LinkedIn" target="_blank" class="footer-icon"><i class="fab fa-linkedin"></i></a>
+        
+        
+        <a href="http://github.com/aquemy" title="GitHub" target="_blank" class="footer-icon"><i class="fab fa-github"></i></a>
+        
+        
+        <a href="https://twitter.com/@alexandre_quemy" title="Twitter" target="_blank" class="footer-icon"><i class="fab fa-twitter"></i></a>
+        
+        <a href="https://orcid.org/0000-0002-5865-6403" title="ORCID" target="_blank" class="footer-icon"><i class="fab fa-orcid"></i></a>
+    </div>
+    <p class="text-xs text-stone-500 dark:text-stone-400">
+        © <span id="current-year"></span> Alexandre Quemy. All rights reserved.
+    </p>
+</footer> <!-- This is the footer -->
+    </div>
+    
+
+    <!-- Custom JavaScript -->
+    <script src="https://quemy.info/js/main.js"></script>
+
+    
+</body>
+</html>

@@ -34,7 +34,7 @@ document.addEventListener('DOMContentLoaded', function() {
     // --- Typing Animation ---
     const subtitleEl = document.getElementById('typing-subtitle');
     if (subtitleEl) {
-        const text = "I research and build at the intersection of Machine Learning, Mathematics, and Software Engineering.";
+        const text = "I research and build at the intersection of Artificial Intelligence, Mathematics, and Software Engineering.";
         let i = 0;
         subtitleEl.innerHTML = " ";
         function typeWriter() {
