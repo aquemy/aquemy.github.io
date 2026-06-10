@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+  <channel>
+    <title>Alexandre Quemy</title>
+    <link>https://quemy.info/</link>
+    <description>Blog of Alexandre Quemy</description>
+    <language>en</language>
+    <atom:link href="https://quemy.info/rss.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>MHALM V2: Kernel Readout on Learned Manifold Coordinates</title>
+      <link>https://quemy.info/2026-04-29-mhalm-v3-lessons.html</link>
+      <guid isPermaLink="true">https://quemy.info/2026-04-29-mhalm-v3-lessons.html</guid>
+      <pubDate>Wed, 29 Apr 2026 00:00:00 +0000</pubDate>
+      <description>The code and training logs for this submission are available in the Parameter Golf PR #2145 .</description>
+    </item>
+    <item>
+      <title>MHALM: When Geometric Kernels Meet Language Modelling</title>
+      <link>https://quemy.info/2026-03-22-mhalm-parameter-golf.html</link>
+      <guid isPermaLink="true">https://quemy.info/2026-03-22-mhalm-parameter-golf.html</guid>
+      <pubDate>Sun, 22 Mar 2026 00:00:00 +0000</pubDate>
+      <description>This is a companion post to my IGL article . There, I teased “AtlasBlock for Language Models” as a future direction. This post is that future — I decided…</description>
+    </item>
+    <item>
+      <title>Intrinsic Green's Learning: Supervised Learning as an Inverse PDE Problem</title>
+      <link>https://quemy.info/2026-03-21-intrinsic-greens-learning.html</link>
+      <guid isPermaLink="true">https://quemy.info/2026-03-21-intrinsic-greens-learning.html</guid>
+      <pubDate>Sat, 21 Mar 2026 00:00:00 +0000</pubDate>
+      <description>This article presents Intrinsic Green’s Learning (IGL) , introduced at the AI &amp; PDE Workshop @ ICLR 2026 . IGL was originally conceived as a geometric…</description>
+    </item>
+    <item>
+      <title>Notification System for Tmux and Claude Code</title>
+      <link>https://quemy.info/2025-08-04-notification-system-tmux-claude.html</link>
+      <guid isPermaLink="true">https://quemy.info/2025-08-04-notification-system-tmux-claude.html</guid>
+      <pubDate>Mon, 04 Aug 2025 00:00:00 +0000</pubDate>
+      <description>Like many technical folks these days, I use Claude Code constantly. But here’s the thing - I’m usually running multiple Claude sessions in parallel…</description>
+    </item>
+    <item>
+      <title>Signature Model Tutorial Part 2 - The problems with Native Function Calling</title>
+      <link>https://quemy.info/2025-15-06-tutorial-fsm-2.html</link>
+      <guid isPermaLink="true">https://quemy.info/2025-15-06-tutorial-fsm-2.html</guid>
+      <pubDate>Sun, 15 Jun 2025 00:00:00 +0000</pubDate>
+      <description>This blog post is the part 2 of the tutorial on the Signature Model approach to function calling. The following interactive tutorial is embedded directly…</description>
+    </item>
+    <item>
+      <title>Signature Model Tutorial Part 3 - Introduction to the Signature Model</title>
+      <link>https://quemy.info/2025-15-06-tutorial-fsm-3.html</link>
+      <guid isPermaLink="true">https://quemy.info/2025-15-06-tutorial-fsm-3.html</guid>
+      <pubDate>Sun, 15 Jun 2025 00:00:00 +0000</pubDate>
+      <description>This blog post is the part 3 of the tutorial on the Signature Model approach to function calling. The following interactive tutorial is embedded directly…</description>
+    </item>
+    <item>
+      <title>Function Calling in LLMs: A Signature Model Approach</title>
+      <link>https://quemy.info/2025-15-06-signature-function-models.html</link>
+      <guid isPermaLink="true">https://quemy.info/2025-15-06-signature-function-models.html</guid>
+      <pubDate>Sun, 15 Jun 2025 00:00:00 +0000</pubDate>
+      <description>This blog post is an introduction to the Signature Model approach to function calling. The following repository contains a collection of tutorials…</description>
+    </item>
+    <item>
+      <title>Signature Model Tutorial Part 4 - SFM and Dependency Resolution</title>
+      <link>https://quemy.info/2025-15-06-tutorial-fsm-4.html</link>
+      <guid isPermaLink="true">https://quemy.info/2025-15-06-tutorial-fsm-4.html</guid>
+      <pubDate>Sun, 15 Jun 2025 00:00:00 +0000</pubDate>
+      <description>This blog post is the part 4 of the tutorial on the Signature Model approach to function calling. The following interactive tutorial is embedded directly…</description>
+    </item>
+    <item>
+      <title>Signature Model Tutorial Part 1 - Introduction to the Function Calling</title>
+      <link>https://quemy.info/2025-15-06-tutorial-fsm-1.html</link>
+      <guid isPermaLink="true">https://quemy.info/2025-15-06-tutorial-fsm-1.html</guid>
+      <pubDate>Sun, 15 Jun 2025 00:00:00 +0000</pubDate>
+      <description>This blog post is the part 1 of the tutorial on the Signature Model approach to function calling. The following interactive tutorial is embedded directly…</description>
+    </item>
+    <item>
+      <title>Stop using "Correlation is not causation" and maybe stop using correlation</title>
+      <link>https://quemy.info/2021-02-03-correlation-is-not-causation-limits.html</link>
+      <guid isPermaLink="true">https://quemy.info/2021-02-03-correlation-is-not-causation-limits.html</guid>
+      <pubDate>Wed, 03 Feb 2021 00:00:00 +0000</pubDate>
+      <description>We went from a world where the slightest correlation was treated as causation to a world where anytime the light is put on any correlation, it attracts a…</description>
+    </item>
+    <item>
+      <title>Distributions, Laplace Transform and Initial Value Problem</title>
+      <link>https://quemy.info/2021-01-08-distribution-umbral-calculus-ode.html</link>
+      <guid isPermaLink="true">https://quemy.info/2021-01-08-distribution-umbral-calculus-ode.html</guid>
+      <pubDate>Sat, 09 Jan 2021 00:00:00 +0000</pubDate>
+      <description>In this article, we are interested in solving Initial Value Problem (IVP) using a special isomorphism between the algebraic fractions in \(\delta'\) and…</description>
+    </item>
+    <item>
+      <title>On controlling the propagation of numerical errors</title>
+      <link>https://quemy.info/2021-01-05-numerical-errors-propagation-control.html</link>
+      <guid isPermaLink="true">https://quemy.info/2021-01-05-numerical-errors-propagation-control.html</guid>
+      <pubDate>Tue, 05 Jan 2021 00:00:00 +0000</pubDate>
+      <description>Numerical computations are always tainted by errors. A typical example is when scientists simulate a physical system by a numerical method for which a…</description>
+    </item>
+    <item>
+      <title>ECHR Open Data - Build and Deployment Process for an open source data project</title>
+      <link>https://quemy.info/2020-12-31-echr-od-build-and-deployment-process.html</link>
+      <guid isPermaLink="true">https://quemy.info/2020-12-31-echr-od-build-and-deployment-process.html</guid>
+      <pubDate>Thu, 31 Dec 2020 00:00:00 +0000</pubDate>
+      <description>This entry is part of a serie on the engineering part behind the European Court of Human Rights Open Project (ECHR-OD) .</description>
+    </item>
+    <item>
+      <title>Contrôler la propagation des erreurs de calculs numériques</title>
+      <link>https://quemy.info/2016-05-23-controler-la-propagation-des-erreurs-de-calculs-numeriques.html</link>
+      <guid isPermaLink="true">https://quemy.info/2016-05-23-controler-la-propagation-des-erreurs-de-calculs-numeriques.html</guid>
+      <pubDate>Mon, 23 May 2016 00:00:00 +0000</pubDate>
+      <description>Lorsque l’on effectue des calculs numériques, ceux-ci sont toujours entachés d’erreurs. C’est le cas notamment lorsque des scientifiques simulent un…</description>
+    </item>
+    <item>
+      <title>Réflexions sur la complexité algorithmique, chapitre 2</title>
+      <link>https://quemy.info/2015-05-15-reflexions-sur-la-complexite-algorithmique-chapitre-2.html</link>
+      <guid isPermaLink="true">https://quemy.info/2015-05-15-reflexions-sur-la-complexite-algorithmique-chapitre-2.html</guid>
+      <pubDate>Fri, 15 May 2015 00:00:00 +0000</pubDate>
+      <description>La complexité algorithmique est l’étude du lien, souvent temporel, mais aussi spatial 1 , entre un problème et un algorithme particulier. Puis en…</description>
+    </item>
+    <item>
+      <title>Méthode spectrale pour la résolution d'une équation parabolique</title>
+      <link>https://quemy.info/2014-08-19-methode-spectrale-pour-la-resolution-dune-equation-parabolique.html</link>
+      <guid isPermaLink="true">https://quemy.info/2014-08-19-methode-spectrale-pour-la-resolution-dune-equation-parabolique.html</guid>
+      <pubDate>Tue, 19 Aug 2014 00:00:00 +0000</pubDate>
+      <description>L’objectif de cet article est de présenter l’application d’une approche spectrale pour la résolution d’équation d’évolution de type parabolique. L’étude…</description>
+    </item>
+    <item>
+      <title>Réconcilier mathématiciens et physiciens via les distributions</title>
+      <link>https://quemy.info/2014-08-14-reconcilier-mathematicien-et-physiciens.html</link>
+      <guid isPermaLink="true">https://quemy.info/2014-08-14-reconcilier-mathematicien-et-physiciens.html</guid>
+      <pubDate>Thu, 14 Aug 2014 00:00:00 +0000</pubDate>
+      <description>On entend souvent les mathématiciens ou plutôt les étudiants en mathématiques s’esclaffer avec dédain du manque de rigueur de nos amis et confrères…</description>
+    </item>
+    <item>
+      <title>Comment les mathématiques régissent notre société.</title>
+      <link>https://quemy.info/2013-11-26-comment-les-mathematiques-regissent-notre-societe.html</link>
+      <guid isPermaLink="true">https://quemy.info/2013-11-26-comment-les-mathematiques-regissent-notre-societe.html</guid>
+      <pubDate>Tue, 26 Nov 2013 00:00:00 +0000</pubDate>
+      <description>Le billet qui suit est une tentative de mettre en exergue l’omniprésence des mathématiques et l’utilisation des mathématiques dans nos sociétés. J’essaye…</description>
+    </item>
+    <item>
+      <title>Island Model with ParadisEO: heterogeneous island model</title>
+      <link>https://quemy.info/2013-11-23-island-model-with-paradiseo-heterogeneous-island-model.html</link>
+      <guid isPermaLink="true">https://quemy.info/2013-11-23-island-model-with-paradiseo-heterogeneous-island-model.html</guid>
+      <pubDate>Sat, 23 Nov 2013 00:00:00 +0000</pubDate>
+      <description>Depending on the problem, one might want to create a model that contains different types of algorithms such as Evolutionary Algorithms or Particle Swarm…</description>
+    </item>
+    <item>
+      <title>Island Model with ParadisEO: components and basics</title>
+      <link>https://quemy.info/2013-11-23-island-model-with-paradiseo-components-and-basics.html</link>
+      <guid isPermaLink="true">https://quemy.info/2013-11-23-island-model-with-paradiseo-components-and-basics.html</guid>
+      <pubDate>Sat, 23 Nov 2013 00:00:00 +0000</pubDate>
+      <description>The purpose of this article is to present how to create an homogeneous island model, that is to say with the same Evolutionary Algorithm (EA) on each…</description>
+    </item>
+    <item>
+      <title>Island Model with ParadisEO: advanced island model manipulations</title>
+      <link>https://quemy.info/2013-11-23-island-model-with-paradiseo-advanced-island-model-manipulations.html</link>
+      <guid isPermaLink="true">https://quemy.info/2013-11-23-island-model-with-paradiseo-advanced-island-model-manipulations.html</guid>
+      <pubDate>Sat, 23 Nov 2013 00:00:00 +0000</pubDate>
+      <description>This article presents how to manage advanced mecanisms supplied by the island model. In the first part we will present the custom topology and stochastic…</description>
+    </item>
+    <item>
+      <title>Modèle de parallélisme en îles pour des métaheuristiques</title>
+      <link>https://quemy.info/2013-10-11-modele-de-parallelisme-en-iles-pour-des-metaheuristiques.html</link>
+      <guid isPermaLink="true">https://quemy.info/2013-10-11-modele-de-parallelisme-en-iles-pour-des-metaheuristiques.html</guid>
+      <pubDate>Fri, 11 Oct 2013 00:00:00 +0000</pubDate>
+      <description>Lorsque l’on parle de parallélisme, on pensera la majorité du temps à un gain de performance se traduisant par un temps de calcul moins long. Il existe…</description>
+    </item>
+    <item>
+      <title>Notion de liaison et liaisons usuelles en C++</title>
+      <link>https://quemy.info/2013-10-10-notion-de-liaison-et-liaisons-usuelles-en-c-plus-plus.html</link>
+      <guid isPermaLink="true">https://quemy.info/2013-10-10-notion-de-liaison-et-liaisons-usuelles-en-c-plus-plus.html</guid>
+      <pubDate>Thu, 10 Oct 2013 00:00:00 +0000</pubDate>
+      <description>L’objectif de cet article est de présenter les différents types de liaisons en C++. Pour cela, nous introduirons la notion de liaisons et donnerons…</description>
+    </item>
+    <item>
+      <title>Réflexions sur la complexité algorithmique</title>
+      <link>https://quemy.info/2013-03-14-reflexions-sur-la-complexite-algorithmique.html</link>
+      <guid isPermaLink="true">https://quemy.info/2013-03-14-reflexions-sur-la-complexite-algorithmique.html</guid>
+      <pubDate>Fri, 26 Jul 2013 00:00:00 +0000</pubDate>
+      <description>L’article qui suit présuppose quelques notions basiques d’algorithmique et de calcul de complexité (temporelle). Il vise à aborder deux grandes erreurs…</description>
+    </item>
+    <item>
+      <title>Idiome NVI &amp;amp; paramétrage par politique en C++</title>
+      <link>https://quemy.info/2013-07-26-idiome-nvi-and-parametrage-par-politique-en-c-plus-plus.html</link>
+      <guid isPermaLink="true">https://quemy.info/2013-07-26-idiome-nvi-and-parametrage-par-politique-en-c-plus-plus.html</guid>
+      <pubDate>Fri, 26 Jul 2013 00:00:00 +0000</pubDate>
+      <description>Cet article, sur le C++, vise à présenter d’une part l’idiome NVI , pour « Non Virtual Interface », et d’autre part, une technique de conception…</description>
+    </item>
+  </channel>
+</rss>
