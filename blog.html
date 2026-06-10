@@ -64,17 +64,19 @@
           extend: {
             fontFamily: {
               sans: ['Source Sans Pro', 'sans-serif'],
-              serif: ['Lora', 'serif'],
+              serif: ['STIX Two Text', 'Georgia', 'serif'],
+              mono: ['Roboto Mono', 'monospace'],
             },
             colors: {
-              paper: '#F8F6F1',
+              paper: '#F8F6F1',     // original warm off-white
+              surface: '#f5ede0',   // warm cream — accents only (code, cards, TOC)
               ink: '#2A2927',
               accent: {
                 light: '#D97706', // amber-600
                 dark: '#FBBF24'   // amber-400
               },
-              'dark-bg': '#192231',
-              'dark-ink': '#E2E0DB',
+              'dark-bg': '#1c1917',
+              'dark-ink': '#E7E2D6',
             }
           }
         }
@@ -87,7 +89,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Source+Sans+Pro:wght@400;600;700&family=Roboto+Mono&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Sans+Pro:wght@400;600;700&family=Roboto+Mono&display=swap" rel="stylesheet">
     
     <!-- KaTeX for Math Rendering -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
@@ -288,7 +290,7 @@
         <div id="blog-list-container" class="lg:col-span-3">
             
             <section class="mb-12">
-                <h2 class="font-sans text-3xl font-black mb-6 border-b-2 border-accent-light/50 dark:border-accent-dark/50 pb-2">2026</h2>
+                <h2 class="font-serif text-3xl font-bold mb-6 border-b-2 border-accent-light/50 dark:border-accent-dark/50 pb-2">2026</h2>
                 <div class="space-y-1">
                     
                     
@@ -340,7 +342,7 @@
             </section>
             
             <section class="mb-12">
-                <h2 class="font-sans text-3xl font-black mb-6 border-b-2 border-accent-light/50 dark:border-accent-dark/50 pb-2">2025</h2>
+                <h2 class="font-serif text-3xl font-bold mb-6 border-b-2 border-accent-light/50 dark:border-accent-dark/50 pb-2">2025</h2>
                 <div class="space-y-1">
                     
                     
@@ -437,7 +439,7 @@
             </section>
             
             <section class="mb-12">
-                <h2 class="font-sans text-3xl font-black mb-6 border-b-2 border-accent-light/50 dark:border-accent-dark/50 pb-2">2021</h2>
+                <h2 class="font-serif text-3xl font-bold mb-6 border-b-2 border-accent-light/50 dark:border-accent-dark/50 pb-2">2021</h2>
                 <div class="space-y-1">
                     
                     
@@ -489,7 +491,7 @@
             </section>
             
             <section class="mb-12">
-                <h2 class="font-sans text-3xl font-black mb-6 border-b-2 border-accent-light/50 dark:border-accent-dark/50 pb-2">2020</h2>
+                <h2 class="font-serif text-3xl font-bold mb-6 border-b-2 border-accent-light/50 dark:border-accent-dark/50 pb-2">2020</h2>
                 <div class="space-y-1">
                     
                     
@@ -511,7 +513,7 @@
             </section>
             
             <section class="mb-12">
-                <h2 class="font-sans text-3xl font-black mb-6 border-b-2 border-accent-light/50 dark:border-accent-dark/50 pb-2">2016</h2>
+                <h2 class="font-serif text-3xl font-bold mb-6 border-b-2 border-accent-light/50 dark:border-accent-dark/50 pb-2">2016</h2>
                 <div class="space-y-1">
                     
                     
@@ -533,7 +535,7 @@
             </section>
             
             <section class="mb-12">
-                <h2 class="font-sans text-3xl font-black mb-6 border-b-2 border-accent-light/50 dark:border-accent-dark/50 pb-2">2015</h2>
+                <h2 class="font-serif text-3xl font-bold mb-6 border-b-2 border-accent-light/50 dark:border-accent-dark/50 pb-2">2015</h2>
                 <div class="space-y-1">
                     
                     
@@ -555,7 +557,7 @@
             </section>
             
             <section class="mb-12">
-                <h2 class="font-sans text-3xl font-black mb-6 border-b-2 border-accent-light/50 dark:border-accent-dark/50 pb-2">2014</h2>
+                <h2 class="font-serif text-3xl font-bold mb-6 border-b-2 border-accent-light/50 dark:border-accent-dark/50 pb-2">2014</h2>
                 <div class="space-y-1">
                     
                     
@@ -592,7 +594,7 @@
             </section>
             
             <section class="mb-12">
-                <h2 class="font-sans text-3xl font-black mb-6 border-b-2 border-accent-light/50 dark:border-accent-dark/50 pb-2">2013</h2>
+                <h2 class="font-serif text-3xl font-bold mb-6 border-b-2 border-accent-light/50 dark:border-accent-dark/50 pb-2">2013</h2>
                 <div class="space-y-1">
                     
                     

@@ -88,17 +88,19 @@
           extend: {
             fontFamily: {
               sans: ['Source Sans Pro', 'sans-serif'],
-              serif: ['Lora', 'serif'],
+              serif: ['STIX Two Text', 'Georgia', 'serif'],
+              mono: ['Roboto Mono', 'monospace'],
             },
             colors: {
-              paper: '#F8F6F1',
+              paper: '#F8F6F1',     // original warm off-white
+              surface: '#f5ede0',   // warm cream — accents only (code, cards, TOC)
               ink: '#2A2927',
               accent: {
                 light: '#D97706', // amber-600
                 dark: '#FBBF24'   // amber-400
               },
-              'dark-bg': '#192231',
-              'dark-ink': '#E2E0DB',
+              'dark-bg': '#1c1917',
+              'dark-ink': '#E7E2D6',
             }
           }
         }
@@ -111,7 +113,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Source+Sans+Pro:wght@400;600;700&family=Roboto+Mono&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Sans+Pro:wght@400;600;700&family=Roboto+Mono&display=swap" rel="stylesheet">
     
     <!-- KaTeX for Math Rendering -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
@@ -176,9 +178,9 @@
 <div class="w-full max-w-7xl mx-auto py-12 px-4">
     <!-- Header moved outside the grid for proper alignment -->
     <header class="max-w-5xl mx-auto mb-12 text-center lg:text-left">
-        <a href="https://quemy.info/blog.html" class="text-sm text-accent-light dark:text-accent-dark hover:underline mb-4 inline-block">← Back to all posts</a>
-        <h1 class="font-sans text-4xl md:text-5xl font-black text-ink dark:text-dark-ink leading-tight">ECHR Open Data - Build and Deployment Process for an open source data project</h1>
-        <p class="mt-4 text-stone-500 dark:text-stone-400">2020-12-31 · Engineering</p>
+        <a href="https://quemy.info/blog.html" class="post-meta text-accent-light dark:text-accent-dark hover:underline mb-6 inline-block">← Back to all posts</a>
+        <h1 class="font-serif text-4xl md:text-5xl font-bold text-ink dark:text-dark-ink leading-tight">ECHR Open Data - Build and Deployment Process for an open source data project</h1>
+        <p class="post-meta mt-4">Engineering · 2020-12-31 · 6 min read</p>
     </header>
 
     <div class="lg:grid lg:grid-cols-5 lg:gap-16">
@@ -354,10 +356,10 @@ But ultimately, the container is restarted and the new SQLite database is loaded
                                     lineColor: '#78716c',
                                     secondaryColor: '#f5f5f4',
                                     tertiaryColor: '#fafaf9',
-                                    background: '#ffffff',
-                                    mainBkg: '#ffffff',
-                                    secondBkg: '#f5f5f4',
-                                    tertiaryBkg: '#fafaf9'
+                                    background: '#F8F6F1',
+                                    mainBkg: '#f5ede0',
+                                    secondBkg: '#faf7f0',
+                                    tertiaryBkg: '#faf7f0'
                                 }
                             });
                             
@@ -383,6 +385,29 @@ But ultimately, the container is restarted and the new SQLite database is loaded
                     }
                 </script>
             </article>
+
+            <!-- Prev / Next + same-category navigation -->
+            
+            <nav class="mt-16 pt-8 border-t border-stone-200 dark:border-stone-700 flex justify-between gap-8">
+                <div class="flex-1">
+                    
+                    <a href="https://quemy.info/2016-05-23-controler-la-propagation-des-erreurs-de-calculs-numeriques.html" class="group block">
+                        <span class="post-meta block mb-1">← Previous</span>
+                        <span class="font-serif text-lg text-ink dark:text-dark-ink group-hover:text-accent-light dark:group-hover:text-accent-dark transition-colors">Contrôler la propagation des erreurs de calculs numériques</span>
+                    </a>
+                    
+                </div>
+                <div class="flex-1 text-right">
+                    
+                    <a href="https://quemy.info/2021-01-05-numerical-errors-propagation-control.html" class="group block">
+                        <span class="post-meta block mb-1">Next →</span>
+                        <span class="font-serif text-lg text-ink dark:text-dark-ink group-hover:text-accent-light dark:group-hover:text-accent-dark transition-colors">On controlling the propagation of numerical errors</span>
+                    </a>
+                    
+                </div>
+            </nav>
+            
+            
 
             <!-- Giscus Comments Section -->
             <div class="mt-16 pt-8 border-t border-stone-200 dark:border-stone-700">

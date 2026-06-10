@@ -64,17 +64,19 @@
           extend: {
             fontFamily: {
               sans: ['Source Sans Pro', 'sans-serif'],
-              serif: ['Lora', 'serif'],
+              serif: ['STIX Two Text', 'Georgia', 'serif'],
+              mono: ['Roboto Mono', 'monospace'],
             },
             colors: {
-              paper: '#F8F6F1',
+              paper: '#F8F6F1',     // original warm off-white
+              surface: '#f5ede0',   // warm cream — accents only (code, cards, TOC)
               ink: '#2A2927',
               accent: {
                 light: '#D97706', // amber-600
                 dark: '#FBBF24'   // amber-400
               },
-              'dark-bg': '#192231',
-              'dark-ink': '#E2E0DB',
+              'dark-bg': '#1c1917',
+              'dark-ink': '#E7E2D6',
             }
           }
         }
@@ -87,7 +89,7 @@
     <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400..700;1,400..700&family=Source+Sans+Pro:wght@400;600;700&family=Roboto+Mono&family=Roboto:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Sans+Pro:wght@400;600;700&family=Roboto+Mono&display=swap" rel="stylesheet">
     
     <!-- KaTeX for Math Rendering -->
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
@@ -182,18 +184,15 @@
                 
                     
                     <li>
-                        <span class="font-semibold">"Intrinsic Green's Learning: Supervised Learning on Manifolds via Inverse PDE"</span>, Alexandre Quemy.
-                        <span class="italic">AI & PDE Workshop @ ICLR 2026</span>, 2026.
+                        <p class="pub-title">“Intrinsic Green's Learning: Supervised Learning on Manifolds via Inverse PDE”</p>
+                        <p class="pub-authors">Alexandre Quemy</p>
+                        <p class="pub-venue">AI & PDE Workshop @ ICLR 2026, 2026</p>
                         
-                        <div class="flex flex-wrap gap-x-4 mt-1">
+                        <div class="pub-links">
                             
-                            <a href="https://openreview.net/pdf?id=Y6RpdS98l8" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                <i class="fas fa-file-pdf"></i> Pdf
-                            </a>
+                            <a href="https://openreview.net/pdf?id=Y6RpdS98l8" target="_blank"><i class="fas fa-file-pdf"></i> Pdf</a>
                             
-                            <a href="https://openreview.net/forum?id=Y6RpdS98l8" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                <i class="fas fa-link"></i> Website
-                            </a>
+                            <a href="https://openreview.net/forum?id=Y6RpdS98l8" target="_blank"><i class="fas fa-link"></i> Website</a>
                             
                         </div>
                         
@@ -202,32 +201,18 @@
                 
                     
                     <li>
-                        <span class="font-semibold">"ydata-profiling: Accelerating Data-Centric AI with high-quality data"</span>, Fabiana Clemente, Gonçalo Martins Ribeiro, Alexandre Quemy, et al..
-                        <span class="italic">Neurocomputing</span>, 2023.
+                        <p class="pub-title">“ydata-profiling: Accelerating Data-Centric AI with high-quality data”</p>
+                        <p class="pub-authors">Fabiana Clemente, Gonçalo Martins Ribeiro, Alexandre Quemy, et al.</p>
+                        <p class="pub-venue">Neurocomputing, 2023</p>
                         
                     </li>
                     
                 
                     
                     <li>
-                        <span class="font-semibold">"A large reproducible benchmark on text classification for the legal domain based on the ECHR-OD repository"</span>, Alexandre Quemy, Robert Wrembel, Natalia Łopuszyńska, George Papadakis, Andrés Domínguez Delgado.
-                        <span class="italic">Information Systems</span>, 2023.
-                        
-                    </li>
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                
-                    
-                    <li>
-                        <span class="font-semibold">"Artificial intelligence and fair trial rights"</span>, Helga Molbæk-Steensig, Alexandre Quemy.
-                        <span class="italic">Artificial Intelligence and Human Rights</span>, 2023.
+                        <p class="pub-title">“A large reproducible benchmark on text classification for the legal domain based on the ECHR-OD repository”</p>
+                        <p class="pub-authors">Alexandre Quemy, Robert Wrembel, Natalia Łopuszyńska, George Papadakis, Andrés Domínguez Delgado</p>
+                        <p class="pub-venue">Information Systems, 2023</p>
                         
                     </li>
                     
@@ -241,6 +226,23 @@
                     
                 
                     
+                    <li>
+                        <p class="pub-title">“Artificial intelligence and fair trial rights”</p>
+                        <p class="pub-authors">Helga Molbæk-Steensig, Alexandre Quemy</p>
+                        <p class="pub-venue">Artificial Intelligence and Human Rights, 2023</p>
+                        
+                    </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
+                
+                    
                 
                     
                 
@@ -252,26 +254,19 @@
                 
                     
                     <li>
-                        <span class="font-semibold">"Binary Classification In Unstructured Space With Hypergraph Case-Based Reasoning"</span>, Alexandre Quemy.
-                        <span class="italic">Information Systems</span>, 2019.
+                        <p class="pub-title">“Binary Classification In Unstructured Space With Hypergraph Case-Based Reasoning”</p>
+                        <p class="pub-authors">Alexandre Quemy</p>
+                        <p class="pub-venue">Information Systems, 2019</p>
                         
-                        <div class="flex flex-wrap gap-x-4 mt-1">
+                        <div class="pub-links">
                             
-                            <a href="https://dblp.org/rec/journals/is/Quemy19.html?view=bibtex" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                <i class="fas fa-quote-right"></i> Bibtex
-                            </a>
+                            <a href="https://dblp.org/rec/journals/is/Quemy19.html?view=bibtex" target="_blank"><i class="fas fa-quote-right"></i> Bibtex</a>
                             
-                            <a href="./static/publications/quemy2019.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                <i class="fas fa-file-pdf"></i> Pdf
-                            </a>
+                            <a href="./static/publications/quemy2019.pdf" target="_blank"><i class="fas fa-file-pdf"></i> Pdf</a>
                             
-                            <a href="http://www.cs.put.poznan.pl/events/AQuemy-additional-material.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                <i class="fas fa-mail-bulk"></i> Additional material
-                            </a>
+                            <a href="http://www.cs.put.poznan.pl/events/AQuemy-additional-material.pdf" target="_blank"><i class="fas fa-mail-bulk"></i> Additional material</a>
                             
-                            <a href="https://github.com/aquemy/HCBR" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                <i class="fab fa-github"></i> Code
-                            </a>
+                            <a href="https://github.com/aquemy/HCBR" target="_blank"><i class="fab fa-github"></i> Code</a>
                             
                         </div>
                         
@@ -298,33 +293,29 @@
             
             <section id="thesis" class="scroll-section mb-16">
                 <h2 class="section-title"><i class="fas fa-scroll text-accent-light dark:text-accent-dark"></i> Thesis</h2>
-                <ul class="space-y-2">
+                <ul class="space-y-5">
                     
                     <li class="list-item-hover">
-                        <p class="font-semibold text-ink dark:text-dark-ink">“End-to-end approach to classification in unstructured spaces with application to judicial decisions”</p>
-                        <p class="text-sm text-stone-600 dark:text-stone-400">Supervisor: Robert Wrembel (Poznan University of Technology)</p>
-                        <p class="text-sm text-stone-500 dark:text-stone-400 italic">Ph.D. thesis</p>
+                        <p class="pub-title">“End-to-end approach to classification in unstructured spaces with application to judicial decisions”</p>
+                        <p class="pub-authors">Supervisor: Robert Wrembel (Poznan University of Technology)</p>
+                        <p class="pub-venue">Ph.D. thesis</p>
                         
-                        <div class="flex flex-wrap gap-x-4 mt-2">
+                        <div class="pub-links">
                             
-                            <a href="./static/thesis/PhD_dissertation.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                <i class="fas fa-file-pdf"></i> Pdf
-                            </a>
+                            <a href="./static/thesis/PhD_dissertation.pdf" target="_blank"><i class="fas fa-file-pdf"></i> Pdf</a>
                             
                         </div>
                         
                     </li>
                     
                     <li class="list-item-hover">
-                        <p class="font-semibold text-ink dark:text-dark-ink">“Insertion of adaptive modalities in the mono or multi objectives evolutionary planner Divide-and-Evolve”</p>
-                        <p class="text-sm text-stone-600 dark:text-stone-400">Supervisor: Marc Schoenauer (Inria), Christian Gout (INSA)</p>
-                        <p class="text-sm text-stone-500 dark:text-stone-400 italic">Master thesis</p>
+                        <p class="pub-title">“Insertion of adaptive modalities in the mono or multi objectives evolutionary planner Divide-and-Evolve”</p>
+                        <p class="pub-authors">Supervisor: Marc Schoenauer (Inria), Christian Gout (INSA)</p>
+                        <p class="pub-venue">Master thesis</p>
                         
-                        <div class="flex flex-wrap gap-x-4 mt-2">
+                        <div class="pub-links">
                             
-                            <a href="./static/thesis/Rapport_Projet_Fin_Etude.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                <i class="fas fa-file-pdf"></i> Pdf
-                            </a>
+                            <a href="./static/thesis/Rapport_Projet_Fin_Etude.pdf" target="_blank"><i class="fas fa-file-pdf"></i> Pdf</a>
                             
                         </div>
                         
@@ -339,7 +330,7 @@
                 
                 
                 
-                <div class="space-y-2">
+                <div class="space-y-5">
                 
                     
                     
@@ -349,19 +340,15 @@
                                 2026
                             </div>
                             <div class="flex-1 list-item-hover">
-                                <p class="font-semibold text-ink dark:text-dark-ink">“Intrinsic Green's Learning: Supervised Learning on Manifolds via Inverse PDE”</p>
-                                <p class="text-sm text-stone-600 dark:text-stone-400">Alexandre Quemy</p>
-                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">AI & PDE Workshop @ ICLR 2026</p>
+                                <p class="pub-title">“Intrinsic Green's Learning: Supervised Learning on Manifolds via Inverse PDE”</p>
+                                <p class="pub-authors">Alexandre Quemy</p>
+                                <p class="pub-venue">AI & PDE Workshop @ ICLR 2026</p>
                                 
-                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                <div class="pub-links">
                                     
-                                    <a href="https://openreview.net/pdf?id=Y6RpdS98l8" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-file-pdf"></i> Pdf
-                                    </a>
+                                    <a href="https://openreview.net/pdf?id=Y6RpdS98l8" target="_blank"><i class="fas fa-file-pdf"></i> Pdf</a>
                                     
-                                    <a href="https://openreview.net/forum?id=Y6RpdS98l8" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-link"></i> Website
-                                    </a>
+                                    <a href="https://openreview.net/forum?id=Y6RpdS98l8" target="_blank"><i class="fas fa-link"></i> Website</a>
                                     
                                 </div>
                                 
@@ -428,9 +415,9 @@
                                 2023
                             </div>
                             <div class="flex-1 list-item-hover">
-                                <p class="font-semibold text-ink dark:text-dark-ink">“ydata-profiling: Accelerating Data-Centric AI with high-quality data”</p>
-                                <p class="text-sm text-stone-600 dark:text-stone-400">Fabiana Clemente, Gonçalo Martins Ribeiro, Alexandre Quemy, et al.</p>
-                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">Neurocomputing</p>
+                                <p class="pub-title">“ydata-profiling: Accelerating Data-Centric AI with high-quality data”</p>
+                                <p class="pub-authors">Fabiana Clemente, Gonçalo Martins Ribeiro, Alexandre Quemy, et al.</p>
+                                <p class="pub-venue">Neurocomputing</p>
                                 
                             </div>
                         </div>
@@ -442,9 +429,9 @@
                                  
                             </div>
                             <div class="flex-1 list-item-hover">
-                                <p class="font-semibold text-ink dark:text-dark-ink">“A large reproducible benchmark on text classification for the legal domain based on the ECHR-OD repository”</p>
-                                <p class="text-sm text-stone-600 dark:text-stone-400">Alexandre Quemy, Robert Wrembel, Natalia Łopuszyńska, George Papadakis, Andrés Domínguez Delgado</p>
-                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">Information Systems</p>
+                                <p class="pub-title">“A large reproducible benchmark on text classification for the legal domain based on the ECHR-OD repository”</p>
+                                <p class="pub-authors">Alexandre Quemy, Robert Wrembel, Natalia Łopuszyńska, George Papadakis, Andrés Domínguez Delgado</p>
+                                <p class="pub-venue">Information Systems</p>
                                 
                             </div>
                         </div>
@@ -456,9 +443,9 @@
                                  
                             </div>
                             <div class="flex-1 list-item-hover">
-                                <p class="font-semibold text-ink dark:text-dark-ink">“Judicial independence and impartiality: Tenure changes at the European Court of Human Rights”</p>
-                                <p class="text-sm text-stone-600 dark:text-stone-400">Helga Molbæk-Steensig, Alexandre Quemy</p>
-                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">European Journal of International Law</p>
+                                <p class="pub-title">“Judicial independence and impartiality: Tenure changes at the European Court of Human Rights”</p>
+                                <p class="pub-authors">Helga Molbæk-Steensig, Alexandre Quemy</p>
+                                <p class="pub-venue">European Journal of International Law</p>
                                 
                             </div>
                         </div>
@@ -470,15 +457,13 @@
                                  
                             </div>
                             <div class="flex-1 list-item-hover">
-                                <p class="font-semibold text-ink dark:text-dark-ink">“MultiZenoTravel: a Tunable Benchmark for Multi-Objective Planning with Known Pareto Front”</p>
-                                <p class="text-sm text-stone-600 dark:text-stone-400">Alexandre Quemy, Marc Schoenauer, Johann Dréo</p>
-                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">arXiv preprint arXiv:2304.14659</p>
+                                <p class="pub-title">“MultiZenoTravel: a Tunable Benchmark for Multi-Objective Planning with Known Pareto Front”</p>
+                                <p class="pub-authors">Alexandre Quemy, Marc Schoenauer, Johann Dréo</p>
+                                <p class="pub-venue">arXiv preprint arXiv:2304.14659</p>
                                 
-                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                <div class="pub-links">
                                     
-                                    <a href="https://github.com/aquemy/ZenoSolver" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fab fa-github"></i> Code
-                                    </a>
+                                    <a href="https://github.com/aquemy/ZenoSolver" target="_blank"><i class="fab fa-github"></i> Code</a>
                                     
                                 </div>
                                 
@@ -492,9 +477,9 @@
                                  
                             </div>
                             <div class="flex-1 list-item-hover">
-                                <p class="font-semibold text-ink dark:text-dark-ink">“Case-based and quantum classification for ERP-based brain-computer interfaces”</p>
-                                <p class="text-sm text-stone-600 dark:text-stone-400">Grégoire Hugues Cattan, Alexandre Quemy</p>
-                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">Brain Sciences</p>
+                                <p class="pub-title">“Case-based and quantum classification for ERP-based brain-computer interfaces”</p>
+                                <p class="pub-authors">Grégoire Hugues Cattan, Alexandre Quemy</p>
+                                <p class="pub-venue">Brain Sciences</p>
                                 
                             </div>
                         </div>
@@ -506,9 +491,9 @@
                                  
                             </div>
                             <div class="flex-1 list-item-hover">
-                                <p class="font-semibold text-ink dark:text-dark-ink">“First steps towards quantum machine learning applied to the classification of event-related potentials”</p>
-                                <p class="text-sm text-stone-600 dark:text-stone-400">Grégoire Cattan, Alexandre Quemy, Anton Andreev</p>
-                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">arXiv preprint arXiv:2302.02648</p>
+                                <p class="pub-title">“First steps towards quantum machine learning applied to the classification of event-related potentials”</p>
+                                <p class="pub-authors">Grégoire Cattan, Alexandre Quemy, Anton Andreev</p>
+                                <p class="pub-venue">arXiv preprint arXiv:2302.02648</p>
                                 
                             </div>
                         </div>
@@ -520,9 +505,9 @@
                                  
                             </div>
                             <div class="flex-1 list-item-hover">
-                                <p class="font-semibold text-ink dark:text-dark-ink">“Artificial intelligence and fair trial rights”</p>
-                                <p class="text-sm text-stone-600 dark:text-stone-400">Helga Molbæk-Steensig, Alexandre Quemy</p>
-                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">Artificial Intelligence and Human Rights</p>
+                                <p class="pub-title">“Artificial intelligence and fair trial rights”</p>
+                                <p class="pub-authors">Helga Molbæk-Steensig, Alexandre Quemy</p>
+                                <p class="pub-venue">Artificial Intelligence and Human Rights</p>
                                 
                             </div>
                         </div>
@@ -587,27 +572,19 @@
                                 2022
                             </div>
                             <div class="flex-1 list-item-hover">
-                                <p class="font-semibold text-ink dark:text-dark-ink">“ECHR-OD: On Building an Integrated Open Repository of Legal Documents for Machine Learning Applications”</p>
-                                <p class="text-sm text-stone-600 dark:text-stone-400">Alexandre Quemy and Robert Wrembel</p>
-                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">Information Systems</p>
+                                <p class="pub-title">“ECHR-OD: On Building an Integrated Open Repository of Legal Documents for Machine Learning Applications”</p>
+                                <p class="pub-authors">Alexandre Quemy and Robert Wrembel</p>
+                                <p class="pub-venue">Information Systems</p>
                                 
-                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                <div class="pub-links">
                                     
-                                    <a href="./static/publications/quemy2021.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-file-pdf"></i> Pdf
-                                    </a>
+                                    <a href="./static/publications/quemy2021.pdf" target="_blank"><i class="fas fa-file-pdf"></i> Pdf</a>
                                     
-                                    <a href="https://github.com/echr-od/ECHR-OD_predictions" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fab fa-github"></i> Code
-                                    </a>
+                                    <a href="https://github.com/echr-od/ECHR-OD_predictions" target="_blank"><i class="fab fa-github"></i> Code</a>
                                     
-                                    <a href="https://github.com/echr-od/ECHR-OD_project_supplementary_material" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-mail-bulk"></i> Supplementary material
-                                    </a>
+                                    <a href="https://github.com/echr-od/ECHR-OD_project_supplementary_material" target="_blank"><i class="fas fa-mail-bulk"></i> Supplementary material</a>
                                     
-                                    <a href="https://echr-opendata.eu" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-link"></i> Website
-                                    </a>
+                                    <a href="https://echr-opendata.eu" target="_blank"><i class="fas fa-link"></i> Website</a>
                                     
                                 </div>
                                 
@@ -674,15 +651,13 @@
                                 2021
                             </div>
                             <div class="flex-1 list-item-hover">
-                                <p class="font-semibold text-ink dark:text-dark-ink">“True Pareto Fronts for Realistic Multi-Objective AI Planning Instances”</p>
-                                <p class="text-sm text-stone-600 dark:text-stone-400">Alexandre Quemy</p>
-                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">To be submitted to International Conference on Automated Planning and Scheduling (ICAPS)</p>
+                                <p class="pub-title">“True Pareto Fronts for Realistic Multi-Objective AI Planning Instances”</p>
+                                <p class="pub-authors">Alexandre Quemy</p>
+                                <p class="pub-venue">To be submitted to International Conference on Automated Planning and Scheduling (ICAPS)</p>
                                 
-                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                <div class="pub-links">
                                     
-                                    <a href="https://github.com/aquemy/ZenoSolver" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fab fa-github"></i> Code
-                                    </a>
+                                    <a href="https://github.com/aquemy/ZenoSolver" target="_blank"><i class="fab fa-github"></i> Code</a>
                                     
                                 </div>
                                 
@@ -696,9 +671,9 @@
                                  
                             </div>
                             <div class="flex-1 list-item-hover">
-                                <p class="font-semibold text-ink dark:text-dark-ink">“A Physical Approach to Classification”</p>
-                                <p class="text-sm text-stone-600 dark:text-stone-400">Alexandre Quemy</p>
-                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">To be submitted to International Conference on Machine Learning (ICML)</p>
+                                <p class="pub-title">“A Physical Approach to Classification”</p>
+                                <p class="pub-authors">Alexandre Quemy</p>
+                                <p class="pub-venue">To be submitted to International Conference on Machine Learning (ICML)</p>
                                 
                             </div>
                         </div>
@@ -710,9 +685,9 @@
                                  
                             </div>
                             <div class="flex-1 list-item-hover">
-                                <p class="font-semibold text-ink dark:text-dark-ink">“Raisonnement par Cas appliqué aux Interfaces Cerveau-Machines: Étude pilote”</p>
-                                <p class="text-sm text-stone-600 dark:text-stone-400">Grégoire Cattan, Alexandre Quemy</p>
-                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">IBM; Poznan University of Technologies</p>
+                                <p class="pub-title">“Raisonnement par Cas appliqué aux Interfaces Cerveau-Machines: Étude pilote”</p>
+                                <p class="pub-authors">Grégoire Cattan, Alexandre Quemy</p>
+                                <p class="pub-venue">IBM; Poznan University of Technologies</p>
                                 
                             </div>
                         </div>
@@ -724,19 +699,15 @@
                                  
                             </div>
                             <div class="flex-1 list-item-hover">
-                                <p class="font-semibold text-ink dark:text-dark-ink">“Cautiously Making Friends with AI: Machine Learning for human rights research and practice”</p>
-                                <p class="text-sm text-stone-600 dark:text-stone-400">Helga Molbæk-Steensig, Alexandre Quemy</p>
-                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">AI & Human Rights: Friend or Foe?, The Erasmus School of Law, together with the Jean Monnet Centre of Excellence on Digital Governance</p>
+                                <p class="pub-title">“Cautiously Making Friends with AI: Machine Learning for human rights research and practice”</p>
+                                <p class="pub-authors">Helga Molbæk-Steensig, Alexandre Quemy</p>
+                                <p class="pub-venue">AI & Human Rights: Friend or Foe?, The Erasmus School of Law, together with the Jean Monnet Centre of Excellence on Digital Governance</p>
                                 
-                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                <div class="pub-links">
                                     
-                                    <a href="./static/publications/quemy2021c.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-file-pdf"></i> Pdf
-                                    </a>
+                                    <a href="./static/publications/quemy2021c.pdf" target="_blank"><i class="fas fa-file-pdf"></i> Pdf</a>
                                     
-                                    <a href="./static/slides/powerpointSteensigQuemy.pptx" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-file-powerpoint"></i> Slides
-                                    </a>
+                                    <a href="./static/slides/powerpointSteensigQuemy.pptx" target="_blank"><i class="fas fa-file-powerpoint"></i> Slides</a>
                                     
                                 </div>
                                 
@@ -750,31 +721,21 @@
                                  
                             </div>
                             <div class="flex-1 list-item-hover">
-                                <p class="font-semibold text-ink dark:text-dark-ink">“Paradiseo: From a Modular Framework for Evolutionary Computation to the Automated Design of Metaheuristics”</p>
-                                <p class="text-sm text-stone-600 dark:text-stone-400">Johann Dreo, Arnaud Liefooghe, Sébastien Verel, Marc Schoenauer, Juan Merelo, Alexandre Quemy, Benjamin Bouvier, Jan Gmys</p>
-                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">Genetic and Evolutionary Computation Conference (GECCO)</p>
+                                <p class="pub-title">“Paradiseo: From a Modular Framework for Evolutionary Computation to the Automated Design of Metaheuristics”</p>
+                                <p class="pub-authors">Johann Dreo, Arnaud Liefooghe, Sébastien Verel, Marc Schoenauer, Juan Merelo, Alexandre Quemy, Benjamin Bouvier, Jan Gmys</p>
+                                <p class="pub-venue">Genetic and Evolutionary Computation Conference (GECCO)</p>
                                 
-                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                <div class="pub-links">
                                     
-                                    <a href="./static/publications/quemy2021b.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-file-pdf"></i> Pdf
-                                    </a>
+                                    <a href="./static/publications/quemy2021b.pdf" target="_blank"><i class="fas fa-file-pdf"></i> Pdf</a>
                                     
-                                    <a href="./static/slides/2021_GECCO_EvoSoft_ParadisEO.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-file-powerpoint"></i> Slides
-                                    </a>
+                                    <a href="./static/slides/2021_GECCO_EvoSoft_ParadisEO.pdf" target="_blank"><i class="fas fa-file-powerpoint"></i> Slides</a>
                                     
-                                    <a href="https://github.com/nojhan/paradiseo" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fab fa-github"></i> Code
-                                    </a>
+                                    <a href="https://github.com/nojhan/paradiseo" target="_blank"><i class="fab fa-github"></i> Code</a>
                                     
-                                    <a href="https://nojhan.github.io/paradiseo/" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-link"></i> Website
-                                    </a>
+                                    <a href="https://nojhan.github.io/paradiseo/" target="_blank"><i class="fas fa-link"></i> Website</a>
                                     
-                                    <a href="http://johann.dreo.fr/doc/2021-06_GECCO-EVOSOFT_Dreo-al__ParadisEO.mp4" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-video"></i> Video
-                                    </a>
+                                    <a href="http://johann.dreo.fr/doc/2021-06_GECCO-EVOSOFT_Dreo-al__ParadisEO.mp4" target="_blank"><i class="fas fa-video"></i> Video</a>
                                     
                                 </div>
                                 
@@ -841,19 +802,15 @@
                                 2020
                             </div>
                             <div class="flex-1 list-item-hover">
-                                <p class="font-semibold text-ink dark:text-dark-ink">“GBEx, towards Graph-Based Explainations”</p>
-                                <p class="text-sm text-stone-600 dark:text-stone-400">Paweł Mróz and Alexandre Quemy and Mateusz Ślażyński and Krzysztof Kluza and Paweł Jemioło</p>
-                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">International Conference Tools with Artificial Intelligence (ICTAI)</p>
+                                <p class="pub-title">“GBEx, towards Graph-Based Explainations”</p>
+                                <p class="pub-authors">Paweł Mróz and Alexandre Quemy and Mateusz Ślażyński and Krzysztof Kluza and Paweł Jemioło</p>
+                                <p class="pub-venue">International Conference Tools with Artificial Intelligence (ICTAI)</p>
                                 
-                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                <div class="pub-links">
                                     
-                                    <a href="./static/publications/ictai2020xai.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-file-pdf"></i> Pdf
-                                    </a>
+                                    <a href="./static/publications/ictai2020xai.pdf" target="_blank"><i class="fas fa-file-pdf"></i> Pdf</a>
                                     
-                                    <a href="./static/slides/ictai2020xai_slides.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-file-powerpoint"></i> Slides
-                                    </a>
+                                    <a href="./static/slides/ictai2020xai_slides.pdf" target="_blank"><i class="fas fa-file-powerpoint"></i> Slides</a>
                                     
                                 </div>
                                 
@@ -867,27 +824,19 @@
                                  
                             </div>
                             <div class="flex-1 list-item-hover">
-                                <p class="font-semibold text-ink dark:text-dark-ink">“On Integrating and Classifying Legal Text Documents”</p>
-                                <p class="text-sm text-stone-600 dark:text-stone-400">Alexandre Quemy and Robert Wrembel</p>
-                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">International Conference on Database and Expert Systems Applications (DEXA)</p>
+                                <p class="pub-title">“On Integrating and Classifying Legal Text Documents”</p>
+                                <p class="pub-authors">Alexandre Quemy and Robert Wrembel</p>
+                                <p class="pub-venue">International Conference on Database and Expert Systems Applications (DEXA)</p>
                                 
-                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                <div class="pub-links">
                                     
-                                    <a href="https://dblp.org/rec/conf/dexa/QuemyW20.html?view=bibtex" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-quote-right"></i> Bibtex
-                                    </a>
+                                    <a href="https://dblp.org/rec/conf/dexa/QuemyW20.html?view=bibtex" target="_blank"><i class="fas fa-quote-right"></i> Bibtex</a>
                                     
-                                    <a href="./static/publications/quemy2020e.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-file-pdf"></i> Pdf
-                                    </a>
+                                    <a href="./static/publications/quemy2020e.pdf" target="_blank"><i class="fas fa-file-pdf"></i> Pdf</a>
                                     
-                                    <a href="./static/slides/DEXA_2020.pptx" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-file-powerpoint"></i> Slides
-                                    </a>
+                                    <a href="./static/slides/DEXA_2020.pptx" target="_blank"><i class="fas fa-file-powerpoint"></i> Slides</a>
                                     
-                                    <a href="https://echr-opendata.eu" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-link"></i> Website
-                                    </a>
+                                    <a href="https://echr-opendata.eu" target="_blank"><i class="fas fa-link"></i> Website</a>
                                     
                                 </div>
                                 
@@ -901,23 +850,17 @@
                                  
                             </div>
                             <div class="flex-1 list-item-hover">
-                                <p class="font-semibold text-ink dark:text-dark-ink">“Two-stage Optimization for Machine Learning Workflow”</p>
-                                <p class="text-sm text-stone-600 dark:text-stone-400">Alexandre Quemy</p>
-                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">Information Systems</p>
+                                <p class="pub-title">“Two-stage Optimization for Machine Learning Workflow”</p>
+                                <p class="pub-authors">Alexandre Quemy</p>
+                                <p class="pub-venue">Information Systems</p>
                                 
-                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                <div class="pub-links">
                                     
-                                    <a href="https://dblp.org/rec/journals/is/Quemy20.html?view=bibtex" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-quote-right"></i> Bibtex
-                                    </a>
+                                    <a href="https://dblp.org/rec/journals/is/Quemy20.html?view=bibtex" target="_blank"><i class="fas fa-quote-right"></i> Bibtex</a>
                                     
-                                    <a href="./static/publications/quemy2020.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-file-pdf"></i> Pdf
-                                    </a>
+                                    <a href="./static/publications/quemy2020.pdf" target="_blank"><i class="fas fa-file-pdf"></i> Pdf</a>
                                     
-                                    <a href="https://github.com/aquemy/DOLAP_2019_supplementary_material" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-mail-bulk"></i> Supplementary material
-                                    </a>
+                                    <a href="https://github.com/aquemy/DOLAP_2019_supplementary_material" target="_blank"><i class="fas fa-mail-bulk"></i> Supplementary material</a>
                                     
                                 </div>
                                 
@@ -984,27 +927,19 @@
                                 2019
                             </div>
                             <div class="flex-1 list-item-hover">
-                                <p class="font-semibold text-ink dark:text-dark-ink">“Binary Classification In Unstructured Space With Hypergraph Case-Based Reasoning”</p>
-                                <p class="text-sm text-stone-600 dark:text-stone-400">Alexandre Quemy</p>
-                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">Information Systems</p>
+                                <p class="pub-title">“Binary Classification In Unstructured Space With Hypergraph Case-Based Reasoning”</p>
+                                <p class="pub-authors">Alexandre Quemy</p>
+                                <p class="pub-venue">Information Systems</p>
                                 
-                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                <div class="pub-links">
                                     
-                                    <a href="https://dblp.org/rec/journals/is/Quemy19.html?view=bibtex" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-quote-right"></i> Bibtex
-                                    </a>
+                                    <a href="https://dblp.org/rec/journals/is/Quemy19.html?view=bibtex" target="_blank"><i class="fas fa-quote-right"></i> Bibtex</a>
                                     
-                                    <a href="./static/publications/quemy2019.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-file-pdf"></i> Pdf
-                                    </a>
+                                    <a href="./static/publications/quemy2019.pdf" target="_blank"><i class="fas fa-file-pdf"></i> Pdf</a>
                                     
-                                    <a href="http://www.cs.put.poznan.pl/events/AQuemy-additional-material.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-mail-bulk"></i> Additional material
-                                    </a>
+                                    <a href="http://www.cs.put.poznan.pl/events/AQuemy-additional-material.pdf" target="_blank"><i class="fas fa-mail-bulk"></i> Additional material</a>
                                     
-                                    <a href="https://github.com/aquemy/HCBR" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fab fa-github"></i> Code
-                                    </a>
+                                    <a href="https://github.com/aquemy/HCBR" target="_blank"><i class="fab fa-github"></i> Code</a>
                                     
                                 </div>
                                 
@@ -1018,23 +953,17 @@
                                  
                             </div>
                             <div class="flex-1 list-item-hover">
-                                <p class="font-semibold text-ink dark:text-dark-ink">“Data Pipeline Selection and Optimization”</p>
-                                <p class="text-sm text-stone-600 dark:text-stone-400">Alexandre Quemy</p>
-                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">International Workshop on Design, Optimization, Languages and Analytical Processing of Big Data (DOLAP) @ International Conference on Extending Database Technology/International Conference on Database Theory (EDBT/ICDT) Joint Conference</p>
+                                <p class="pub-title">“Data Pipeline Selection and Optimization”</p>
+                                <p class="pub-authors">Alexandre Quemy</p>
+                                <p class="pub-venue">International Workshop on Design, Optimization, Languages and Analytical Processing of Big Data (DOLAP) @ International Conference on Extending Database Technology/International Conference on Database Theory (EDBT/ICDT) Joint Conference</p>
                                 
-                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                <div class="pub-links">
                                     
-                                    <a href="https://dblp.org/rec/conf/dolap/Quemy19.html?view=bibtex" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-quote-right"></i> Bibtex
-                                    </a>
+                                    <a href="https://dblp.org/rec/conf/dolap/Quemy19.html?view=bibtex" target="_blank"><i class="fas fa-quote-right"></i> Bibtex</a>
                                     
-                                    <a href="./static/publications/quemy2019b.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-file-pdf"></i> Pdf
-                                    </a>
+                                    <a href="./static/publications/quemy2019b.pdf" target="_blank"><i class="fas fa-file-pdf"></i> Pdf</a>
                                     
-                                    <a href="./static/slides/DOLAP_2019.pptx" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-file-powerpoint"></i> Slides
-                                    </a>
+                                    <a href="./static/slides/DOLAP_2019.pptx" target="_blank"><i class="fas fa-file-powerpoint"></i> Slides</a>
                                     
                                 </div>
                                 
@@ -1101,23 +1030,17 @@
                                 2018
                             </div>
                             <div class="flex-1 list-item-hover">
-                                <p class="font-semibold text-ink dark:text-dark-ink">“Binary Classification With Hypergraph Case-Based Reasoning”</p>
-                                <p class="text-sm text-stone-600 dark:text-stone-400">Alexandre Quemy</p>
-                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">International Workshop on Design, Optimization, Languages and Analytical Processing of Big Data (DOLAP) @ International Conference on Extending Database Technology/International Conference on Database Theory (EDBT/ICDT) Joint Conference</p>
+                                <p class="pub-title">“Binary Classification With Hypergraph Case-Based Reasoning”</p>
+                                <p class="pub-authors">Alexandre Quemy</p>
+                                <p class="pub-venue">International Workshop on Design, Optimization, Languages and Analytical Processing of Big Data (DOLAP) @ International Conference on Extending Database Technology/International Conference on Database Theory (EDBT/ICDT) Joint Conference</p>
                                 
-                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                <div class="pub-links">
                                     
-                                    <a href="https://dblp.org/rec/conf/dolap/Quemy19.html?view=bibtex" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-quote-right"></i> Bibtex
-                                    </a>
+                                    <a href="https://dblp.org/rec/conf/dolap/Quemy19.html?view=bibtex" target="_blank"><i class="fas fa-quote-right"></i> Bibtex</a>
                                     
-                                    <a href="./static/publications/quemy2018.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-file-pdf"></i> Pdf
-                                    </a>
+                                    <a href="./static/publications/quemy2018.pdf" target="_blank"><i class="fas fa-file-pdf"></i> Pdf</a>
                                     
-                                    <a href="./static/slides/DOLAP_extended.pptx" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-file-powerpoint"></i> Slides
-                                    </a>
+                                    <a href="./static/slides/DOLAP_extended.pptx" target="_blank"><i class="fas fa-file-powerpoint"></i> Slides</a>
                                     
                                 </div>
                                 
@@ -1131,19 +1054,15 @@
                                  
                             </div>
                             <div class="flex-1 list-item-hover">
-                                <p class="font-semibold text-ink dark:text-dark-ink">“AI for the legal domain: an explainability challenge”</p>
-                                <p class="text-sm text-stone-600 dark:text-stone-400">Alexandre Quemy</p>
-                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">PhD Student Research Competition, IFIP World Computer Congress</p>
+                                <p class="pub-title">“AI for the legal domain: an explainability challenge”</p>
+                                <p class="pub-authors">Alexandre Quemy</p>
+                                <p class="pub-venue">PhD Student Research Competition, IFIP World Computer Congress</p>
                                 
-                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                <div class="pub-links">
                                     
-                                    <a href="./static/publications/quemy2018c.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-file-pdf"></i> Pdf
-                                    </a>
+                                    <a href="./static/publications/quemy2018c.pdf" target="_blank"><i class="fas fa-file-pdf"></i> Pdf</a>
                                     
-                                    <a href="./static/slides/IFIP_extended.pptx" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-file-powerpoint"></i> Slides
-                                    </a>
+                                    <a href="./static/slides/IFIP_extended.pptx" target="_blank"><i class="fas fa-file-powerpoint"></i> Slides</a>
                                     
                                 </div>
                                 
@@ -1157,23 +1076,17 @@
                                  
                             </div>
                             <div class="flex-1 list-item-hover">
-                                <p class="font-semibold text-ink dark:text-dark-ink">“Unsupervised Video Semantic Partitioning Using IBM Watson and Topic Modelling”</p>
-                                <p class="text-sm text-stone-600 dark:text-stone-400">Alexandre Quemy and Krzysztof Jamrog and Marcin Janiszewski</p>
-                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">International Workshop on Data Analytics solutions for Real-LIfe APplications (DARLI-AP) @ International Conference on Extending Database Technology/International Conference on Database Theory (EDBT/ICDT) Joint Conference</p>
+                                <p class="pub-title">“Unsupervised Video Semantic Partitioning Using IBM Watson and Topic Modelling”</p>
+                                <p class="pub-authors">Alexandre Quemy and Krzysztof Jamrog and Marcin Janiszewski</p>
+                                <p class="pub-venue">International Workshop on Data Analytics solutions for Real-LIfe APplications (DARLI-AP) @ International Conference on Extending Database Technology/International Conference on Database Theory (EDBT/ICDT) Joint Conference</p>
                                 
-                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                <div class="pub-links">
                                     
-                                    <a href="https://dblp.org/rec/conf/edbt/QuemyJJ18.html?view=bibtex" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-quote-right"></i> Bibtex
-                                    </a>
+                                    <a href="https://dblp.org/rec/conf/edbt/QuemyJJ18.html?view=bibtex" target="_blank"><i class="fas fa-quote-right"></i> Bibtex</a>
                                     
-                                    <a href="./static/publications/quemy2018b.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-file-pdf"></i> Pdf
-                                    </a>
+                                    <a href="./static/publications/quemy2018b.pdf" target="_blank"><i class="fas fa-file-pdf"></i> Pdf</a>
                                     
-                                    <a href="./static/slides/DARLI-AP.pptx" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-file-powerpoint"></i> Slides
-                                    </a>
+                                    <a href="./static/slides/DARLI-AP.pptx" target="_blank"><i class="fas fa-file-powerpoint"></i> Slides</a>
                                     
                                 </div>
                                 
@@ -1240,23 +1153,17 @@
                                 2017
                             </div>
                             <div class="flex-1 list-item-hover">
-                                <p class="font-semibold text-ink dark:text-dark-ink">“Data Science Techniques for Law and Justice: Current State of Research and Open Problems”</p>
-                                <p class="text-sm text-stone-600 dark:text-stone-400">Alexandre Quemy</p>
-                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">Advances in Databases and Information Systems (ADBIS) Workshops and Short papers</p>
+                                <p class="pub-title">“Data Science Techniques for Law and Justice: Current State of Research and Open Problems”</p>
+                                <p class="pub-authors">Alexandre Quemy</p>
+                                <p class="pub-venue">Advances in Databases and Information Systems (ADBIS) Workshops and Short papers</p>
                                 
-                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                <div class="pub-links">
                                     
-                                    <a href="https://dblp.org/rec/conf/adbis/Quemy17.html?view=bibtex" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-quote-right"></i> Bibtex
-                                    </a>
+                                    <a href="https://dblp.org/rec/conf/adbis/Quemy17.html?view=bibtex" target="_blank"><i class="fas fa-quote-right"></i> Bibtex</a>
                                     
-                                    <a href="./static/publications/quemy2017.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-file-pdf"></i> Pdf
-                                    </a>
+                                    <a href="./static/publications/quemy2017.pdf" target="_blank"><i class="fas fa-file-pdf"></i> Pdf</a>
                                     
-                                    <a href="./static/slides/2017_DAS.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-file-powerpoint"></i> Slides
-                                    </a>
+                                    <a href="./static/slides/2017_DAS.pdf" target="_blank"><i class="fas fa-file-powerpoint"></i> Slides</a>
                                     
                                 </div>
                                 
@@ -1323,31 +1230,21 @@
                                 2015
                             </div>
                             <div class="flex-1 list-item-hover">
-                                <p class="font-semibold text-ink dark:text-dark-ink">“Solving Large MultiZenoTravel Benchmarks with Divide-and-Evolve”</p>
-                                <p class="text-sm text-stone-600 dark:text-stone-400">Alexandre Quemy and Marc Schoenauer and Vincent Vidal and Johann Dréo and Pierre Savéant</p>
-                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">Learning and Intelligent Optimization (LION)</p>
+                                <p class="pub-title">“Solving Large MultiZenoTravel Benchmarks with Divide-and-Evolve”</p>
+                                <p class="pub-authors">Alexandre Quemy and Marc Schoenauer and Vincent Vidal and Johann Dréo and Pierre Savéant</p>
+                                <p class="pub-venue">Learning and Intelligent Optimization (LION)</p>
                                 
-                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                <div class="pub-links">
                                     
-                                    <a href=" https://dblp.org/rec/conf/lion/QuemySVDS15.html?view=bibtex" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-quote-right"></i> Bibtex
-                                    </a>
+                                    <a href=" https://dblp.org/rec/conf/lion/QuemySVDS15.html?view=bibtex" target="_blank"><i class="fas fa-quote-right"></i> Bibtex</a>
                                     
-                                    <a href="./static/publications/quemy2015b.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-file-pdf"></i> Pdf
-                                    </a>
+                                    <a href="./static/publications/quemy2015b.pdf" target="_blank"><i class="fas fa-file-pdf"></i> Pdf</a>
                                     
-                                    <a href="./static/slides/2015_LION.odp" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-file-powerpoint"></i> Slides
-                                    </a>
+                                    <a href="./static/slides/2015_LION.odp" target="_blank"><i class="fas fa-file-powerpoint"></i> Slides</a>
                                     
-                                    <a href="https://github.com/aquemy/ZenoSolver" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fab fa-github"></i> Code
-                                    </a>
+                                    <a href="https://github.com/aquemy/ZenoSolver" target="_blank"><i class="fab fa-github"></i> Code</a>
                                     
-                                    <a href="https://github.com/aquemy/dae" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fab fa-github"></i> Code
-                                    </a>
+                                    <a href="https://github.com/aquemy/dae" target="_blank"><i class="fab fa-github"></i> Code</a>
                                     
                                 </div>
                                 
@@ -1361,27 +1258,19 @@
                                  
                             </div>
                             <div class="flex-1 list-item-hover">
-                                <p class="font-semibold text-ink dark:text-dark-ink">“True Pareto Fronts for Multi-objective AI Planning Instances”</p>
-                                <p class="text-sm text-stone-600 dark:text-stone-400">Alexandre Quemy and Marc Schoenauer</p>
-                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">Evolutionary Computation in Combinatorial Optimization (EvoCOP)</p>
+                                <p class="pub-title">“True Pareto Fronts for Multi-objective AI Planning Instances”</p>
+                                <p class="pub-authors">Alexandre Quemy and Marc Schoenauer</p>
+                                <p class="pub-venue">Evolutionary Computation in Combinatorial Optimization (EvoCOP)</p>
                                 
-                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                <div class="pub-links">
                                     
-                                    <a href="https://dblp.org/rec/conf/evoW/QuemyS15.html?view=bibtex" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-quote-right"></i> Bibtex
-                                    </a>
+                                    <a href="https://dblp.org/rec/conf/evoW/QuemyS15.html?view=bibtex" target="_blank"><i class="fas fa-quote-right"></i> Bibtex</a>
                                     
-                                    <a href="./static/publications/quemy2015.pdf" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-file-pdf"></i> Pdf
-                                    </a>
+                                    <a href="./static/publications/quemy2015.pdf" target="_blank"><i class="fas fa-file-pdf"></i> Pdf</a>
                                     
-                                    <a href="https://github.com/aquemy/ZenoSolver" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fab fa-github"></i> Code
-                                    </a>
+                                    <a href="https://github.com/aquemy/ZenoSolver" target="_blank"><i class="fab fa-github"></i> Code</a>
                                     
-                                    <a href="https://gforge.inria.fr/frs/?group_id=5907" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
-                                        <i class="fas fa-plane-arrival"></i> Instances
-                                    </a>
+                                    <a href="https://gforge.inria.fr/frs/?group_id=5907" target="_blank"><i class="fas fa-plane-arrival"></i> Instances</a>
                                     
                                 </div>
                                 
@@ -1459,7 +1348,7 @@
                  <div class="space-y-8">
                      <div>
                          <h3 class="text-lg font-bold mb-4">Supervision</h3>
-                         <ul class="space-y-2">
+                         <ul class="space-y-5">
                          
                              <li class="list-item-hover">
                                 <div class="flex justify-between items-baseline">
@@ -1527,7 +1416,7 @@
                      </div>
                       <div>
                          <h3 class="text-lg font-bold mb-4">Teaching</h3>
-                         <ul class="space-y-2">
+                         <ul class="space-y-5">
                          
                              <li class="list-item-hover">
                                 <div class="flex justify-between items-baseline">
@@ -1564,7 +1453,7 @@
                 
                 
                 
-                <div class="space-y-2">
+                <div class="space-y-5">
                 
                     
                     
