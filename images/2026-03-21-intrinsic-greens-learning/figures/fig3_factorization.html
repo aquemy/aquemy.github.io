@@ -55,7 +55,7 @@ canvas{display:block;border-radius:10px;border:1px solid var(--border);}
 <p class="su">separable source + separable kernel → d-dimensional integral splits into d independent 1D integrals</p>
 <div class="main-grid">
   <div style="display:flex;flex-direction:column;align-items:center;">
-    <p class="rl">\(\hat{f}(\zeta^1, \zeta^2)\) — hover to explore</p>
+    <p class="rl">\(\hat{f}(\zeta^1, \zeta^2)\), hover to explore</p>
     <canvas id="c2d" width="300" height="300"></canvas>
     <p class="rl" style="margin-top:6px;color:var(--red);">2D Integral: naively \(O(N^2)\)</p>
   </div>
@@ -66,19 +66,19 @@ canvas{display:block;border-radius:10px;border:1px solid var(--border);}
     <div style="font-family:'Source Sans Pro',sans-serif;font-size:22px;color:var(--muted);text-align:center;">×</div>
     <div><p class="rl" style="color:var(--blue);">1D factor: \(\int G \cdot \phi_2 \, d\zeta^2\)</p>
     <canvas id="c1y" width="300" height="126"></canvas></div>
-    <p class="rl" style="margin-top:4px;color:var(--green);">Each 1D: \(O(N)\) — product = same result ✓</p>
+    <p class="rl" style="margin-top:4px;color:var(--green);">Each 1D: \(O(N)\), product = same result ✓</p>
   </div>
 </div>
 
 <div class="math-strip">
-<div class="eq-row"><span class="eq-num">(1)</span><span>\(u(\xi) = \iint G(\xi,\zeta)\cdot\hat{f}(\zeta)\,d\zeta^1 d\zeta^2\)  — d-dimensional, naively \(O(N^d)\)</span></div>
-<div class="eq-row"><span class="eq-num">(2)</span><span>\(\hat{f}(\zeta) = \sum_r w_r\) <span style="color:var(--purple)">\(\phi_{r1}(\zeta^1)\cdot\phi_{r2}(\zeta^2)\)</span>,   \(G(\xi,\zeta) \approx \sum_k \gamma_k\) <span style="color:var(--purple)">\(G_{k1}(\xi^1,\zeta^1)\cdot G_{k2}(\xi^2,\zeta^2)\)</span>  — rank-R, rank-K</span></div>
+<div class="eq-row"><span class="eq-num">(1)</span><span>\(u(\xi) = \iint G(\xi,\zeta)\cdot\hat{f}(\zeta)\,d\zeta^1 d\zeta^2\) , d-dimensional, naively \(O(N^d)\)</span></div>
+<div class="eq-row"><span class="eq-num">(2)</span><span>\(\hat{f}(\zeta) = \sum_r w_r\) <span style="color:var(--purple)">\(\phi_{r1}(\zeta^1)\cdot\phi_{r2}(\zeta^2)\)</span>,   \(G(\xi,\zeta) \approx \sum_k \gamma_k\) <span style="color:var(--purple)">\(G_{k1}(\xi^1,\zeta^1)\cdot G_{k2}(\xi^2,\zeta^2)\)</span> , rank-R, rank-K</span></div>
 <div class="eq-row"><span class="eq-num">(3)</span><span>\(u(\xi) = \sum_{k,r} \gamma_k w_r\) <span style="color:var(--amber)">\(\bigl[\int G_{k1}(\xi^1,\zeta^1)\phi_{r1}(\zeta^1)\,d\zeta^1\bigr]\cdot\bigl[\int G_{k2}(\xi^2,\zeta^2)\phi_{r2}(\zeta^2)\,d\zeta^2\bigr]\)</span>  ← <strong style="color:var(--primary)">Fubini</strong></span></div>
-<div class="eq-row"><span class="eq-num">(4)</span><span>\(u(\xi) = \sum_{k,r} \gamma_k w_r\) <span style="color:var(--green)">\(I_{kr1}(\xi^1)\)</span>\(\cdot\)<span style="color:var(--green)">\(I_{kr2}(\xi^2)\)</span>  — product of 1D integrals only ✓</span></div>
+<div class="eq-row"><span class="eq-num">(4)</span><span>\(u(\xi) = \sum_{k,r} \gamma_k w_r\) <span style="color:var(--green)">\(I_{kr1}(\xi^1)\)</span>\(\cdot\)<span style="color:var(--green)">\(I_{kr2}(\xi^2)\)</span> , product of 1D integrals only ✓</span></div>
 </div>
 
 <div class="cost-row">
-  <div class="cost-box bad"><div class="cl">Naive d-dim integral</div><div class="cv bad">\(O(N^d)\)</div><div class="cd">Exponential in d — intractable for d > 4</div></div>
+  <div class="cost-box bad"><div class="cl">Naive d-dim integral</div><div class="cv bad">\(O(N^d)\)</div><div class="cd">Exponential in d, intractable for d > 4</div></div>
   <div style="display:flex;align-items:center;font-size:24px;color:var(--muted);padding:0 8px;">→</div>
   <div class="cost-box good"><div class="cl">Factorized IGL</div><div class="cv good">\(O(KRd)\)</div><div class="cd">Linear in d · \(K = O(\log \varepsilon^{-1})\) dim-independent</div></div>
 </div>

@@ -36,7 +36,7 @@ button:hover{background:var(--primary);color:#fff;border-color:var(--primary);}
 </style></head><body>
 <p class="ey">Gates</p>
 <p class="ti">Automatic Intrinsic Dimension Discovery via Hard Concrete Gates</p>
-<p class="su">64 latent dimensions — MNIST experiment — 12 survive after training</p>
+<p class="su">64 latent dimensions, MNIST experiment, 12 survive after training</p>
 <div class="main-area">
   <div style="flex:1;display:flex;flex-direction:column;gap:8px;align-items:center;">
     <div style="font-size:11px;color:var(--muted);font-family:'Roboto Mono',monospace;">
@@ -123,7 +123,7 @@ function drawHC(){
   const C=document.getElementById('cHC'),ctx=C.getContext('2d'),W=530,H=110;
   ctx.fillStyle='#ffffff';ctx.fillRect(0,0,W,H);
   ctx.fillStyle='#666666';ctx.font="11px Source Sans Pro, sans-serif";ctx.textAlign='left';
-  ctx.fillText('Hard Concrete distribution — P(gate = 0) > 0 and P(gate = 1) > 0  (unlike sigmoid)',10,15);
+  ctx.fillText('Hard Concrete distribution, P(gate = 0) > 0 and P(gate = 1) > 0  (unlike sigmoid)',10,15);
   const examples=[{alpha:-2.5,label:'Inactive',color:'#ef4444',cx:95},{alpha:0,label:'Uncertain',color:'#f59e0b',cx:265},{alpha:2.5,label:'Active',color:'#10b981',cx:435}];
   examples.forEach(({alpha,label,color,cx})=>{
     const cy=72,W2=80,H2=38;

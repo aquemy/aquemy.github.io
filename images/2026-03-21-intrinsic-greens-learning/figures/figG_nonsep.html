@@ -16,7 +16,7 @@ body{background:var(--bg);font-family:'Inter',sans-serif;display:flex;flex-direc
 svg{display:block;max-width:100%;height:auto;}</style></head><body>
 <p class="ey">Core Obstacle</p>
 <p class="ti">Why Curvature Breaks Separability</p>
-<p class="su">G(x₁,x₂) = G₁(x₁)·G₂(x₂) on flat ℝ² — but this fails on any curved manifold</p>
+<p class="su">G(x₁,x₂) = G₁(x₁)·G₂(x₂) on flat ℝ², but this fails on any curved manifold</p>
 <svg viewBox="0 0 760 420" style="width:760px;max-width:100%;"><defs>
   <marker id="ah" markerWidth="7" markerHeight="6" refX="6.5" refY="3" orient="auto"><path d="M0,0.5 L7,3 L0,5.5 L1.5,3Z" fill="var(--muted)" opacity="0.7"/></marker>
   <marker id="ah-r" markerWidth="7" markerHeight="6" refX="6.5" refY="3" orient="auto"><path d="M0,0.5 L7,3 L0,5.5 L1.5,3Z" fill="var(--primary)"/></marker>
@@ -29,7 +29,7 @@ svg{display:block;max-width:100%;height:auto;}</style></head><body>
 <!-- ─── LEFT: FLAT (separable) ─────────────────────────────────────────────── -->
 <rect x="14" y="14" width="348" height="378" rx="12" fill="var(--bg-alt)" stroke="var(--border)" stroke-width="1" filter="url(#cs)"/>
 <line x1="22" y1="14" x2="354" y2="14" stroke="var(--green)" stroke-width="2.5" stroke-linecap="round"/>
-<text x="188" y="40" font-family="Inter,sans-serif" font-size="15" fill="var(--text)" text-anchor="middle">Flat Manifold — Separable G</text>
+<text x="188" y="40" font-family="Inter,sans-serif" font-size="15" fill="var(--text)" text-anchor="middle">Flat Manifold, Separable G</text>
 <text x="188" y="56" font-family="Inter,sans-serif" font-size="11" fill="var(--muted)" text-anchor="middle">G(x₁,x₂) = e^{−x₁²} · e^{−x₂²} = G₁ · G₂</text>
 
 <!-- 2D kernel heatmap: circular Gaussian (= product of two 1D Gaussians) -->
@@ -44,7 +44,7 @@ svg{display:block;max-width:100%;height:auto;}</style></head><body>
 </defs>
 <rect x="26" y="66" width="148" height="148" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.8"/>
 <ellipse cx="100" cy="140" rx="70" ry="70" fill="url(#gflat)"/>
-<!-- Concentric circular contours — AXIS-ALIGNED rectangles would be separable indicator -->
+<!-- Concentric circular contours, AXIS-ALIGNED rectangles would be separable indicator -->
 <circle cx="100" cy="140" r="15" fill="none" stroke="var(--green)" stroke-opacity="0.7" stroke-width="1.3"/>
 <circle cx="100" cy="140" r="30" fill="none" stroke="var(--green)" stroke-opacity="0.5" stroke-width="1.1"/>
 <circle cx="100" cy="140" r="46" fill="none" stroke="var(--green)" stroke-opacity="0.35" stroke-width="1"/>
@@ -56,7 +56,7 @@ svg{display:block;max-width:100%;height:auto;}</style></head><body>
 <text x="106" y="80" font-family="Inter,sans-serif" font-size="10" fill="var(--green)" opacity="0.85">G(x₁,x₂)</text>
 <text x="38" y="136" font-family="Inter,sans-serif" font-size="9" fill="var(--green)" opacity="0.75">ξ¹=0</text>
 
-<!-- 1D factor G₁(x₁) — horizontal bell -->
+<!-- 1D factor G₁(x₁), horizontal bell -->
 <rect x="188" y="66" width="144" height="148" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.8"/>
 <defs>
   <linearGradient id="g1grad" x1="0%" y1="100%" x2="0%" y2="0%">
@@ -78,7 +78,7 @@ svg{display:block;max-width:100%;height:auto;}</style></head><body>
 <!-- Separability annotation -->
 <rect x="26" y="228" width="306" height="36" rx="6" fill="var(--green)" fill-opacity="0.08" stroke="var(--green)" stroke-opacity="0.3" stroke-width="1"/>
 <text x="179" y="243" font-family="Inter,sans-serif" font-size="12" fill="var(--green)" text-anchor="middle" font-weight="600">G(x₁,x₂) = G₁(x₁) · G₂(x₂)  ✓</text>
-<text x="179" y="257" font-family="Inter,sans-serif" font-size="11" fill="var(--muted)" text-anchor="middle">cross-sections match — axis-aligned factorization holds</text>
+<text x="179" y="257" font-family="Inter,sans-serif" font-size="11" fill="var(--muted)" text-anchor="middle">cross-sections match, axis-aligned factorization holds</text>
 
 <!-- Two cross-sections comparison: they are identical (symmetric) -->
 <rect x="26" y="276" width="148" height="72" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.8"/>
@@ -86,14 +86,14 @@ svg{display:block;max-width:100%;height:auto;}</style></head><body>
       fill="var(--green)" fill-opacity="0.15" stroke="none"/>
 <path d="M 26,346 Q 56,346 76,324 Q 100,302 124,324 Q 148,346 174,346"
       fill="none" stroke="var(--green)" stroke-width="2" opacity="0.8"/>
-<text x="100" y="288" font-family="Inter,sans-serif" font-size="10" fill="var(--green)" text-anchor="middle">G(·, 0)  — fixed x₂=0</text>
+<text x="100" y="288" font-family="Inter,sans-serif" font-size="10" fill="var(--green)" text-anchor="middle">G(·, 0) , fixed x₂=0</text>
 
 <rect x="188" y="276" width="148" height="72" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.8"/>
 <path d="M 188,346 Q 218,346 238,324 Q 262,302 286,324 Q 310,346 336,346"
       fill="var(--green)" fill-opacity="0.15" stroke="none"/>
 <path d="M 188,346 Q 218,346 238,324 Q 262,302 286,324 Q 310,346 336,346"
       fill="none" stroke="var(--green)" stroke-width="2" opacity="0.8"/>
-<text x="262" y="288" font-family="Inter,sans-serif" font-size="10" fill="var(--green)" text-anchor="middle">G(0, ·)  — fixed x₁=0</text>
+<text x="262" y="288" font-family="Inter,sans-serif" font-size="10" fill="var(--green)" text-anchor="middle">G(0, ·) , fixed x₁=0</text>
 
 <!-- "same shape" indicator -->
 <text x="170" y="316" font-family="Inter,sans-serif" font-size="14" fill="var(--green)" opacity="0.6">=</text>
@@ -107,8 +107,8 @@ svg{display:block;max-width:100%;height:auto;}</style></head><body>
 <!-- ─── RIGHT: CURVED (not separable) ─────────────────────────────────────── -->
 <rect x="402" y="14" width="348" height="378" rx="12" fill="var(--bg-alt)" stroke="var(--border)" stroke-width="1" filter="url(#cs)"/>
 <line x1="410" y1="14" x2="742" y2="14" stroke="var(--primary)" stroke-width="2.5" stroke-linecap="round"/>
-<text x="576" y="40" font-family="Inter,sans-serif" font-size="15" fill="var(--text)" text-anchor="middle">Curved Manifold — Not Separable</text>
-<text x="576" y="56" font-family="Inter,sans-serif" font-size="11" fill="var(--muted)" text-anchor="middle">G(x₁,x₂) depends on geodesic distance — x₁,x₂ coupled</text>
+<text x="576" y="40" font-family="Inter,sans-serif" font-size="15" fill="var(--text)" text-anchor="middle">Curved Manifold, Not Separable</text>
+<text x="576" y="56" font-family="Inter,sans-serif" font-size="11" fill="var(--muted)" text-anchor="middle">G(x₁,x₂) depends on geodesic distance, x₁,x₂ coupled</text>
 
 <!-- 2D kernel heatmap: tilted anisotropic Gaussian (not separable) -->
 <defs>
@@ -154,7 +154,7 @@ svg{display:block;max-width:100%;height:auto;}</style></head><body>
 <!-- NOT separable annotation -->
 <rect x="414" y="228" width="306" height="36" rx="6" fill="var(--primary)" fill-opacity="0.07" stroke="var(--primary)" stroke-opacity="0.3" stroke-width="1"/>
 <text x="567" y="243" font-family="Inter,sans-serif" font-size="12" fill="var(--primary)" text-anchor="middle" font-weight="600">G(x₁,x₂) ≠ G₁(x₁) · G₂(x₂)  ✗</text>
-<text x="567" y="257" font-family="Inter,sans-serif" font-size="11" fill="var(--muted)" text-anchor="middle">cross-sections differ — no axis-aligned factorization</text>
+<text x="567" y="257" font-family="Inter,sans-serif" font-size="11" fill="var(--muted)" text-anchor="middle">cross-sections differ, no axis-aligned factorization</text>
 
 <!-- Two cross-sections: different -->
 <rect x="414" y="276" width="148" height="72" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.8"/>
@@ -162,14 +162,14 @@ svg{display:block;max-width:100%;height:auto;}</style></head><body>
       fill="var(--primary)" fill-opacity="0.15" stroke="none"/>
 <path d="M 414,346 Q 448,346 464,320 Q 478,296 490,346"
       fill="none" stroke="var(--primary)" stroke-width="2" opacity="0.8"/>
-<text x="452" y="288" font-family="Inter,sans-serif" font-size="10" fill="var(--primary)" text-anchor="middle">G(·, 0)  — skewed</text>
+<text x="452" y="288" font-family="Inter,sans-serif" font-size="10" fill="var(--primary)" text-anchor="middle">G(·, 0) , skewed</text>
 
 <rect x="576" y="276" width="148" height="72" rx="4" fill="var(--bg)" stroke="var(--border)" stroke-width="0.8"/>
 <path d="M 576,346 Q 610,346 626,316 Q 640,288 658,310 Q 672,332 700,346"
       fill="var(--amber)" fill-opacity="0.15" stroke="none"/>
 <path d="M 576,346 Q 610,346 626,316 Q 640,288 658,310 Q 672,332 700,346"
       fill="none" stroke="var(--amber)" stroke-width="2" opacity="0.8"/>
-<text x="650" y="288" font-family="Inter,sans-serif" font-size="10" fill="var(--amber)" text-anchor="middle">G(0, ·)  — wider, bimodal</text>
+<text x="650" y="288" font-family="Inter,sans-serif" font-size="10" fill="var(--amber)" text-anchor="middle">G(0, ·) , wider, bimodal</text>
 
 <!-- "different!" indicator -->
 <text x="558" y="314" font-family="Inter,sans-serif" font-size="14" fill="var(--primary)" opacity="0.6">≠</text>
@@ -180,5 +180,5 @@ svg{display:block;max-width:100%;height:auto;}</style></head><body>
 <rect x="14" y="399" width="736" height="20" rx="5" fill="var(--bg-alt)" stroke="var(--border)" stroke-width="1"/>
 <text x="382" y="413" font-family="Inter,sans-serif" font-size="11" fill="var(--muted)" text-anchor="middle">Fubini requires G to factorize → the encoder must find coordinates where this approximately holds</text>
 </svg>
-<p class="cap"><em>Left (flat ℝ²):</em> G(x₁,x₂) = e^{−x₁²}·e^{−x₂²} — circular contours, both cross-sections have identical shape (Gaussian). Factorization holds exactly: Fubini collapses 2D → two 1D integrals. <em>Right (curved ℳ):</em> G depends on geodesic distance — contours are tilted ellipses, cross-sections G(·,0) and G(0,·) have different shapes. No axis-aligned factorization. This is the obstacle IGL's encoder is tasked to overcome.</p>
+<p class="cap"><em>Left (flat ℝ²):</em> G(x₁,x₂) = e^{−x₁²}·e^{−x₂²}, circular contours, both cross-sections have identical shape (Gaussian). Factorization holds exactly: Fubini collapses 2D → two 1D integrals. <em>Right (curved ℳ):</em> G depends on geodesic distance, contours are tilted ellipses, cross-sections G(·,0) and G(0,·) have different shapes. No axis-aligned factorization. This is the obstacle IGL's encoder is tasked to overcome.</p>
 </body></html>

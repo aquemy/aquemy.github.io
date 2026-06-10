@@ -21,7 +21,7 @@ svg{display:block;max-width:100%;height:auto;}
 </head>
 <body>
 <p class="ey">Dimensions</p>
-<p class="ti">d vs r_NL vs r_K — Three Different Notions of Dimension</p>
+<p class="ti">d vs r_NL vs r_K, Three Different Notions of Dimension</p>
 <p class="su">the manifold's intrinsic dimension d, the embedding rank r_NL, and IGL's kernel-relative rank r_K are distinct quantities</p>
 
 <svg viewBox="0 0 760 760" style="width:760px;max-width:100%;">
@@ -341,7 +341,7 @@ svg{display:block;max-width:100%;height:auto;}
 </svg>
 
 <p class="cap">
-<em>d (intrinsic dimension)</em> is a topological invariant: the minimum number of coordinates to parameterize the manifold. It is fixed by the shape, not the embedding. <em>r_NL = r(ι)</em> (embedding rank) is the minimum number of nonlinear functions φₖ(θ) such that all D ambient coordinates can be written as linear combinations: ι = W·φ(θ). For the Swiss Roll, t·cos(t) and t·sin(t) are algebraically independent despite both depending on the single parameter t — so r_NL = 3 &gt; d = 2. <em>r_K</em> (kernel-compatible rank) is what IGL's gates actually discover for reconstruction: for smooth aperiodic embeddings (MLP with tanh), r_K = d; for periodic embeddings (torus), r_K = r_NL. The full hierarchy d_eff(class) ≤ d ≤ r_K ≤ r_NL ≤ D is verified across 13 manifold settings.
+<em>d (intrinsic dimension)</em> is a topological invariant: the minimum number of coordinates to parameterize the manifold. It is fixed by the shape, not the embedding. <em>r_NL = r(ι)</em> (embedding rank) is the minimum number of nonlinear functions φₖ(θ) such that all D ambient coordinates can be written as linear combinations: ι = W·φ(θ). For the Swiss Roll, t·cos(t) and t·sin(t) are algebraically independent despite both depending on the single parameter t, so r_NL = 3 &gt; d = 2. <em>r_K</em> (kernel-compatible rank) is what IGL's gates actually discover for reconstruction: for smooth aperiodic embeddings (MLP with tanh), r_K = d; for periodic embeddings (torus), r_K = r_NL. The full hierarchy d_eff(class) ≤ d ≤ r_K ≤ r_NL ≤ D is verified across 13 manifold settings.
 </p>
 </body>
 </html>

@@ -44,7 +44,7 @@ svg{display:block;max-width:100%;height:auto;}
 </style></head><body>
 <p class="ey">Derivation</p>
 <p class="ti">The IGL Framework: Step by Step</p>
-<p class="su">click each step to expand — from PDE reframing to the complete algorithm</p>
+<p class="su">click each step to expand, from PDE reframing to the complete algorithm</p>
 <div class="steps" id="steps">
 
 <div class="step active" style="--step-color:var(--blue)">
@@ -69,7 +69,7 @@ Solution:    u(ξ) = ∫ G(ξ,ζ) f(ζ) dζ   (Green's convolution)</div>
 <div class="eq">Ψ : ℝᴰ → ℝᵈ      (any differentiable arch: MLP, CNN, …)
 ξ = <span style="color:var(--purple)">Ψ(x) · diag(g₁,…,gd)</span>   ← gates gⱼ ∈ [0,1]
 Goal: find ξ such that f̂(ξ) admits low-rank tensor factorization</div>
-<div class="desc">The encoder seeks Korobov-smooth coordinates — not isometric embedding. Tensor rank is coordinate-dependent: a radial function is rank-1 in polar but may require cross-terms in rotated Cartesian frames.</div>
+<div class="desc">The encoder seeks Korobov-smooth coordinates, not isometric embedding. Tensor rank is coordinate-dependent: a radial function is rank-1 in polar but may require cross-terms in rotated Cartesian frames.</div>
 <div class="ins" style="border-color:var(--purple);color:var(--purple)">🔑 IGL finds a task-optimal chart, not necessarily isometric coordinates.</div>
 </div></div>
 
@@ -109,8 +109,8 @@ Cost: O(KRd) per sample   K = O(log ε⁻¹) dim-independent</div>
 <div class="eq">u(ξ) = <span style="color:var(--primary)">Σₖᵣ γₖwᵣ ∏ⱼ Iₖᵣⱼ(ξʲ)</span> + <span style="color:var(--amber)">Σ_{|β|≤p} cβ ∏ⱼ (ξʲ)^βⱼ</span>
             particular solution (G∗f̂)     null-space polynomials
 f̂(ζ) = f̃(ζ)·<span style="color:var(--primary)">√|g(ζ)|</span>   ← metric volume absorbed implicitly</div>
-<div class="desc">Operators with spectral gap (Helmholtz, harmonic oscillator) need no augmentation. The metric factor √|g| and operator coupling correction are both absorbed into f̂ — never computed explicitly.</div>
-<div class="ins" style="border-color:var(--primary);color:var(--primary)">🔑 Double compensation: f̂ absorbs both metric volume and operator coupling — entirely implicit.</div>
+<div class="desc">Operators with spectral gap (Helmholtz, harmonic oscillator) need no augmentation. The metric factor √|g| and operator coupling correction are both absorbed into f̂, never computed explicitly.</div>
+<div class="ins" style="border-color:var(--primary);color:var(--primary)">🔑 Double compensation: f̂ absorbs both metric volume and operator coupling, entirely implicit.</div>
 </div></div>
 
 <div class="step" style="--step-color:var(--blue)">
@@ -122,7 +122,7 @@ f̂(ζ) = f̃(ζ)·<span style="color:var(--primary)">√|g(ζ)|</span>   ← me
 <div class="eq">Stage 2 (inner): <span style="color:var(--green)">w* = argmin_w ‖Φw − y‖²</span>   exact lstsq
 Stage 1 (outer): <span style="color:var(--blue)">min_θ ‖y − Φ(θ)w*(θ)‖²</span>   gradient descent
 Envelope theorem: ∂L/∂w = 0 at optimum
-→ ∇_θ L reflects only coordinate quality — no source confound</div>
+→ ∇_θ L reflects only coordinate quality, no source confound</div>
 <div class="desc">Solving Stage 2 to optimality at each outer step means the encoder gradient carries a pure signal: are these coordinates good for fitting? No co-adaptation possible.</div>
 <div class="ins" style="border-color:var(--blue);color:var(--blue)">🔑 VP prevents dimensional collapse by decoupling coordinate discovery from source fitting.</div>
 </div></div>

@@ -16,7 +16,7 @@ body{background:var(--bg);font-family:'Inter',sans-serif;display:flex;flex-direc
 svg{display:block;max-width:100%;height:auto;}</style></head><body>
 <p class="ey">Key Insight</p>
 <p class="ti">The Encoder Seeks an Approximately Flat Chart</p>
-<p class="su">Ψ transforms ℳ so the Euclidean Laplacian approximates Δ_g — residual absorbed by the compensated source</p>
+<p class="su">Ψ transforms ℳ so the Euclidean Laplacian approximates Δ_g, residual absorbed by the compensated source</p>
 <svg viewBox="0 0 760 330" style="width:760px;max-width:100%;"><defs>
   <marker id="ah" markerWidth="7" markerHeight="6" refX="6.5" refY="3" orient="auto"><path d="M0,0.5 L7,3 L0,5.5 L1.5,3Z" fill="var(--muted)" opacity="0.7"/></marker>
   <marker id="ah-r" markerWidth="7" markerHeight="6" refX="6.5" refY="3" orient="auto"><path d="M0,0.5 L7,3 L0,5.5 L1.5,3Z" fill="var(--primary)"/></marker>
@@ -95,7 +95,7 @@ svg{display:block;max-width:100%;height:auto;}</style></head><body>
   <line x1="314" y1="70" x2="315" y2="268"/>
 </g>
 
-<!-- Nearly circular metric ellipses — approximately equal at all points -->
+<!-- Nearly circular metric ellipses, approximately equal at all points -->
 <ellipse cx="244" cy="130" rx="14" ry="13" fill="var(--green)" fill-opacity="0.12" stroke="var(--green)" stroke-width="1.2" stroke-opacity="0.55"/>
 <ellipse cx="306" cy="200" rx="13" ry="14" fill="var(--green)" fill-opacity="0.12" stroke="var(--green)" stroke-width="1.2" stroke-opacity="0.55"/>
 <text x="218" y="142" font-family="Inter,sans-serif" font-size="8" fill="var(--green)" opacity="0.85">g≈I</text>
@@ -145,7 +145,7 @@ svg{display:block;max-width:100%;height:auto;}</style></head><body>
 
 <rect x="396" y="258" width="126" height="28" rx="5" fill="var(--blue)" fill-opacity="0.07" stroke="var(--blue)" stroke-opacity="0.3" stroke-width="1"/>
 <text x="459" y="271" font-family="Inter,sans-serif" font-size="10" fill="var(--blue)" text-anchor="middle" font-weight="600">G = G₁ · G₂  ✓</text>
-<text x="459" y="281" font-family="Inter,sans-serif" font-size="9" fill="var(--blue)" fill-opacity="0.85" text-anchor="middle">separable — Fubini valid</text>
+<text x="459" y="281" font-family="Inter,sans-serif" font-size="9" fill="var(--blue)" fill-opacity="0.85" text-anchor="middle">separable, Fubini valid</text>
 
 <!-- ─── ARROW 3: → output ─── -->
 <line x1="542" y1="154" x2="564" y2="154" stroke="var(--green)" stroke-width="2" marker-end="url(#ah-g)"/>
@@ -175,11 +175,11 @@ svg{display:block;max-width:100%;height:auto;}</style></head><body>
 <!-- Complexity -->
 <rect x="584" y="234" width="148" height="44" rx="6" fill="var(--green)" fill-opacity="0.06" stroke="var(--green)" stroke-opacity="0.25" stroke-width="1"/>
 <text x="658" y="252" font-family="Inter,sans-serif" font-size="11" fill="var(--green)" text-anchor="middle" font-weight="600">O(KRd) per sample</text>
-<text x="658" y="266" font-family="Inter,sans-serif" font-size="10" fill="var(--muted)" text-anchor="middle">linear in d — tractable</text>
+<text x="658" y="266" font-family="Inter,sans-serif" font-size="10" fill="var(--muted)" text-anchor="middle">linear in d, tractable</text>
 
 <!-- ─── Bottom strip ─── -->
 <rect x="10" y="306" width="740" height="22" rx="5" fill="var(--bg-alt)" stroke="var(--border)" stroke-width="1"/>
-<text x="380" y="321" font-family="Inter,sans-serif" font-size="11" fill="var(--muted)" text-anchor="middle">f̂ absorbs both metric corrections and operator coupling — never explicit</text>
+<text x="380" y="321" font-family="Inter,sans-serif" font-size="11" fill="var(--muted)" text-anchor="middle">f̂ absorbs both metric corrections and operator coupling, never explicit</text>
 </svg>
-<p class="cap">The encoder Ψ does not need to be isometric. It finds coordinates where the manifold is <em>approximately flat</em> — so solving Δu=f̂ (Euclidean) is equivalent to solving Δ_gu=f on the original manifold, up to a correction term absorbed into the learned source f̂. The compensated source handles both the metric volume √|g| and operator coupling entirely implicitly.</p>
+<p class="cap">The encoder Ψ does not need to be isometric. It finds coordinates where the manifold is <em>approximately flat</em>, so solving Δu=f̂ (Euclidean) is equivalent to solving Δ_gu=f on the original manifold, up to a correction term absorbed into the learned source f̂. The compensated source handles both the metric volume √|g| and operator coupling entirely implicitly.</p>
 </body></html>

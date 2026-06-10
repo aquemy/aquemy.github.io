@@ -45,7 +45,7 @@ svg{display:block;max-width:100%;height:auto;}</style></head><body>
   </radialGradient>
 </defs>
 <ellipse cx="127" cy="148" rx="90" ry="70" fill="url(#gns1)"/>
-<!-- Tilted ellipse contours — strong coupling -->
+<!-- Tilted ellipse contours, strong coupling -->
 <ellipse cx="127" cy="148" rx="18" ry="28" transform="rotate(-45 127 148)" fill="none" stroke="var(--primary)" stroke-opacity="0.8" stroke-width="1.6"/>
 <ellipse cx="127" cy="148" rx="38" ry="56" transform="rotate(-43 127 148)" fill="none" stroke="var(--primary)" stroke-opacity="0.5" stroke-width="1.2"/>
 <ellipse cx="127" cy="148" rx="58" ry="78" transform="rotate(-40 127 148)" fill="none" stroke="var(--primary)" stroke-opacity="0.3" stroke-width="1"/>
@@ -188,5 +188,5 @@ svg{display:block;max-width:100%;height:auto;}</style></head><body>
 <rect x="646" y="379" width="24" height="5"  rx="2" fill="var(--green)" opacity="0.1"/>
 <text x="633" y="398" font-family="Inter,sans-serif" font-size="9" fill="var(--green)" text-anchor="middle">rank ≈ 1 (separable)  ✓</text>
 </svg>
-<p class="cap"><em>Before training:</em> random encoder — G has cross-coupling, tilted contours, cross-sections G(·,0) and G(0,·) have different shapes. Fubini cannot be applied. <em>The encoder learns:</em> via the VP gradient signal, Ψ is pushed toward coordinates where G is approximately separable. The gradient encodes both geometric flattening and operator separation. <em>After training:</em> G's contours are nearly circular and axis-aligned, both cross-sections match in shape — G ≈ G₁·G₂, residual rank drops toward 1, and Fubini's factorization becomes valid.</p>
+<p class="cap"><em>Before training:</em> random encoder, G has cross-coupling, tilted contours, cross-sections G(·,0) and G(0,·) have different shapes. Fubini cannot be applied. <em>The encoder learns:</em> via the VP gradient signal, Ψ is pushed toward coordinates where G is approximately separable. The gradient encodes both geometric flattening and operator separation. <em>After training:</em> G's contours are nearly circular and axis-aligned, both cross-sections match in shape, G ≈ G₁·G₂, residual rank drops toward 1, and Fubini's factorization becomes valid.</p>
 </body></html>

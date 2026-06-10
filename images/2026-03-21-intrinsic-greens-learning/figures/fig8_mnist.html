@@ -29,16 +29,16 @@ canvas{display:block;border-radius:8px;width:100%;height:auto;}
 .id{color:var(--muted);font-size:11px;line-height:1.5;}
 </style></head><body>
 <p class="ey">Experiments</p>
-<p class="ti">MNIST Latent Space — AE+IGL (Two-Stage) Wins on All Metrics</p>
+<p class="ti">MNIST Latent Space, AE+IGL (Two-Stage) Wins on All Metrics</p>
 <p class="su">20k samples · 64-dimensional latent space · 10 classes · 5 competing methods</p>
 <div class="chart-area">
 <div class="tabs" id="tabs"></div>
 <canvas id="cBar" width="720" height="260"></canvas>
 <div class="insight-row">
-  <div class="insight"><div class="iv" style="color:var(--purple)">Lin. Probe: 0.991</div><div class="id">Near-optimal classification — matches contrastive</div></div>
+  <div class="insight"><div class="iv" style="color:var(--purple)">Lin. Probe: 0.991</div><div class="id">Near-optimal classification, matches contrastive</div></div>
   <div class="insight"><div class="iv" style="color:var(--blue)">Silhouette: 0.630</div><div class="id">Strong geometric class separation</div></div>
   <div class="insight"><div class="iv" style="color:var(--green)">12 / 64 active dims</div><div class="id">Intrinsic dimension consistent with \(d_{\mathrm{MNIST}} \approx 10\text{--}15\)</div></div>
-  <div class="insight"><div class="iv" style="color:var(--amber)">Smooth: 0.122 ↓</div><div class="id">Best label smoothness — most organised latent space</div></div>
+  <div class="insight"><div class="iv" style="color:var(--amber)">Smooth: 0.122 ↓</div><div class="id">Best label smoothness, most organised latent space</div></div>
 </div>
 </div>
 <script>
