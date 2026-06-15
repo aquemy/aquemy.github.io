@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1490 360" width="1490" height="360">
+  <defs>
+    <style type="text/css"><![CDATA[
+      text   { fill: #111111; font-family: 'SF Mono', Menlo, Monaco, Consolas, 'Courier New', monospace; }
+      .mono  { font-family: 'SF Mono', Menlo, Monaco, Consolas, 'Courier New', monospace; }
+      .title { font-size: 38px; font-weight: 500; }
+      .box-h { font-size: 28px; }
+      .box-s { font-size: 17px; fill: #6b7280; }
+      .caption { font-size: 22px; fill: #111111; }
+    ]]></style>
+    <filter id="wash-a" x="-20%" y="-25%" width="140%" height="150%"><feTurbulence type="fractalNoise" baseFrequency="0.013" numOctaves="3" seed="2"/><feDisplacementMap in="SourceGraphic" scale="16"/><feGaussianBlur stdDeviation="1.6"/></filter>
+    <filter id="wash-b" x="-20%" y="-25%" width="140%" height="150%"><feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="3" seed="9"/><feDisplacementMap in="SourceGraphic" scale="14"/><feGaussianBlur stdDeviation="1.8"/></filter>
+    <filter id="wash-c" x="-20%" y="-25%" width="140%" height="150%"><feTurbulence type="fractalNoise" baseFrequency="0.011" numOctaves="3" seed="14"/><feDisplacementMap in="SourceGraphic" scale="18"/><feGaussianBlur stdDeviation="2"/></filter>
+    <filter id="ink-a" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="2" seed="5"/><feDisplacementMap in="SourceGraphic" scale="3"/></filter>
+    <filter id="ink-b" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="2" seed="13"/><feDisplacementMap in="SourceGraphic" scale="2.8"/></filter>
+    <filter id="ink-c" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="2" seed="21"/><feDisplacementMap in="SourceGraphic" scale="2.5"/></filter>
+  </defs>
+
+  <text x="745" y="52" text-anchor="middle" class="title">From a claim to a checked proof</text>
+  <path d="M 372 70 Q 560 66 745 70 Q 930 74 1118 69" fill="none" stroke="#111111" stroke-width="2.4" stroke-linecap="round" filter="url(#ink-a)"/>
+
+  <!-- box 1: claim -->
+  <rect x="27.5" y="184" width="205" height="92" fill="#abc1d2" opacity="0.5" filter="url(#wash-a)"/>
+  <rect x="35.5" y="192" width="189" height="76" fill="none" stroke="#111111" stroke-width="1.6" filter="url(#ink-a)"/>
+  <text x="130" y="230" text-anchor="middle" class="mono box-h">claim</text>
+  <text x="130" y="254" text-anchor="middle" class="mono box-s">informal</text>
+
+  <!-- box 2: coverage -->
+  <rect x="277.5" y="184" width="205" height="92" fill="#d2cabb" opacity="0.5" filter="url(#wash-b)"/>
+  <rect x="285.5" y="192" width="189" height="76" fill="none" stroke="#111111" stroke-width="1.6" filter="url(#ink-b)"/>
+  <text x="380" y="230" text-anchor="middle" class="mono box-h">coverage</text>
+  <text x="380" y="254" text-anchor="middle" class="mono box-s">what Mathlib has</text>
+
+  <!-- box 3: review -->
+  <rect x="527.5" y="184" width="205" height="92" fill="#dcc085" opacity="0.45" filter="url(#wash-c)"/>
+  <rect x="535.5" y="192" width="189" height="76" fill="none" stroke="#111111" stroke-width="1.6" filter="url(#ink-c)"/>
+  <text x="630" y="230" text-anchor="middle" class="mono box-h">review</text>
+  <text x="630" y="254" text-anchor="middle" class="mono box-s">gaps, hypotheses</text>
+
+  <!-- box 4: formalise -->
+  <rect x="777.5" y="184" width="205" height="92" fill="#b9b2d2" opacity="0.5" filter="url(#wash-a)"/>
+  <rect x="785.5" y="192" width="189" height="76" fill="none" stroke="#111111" stroke-width="1.6" filter="url(#ink-b)"/>
+  <text x="880" y="230" text-anchor="middle" class="mono box-h">formalise</text>
+  <text x="880" y="254" text-anchor="middle" class="mono box-s">Lean + prover</text>
+
+  <!-- box 5: checked -->
+  <rect x="1027.5" y="184" width="205" height="92" fill="#a9c39c" opacity="0.55" filter="url(#wash-b)"/>
+  <rect x="1035.5" y="192" width="189" height="76" fill="none" stroke="#111111" stroke-width="1.6" filter="url(#ink-c)"/>
+  <text x="1130" y="230" text-anchor="middle" class="mono box-h">checked</text>
+  <text x="1130" y="254" text-anchor="middle" class="mono box-s">#print axioms</text>
+
+  <!-- box 6: write up -->
+  <rect x="1277.5" y="184" width="205" height="92" fill="#e4d4ba" opacity="0.5" filter="url(#wash-c)"/>
+  <rect x="1285.5" y="192" width="189" height="76" fill="none" stroke="#111111" stroke-width="1.6" filter="url(#ink-a)"/>
+  <text x="1380" y="230" text-anchor="middle" class="mono box-h">write up</text>
+  <text x="1380" y="254" text-anchor="middle" class="mono box-s">paper, blueprint</text>
+
+  <!-- arrows (wavy polyline + two-segment head, no filter) -->
+  <g stroke="#111111" stroke-width="2" fill="none" stroke-linecap="round">
+    <path d="M 236.5 228 L 252 227.4 L 268 228.6 L 273.5 228"/><path d="M 263.5 222 L 273.5 228 L 263.5 234"/>
+    <path d="M 486.5 228 L 502 227.4 L 518 228.6 L 523.5 228"/><path d="M 513.5 222 L 523.5 228 L 513.5 234"/>
+    <path d="M 736.5 228 L 752 227.4 L 768 228.6 L 773.5 228"/><path d="M 763.5 222 L 773.5 228 L 763.5 234"/>
+    <path d="M 986.5 228 L 1002 227.4 L 1018 228.6 L 1023.5 228"/><path d="M 1013.5 222 L 1023.5 228 L 1013.5 234"/>
+    <path d="M 1236.5 228 L 1252 227.4 L 1268 228.6 L 1273.5 228"/><path d="M 1263.5 222 L 1273.5 228 L 1263.5 234"/>
+  </g>
+
+  <text x="745" y="334" text-anchor="middle" class="caption">the model searches and writes; the proof assistant decides what is proved</text>
+</svg>

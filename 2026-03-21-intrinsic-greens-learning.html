@@ -213,7 +213,7 @@
 </ul>
 </div>
 <p>This article presents <strong>Intrinsic Green’s Learning (IGL)</strong>, introduced at the <a href="https://sites.google.com/impatech.edu.br/ai-pde">AI &amp; PDE Workshop @ ICLR 2026</a>. IGL was originally conceived as a <em>geometric diagnosis tool</em>, a way to probe whether a model’s learned representations actually respect the manifold structure of the data. Along the way, it grew into a full architectural framework that generates its own inductive biases from PDE theory.</p>
-<p>This post covers the content of the <strong><a href="https://openreview.net/forum?id=MRPud2JLQL">original paper</a></strong>, the core architecture, the factorization trick, the two-stage algorithm, and the experiments. We have plenty of exciting developments that go well beyond the original diagnostic tool, task-conditioned dimension theory, Matryoshka mechanisms, AtlasBlock for Language Models, full manifold reconstruction with non-Euclidean metric recovery, SPD manifolds, and more, but those will be the subject of upcoming articles.</p>
+<p>This post covers the content of the <strong><a href="https://openreview.net/forum?id=Y6RpdS98l8">original paper</a></strong>, the core architecture, the factorization trick, the two-stage algorithm, and the experiments. We have plenty of exciting developments that go well beyond the original diagnostic tool, task-conditioned dimension theory, Matryoshka mechanisms, AtlasBlock for Language Models, full manifold reconstruction with non-Euclidean metric recovery, SPD manifolds, and more, but those will be the subject of upcoming articles.</p>
 <hr/>
 <h3 id="introduction">Introduction<a class="headerlink" href="#introduction" title="Permanent link">¶</a></h3>
 <p>There is a standard story in deep learning: data lives on a low-dimensional manifold hidden inside a high-dimensional ambient space. The manifold hypothesis is well-supported empirically, MNIST digits sit on a roughly 10–15 dimensional manifold inside <span class="arithmatex">\(\mathbb{R}^{784}\)</span>, and modern language model activations cluster in structured low-dimensional subspaces. But knowing the hypothesis and exploiting it architecturally are two different things. If you <em>could</em> discover the manifold structure, its intrinsic dimension, a good coordinate chart, and the geometry of the embedding, the payoff would be substantial:</p>
@@ -1928,11 +1928,11 @@ updateInfo();draw2D();draw1D();
                 <span class="post-meta block mb-3">More in Mathematics</span>
                 <ul class="space-y-1.5">
                     
+                    <li><a href="https://quemy.info/2026-06-15-machine-checked-maths-llm-in-the-loop.html" class="font-serif text-accent-light dark:text-accent-dark hover:underline">Machine-Checked Mathematics, with an LLM in the Loop</a></li>
+                    
                     <li><a href="https://quemy.info/2026-03-22-mhalm-parameter-golf.html" class="font-serif text-accent-light dark:text-accent-dark hover:underline">MHALM: When Geometric Kernels Meet Language Modelling</a></li>
                     
                     <li><a href="https://quemy.info/2021-02-03-correlation-is-not-causation-limits.html" class="font-serif text-accent-light dark:text-accent-dark hover:underline">Stop using "Correlation is not causation" and maybe stop using correlation</a></li>
-                    
-                    <li><a href="https://quemy.info/2021-01-08-distribution-umbral-calculus-ode.html" class="font-serif text-accent-light dark:text-accent-dark hover:underline">Distributions, Laplace Transform and Initial Value Problem</a></li>
                     
                 </ul>
             </div>

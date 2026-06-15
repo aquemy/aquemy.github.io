@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1490 560" width="1490" height="560">
+  <defs>
+    <style type="text/css"><![CDATA[
+      text   { fill: #111111; font-family: 'SF Mono', Menlo, Monaco, Consolas, 'Courier New', monospace; }
+      .mono  { font-family: 'SF Mono', Menlo, Monaco, Consolas, 'Courier New', monospace; }
+      .title { font-size: 38px; font-weight: 500; }
+      .box-h { font-size: 28px; }
+      .box-s { font-size: 17px; fill: #6b7280; }
+      .arrow-label { font-size: 20px; fill: #6b7280; font-style: italic; paint-order: stroke; stroke: #ffffff; stroke-width: 4px; }
+      .caption { font-size: 22px; fill: #111111; }
+    ]]></style>
+    <filter id="wash-a" x="-20%" y="-25%" width="140%" height="150%"><feTurbulence type="fractalNoise" baseFrequency="0.013" numOctaves="3" seed="2"/><feDisplacementMap in="SourceGraphic" scale="16"/><feGaussianBlur stdDeviation="1.6"/></filter>
+    <filter id="wash-b" x="-20%" y="-25%" width="140%" height="150%"><feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="3" seed="9"/><feDisplacementMap in="SourceGraphic" scale="14"/><feGaussianBlur stdDeviation="1.8"/></filter>
+    <filter id="wash-c" x="-20%" y="-25%" width="140%" height="150%"><feTurbulence type="fractalNoise" baseFrequency="0.011" numOctaves="3" seed="14"/><feDisplacementMap in="SourceGraphic" scale="18"/><feGaussianBlur stdDeviation="2"/></filter>
+    <filter id="ink-a" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="2" seed="5"/><feDisplacementMap in="SourceGraphic" scale="3"/></filter>
+    <filter id="ink-b" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="2" seed="13"/><feDisplacementMap in="SourceGraphic" scale="2.8"/></filter>
+    <filter id="ink-c" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="2" seed="21"/><feDisplacementMap in="SourceGraphic" scale="2.5"/></filter>
+  </defs>
+
+  <text x="745" y="52" text-anchor="middle" class="title">How the model works on a goal</text>
+  <path d="M 400 70 Q 575 66 745 70 Q 915 74 1090 69" fill="none" stroke="#111111" stroke-width="2.4" stroke-linecap="round" filter="url(#ink-b)"/>
+
+  <!-- VSCode (top) -->
+  <rect x="580" y="103" width="200" height="80" fill="#d2cabb" opacity="0.5" filter="url(#wash-c)"/>
+  <rect x="588" y="111" width="184" height="64" fill="none" stroke="#111111" stroke-width="1.6" filter="url(#ink-a)"/>
+  <text x="680" y="146" text-anchor="middle" class="mono box-h">VSCode</text>
+  <text x="680" y="168" text-anchor="middle" class="mono box-s">same view</text>
+
+  <!-- model (left) -->
+  <rect x="190" y="252" width="200" height="96" fill="#e4d4ba" opacity="0.5" filter="url(#wash-a)"/>
+  <rect x="198" y="260" width="184" height="80" fill="none" stroke="#111111" stroke-width="1.6" filter="url(#ink-b)"/>
+  <text x="290" y="298" text-anchor="middle" class="mono box-h">model</text>
+  <text x="290" y="322" text-anchor="middle" class="mono box-s">Claude</text>
+
+  <!-- lean-lsp (center) -->
+  <rect x="560" y="240" width="240" height="120" fill="#abc1d2" opacity="0.5" filter="url(#wash-b)"/>
+  <rect x="568" y="248" width="224" height="104" fill="none" stroke="#111111" stroke-width="1.6" filter="url(#ink-c)"/>
+  <text x="680" y="288" text-anchor="middle" class="mono box-h">lean-lsp</text>
+  <text x="680" y="314" text-anchor="middle" class="mono box-s">goal &#183; errors</text>
+  <text x="680" y="336" text-anchor="middle" class="mono box-s">tactics &#183; search</text>
+
+  <!-- kernel (right) -->
+  <rect x="1005" y="252" width="250" height="96" fill="#a9c39c" opacity="0.55" filter="url(#wash-c)"/>
+  <rect x="1013" y="260" width="234" height="80" fill="none" stroke="#111111" stroke-width="1.6" filter="url(#ink-a)"/>
+  <text x="1130" y="298" text-anchor="middle" class="mono box-h">Lean kernel</text>
+  <text x="1130" y="322" text-anchor="middle" class="mono box-s">Mathlib, arbiter</text>
+
+  <!-- Goedel (bottom) -->
+  <rect x="760" y="447" width="300" height="92" fill="#b9b2d2" opacity="0.5" filter="url(#wash-a)"/>
+  <rect x="768" y="455" width="284" height="76" fill="none" stroke="#111111" stroke-width="1.6" filter="url(#ink-c)"/>
+  <text x="910" y="491" text-anchor="middle" class="mono box-h">Goedel-Prover</text>
+  <text x="910" y="515" text-anchor="middle" class="mono box-s">LM Studio, local</text>
+
+  <!-- connectors (wavy polylines + heads, no filter) -->
+  <g stroke="#111111" stroke-width="2" fill="none" stroke-linecap="round">
+    <!-- VSCode down to lean-lsp -->
+    <path d="M 680 183 L 679.4 205 L 680.6 227 L 680 240"/><path d="M 674 230 L 680 240 L 686 230"/>
+    <!-- model to lean-lsp -->
+    <path d="M 390 300 L 440 299.3 L 510 300.6 L 558 300"/><path d="M 548 294 L 558 300 L 548 306"/>
+    <!-- lean-lsp to kernel -->
+    <path d="M 800 300 L 860 299.3 L 945 300.6 L 1003 300"/><path d="M 993 294 L 1003 300 L 993 306"/>
+    <!-- model to Goedel -->
+    <path d="M 320 348 Q 470 470 758 488"/><path d="M 744 480 L 758 488 L 745 494"/>
+    <!-- Goedel to kernel -->
+    <path d="M 1060 480 Q 1175 440 1135 352"/><path d="M 1126 366 L 1135 352 L 1146 364"/>
+  </g>
+
+  <!-- arrow labels -->
+  <text x="474" y="290" text-anchor="middle" class="mono arrow-label">reads</text>
+  <text x="901" y="290" text-anchor="middle" class="mono arrow-label">runs Lean</text>
+  <text x="748" y="214" text-anchor="start" class="mono arrow-label">my view</text>
+  <text x="495" y="408" text-anchor="middle" class="mono arrow-label">hard goals</text>
+  <text x="1150" y="420" text-anchor="start" class="mono arrow-label">candidates</text>
+</svg>

@@ -1,22 +1,26 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
-    <loc>https://quemy.info/index.html</loc>
-  </url>
-  <url>
-    <loc>https://quemy.info/portfolio.html</loc>
-  </url>
-  <url>
     <loc>https://quemy.info/research.html</loc>
   </url>
   <url>
     <loc>https://quemy.info/passions.html</loc>
   </url>
   <url>
+    <loc>https://quemy.info/cv.html</loc>
+  </url>
+  <url>
+    <loc>https://quemy.info/index.html</loc>
+  </url>
+  <url>
+    <loc>https://quemy.info/portfolio.html</loc>
+  </url>
+  <url>
     <loc>https://quemy.info/blog.html</loc>
   </url>
   <url>
-    <loc>https://quemy.info/cv.html</loc>
+    <loc>https://quemy.info/2026-06-15-machine-checked-maths-llm-in-the-loop.html</loc>
+    <lastmod>2026-06-15</lastmod>
   </url>
   <url>
     <loc>https://quemy.info/2026-04-29-mhalm-v3-lessons.html</loc>
@@ -35,11 +39,11 @@
     <lastmod>2025-08-04</lastmod>
   </url>
   <url>
-    <loc>https://quemy.info/2025-15-06-tutorial-fsm-2.html</loc>
+    <loc>https://quemy.info/2025-15-06-tutorial-fsm-3.html</loc>
     <lastmod>2025-06-15</lastmod>
   </url>
   <url>
-    <loc>https://quemy.info/2025-15-06-tutorial-fsm-3.html</loc>
+    <loc>https://quemy.info/2025-15-06-tutorial-fsm-2.html</loc>
     <lastmod>2025-06-15</lastmod>
   </url>
   <url>
@@ -91,15 +95,15 @@
     <lastmod>2013-11-26</lastmod>
   </url>
   <url>
+    <loc>https://quemy.info/2013-11-23-island-model-with-paradiseo-advanced-island-model-manipulations.html</loc>
+    <lastmod>2013-11-23</lastmod>
+  </url>
+  <url>
     <loc>https://quemy.info/2013-11-23-island-model-with-paradiseo-heterogeneous-island-model.html</loc>
     <lastmod>2013-11-23</lastmod>
   </url>
   <url>
     <loc>https://quemy.info/2013-11-23-island-model-with-paradiseo-components-and-basics.html</loc>
-    <lastmod>2013-11-23</lastmod>
-  </url>
-  <url>
-    <loc>https://quemy.info/2013-11-23-island-model-with-paradiseo-advanced-island-model-manipulations.html</loc>
     <lastmod>2013-11-23</lastmod>
   </url>
   <url>

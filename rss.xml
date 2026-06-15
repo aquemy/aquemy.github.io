@@ -7,6 +7,13 @@
     <language>en</language>
     <atom:link href="https://quemy.info/rss.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Machine-Checked Mathematics, with an LLM in the Loop</title>
+      <link>https://quemy.info/2026-06-15-machine-checked-maths-llm-in-the-loop.html</link>
+      <guid isPermaLink="true">https://quemy.info/2026-06-15-machine-checked-maths-llm-in-the-loop.html</guid>
+      <pubDate>Mon, 15 Jun 2026 00:00:00 +0000</pubDate>
+      <description>My training is primarily in mathematics, and a research question, for me, tends to move back and forth between numerics and proof. I usually start by…</description>
+    </item>
+    <item>
       <title>MHALM V2: Kernel Readout on Learned Manifold Coordinates</title>
       <link>https://quemy.info/2026-04-29-mhalm-v3-lessons.html</link>
       <guid isPermaLink="true">https://quemy.info/2026-04-29-mhalm-v3-lessons.html</guid>
@@ -35,18 +42,18 @@
       <description>Like many technical folks these days, I use Claude Code constantly. But here’s the thing - I’m usually running multiple Claude sessions in parallel…</description>
     </item>
     <item>
-      <title>Signature Model Tutorial Part 2 - The problems with Native Function Calling</title>
-      <link>https://quemy.info/2025-15-06-tutorial-fsm-2.html</link>
-      <guid isPermaLink="true">https://quemy.info/2025-15-06-tutorial-fsm-2.html</guid>
-      <pubDate>Sun, 15 Jun 2025 00:00:00 +0000</pubDate>
-      <description>This blog post is the part 2 of the tutorial on the Signature Model approach to function calling. The following interactive tutorial is embedded directly…</description>
-    </item>
-    <item>
       <title>Signature Model Tutorial Part 3 - Introduction to the Signature Model</title>
       <link>https://quemy.info/2025-15-06-tutorial-fsm-3.html</link>
       <guid isPermaLink="true">https://quemy.info/2025-15-06-tutorial-fsm-3.html</guid>
       <pubDate>Sun, 15 Jun 2025 00:00:00 +0000</pubDate>
       <description>This blog post is the part 3 of the tutorial on the Signature Model approach to function calling. The following interactive tutorial is embedded directly…</description>
+    </item>
+    <item>
+      <title>Signature Model Tutorial Part 2 - The problems with Native Function Calling</title>
+      <link>https://quemy.info/2025-15-06-tutorial-fsm-2.html</link>
+      <guid isPermaLink="true">https://quemy.info/2025-15-06-tutorial-fsm-2.html</guid>
+      <pubDate>Sun, 15 Jun 2025 00:00:00 +0000</pubDate>
+      <description>This blog post is the part 2 of the tutorial on the Signature Model approach to function calling. The following interactive tutorial is embedded directly…</description>
     </item>
     <item>
       <title>Function Calling in LLMs: A Signature Model Approach</title>
@@ -133,6 +140,13 @@
       <description>Le billet qui suit est une tentative de mettre en exergue l’omniprésence des mathématiques et l’utilisation des mathématiques dans nos sociétés. J’essaye…</description>
     </item>
     <item>
+      <title>Island Model with ParadisEO: advanced island model manipulations</title>
+      <link>https://quemy.info/2013-11-23-island-model-with-paradiseo-advanced-island-model-manipulations.html</link>
+      <guid isPermaLink="true">https://quemy.info/2013-11-23-island-model-with-paradiseo-advanced-island-model-manipulations.html</guid>
+      <pubDate>Sat, 23 Nov 2013 00:00:00 +0000</pubDate>
+      <description>This article presents how to manage advanced mecanisms supplied by the island model. In the first part we will present the custom topology and stochastic…</description>
+    </item>
+    <item>
       <title>Island Model with ParadisEO: heterogeneous island model</title>
       <link>https://quemy.info/2013-11-23-island-model-with-paradiseo-heterogeneous-island-model.html</link>
       <guid isPermaLink="true">https://quemy.info/2013-11-23-island-model-with-paradiseo-heterogeneous-island-model.html</guid>
@@ -145,13 +159,6 @@
       <guid isPermaLink="true">https://quemy.info/2013-11-23-island-model-with-paradiseo-components-and-basics.html</guid>
       <pubDate>Sat, 23 Nov 2013 00:00:00 +0000</pubDate>
       <description>The purpose of this article is to present how to create an homogeneous island model, that is to say with the same Evolutionary Algorithm (EA) on each…</description>
-    </item>
-    <item>
-      <title>Island Model with ParadisEO: advanced island model manipulations</title>
-      <link>https://quemy.info/2013-11-23-island-model-with-paradiseo-advanced-island-model-manipulations.html</link>
-      <guid isPermaLink="true">https://quemy.info/2013-11-23-island-model-with-paradiseo-advanced-island-model-manipulations.html</guid>
-      <pubDate>Sat, 23 Nov 2013 00:00:00 +0000</pubDate>
-      <description>This article presents how to manage advanced mecanisms supplied by the island model. In the first part we will present the custom topology and stochastic…</description>
     </item>
     <item>
       <title>Modèle de parallélisme en îles pour des métaheuristiques</title>

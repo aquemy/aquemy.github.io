@@ -1,0 +1,269 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="utf-8">
+<style>
+  .cg-wrap { position: relative; font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; color: #2A2927; }
+  .cg-tabs { display: flex; gap: 8px; margin-bottom: 14px; }
+  .cg-tab { font: 600 13px/1 -apple-system, sans-serif; padding: 7px 14px; border: 1px solid #d7d3ca; background: #f7f5f0; color: #57534e; border-radius: 8px; cursor: pointer; }
+  .cg-tab.active { background: #2A2927; color: #fff; border-color: #2A2927; }
+  .cg-legend { display: flex; flex-wrap: wrap; gap: 16px; align-items: center; font-size: 12px; color: #64748b; margin-bottom: 10px; }
+  .cg-sw { display: inline-block; width: 13px; height: 13px; border-radius: 3px; vertical-align: -2px; margin-right: 5px; border: 1px solid rgba(0,0,0,0.15); }
+  .cg-panel { display: none; }
+  .cg-panel.active { display: block; }
+  .cg-svg { width: 100%; height: auto; display: block; }
+  .cg-node rect { transition: opacity 0.12s; }
+  .cg-node { cursor: default; }
+  .cg-edge { fill: none; transition: opacity 0.12s; }
+  .cg-dim { opacity: 0.12; }
+  .cg-tip { position: absolute; pointer-events: none; opacity: 0; transition: opacity 0.1s; background: #fffdf8; color: #2A2927; font-size: 12px; line-height: 1.5; padding: 9px 11px; border-radius: 8px; max-width: 270px; z-index: 5; border: 1px solid #d7d3ca; box-shadow: 0 6px 20px rgba(60,50,40,0.14); }
+  .cg-tip code { font-family: "SF Mono", Menlo, monospace; font-size: 11px; color: #57534e; background: #f1efe9; padding: 1px 5px; border-radius: 4px; }
+  .cg-tip .cg-st { font-weight: 600; }
+  .cg-hint { font-size: 12px; color: #94a3b8; margin-top: 8px; font-style: italic; }
+  /* history */
+  .cg-hist { position: relative; padding-left: 26px; }
+  .cg-hist:before { content: ""; position: absolute; left: 8px; top: 6px; bottom: 6px; width: 2px; background: #e7e3da; }
+  .cg-row { position: relative; padding: 7px 0; display: flex; align-items: baseline; gap: 10px; flex-wrap: wrap; }
+  .cg-row:before { content: ""; position: absolute; left: -22px; top: 13px; width: 9px; height: 9px; border-radius: 50%; background: #fff; border: 2px solid #cbd5e1; }
+  .cg-row.cf:before { border-color: #5b8c6e; } .cg-row.ca:before { border-color: #b8862f; }
+  .cg-row.cc:before { border-color: #94a3b8; } .cg-row.cr:before { border-color: #9c3a34; }
+  .cg-hash { font-family: "SF Mono", Menlo, monospace; font-size: 11px; color: #a8a29e; }
+  .cg-badge { font-family: "SF Mono", Menlo, monospace; font-size: 11px; padding: 2px 7px; border-radius: 5px; border: 1px solid; white-space: nowrap; }
+  .b-conj { background: #eef0f3; color: #475569; border-color: #cbd5e1; }
+  .b-ax   { background: #f6edda; color: #8a6516; border-color: #d9b96a; }
+  .b-form { background: #e7f0ea; color: #3f6b51; border-color: #9bc1a8; }
+  .b-ref  { background: #f6e3e1; color: #8f342d; border-color: #d9a39c; }
+  .b-docs { background: #f1f1ee; color: #94a3b8; border-color: #e2e2dc; }
+  .cg-subj { font-size: 13px; color: #44403c; flex: 1 1 320px; }
+</style>
+</head>
+<body>
+<div class="cg-wrap">
+  <div class="cg-tabs">
+    <button class="cg-tab active" id="tabGraph">Claim graph</button>
+    <button class="cg-tab" id="tabHistory">Commit history</button>
+  </div>
+
+  <div class="cg-panel active" id="panelGraph">
+    <div class="cg-legend">
+      <span><span class="cg-sw" style="background:#e7f0ea;border-color:#5b8c6e"></span>machine-checked (standard axioms)</span>
+      <span><span class="cg-sw" style="background:#f6edda;border-color:#b8862f"></span>cited axiom</span>
+      <span style="color:#94a3b8">def &middot; thm &middot; cor &middot; prop</span>
+    </div>
+    <svg class="cg-svg" id="graphSvg" viewBox="0 0 920 580" preserveAspectRatio="xMidYMid meet"></svg>
+    <div class="cg-hint">Hover a node to trace what it rests on and what rests on it.</div>
+  </div>
+
+  <div class="cg-panel" id="panelHistory">
+    <div class="cg-legend">
+      <span><span class="cg-sw" style="background:#eef0f3;border-color:#94a3b8"></span>conjecture</span>
+      <span><span class="cg-sw" style="background:#f6edda;border-color:#b8862f"></span>axiomatise</span>
+      <span><span class="cg-sw" style="background:#e7f0ea;border-color:#5b8c6e"></span>formalize</span>
+      <span><span class="cg-sw" style="background:#f6e3e1;border-color:#9c3a34"></span>refute</span>
+    </div>
+    <div class="cg-hist" id="histList"></div>
+    <div class="cg-hint">The same results, as the commit log that produced them (oldest first). The status footer of each commit is checked against <code style="font-family:'SF Mono',Menlo,monospace">#print axioms</code>.</div>
+  </div>
+
+  <div class="cg-tip" id="cgTooltip"></div>
+</div>
+
+<script>
+var SVGNS = "http://www.w3.org/2000/svg";
+var COL = { checked: { fill: "#e7f0ea", stroke: "#5b8c6e" }, axiom: { fill: "#f6edda", stroke: "#b8862f" } };
+
+var layers = [
+  [
+    {id:"sepSrc", label:"separable source", kind:"def", status:"checked", lean:"IGL.separableSource"},
+    {id:"sepKer", label:"separable kernel", kind:"def", status:"checked", lean:"IGL.separableKernel"},
+    {id:"partInt", label:"partial integral", kind:"def", status:"checked", lean:"IGL.partialIntegral"},
+    {id:"rank1", label:"rank-1 factorization", kind:"thm", status:"checked", lean:"igl_separable_factorization"},
+    {id:"expNeg", label:"eigenvalues → product", kind:"thm", status:"checked", lean:"IGL.exp_neg_sum_eigs"},
+    {id:"cpRank", label:"CP-rank", kind:"def", status:"checked", lean:"IGL.HasCPRank"},
+    {id:"gauge", label:"gauge invariance", kind:"thm", status:"checked", lean:"IGL.gauge_invariance"}
+  ],
+  [
+    {id:"iglPart", label:"IGL solution", kind:"def", status:"checked", lean:"IGL.iglParticular", deps:["sepSrc","sepKer","partInt"]},
+    {id:"dfold", label:"d-fold factorization", kind:"thm", status:"checked", lean:"IGL.fubini_dfold", deps:["rank1"]},
+    {id:"expSum", label:"exp-sum rank bound", kind:"prop", status:"axiom", lean:"IGL.expSumRank_logBound", rests:"IGL.expSumRank", deps:["sepKer"]},
+    {id:"cpAdd", label:"CP-rank sub-add.", kind:"thm", status:"checked", lean:"IGL.HasCPRank.add", deps:["cpRank"]},
+    {id:"cpMul", label:"CP-rank sub-mult.", kind:"thm", status:"checked", lean:"IGL.HasCPRank.mul", deps:["cpRank"]},
+    {id:"diffRank", label:"rank-friendly diff.", kind:"thm", status:"checked", lean:"IGL.applyCoordOp_hasCPRank", deps:["cpRank","sepSrc"]},
+    {id:"barrNec", label:"barrier · necessity", kind:"thm", status:"checked", lean:"IGL.barrierWitness_not_rank_one", deps:["cpRank"]}
+  ],
+  [
+    {id:"master", label:"Master Formula", kind:"thm", status:"checked", lean:"IGL.fubini_factorization", hero:true, deps:["sepSrc","sepKer","partInt","iglPart","dfold"]},
+    {id:"spectral", label:"spectral factorization", kind:"thm", status:"checked", lean:"IGL.spectral_factorization", deps:["expNeg","dfold"]},
+    {id:"barrIf", label:"barrier · sufficiency", kind:"thm", status:"checked", lean:"IGL.barrier_if_factorization", deps:["dfold"]}
+  ],
+  [
+    {id:"kan", label:"KAN reduction", kind:"cor", status:"checked", lean:"IGL.kan_reduction", deps:["master","iglPart"]},
+    {id:"additive", label:"Additive-Green", kind:"cor", status:"checked", lean:"IGL.additiveGreen_factorization", deps:["master"]}
+  ]
+];
+
+var colX = [100, 340, 580, 812];
+var nodes = {}, order = [];
+for (var li = 0; li < layers.length; li++) {
+  var lay = layers[li], n = lay.length;
+  for (var oi = 0; oi < n; oi++) {
+    var nd = lay[oi];
+    nd.cx = colX[li];
+    nd.cy = 30 + (530 / n) * (oi + 0.5);
+    nd.deps = nd.deps || [];
+    nodes[nd.id] = nd; order.push(nd.id);
+  }
+}
+// reverse deps
+for (var k = 0; k < order.length; k++) nodes[order[k]].users = [];
+for (var k2 = 0; k2 < order.length; k2++) {
+  var nd2 = nodes[order[k2]];
+  for (var d = 0; d < nd2.deps.length; d++) nodes[nd2.deps[d]].users.push(nd2.id);
+}
+function collect(id, key, acc) {
+  var arr = nodes[id][key];
+  for (var i = 0; i < arr.length; i++) { if (!acc[arr[i]]) { acc[arr[i]] = 1; collect(arr[i], key, acc); } }
+  return acc;
+}
+
+var svg = document.getElementById("graphSvg");
+var tip = document.getElementById("cgTooltip");
+var wrap = svg.parentNode.parentNode; // .cg-wrap
+var edgeEls = [], nodeEls = {};
+
+// edges
+for (var e = 0; e < order.length; e++) {
+  var t = nodes[order[e]];
+  for (var di = 0; di < t.deps.length; di++) {
+    var s = nodes[t.deps[di]];
+    var sx = s.cx + 82, sy = s.cy, tx = t.cx - 82, ty = t.cy;
+    var path = document.createElementNS(SVGNS, "path");
+    var c1 = sx + 55, c2 = tx - 55;
+    path.setAttribute("d", "M " + sx + " " + sy + " C " + c1 + " " + sy + " " + c2 + " " + ty + " " + tx + " " + ty);
+    path.setAttribute("class", "cg-edge");
+    path.setAttribute("stroke", "#c4bfb4");
+    path.setAttribute("stroke-width", "1.4");
+    path._s = s.id; path._t = t.id;
+    svg.appendChild(path); edgeEls.push(path);
+    // arrowhead
+    var ah = document.createElementNS(SVGNS, "path");
+    ah.setAttribute("d", "M " + (tx - 7) + " " + (ty - 4) + " L " + tx + " " + ty + " L " + (tx - 7) + " " + (ty + 4));
+    ah.setAttribute("class", "cg-edge"); ah.setAttribute("stroke", "#c4bfb4");
+    ah.setAttribute("stroke-width", "1.4"); ah.setAttribute("fill", "none");
+    ah._s = s.id; ah._t = t.id;
+    svg.appendChild(ah); edgeEls.push(ah);
+  }
+}
+
+// nodes
+for (var g = 0; g < order.length; g++) {
+  var nd3 = nodes[order[g]];
+  var grp = document.createElementNS(SVGNS, "g");
+  grp.setAttribute("class", "cg-node");
+  var rect = document.createElementNS(SVGNS, "rect");
+  rect.setAttribute("x", nd3.cx - 82); rect.setAttribute("y", nd3.cy - 23);
+  rect.setAttribute("width", 164); rect.setAttribute("height", 46);
+  rect.setAttribute("rx", 9);
+  rect.setAttribute("fill", COL[nd3.status].fill);
+  rect.setAttribute("stroke", COL[nd3.status].stroke);
+  rect.setAttribute("stroke-width", nd3.hero ? 2.4 : 1.4);
+  grp.appendChild(rect);
+  var kt = document.createElementNS(SVGNS, "text");
+  kt.setAttribute("x", nd3.cx); kt.setAttribute("y", nd3.cy - 8);
+  kt.setAttribute("text-anchor", "middle");
+  kt.setAttribute("font-family", "'SF Mono', Menlo, monospace");
+  kt.setAttribute("font-size", "8.5"); kt.setAttribute("letter-spacing", "1.5");
+  kt.setAttribute("fill", nd3.status === "axiom" ? "#a3791f" : "#7d9b88");
+  kt.textContent = (nd3.status === "axiom" ? "AXIOM" : nd3.kind.toUpperCase());
+  grp.appendChild(kt);
+  var lt = document.createElementNS(SVGNS, "text");
+  lt.setAttribute("x", nd3.cx); lt.setAttribute("y", nd3.cy + 11);
+  lt.setAttribute("text-anchor", "middle");
+  lt.setAttribute("font-family", "-apple-system, sans-serif");
+  lt.setAttribute("font-size", "12"); lt.setAttribute("font-weight", nd3.hero ? "700" : "500");
+  lt.setAttribute("fill", "#2A2927");
+  lt.textContent = nd3.label;
+  grp.appendChild(lt);
+  grp._id = nd3.id; nodeEls[nd3.id] = grp;
+  svg.appendChild(grp);
+
+  (function(node, group) {
+    group.addEventListener("mouseenter", function(ev) { focusNode(node.id); showTip(node, ev); });
+    group.addEventListener("mousemove", function(ev) { moveTip(ev); });
+    group.addEventListener("mouseleave", function() { clearFocus(); hideTip(); });
+  })(nd3, grp);
+}
+
+function focusNode(id) {
+  var anc = collect(id, "deps", {}), desc = collect(id, "users", {});
+  var keep = {}; keep[id] = 1;
+  for (var a in anc) keep[a] = 1;
+  for (var b in desc) keep[b] = 1;
+  for (var nid in nodeEls) nodeEls[nid].classList.toggle("cg-dim", !keep[nid]);
+  for (var i = 0; i < edgeEls.length; i++) {
+    var on = keep[edgeEls[i]._s] && keep[edgeEls[i]._t];
+    edgeEls[i].classList.toggle("cg-dim", !on);
+    edgeEls[i].setAttribute("stroke", on ? "#6b7280" : "#c4bfb4");
+  }
+}
+function clearFocus() {
+  for (var nid in nodeEls) nodeEls[nid].classList.remove("cg-dim");
+  for (var i = 0; i < edgeEls.length; i++) { edgeEls[i].classList.remove("cg-dim"); edgeEls[i].setAttribute("stroke", "#c4bfb4"); }
+}
+function showTip(node, ev) {
+  var html = "<strong>" + node.label + "</strong><br><code>" + node.lean + "</code><br>";
+  if (node.status === "axiom") html += "<span class='cg-st' style='color:#8a6516'>cited axiom</span> &middot; rests on <code>" + (node.rests || node.lean) + "</code>";
+  else html += "<span class='cg-st' style='color:#3f6b51'>machine-checked</span> &middot; standard axioms only";
+  tip.innerHTML = html; tip.style.opacity = "1"; moveTip(ev);
+}
+function moveTip(ev) {
+  var r = wrap.getBoundingClientRect();
+  var x = ev.clientX - r.left + 14, y = ev.clientY - r.top + 14;
+  if (x + 270 > r.width) x = ev.clientX - r.left - 270;
+  tip.style.left = x + "px"; tip.style.top = y + "px";
+}
+function hideTip() { tip.style.opacity = "0"; }
+
+// history
+var commits = [
+  ["6482a31","chore","initialize repository"],
+  ["197ee26","docs","add the Intrinsic Green's Learning manuscript"],
+  ["c640d8e","conjecture","conjecture(master-formula): the Green's integral factorises as a finite separable rank-K×R sum"],
+  ["aa8d488","conjecture","conjecture(naive-separable): a curved-chart Green's kernel factorises separably without metric compensation"],
+  ["e6679f5","axiomatize","axiomatize~(green-kernel): posit the elliptic Green's kernel operator"],
+  ["39e76e8","axiomatize","axiomatize~(exp-sum): cite the logarithmic exponential-sum rank bound"],
+  ["ce383e8","formalize","formalize(rank1): the rank-1 two-factor separable factorization"],
+  ["ce55755","formalize","formalize(master-formula): close the d-fold factorization and the Master Formula"],
+  ["ca46ced","formalize","formalize(corollaries): the KAN and Additive-Green reductions and gauge invariance"],
+  ["ac36d0b","formalize","formalize(spectral): the spectral factorized integral"],
+  ["5473540","formalize","formalize(cp-rank): CP-rank sub-additivity, sub-multiplicativity, and rank-friendly differentiation"],
+  ["562b2b3","formalize","formalize(barrier-if): the separability barrier, sufficiency direction"],
+  ["f34f034","formalize","formalize(barrier-onlyif): a degree-2 metric is not rank-1, the barrier's necessity witness"],
+  ["5e7620f","refute","refute(naive-separable)!: the rank-1 counterexample blocks naive separable factorization"],
+  ["1d94598","docs","natural-language proof blueprint, dependency graph, and ledger"],
+  ["708befd","docs","document the vendored Lean formalization in the README"],
+  ["301c8cc","chore","refresh the claims.toml status cache from the graph"]
+];
+var BMAP = {
+  conjecture: ["b-conj","cc","conjecture"], axiomatize: ["b-ax","ca","axiomatize~"],
+  formalize: ["b-form","cf","formalize"], refute: ["b-ref","cr","refute!"],
+  docs: ["b-docs","cc","docs"], chore: ["b-docs","cc","chore"]
+};
+var hist = document.getElementById("histList"), htm = "";
+for (var c = 0; c < commits.length; c++) {
+  var cm = commits[c], m = BMAP[cm[1]];
+  htm += '<div class="cg-row ' + m[1] + '">' +
+         '<span class="cg-hash">' + cm[0] + '</span>' +
+         '<span class="cg-badge ' + m[0] + '">' + m[2] + '</span>' +
+         '<span class="cg-subj">' + cm[2].replace(/</g,"&lt;") + '</span></div>';
+}
+hist.innerHTML = htm;
+
+// tabs
+var tg = document.getElementById("tabGraph"), th = document.getElementById("tabHistory");
+var pg = document.getElementById("panelGraph"), ph = document.getElementById("panelHistory");
+tg.addEventListener("click", function() { tg.classList.add("active"); th.classList.remove("active"); pg.classList.add("active"); ph.classList.remove("active"); });
+th.addEventListener("click", function() { th.classList.add("active"); tg.classList.remove("active"); ph.classList.add("active"); pg.classList.remove("active"); });
+</script>
+</body>
+</html>
