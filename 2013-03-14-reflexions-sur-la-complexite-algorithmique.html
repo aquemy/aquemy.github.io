@@ -443,6 +443,11 @@ Retourne Faux
   .lightbox-close { position: fixed; top: 16px; right: 22px; font-size: 36px; line-height: 1; color: #fff; opacity: .8; cursor: pointer; background: none; border: 0; padding: 4px 10px; }
   .lightbox-close:hover { opacity: 1; }
   #prose-content img.zoomable { cursor: zoom-in; }
+  /* Ink-diagram SVGs are authored for a light surface; give them one in dark mode so the dark ink stays readable. */
+  html.dark #prose-content img[src$=".svg"] { background: #f4f1ea; padding: 16px; border-radius: 8px; box-shadow: 0 2px 16px rgba(0,0,0,.30); }
+  .lightbox-overlay img[src$=".svg"] { padding: 18px; }
+  /* Interactive HTML widgets are authored for a light surface; give the container one in dark mode. */
+  html.dark .igl-widget { background: #f4f1ea; }
 </style>
 <script>
 (function () {
