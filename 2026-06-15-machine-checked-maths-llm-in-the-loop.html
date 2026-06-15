@@ -12,8 +12,8 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="author" content="Alexandre Quemy" />
-    <meta name="description" content="My training is primarily in mathematics, and a research question, for me, tends to move back and forth between numerics and proof. I usually start by…" />
-    <title>Alexandre Quemy - Blog - Machine-Checked Mathematics, with an LLM in the Loop</title>
+    <meta name="description" content="How I prove mathematics with an LLM and Lean, and keep an honest record of what is proved and what is only assumed." />
+    <title>Machine-Checked Mathematics, with an LLM in the Loop</title>
 
     <link rel="canonical" href="https://quemy.info/2026-06-15-machine-checked-maths-llm-in-the-loop.html" />
     <meta name="theme-color" content="#F8F6F1" />
@@ -25,7 +25,7 @@
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://quemy.info/2026-06-15-machine-checked-maths-llm-in-the-loop.html" />
     <meta property="og:title" content="Machine-Checked Mathematics, with an LLM in the Loop" />
-    <meta property="og:description" content="My training is primarily in mathematics, and a research question, for me, tends to move back and forth between numerics and proof. I usually start by…" />
+    <meta property="og:description" content="How I prove mathematics with an LLM and Lean, and keep an honest record of what is proved and what is only assumed." />
     <meta property="og:image" content="https://quemy.info/og/2026-06-15-machine-checked-maths-llm-in-the-loop.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -42,7 +42,7 @@
     <meta name="twitter:site" content="@alexandre_quemy" />
     <meta name="twitter:creator" content="@alexandre_quemy" />
     <meta name="twitter:title" content="Machine-Checked Mathematics, with an LLM in the Loop" />
-    <meta name="twitter:description" content="My training is primarily in mathematics, and a research question, for me, tends to move back and forth between numerics and proof. I usually start by…" />
+    <meta name="twitter:description" content="How I prove mathematics with an LLM and Lean, and keep an honest record of what is proved and what is only assumed." />
     <meta name="twitter:image" content="https://quemy.info/og/2026-06-15-machine-checked-maths-llm-in-the-loop.png" />
 
     <script type="application/ld+json">
@@ -50,7 +50,7 @@
       "@context": "https://schema.org",
       "@type": "BlogPosting",
       "headline": "Machine-Checked Mathematics, with an LLM in the Loop",
-      "description": "My training is primarily in mathematics, and a research question, for me, tends to move back and forth between numerics and proof. I usually start by\u2026",
+      "description": "How I prove mathematics with an LLM and Lean, and keep an honest record of what is proved and what is only assumed.",
       "datePublished": "2026-06-15T12:00:00Z",
       "dateModified": "2026-06-15T12:00:00Z",
       "image": "https://quemy.info/og/2026-06-15-machine-checked-maths-llm-in-the-loop.png",
@@ -202,7 +202,7 @@
         <div class="lg:col-span-4">
             <article class="fade-in">
                 <div id="prose-content" class="prose lg:prose-lg dark:prose-invert max-w-none">
-                    <div class="toc">
+                    <style>a.link-card{display:block;max-width:540px;margin:1.75em auto;border:1px solid #e7e3da;border-radius:12px;overflow:hidden;background:#fff;text-decoration:none;color:inherit;transition:box-shadow .15s ease,transform .15s ease;}a.link-card:hover{box-shadow:0 8px 24px rgba(60,50,40,.12);transform:translateY(-2px);}.link-card-media{line-height:0;background:#faf8f4;border-bottom:1px solid #efeae0;}.link-card-media img{width:100%;height:auto;display:block;margin:0;}.link-card-body{padding:14px 17px 16px;}.link-card-title{display:block;font-weight:600;font-size:1.03rem;line-height:1.3;color:#2A2927;}.link-card-desc{display:block;margin-top:6px;font-size:.9rem;line-height:1.45;color:#6b6760;}.link-card-domain{display:block;margin-top:10px;font-size:.74rem;letter-spacing:.07em;text-transform:uppercase;color:#a89f92;}html.dark a.link-card{background:#221f1c;border-color:#38332c;}html.dark .link-card-media{background:#1a1816;border-bottom-color:#2e2a24;}html.dark .link-card-title{color:#f3efe6;}html.dark .link-card-desc{color:#c5beb0;}html.dark .link-card-domain{color:#a8a29e;}</style><div class="toc">
 <ul>
 <li><a href="#where-machine-proving-is-now">Where machine proving is now</a></li>
 <li><a href="#a-primer-on-proof-assistants">A primer on proof assistants</a></li>
@@ -361,6 +361,7 @@ closed or an axiom is discharged, so the history records how a result’s standi
 where it ended up. And it is checked rather than asserted: a commit that claims a result is
 machine-checked is cross-checked against <code>#print axioms</code> and rejected if they disagree. It closes the
 last place the honesty could leak, which is a person writing “done” over a gap.</p>
+<a class="link-card" href="https://conventional-knowledge-commits.org/" rel="noopener"><div class="link-card-media"><img src="images/2026-06-15-machine-checked-maths-llm-in-the-loop/figures/ckc-card.png" alt="Conventional Knowledge Commits" loading="lazy"></div><div class="link-card-body"><span class="link-card-title">Conventional Knowledge Commits</span><span class="link-card-desc">A commit convention for research that records how established each claim is and checks it against the proof.</span><span class="link-card-domain">conventional-knowledge-commits.org</span></div></a>
 <p>This is worth setting against the Lean blueprint, since the two overlap and I use both. The blueprint
 is the better view of the dependency graph as it stands: it lists every result, what each one uses,
 whether it is formalised and what it assumes, and it renders as a graph you can navigate. What it
@@ -1180,6 +1181,56 @@ what I have ready for that.</p>
         </div>
     </div>
 </div>
+
+<!-- Image lightbox: click a content image to view it full-screen; click the backdrop or press Esc to close -->
+<style>
+  .lightbox-overlay { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 4vmin; background: rgba(22,20,18,.88); opacity: 0; transition: opacity .18s ease; cursor: zoom-out; }
+  .lightbox-overlay.open { opacity: 1; }
+  .lightbox-overlay img { max-width: 94vw; max-height: 92vh; width: auto; height: auto; border-radius: 6px; background: #fff; box-shadow: 0 16px 60px rgba(0,0,0,.55); cursor: default; }
+  .lightbox-close { position: fixed; top: 16px; right: 22px; font-size: 36px; line-height: 1; color: #fff; opacity: .8; cursor: pointer; background: none; border: 0; padding: 4px 10px; }
+  .lightbox-close:hover { opacity: 1; }
+  #prose-content img.zoomable { cursor: zoom-in; }
+</style>
+<script>
+(function () {
+  function init() {
+    var prose = document.getElementById('prose-content');
+    if (!prose) return;
+    var overlay = null;
+    function close() {
+      if (!overlay) return;
+      var o = overlay; overlay = null;
+      o.classList.remove('open');
+      document.body.style.overflow = '';
+      setTimeout(function () { if (o && o.parentNode) o.parentNode.removeChild(o); }, 200);
+    }
+    function open(src, alt) {
+      close();
+      overlay = document.createElement('div');
+      overlay.className = 'lightbox-overlay';
+      var btn = document.createElement('button');
+      btn.className = 'lightbox-close'; btn.setAttribute('aria-label', 'Close'); btn.innerHTML = '&times;';
+      var im = document.createElement('img');
+      im.src = src; im.alt = alt || '';
+      overlay.appendChild(btn); overlay.appendChild(im);
+      document.body.appendChild(overlay);
+      document.body.style.overflow = 'hidden';
+      requestAnimationFrame(function () { overlay.classList.add('open'); });
+      overlay.addEventListener('click', function (e) { if (e.target !== im) close(); });
+    }
+    var imgs = prose.querySelectorAll('img');
+    for (var i = 0; i < imgs.length; i++) {
+      var img = imgs[i];
+      if (img.closest('a')) continue;
+      img.classList.add('zoomable');
+      (function (im) { im.addEventListener('click', function () { open(im.currentSrc || im.src, im.alt); }); })(img);
+    }
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
 
         </main>
         <footer class="w-full max-w-4xl mx-auto text-center py-8 px-4 mt-6 border-t border-black/10 dark:border-white/10">
