@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1490 830" width="1490" height="830">
+  <defs>
+    <style type="text/css"><![CDATA[
+      text   { fill: #111111; font-family: 'SF Mono', Menlo, Monaco, Consolas, 'Courier New', monospace; }
+      .mono  { font-family: 'SF Mono', Menlo, Monaco, Consolas, 'Courier New', monospace; }
+      .title { font-size: 38px; font-weight: 500; }
+      .band-tag { font-size: 17px; letter-spacing: 4px; fill: #6b7280; }
+      .box-h { font-size: 28px; }
+      .box-s { font-size: 17px; fill: #6b7280; }
+      .arrow-label { font-size: 20px; fill: #6b7280; font-style: italic; paint-order: stroke; stroke: #ffffff; stroke-width: 4px; }
+      .caption { font-size: 22px; fill: #111111; }
+    ]]></style>
+    <filter id="wash-a" x="-20%" y="-25%" width="140%" height="150%"><feTurbulence type="fractalNoise" baseFrequency="0.013" numOctaves="3" seed="2"/><feDisplacementMap in="SourceGraphic" scale="16"/><feGaussianBlur stdDeviation="1.6"/></filter>
+    <filter id="wash-b" x="-20%" y="-25%" width="140%" height="150%"><feTurbulence type="fractalNoise" baseFrequency="0.015" numOctaves="3" seed="9"/><feDisplacementMap in="SourceGraphic" scale="14"/><feGaussianBlur stdDeviation="1.8"/></filter>
+    <filter id="wash-c" x="-20%" y="-25%" width="140%" height="150%"><feTurbulence type="fractalNoise" baseFrequency="0.011" numOctaves="3" seed="14"/><feDisplacementMap in="SourceGraphic" scale="18"/><feGaussianBlur stdDeviation="2"/></filter>
+    <filter id="ink-a" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.018" numOctaves="2" seed="5"/><feDisplacementMap in="SourceGraphic" scale="3"/></filter>
+    <filter id="ink-b" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.022" numOctaves="2" seed="13"/><feDisplacementMap in="SourceGraphic" scale="2.8"/></filter>
+    <filter id="ink-c" x="-5%" y="-5%" width="110%" height="110%"><feTurbulence type="fractalNoise" baseFrequency="0.025" numOctaves="2" seed="21"/><feDisplacementMap in="SourceGraphic" scale="2.5"/></filter>
+  </defs>
+
+  <text x="745" y="58" text-anchor="middle" class="title">The apparatus</text>
+  <path d="M 612 78 Q 690 74 745 78 Q 800 82 878 77" fill="none" stroke="#111111" stroke-width="2.4" stroke-linecap="round" filter="url(#ink-a)"/>
+
+  <!-- band tags -->
+  <text x="125" y="146" text-anchor="start" class="mono band-tag">THE HARNESS</text>
+  <text x="125" y="381" text-anchor="start" class="mono band-tag">THE CORE</text>
+  <text x="125" y="616" text-anchor="start" class="mono band-tag">THE RECORD</text>
+
+  <!-- ===== BAND 1: harness ===== -->
+  <!-- aq: research + write (left) -->
+  <rect x="125" y="160" width="290" height="100" fill="#abc1d2" opacity="0.5" filter="url(#wash-a)"/>
+  <rect x="133" y="168" width="274" height="84" fill="none" stroke="#111111" stroke-width="1.6" filter="url(#ink-b)"/>
+  <text x="270" y="206" text-anchor="middle" class="mono box-h">SKILLS</text>
+  <text x="270" y="230" text-anchor="middle" class="mono box-s">research + write</text>
+
+  <!-- math-research orchestrator (center) -->
+  <rect x="580" y="154" width="330" height="112" fill="#e4d4ba" opacity="0.5" filter="url(#wash-b)"/>
+  <rect x="588" y="162" width="314" height="96" fill="none" stroke="#111111" stroke-width="1.6" filter="url(#ink-c)"/>
+  <text x="745" y="204" text-anchor="middle" class="mono box-h">math-research</text>
+  <text x="745" y="228" text-anchor="middle" class="mono box-s">orchestrator, gated</text>
+
+  <!-- lean-math: formalise (right) -->
+  <rect x="1070" y="160" width="290" height="100" fill="#a9c39c" opacity="0.55" filter="url(#wash-c)"/>
+  <rect x="1078" y="168" width="274" height="84" fill="none" stroke="#111111" stroke-width="1.6" filter="url(#ink-a)"/>
+  <text x="1215" y="206" text-anchor="middle" class="mono box-h">lean-math</text>
+  <text x="1215" y="230" text-anchor="middle" class="mono box-s">formalise + prove</text>
+
+  <!-- ===== BAND 2: core ===== -->
+  <!-- lean-lsp (left) -->
+  <rect x="125" y="395" width="290" height="100" fill="#abc1d2" opacity="0.5" filter="url(#wash-c)"/>
+  <rect x="133" y="403" width="274" height="84" fill="none" stroke="#111111" stroke-width="1.6" filter="url(#ink-a)"/>
+  <text x="270" y="441" text-anchor="middle" class="mono box-h">lean-lsp</text>
+  <text x="270" y="465" text-anchor="middle" class="mono box-s">goal &#183; errors &#183; search</text>
+
+  <!-- Lean kernel (center) -->
+  <rect x="580" y="389" width="330" height="112" fill="#a9c39c" opacity="0.55" filter="url(#wash-a)"/>
+  <rect x="588" y="397" width="314" height="96" fill="none" stroke="#111111" stroke-width="1.6" filter="url(#ink-b)"/>
+  <text x="745" y="439" text-anchor="middle" class="mono box-h">Lean kernel</text>
+  <text x="745" y="463" text-anchor="middle" class="mono box-s">Mathlib &#183; arbiter</text>
+
+  <!-- Goedel-Prover (right) -->
+  <rect x="1070" y="395" width="290" height="100" fill="#b9b2d2" opacity="0.5" filter="url(#wash-b)"/>
+  <rect x="1078" y="403" width="274" height="84" fill="none" stroke="#111111" stroke-width="1.6" filter="url(#ink-c)"/>
+  <text x="1215" y="441" text-anchor="middle" class="mono box-h">Goedel-Prover</text>
+  <text x="1215" y="465" text-anchor="middle" class="mono box-s">LM Studio &#183; local</text>
+
+  <!-- ===== BAND 3: record ===== -->
+  <!-- blueprint (left) -->
+  <rect x="125" y="630" width="290" height="100" fill="#d2cabb" opacity="0.5" filter="url(#wash-b)"/>
+  <rect x="133" y="638" width="274" height="84" fill="none" stroke="#111111" stroke-width="1.6" filter="url(#ink-c)"/>
+  <text x="270" y="676" text-anchor="middle" class="mono box-h">blueprint</text>
+  <text x="270" y="700" text-anchor="middle" class="mono box-s">the graph, now</text>
+
+  <!-- ClaimGraph / CKC (center) -->
+  <rect x="580" y="624" width="330" height="112" fill="#dcc085" opacity="0.45" filter="url(#wash-c)"/>
+  <rect x="588" y="632" width="314" height="96" fill="none" stroke="#111111" stroke-width="1.6" filter="url(#ink-a)"/>
+  <text x="745" y="674" text-anchor="middle" class="mono box-h">ClaimGraph</text>
+  <text x="745" y="698" text-anchor="middle" class="mono box-s">the CKC history</text>
+
+  <!-- #print axioms / sorry-gate (right) -->
+  <rect x="1070" y="630" width="290" height="100" fill="#abc1d2" opacity="0.5" filter="url(#wash-a)"/>
+  <rect x="1078" y="638" width="274" height="84" fill="none" stroke="#111111" stroke-width="1.6" filter="url(#ink-b)"/>
+  <text x="1215" y="676" text-anchor="middle" class="mono box-h">#print axioms</text>
+  <text x="1215" y="700" text-anchor="middle" class="mono box-s">+ sorry-gate</text>
+
+  <!-- ===== connectors (wavy polylines + heads, no filter) ===== -->
+  <g stroke="#111111" stroke-width="2" fill="none" stroke-linecap="round">
+    <!-- band 1 horizontal -->
+    <path d="M 415 210 L 470 209.4 L 525 210.6 L 580 210"/><path d="M 570 204 L 580 210 L 570 216"/>
+    <path d="M 910 210 L 963 209.4 L 1017 210.6 L 1070 210"/><path d="M 1060 204 L 1070 210 L 1060 216"/>
+    <!-- band 2: lean-lsp -> kernel ; goedel -> kernel -->
+    <path d="M 415 445 L 470 444.4 L 525 445.6 L 580 445"/><path d="M 570 439 L 580 445 L 570 451"/>
+    <path d="M 1070 445 L 1017 444.4 L 963 445.6 L 910 445"/><path d="M 920 439 L 910 445 L 920 451"/>
+    <!-- band 3: blueprint -> claimgraph ; axioms -> claimgraph -->
+    <path d="M 415 680 L 470 679.4 L 525 680.6 L 580 680"/><path d="M 570 674 L 580 680 L 570 686"/>
+    <path d="M 1070 680 L 1017 679.4 L 963 680.6 L 910 680"/><path d="M 920 674 L 910 680 L 920 686"/>
+    <!-- center spine: orchestrator -> kernel -> claimgraph -->
+    <path d="M 745 266 L 744.4 305 L 745.6 350 L 745 389"/><path d="M 739 379 L 745 389 L 751 379"/>
+    <path d="M 745 501 L 744.4 540 L 745.6 585 L 745 624"/><path d="M 739 614 L 745 624 L 751 614"/>
+    <!-- feedback: record -> harness (reuse) -->
+    <path d="M 120 700 Q 42 465 120 232"/><path d="M 114 244 L 120 232 L 126 244"/>
+  </g>
+
+  <!-- arrow labels -->
+  <text x="497" y="436" text-anchor="middle" class="mono arrow-label">runs Lean</text>
+  <text x="993" y="436" text-anchor="middle" class="mono arrow-label">candidates</text>
+  <text x="760" y="332" text-anchor="start" class="mono arrow-label">drives the loop</text>
+  <text x="760" y="567" text-anchor="start" class="mono arrow-label">checks &#183; records</text>
+  <text transform="rotate(-90 60 466)" x="60" y="466" text-anchor="middle" class="mono arrow-label">reuse</text>
+
+  <text x="745" y="800" text-anchor="middle" class="caption">I supply the idea; the harness drives the proof, the kernel certifies it, and the record keeps it honest</text>
+</svg>
