@@ -38,11 +38,11 @@
 html.dark .section-title {
     border-color: rgba(251, 191, 36, 0.5);
 }
-/* Section-title icons — small, muted (was full-size amber) */
+/* Section-title icons - small, muted (was full-size amber) */
 .section-title i { color: #a8a29e; font-size: 0.72em; }
 html.dark .section-title i { color: #6b6357; }
 
-/* Publication / reference entries — scannable academic hierarchy */
+/* Publication / reference entries - scannable academic hierarchy */
 .pub-title {
     font-family: 'STIX Two Text', Georgia, serif;
     font-size: 1.2rem;
@@ -366,6 +366,114 @@ html.dark .tag-badge {
     color: #a8a29e;
 }
 
+/* RESEARCH PAGE: threads, software cards, status badges, interest chips
+--------------------------------------------- */
+.status-badge {
+    display: inline-block;
+    background-color: rgba(217, 119, 6, 0.12);
+    color: #b45309;
+    font-size: 0.68rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.04em;
+    padding: 0.1rem 0.55rem;
+    border-radius: 9999px;
+    vertical-align: middle;
+    margin-left: 0.5rem;
+    white-space: nowrap;
+}
+html.dark .status-badge {
+    background-color: rgba(251, 191, 36, 0.15);
+    color: #FBBF24;
+}
+.pub-note { font-size: 0.85rem; color: #6b7280; margin-top: 0.25rem; }
+html.dark .pub-note { color: #a8a29e; }
+
+.thread-grid,
+.software-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 1rem;
+    margin-top: 1rem;
+}
+.thread-card,
+.software-card {
+    border: 1px solid rgba(0,0,0,0.08);
+    border-radius: 0.6rem;
+    padding: 1rem 1.1rem;
+    background-color: rgba(255,255,255,0.5);
+    transition: border-color 0.2s ease, transform 0.2s ease;
+}
+html.dark .thread-card,
+html.dark .software-card {
+    border-color: rgba(255,255,255,0.1);
+    background-color: rgba(255,255,255,0.03);
+}
+.thread-card:hover,
+.software-card:hover { border-color: #D97706; transform: translateY(-2px); }
+.thread-card h4,
+.software-card h4 { font-weight: 700; color: #2A2927; display: flex; align-items: center; gap: 0.5rem; }
+html.dark .thread-card h4,
+html.dark .software-card h4 { color: #f3efe6; }
+.thread-card h4 i { color: #D97706; }
+html.dark .thread-card h4 i { color: #FBBF24; }
+.thread-card p,
+.software-card p { font-size: 0.9rem; color: #57534e; line-height: 1.5; margin-top: 0.35rem; }
+html.dark .thread-card p,
+html.dark .software-card p { color: #a8a29e; }
+.software-card .sw-head { display: flex; justify-content: space-between; align-items: baseline; gap: 0.5rem; }
+.software-card .sw-lang { font-size: 0.72rem; color: #78716c; white-space: nowrap; }
+.software-card .sw-role { font-size: 0.78rem; font-weight: 600; color: #b45309; margin-top: 0.1rem; }
+html.dark .software-card .sw-role { color: #FBBF24; }
+
+/* Current Work: borderless thread list, each with linked references */
+.thread-list { margin-top: 1.5rem; display: flex; flex-direction: column; gap: 2rem; }
+.thread-item { padding-left: 1.15rem; border-left: 3px solid #E7C9A0; }
+html.dark .thread-item { border-left-color: #6b5836; }
+.thread-item h4 { font-weight: 700; font-size: 1.1rem; color: #2A2927; display: flex; align-items: center; gap: 0.55rem; margin-bottom: 0.4rem; }
+html.dark .thread-item h4 { color: #f3efe6; }
+.thread-item h4 i { color: #D97706; font-size: 0.95rem; }
+html.dark .thread-item h4 i { color: #FBBF24; }
+.thread-item > p:not(.tl-line) { font-size: 0.92rem; color: #57534e; line-height: 1.55; margin: 0; }
+html.dark .thread-item > p:not(.tl-line) { color: #a8a29e; }
+/* label sits in a left gutter (hanging indent) so reference text aligns */
+.tl-line { font-size: 0.83rem; line-height: 1.8; margin-top: 0.5rem; padding-left: 4.8rem; color: #57534e; }
+.tl-line:first-of-type { margin-top: 0.85rem; }
+html.dark .tl-line { color: #a8a29e; }
+.tl-label { display: inline-block; width: 4.8rem; margin-left: -4.8rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.07em; font-size: 0.64rem; color: #8a8378; }
+html.dark .tl-label { color: #8f887e; }
+.tl-line a { color: #b45309; text-decoration: none; border-bottom: 1px solid rgba(180,83,9,0.4); white-space: nowrap; }
+.tl-line a:hover { border-bottom-color: #b45309; background: rgba(217,119,6,0.07); }
+html.dark .tl-line a { color: #FBBF24; border-bottom-color: rgba(251,191,36,0.4); }
+.tl-meta { color: #a8a29e; font-size: 0.74rem; white-space: nowrap; }
+.tl-muted { color: #78716c; }
+html.dark .tl-muted { color: #9c968c; }
+
+/* External links (target="_blank"): trailing arrow glyph, no icon-font dependency. */
+a.ext-link::after { content: "\2197"; display: inline-block; margin-left: 0.2em; font-size: 0.85em; opacity: 0.7; text-decoration: none; }
+.tl-muted em { font-style: normal; opacity: 0.85; }
+
+.interest-chip {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.4rem;
+    font-size: 0.82rem;
+    font-weight: 600;
+    color: #b45309;
+    background-color: rgba(217, 119, 6, 0.1);
+    border: 1px solid rgba(217, 119, 6, 0.25);
+    padding: 0.3rem 0.75rem;
+    border-radius: 9999px;
+    text-decoration: none;
+    transition: background-color 0.2s ease;
+}
+.interest-chip:hover { background-color: rgba(217, 119, 6, 0.2); }
+html.dark .interest-chip {
+    color: #FBBF24;
+    background-color: rgba(251, 191, 36, 0.1);
+    border-color: rgba(251, 191, 36, 0.25);
+}
+
 
 /* BLOG CONTENT & PROSE STYLES
 --------------------------------------------- */
@@ -475,7 +583,7 @@ html.dark .prose hr {
     background-color: rgba(226, 224, 219, 0.25);
 }
 
-/* Post meta line — clean uppercase sans label */
+/* Post meta line - clean uppercase sans label */
 .post-meta {
     font-family: 'Source Sans Pro', sans-serif;
     font-size: 0.8rem;
@@ -486,7 +594,7 @@ html.dark .prose hr {
 }
 html.dark .post-meta { color: #9ca3af; }
 
-/* Inline highlight (==mark==) — warm amber wash, not default yellow */
+/* Inline highlight (==mark==) - warm amber wash, not default yellow */
 .prose mark {
     background: linear-gradient(transparent 52%, rgba(217, 119, 6, 0.30) 0);
     color: inherit;
@@ -533,7 +641,7 @@ html.dark #toc-sidebar .toc a.active {
 }
 
 
-/* ADMONITION & EXAMPLE BLOCKS — subtle warm callouts with a left accent */
+/* ADMONITION & EXAMPLE BLOCKS - subtle warm callouts with a left accent */
 .prose .admonition {
     padding: 0;
     margin: 1.5em 0;
@@ -569,7 +677,7 @@ html.dark .prose .admonition-title { color: #d6d3d1; }
     margin-bottom: 1rem;
 }
 
-/* Semantic accent — left border + title colour + a light tinted ground */
+/* Semantic accent - left border + title colour + a light tinted ground */
 .prose .admonition.definition, .prose .admonition.note, .prose .admonition.theorem, .prose .admonition.def { border-left-color: #2d6638; background-color: #ecf4ed; }
 .prose .admonition.definition .admonition-title, .prose .admonition.note .admonition-title, .prose .admonition.theorem .admonition-title, .prose .admonition.def .admonition-title { color: #1d5230; }
 html.dark .prose .admonition.definition, html.dark .prose .admonition.note, html.dark .prose .admonition.theorem, html.dark .prose .admonition.def { border-left-color: #5fb87a; background-color: #1a241c; }

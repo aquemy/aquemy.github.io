@@ -13,9 +13,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="author" content="Alexandre Quemy" />
     <meta name="description" content="Alexandre Quemy, AI Researcher & Engineer (Ph.D.). Geometric & PDE-based machine learning, mechanistic interpretability, machine-checked mathematics, and production AI systems." />
-    <title>Alexandre Quemy - CV</title>
+    <title>Alexandre Quemy - Research CV</title>
 
-    <link rel="canonical" href="https://quemy.info/cv.html" />
+    <link rel="canonical" href="https://quemy.info/cv-research.html" />
     <meta name="theme-color" content="#F8F6F1" />
     <link rel="shortcut icon" href="https://quemy.info/favicon.ico" />
     <link rel="alternate" type="application/rss+xml" title="Alexandre Quemy" href="https://quemy.info/rss.xml" />
@@ -23,7 +23,7 @@
     <!-- Social cards: default site-level; blog posts override the `social` block with article data -->
     
     <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://quemy.info/cv.html" />
+    <meta property="og:url" content="https://quemy.info/cv-research.html" />
     <meta property="og:title" content="Alexandre Quemy" />
     <meta property="og:description" content="Alexandre Quemy, AI Researcher & Engineer (Ph.D.). Geometric & PDE-based ML, mechanistic interpretability, machine-checked mathematics, and production AI systems." />
     <meta property="og:image" content="https://quemy.info/og/default.png" />
@@ -1101,8 +1101,8 @@ html.dark .cv-resume-container a:hover {
     <div class="w-full max-w-6xl mx-auto py-12 px-4">
         <div class="cv-print-wrapper flex justify-end items-center mb-4">
             <div class="cv-toggle-group" style="margin-right: auto;">
-                <a href="./cv.html" class="cv-toggle-btn active" style="text-decoration:none;">Engineering</a>
-                <a href="./cv-research.html" class="cv-toggle-btn" style="text-decoration:none;">Research</a>
+                <a href="./cv.html" class="cv-toggle-btn" style="text-decoration:none;">Engineering</a>
+                <a href="./cv-research.html" class="cv-toggle-btn active" style="text-decoration:none;">Research</a>
             </div>
             <div class="cv-toggle-group">
                 <button id="cv-btn-full" class="cv-toggle-btn active" onclick="toggleCvMode('full')">Full CV</button>
@@ -1118,10 +1118,9 @@ html.dark .cv-resume-container a:hover {
                 <div class="cv-header-content">
                     <div class="cv-header-text">
                         <h1 class="cv-name">Alexandre Quemy</h1>
-                        <h2 class="cv-title">AI Engineer &amp; Researcher · Ph.D. in Machine Learning</h2>
+                        <h2 class="cv-title">AI Researcher · Ph.D. in Machine Learning</h2>
                         <div class="cv-contact-info">
                             <span><i class="fas fa-map-marker-alt"></i> Cracow, Poland</span> |
-                            <span><i class="fas fa-phone"></i> (+48) 883 767 520</span> |
                             <a href="mailto:alexandre@quemy.info"><i class="fas fa-envelope"></i> alexandre@quemy.info</a> |
                             <a href="https://quemy.info" target="_blank" rel="noopener"><i class="fas fa-globe"></i> quemy.info</a> |
                             <a href="https://github.com/aquemy" target="_blank" rel="noopener"><i class="fab fa-github"></i> GitHub</a> |
@@ -1135,33 +1134,40 @@ html.dark .cv-resume-container a:hover {
             </header>
 
             <div class="main-content">
-                <!-- Professional Summary -->
+                <!-- Research Summary -->
                 <section id="summary" class="scroll-section cv-summary mb-8">
-                    <h3>Professional Summary</h3>
-                    <p>AI Engineer and Researcher with a <strong>Ph.D. in Machine Learning</strong>, specializing in <span class="cv-highlight">LLMs, multi-agent systems, and agentic runtimes</span>. <span class="cv-full-only">Proven track record building production AI at scale, from financial-crime models processing billions of transactions to multi-agent frameworks and open-source libraries (Streamblocks, ydata-profiling). I pair this with an active research program in <span class="cv-highlight">geometric &amp; PDE-based ML</span> (Intrinsic Green's Learning), mechanistic interpretability, and machine-checked mathematics. </span>Dual academic-industrial background with <span class="cv-highlight">4 patents, 20+ publications</span>, and <span class="cv-highlight">10+ years of experience</span> spanning research innovation and commercial product development.</p>
+                    <h3>Research Summary</h3>
+                    <p>AI Researcher with a <strong>Ph.D. in Machine Learning</strong>, working at the intersection of <span class="cv-highlight">machine learning, mathematics, and software engineering</span>. My main research interest is <span class="cv-highlight">differential geometry for AI</span>: my primary work here discovers and reconstructs the unknown, task-conditioned intrinsic manifold underlying a dataset, alongside work on <span class="cv-highlight">mechanistic interpretability</span> and <span class="cv-highlight">machine-checked mathematics with an LLM in the loop</span>. <span class="cv-full-only">I am in general interested in <strong>AI Safety</strong>, and completed the <a href="https://ml4good.org/" target="_blank" rel="noopener" class="ext-link">ML4Good</a> Technical Track and <a href="https://bluedot.org/" target="_blank" rel="noopener" class="ext-link">BlueDot Impact</a>'s Technical AI Safety course. </span>My <span class="cv-highlight">10+ years building production AI</span> give the research a strong empirical and engineering grounding (<span class="cv-highlight">4 patents, 20+ publications</span>).</p>
                 </section>
 
                 <!-- Two Column Layout -->
                 <div class="cv-two-column">
-                    <!-- Left Column - Skills & Languages -->
+                    <!-- Left Column -->
                     <aside class="cv-sidebar">
-                        <section id="skills" class="scroll-section cv-skills">
+                        <section class="cv-skills">
+                            <h3>Research Interests</h3>
+                            <div class="cv-skill-category">
+                                <p>Geometry &amp; PDE for ML, manifold learning, mechanistic interpretability, formal mathematics / Lean, agentic systems</p>
+                            </div>
+                        </section>
+
+                        <section class="cv-skills mt-8">
                             <h3>Key Skills</h3>
                             <div class="cv-skill-category">
-                                <h4>AI & Machine Learning</h4>
-                                <p>LLMs (OpenAI, Anthropic, Gemini, open-source), Multi-agent frameworks (LangGraph, CrewAI), RAG, <span class="cv-highlight">Knowledge Graph</span> (Memgraph), <span class="cv-highlight">Hypergraphs</span>, PyTorch, scikit-learn, GAN, Normalizing Flow, Bayesian Networks</p>
+                                <h4>AI &amp; Machine Learning</h4>
+                                <p>Mechanistic interpretability, circuit analysis, <span class="cv-highlight">hypergraphs</span>, computation-in-superposition, representation learning, generative models (GAN, Normalizing Flow, Bayesian Networks), LLMs &amp; multi-agent systems, PyTorch, scikit-learn</p>
                             </div>
                             <div class="cv-skill-category">
-                                <h4>Cloud & Infrastructure</h4>
-                                <p>GCP, AWS, IBM Cloud, Kubernetes, Docker, Dask, vLLM, MLOps</p>
+                                <h4>Math &amp; Theory</h4>
+                                <p>Differential geometry, Statistics, Probability Theory, Optimization, Numerical Analysis, PDEs, Time Series Analysis, Multiobjective Optimization, Stochastic Processes, Data Approximation, Geometric Modeling, Operational Research</p>
                             </div>
                             <div class="cv-skill-category">
-                                <h4>Math & Data Science</h4>
-                                <p>Statistics, Probability Theory, Optimization, Numerical Analysis, PDEs, Time Series Analysis, Multiobjective Optimization, Stochastic Processes, Data Approximation, Geometric Modeling, Operational Research</p>
+                                <h4>Formal Methods &amp; Tooling</h4>
+                                <p>Lean 4, Mathlib, LLM-in-the-loop proving, reproducibility tooling (CKC / ClaimGraph), Python, C++</p>
                             </div>
                             <div class="cv-skill-category">
-                                <h4>Soft Skills</h4>
-                                <p>Product Strategy, Team Leadership, Research to Production, Strategic Thinking, Innovation Management, Stakeholder Communication, Problem Solving</p>
+                                <h4>Research &amp; Soft Skills</h4>
+                                <p>Scientific Writing, Peer Review, Thesis Supervision, Research Communication, Cross-Disciplinary Collaboration, Problem Solving</p>
                             </div>
                         </section>
 
@@ -1175,146 +1181,59 @@ html.dark .cv-resume-container a:hover {
                         </section>
                     </aside>
 
-
-                    <!-- Right Column - Experience & Education -->
+                    <!-- Right Column -->
                     <main class="cv-main-column">
                         <section id="experience" class="scroll-section cv-experience mb-8">
-                            <h3>Experience</h3>
-                            
+                            <h3>Selected Experience</h3>
                             <div class="cv-job">
                                 <div class="cv-job-header">
                                     <h4>Founding AI Engineer</h4>
                                     <span class="cv-date">Oct. 2025 - Present</span>
                                 </div>
                                 <div class="cv-company">GetOrb.ai · London, UK</div>
-                                <p>Building an <strong>agentic OS</strong> for team productivity. Own <span class="cv-highlight">human-to-agent interaction design</span>, inferring recurring tasks to structure and automate workflows.</p>
+                                <p>Building an agentic OS; human-to-agent interaction design and workflow automation.</p>
                             </div>
-
                             <div class="cv-job">
                                 <div class="cv-job-header">
                                     <h4>Founding AI Engineer / AI Researcher</h4>
-                                    <span class="cv-date">Mar. 2024 - Present</span>
+                                    <span class="cv-date">Mar. 2024 - Oct. 2025</span>
                                 </div>
                                 <div class="cv-company">Proofs (seed round startup) · Cracow, Poland</div>
-                                <p class="cv-full-only">Building a multi-agent framework enabling software development in minutes, i.e. Claude Code and coding agents before it was trendy. <span class="cv-highlight">Lead AI engineer</span> responsible for 90% of AI backend architecture and implementation in a 7-person startup. Participating in cloud infrastructure, MLOps, and product architecture alongside core AI development.</p>
-                                <p class="cv-summary-only"><span class="cv-highlight">Lead AI engineer</span> (90% of AI backend) building multi-agent framework in a 7-person startup, i.e. Claude Code and coding agents before it was trendy.</p>
-                                <ul>
-                                    <li class="cv-full-only">Designed <strong>unified LLM client</strong> supporting 8+ providers (OpenAI, Anthropic, Gemini, Groq, Baseten, local via vLLM, ...), enabling <strong>vendor-agnostic AI integration</strong></li>
-                                    <li class="cv-full-only">Developed <strong>innovative function calling techniques beyond standard MCP</strong> with function dependencies, full OpenAPI specs support, and stateful tools for less tokens and API calls [<a href="https://quemy.info/2025-15-06-signature-function-models.html" target="_blank" rel="noopener" class="ext-link">presentation</a>]</li>
-                                    <li class="cv-full-only">Built flexible <strong>declarative state-machine based agents</strong> with <strong>human-in-the-loop workflows</strong></li>
-                                    <li class="cv-full-only">Implemented robust <strong>one-shot learning and distillation</strong> "blueprint" mechanism for agent behavior replication</li>
-                                    <li class="cv-full-only">Created <strong>knowledge extraction framework</strong> from user interactions and agent trial-and-error for <strong>continuous learning</strong></li>
-                                    <li class="cv-full-only">Improving SotA techniques for <strong><span class="cv-highlight">codebase representation</span> with Knowledge Graph representation</strong>, unifying <span class="cv-highlight">LSP, AST and additional contextual/metadata</span> into a single graph (using Memgraph - alternative to Neo4j - for building, and LLM to Cypher for querying)</li>
-                                    <li class="cv-full-only">Architected <strong>advanced RAG system</strong> with <strong>context engineering and rescoring</strong> techniques</li>
-                                    <li class="cv-summary-only">Unified LLM client (8+ providers), <strong>innovative function calling</strong>, declarative state-machine agents with <strong>human-in-the-loop</strong></li>
-                                    <li class="cv-summary-only"><span class="cv-highlight">Knowledge Graph</span> codebase representation (Memgraph, Cypher); advanced <strong>RAG</strong> with context engineering</li>
-                                </ul>
+                                <p>Lead AI engineer on a <span class="cv-highlight">multi-agent framework</span> for automated software development, i.e. Claude Code and coding agents before it was trendy: declarative state-machine agents with human-in-the-loop workflows, a knowledge-extraction system for continuous learning, and a Knowledge-Graph codebase representation (LSP + AST) for agent context.</p>
                             </div>
-
                             <div class="cv-job">
                                 <div class="cv-job-header">
                                     <h4>Member of the Community of Experts</h4>
                                     <span class="cv-date">Jan. 2025 - Present</span>
                                 </div>
-                                <div class="cv-company"><a href="https://eloquenceai.eu/" target="_blank" rel="noopener" class="ext-link">Eloquence AI</a> (EU Horizon Project) · Remote</div>
-                                <p class="cv-full-only">Providing expertise in <strong>AI, notably LLM, and associated risks</strong> for <strong>European consortium</strong> dedicated to conversational AI. Assess <strong>technical proposals</strong> to ensure innovative value while mitigating <strong>ethical bias</strong>. Project funded by <strong>Horizon Europe</strong>, the EU's key funding programme for research and innovation.</p>
-                                <p class="cv-summary-only">AI/LLM expertise for <strong>EU Horizon</strong>-funded European consortium on conversational AI and ethical bias.</p>
+                                <div class="cv-company"><a href="https://eloquenceai.eu/" target="_blank" rel="noopener" class="ext-link">Eloquence AI</a> (Horizon Europe) · Remote</div>
+                                <p>AI/LLM expertise; assessing technical proposals for ethical-bias mitigation.</p>
                             </div>
-
-                            <div class="cv-job">
-                                <div class="cv-job-header">
-                                    <h4>AI & Data Science Consultant</h4>
-                                    <span class="cv-date">2017 - Present</span>
-                                </div>
-                                <div class="cv-company">Hother LLC (Independent Consulting) · Cracow, Poland · <a href="https://hother.io" target="_blank" rel="noopener" class="cv-website-link">🌐 hother.io</a></div>
-                                <p class="cv-full-only">Founding partner of specialized AI consulting firm serving startups and enterprises.</p>
-                                <p class="cv-summary-only">Founding partner of AI consulting firm. 4+ delivered projects across vision, clinical AI, NLP, financial AI.</p>
-                                <ul>
-                                    <li class="cv-full-only"><strong>Image Recognition (CDD services, 2025):</strong> Designed and developed pipeline to train and fine-tune vision models for passport detection and reading, optimized for on-device inference on mid-range smartphones</li>
-                                    <li class="cv-full-only"><strong>Clinical AI (InovIntell, 2024-present):</strong> <span class="cv-highlight">Synthetic data generation for clinical studies</span> with counter-factual analysis using Bayesian Networks, GANs, VAEs, and Neural ODEs</li>
-                                    <li class="cv-full-only"><strong>Enterprise Search (Undisclosed, 2023-2024):</strong> Built semantic search engine and conversational SQL agent, designed SaaS architecture including cost estimation</li>
-                                    <li class="cv-full-only"><strong>Financial AI (2023-present):</strong> Predictive modeling and recommendation system for M&A analysis using tripartite graph embeddings</li>
-                                    <li class="cv-full-only"><strong>SEO AI (Watussi, 2017):</strong> Conceived and implemented NLP tool for Search Engine Optimization using Gensim and NLTK</li>
-                                    <li class="cv-full-only">Successfully delivered 4+ AI projects with expertise in SBERT, LLM integration, Text-to-SQL, PostgreSQL, FastAPI, Docker, and Kubernetes</li>
-                                    <li class="cv-summary-only"><strong>Clinical AI (InovIntell):</strong> Synthetic data for clinical studies using Bayesian Networks, GANs, Neural ODEs</li>
-                                    <li class="cv-summary-only"><strong>Financial AI:</strong> M&A predictive modeling with tripartite graph embeddings</li>
-                                </ul>
-                            </div>
-
                             <div class="cv-job">
                                 <div class="cv-job-header">
                                     <h4>Head of Data and AI / Technical Lead</h4>
                                     <span class="cv-date">Apr. 2022 - Mar. 2024</span>
                                 </div>
-                                <div class="cv-company">YData (seed round startup) · Cracow, Poland</div>
-                                <p class="cv-full-only"><strong>Led data science and AI team</strong> building SaaS platform for <span class="cv-highlight">synthetic data generation and automated data quality assessment</span>. <strong>Managed team of 6 engineers</strong>, shaped core IP, and drove product roadmap from research to production. Responsible for building the team, leading implementation effort, and answering fundamental research questions at fast pace.</p>
-                                <p class="cv-summary-only">Led team of 6 for synthetic data SaaS. Co-author of <strong>ydata-profiling</strong> (10k+ GitHub stars). New generative models (Normalizing Flow, Bayesian networks). TB-scale with Dask.</p>
-                                <ul class="cv-full-only">
-                                    <li><span class="cv-highlight">Co-author and maintainer of <a href="https://github.com/ydataai/ydata-profiling" target="_blank" rel="noopener" class="ext-link"><strong>ydata-profiling library</strong></a> (10k+ GitHub stars)</span>, one of the leading Python tools for automated data profiling</li>
-                                    <li>Researched and developed <strong>new generative models for synthetic data</strong>: scalable Normalizing Flow for tabular data, Bayesian network time series synthesis, SQL database generator with schema integrity, and longitudinal data augmentation (see Patent section)</li>
-                                    <li>Built distributed processing systems using Dask, scaling models to process <strong>TB-scale datasets</strong> for enterprise clients</li>
-                                    <li>Integrated <span class="cv-highlight">LLM capabilities for table-to-text generation, enhancing synthetic data quality and interpretability</span></li>
-                                </ul>
+                                <div class="cv-company">YData · Cracow, Poland</div>
+                                <p>Led a 6-engineer team; co-author of <strong>ydata-profiling</strong> (10k+ stars); new generative models for synthetic data.</p>
                             </div>
-
-                            <div class="cv-job">
+                            <div class="cv-job cv-full-only">
                                 <div class="cv-job-header">
                                     <h4>Senior AVP of Data Science</h4>
                                     <span class="cv-date">Dec. 2020 - Apr. 2022</span>
                                 </div>
-                                <div class="cv-company">HSBC (Financial Crimes Threat Mitigation) · Cracow, Poland</div>
-                                <p class="cv-full-only"><strong>Led global financial crime detection models</strong> serving <span class="cv-highlight">200M+ users processing billions of transactions monthly</span>. Managed complete model governance lifecycle from data quality to production monitoring, following whole governance lifecycle process of global models.</p>
-                                <p class="cv-summary-only">Led global financial crime models (<span class="cv-highlight">200M+ users</span>). Name Screening model: <span class="cv-highlight">70%</span> false positive reduction. Automated reporting: 90%+ time savings (20 FTE/year).</p>
-                                <ul class="cv-full-only">
-                                    <li>Designed and deployed <strong>main global Name Screening model</strong> used across HSBC group, reducing false positives by <span class="cv-highlight">70%</span> while maintaining <strong><2.0% false negative rate</strong></li>
-                                    <li>Automated data science reporting pipeline, achieving <span class="cv-highlight">90%+ time savings</span> equivalent to <strong>20 FTE/year</strong> in operational efficiency</li>
-                                    <li>Developed <strong>controllable ML framework</strong> using rule injection, guaranteeing fixed model risk profiles for regulatory compliance</li>
-                                    <li>Created <strong>multiobjective optimization methodology</strong> for model risk assessment, adopted as standard across compliance analytics</li>
-                                    <li>Served as <strong>scientific advisor and peer reviewer</strong> while improving internal model governance lifecycle including scientific culture, code governance, and engineering risks</li>
-                                </ul>
+                                <div class="cv-company">HSBC · Cracow, Poland</div>
+                                <p>Global financial-crime models (200M+ users); Name Screening model with <span class="cv-highlight">70%</span> false-positive reduction.</p>
                             </div>
-
-                            <div class="cv-job">
+                            <div class="cv-job cv-full-only">
                                 <div class="cv-job-header">
-                                    <h4>Senior Software Engineer & Data Scientist</h4>
+                                    <h4>Senior Software Engineer &amp; Data Scientist</h4>
                                     <span class="cv-date">May 2015 - Dec. 2020</span>
                                 </div>
                                 <div class="cv-company">IBM · Cracow, Poland</div>
-                                <p class="cv-full-only"><strong>Architecture and engineering roles</strong> spanning cloud platforms, AI systems, and research collaborations. Responsible for <span class="cv-highlight">flagship products and innovative AI platform development</span>.</p>
-                                <p class="cv-summary-only">Cloud Pak for Data (<span class="cv-highlight">1000+ enterprise clients</span>). AI platforms, semantic search. Supervised <span class="cv-highlight">10+ master students</span>.</p>
-                                <ul class="cv-full-only">
-                                    <li>Engineering on <strong>IBM Cloud Pak for Data</strong> flagship platform for Multi/Private/Hybrid Cloud serving <span class="cv-highlight">1000+ enterprise clients</span> with a focus on monitoring, HA, predictive maintenance and D&R capabilities</li>
-                                    <li>Built AI platforms for <strong>financial process automation (IBM Cobee)</strong> and <strong>code quality prediction (IBM Code Quality Center)</strong></li>
-                                    <li>Developed <strong>semantic search engine</strong> for legal documents and <span class="cv-highlight">NLP/Topic Modeling services</span> for enterprise applications</li>
-                                    <li>Led monitoring solutions for <strong>GPFS and Red Hat OpenShift</strong> in hybrid cloud environments</li>
-                                    <li>Served as <strong>Machine Learning and Data Science trainer</strong>, managed university collaborations, and supervised <span class="cv-highlight">10+ master students</span> on AI research projects with conference presentations and lectures</li>
-                                </ul>
+                                <p>Cloud Pak for Data; AI platforms and semantic search; supervised <span class="cv-highlight">10+ master students</span>.</p>
                             </div>
-
-                            <div class="cv-job">
-                                <div class="cv-job-header">
-                                    <h4>Research Collaborations</h4>
-                                    <span class="cv-date">2012 - 2014</span>
-                                </div>
-                                <div class="cv-company">Inria (multiple collaborations) · France</div>
-                                <p class="cv-full-only">Early career research collaborations across academic environments focusing on <strong>optimization and machine learning</strong>.</p>
-                                <p class="cv-summary-only">Evolutionary planners, parallel metaheuristics, <span class="cv-highlight">ParadisEO C++ framework</span>. Inria Saclay & Nord-Europe.</p>
-                                <ul class="cv-full-only">
-                                    <li><strong>Research Collaboration (Inria Saclay, 2013-2014):</strong> Evolutionary planner <span class="cv-highlight">Divide-and-Evolve</span>, MultiZenoTravel solver development, online parameter adaptation with Marc Schoenauer, TAO team</li>
-                                    <li><strong>Research Collaboration (Inria Nord-Europe, 2012-2013):</strong> <span class="cv-highlight">Parallel Island Model for Metaheuristics</span>, genetic algorithms, stochastic optimization with Clive Canape, DOLPHIN team</li>
-                                    <li><strong>Software Engineer Internship (Inria Nord-Europe, 2012):</strong> <span class="cv-highlight">ParadisEO C++ framework</span> development, shared memory parallelism module (SMP), continuous integration</li>
-                                </ul>
-                            </div>
-                        </section>
-
-                        <section id="opensource" class="scroll-section cv-teaching mb-8">
-                            <h3>Selected Open Source &amp; Systems</h3>
-                            <ul class="cv-patent-list">
-                                <li><strong><a href="https://github.com/hotherio/streamblocks" target="_blank" rel="noopener" class="ext-link">Streamblocks</a> &amp; Reactive Agent (coming soon):</strong> Real-time block extraction from LLM streams plus a reactive agent runtime with speculative tool execution and <span class="cv-highlight">XGrammar grammar-constrained decoding</span> to run capable agents on smaller, cheaper models</li>
-                                <li class="cv-full-only"><strong><a href="https://github.com/hotherio/intrinsic-green-learning" target="_blank" rel="noopener" class="ext-link">Intrinsic Green's Learning</a>:</strong> PyTorch library for geometric/PDE-based representation learning with a Riemannian/SPD extension (PyPI)</li>
-                                <li class="cv-full-only"><strong><a href="https://conventional-knowledge-commits.org/" target="_blank" rel="noopener" class="ext-link">Conventional Knowledge Commits</a> &amp; ClaimGraph:</strong> A commit standard and tooling for reproducible, kernel-honest research</li>
-                                <li><strong><a href="https://github.com/ydataai/ydata-profiling" target="_blank" rel="noopener" class="ext-link">ydata-profiling</a>:</strong> Co-author &amp; maintainer of a leading Python data-profiling library (<span class="cv-highlight">10k+ GitHub stars</span>)</li>
-                            </ul>
+                            <p class="cv-full-only" style="font-size:13px; margin-top:8px;"><em>Full history on my <a href="./cv.html">engineering CV</a>.</em></p>
                         </section>
 
                         <section id="education" class="scroll-section cv-education mb-8">
@@ -1325,19 +1244,18 @@ html.dark .cv-resume-container a:hover {
                                     <span class="cv-date">2016 - 2021</span>
                                 </div>
                                 <div class="cv-institution">Poznan University of Technology · Poland</div>
-                                <p><strong>Thesis:</strong> "End-to-end approach to classification in unstructured spaces with application to judicial decisions"</p>
+                                <p><strong>Thesis:</strong> "End-to-end approach to classification in unstructured spaces with application to judicial decisions" <a href="./static/thesis/PhD_dissertation.pdf" target="_blank" class="ext-link">[pdf]</a></p>
                             </div>
-                            
                             <div class="cv-degree">
                                 <div class="cv-degree-header">
-                                    <h4>M.Sc. Applied Mathematics & Computer Science</h4>
+                                    <h4>M.Sc. Applied Mathematics &amp; Computer Science</h4>
                                     <span class="cv-date">2009 - 2015</span>
                                 </div>
                                 <div class="cv-institution">National Institute of Applied Sciences (INSA) · Rouen, France</div>
-                                <p>French Engineer Diploma with specializations in Decision Aids (AI, Optimization, Intelligent Systems), Mathematical Methods for Data Science (Big Data, Machine Learning, Statistics), and Modeling & Numerical Simulations (PDEs, HPC, Probabilities)</p>
+                                <p>Engineer Diploma with specializations in Decision Aids (AI, Optimization), Mathematical Methods for Data Science, and Modeling &amp; Numerical Simulations (PDEs, HPC, Probabilities)</p>
+                                <p><strong>Thesis:</strong> "Insertion of adaptive modalities in the mono or multi objectives evolutionary planner Divide-and-Evolve" <a href="./static/thesis/Rapport_Projet_Fin_Etude.pdf" target="_blank" class="ext-link">[pdf]</a></p>
                             </div>
-
-                            <div class="cv-degree">
+                            <div class="cv-degree cv-full-only">
                                 <div class="cv-degree-header">
                                     <h4>M.Sc. High Performance Computing and AI</h4>
                                     <span class="cv-date">2013 - 2014</span>
@@ -1347,79 +1265,181 @@ html.dark .cv-resume-container a:hover {
                             </div>
                         </section>
 
-                        <section id="patents" class="scroll-section cv-patents mb-8">
-                            <h3>Patents & Intellectual Property</h3>
+                        <section id="publications" class="scroll-section cv-publications mb-8">
+                            <h3>Selected Publications</h3>
+                            <p><em>Full list at <a href="https://quemy.info/research.html#publications" target="_blank" rel="noopener" class="ext-link">quemy.info/research</a></em></p><br>
+                            
+                                
+                                <div class="cv-publication-item">
+                                    <h4>Intrinsic Green's Learning: Supervised Learning on Manifolds via Inverse PDE (2026)</h4>
+                                    <p>Alexandre Quemy · AI & PDE Workshop @ ICLR 2026</p>
+                                    <p style="font-style:normal; font-size:12px; color:#6b7280;">Invited to extend for the IOP Focus Collection on AI & Partial Differential Equations (Machine Learning: Science and Technology / Machine Learning: Engineering).</p>
+                                </div>
+                                
+                            
+                                
+                            
+                                
+                                <div class="cv-publication-item">
+                                    <h4>Riemannian Geometry for Pre-trained Language Model Embeddings (2026) <span class="status-badge">Under review</span></h4>
+                                    <p>Szczepan Konior, Alexandre Quemy, Przemysław Klocek, Grégoire Cattan, Bartłomiej Sobieski, Neel Sundaresan · GroundLM Workshop</p>
+                                    
+                                </div>
+                                
+                            
+                                
+                            
+                                
+                                <div class="cv-publication-item">
+                                    <h4>Intrinsic Green's Learning on the SPD Manifold: A Hierarchical, Calibrated Framework for Cross-Subject Motor-Imagery BCI (2026) <span class="status-badge">In preparation</span></h4>
+                                    <p>Alexandre Quemy, Grégoire Cattan, Marco Congedo · Journal (target: TPAMI / JMLR / JNE)</p>
+                                    
+                                </div>
+                                
+                            
+                                
+                                <div class="cv-publication-item">
+                                    <h4>ydata-profiling: Accelerating Data-Centric AI with high-quality data (2023)</h4>
+                                    <p>Fabiana Clemente, Gonçalo Martins Ribeiro, Alexandre Quemy, et al. · Neurocomputing</p>
+                                    
+                                </div>
+                                
+                            
+                                
+                                <div class="cv-publication-item">
+                                    <h4>A large reproducible benchmark on text classification for the legal domain based on the ECHR-OD repository (2023)</h4>
+                                    <p>Alexandre Quemy, Robert Wrembel, Natalia Łopuszyńska, George Papadakis, Andrés Domínguez Delgado · Information Systems</p>
+                                    
+                                </div>
+                                
+                            
+                                
+                            
+                                
+                            
+                                
+                            
+                                
+                            
+                                
+                            
+                                
+                            
+                                
+                            
+                                
+                            
+                                
+                            
+                                
+                            
+                                
+                            
+                                
+                            
+                                
+                            
+                                
+                            
+                                
+                            
+                                
+                            
+                                
+                            
+                                
+                            
+                                
+                            
+                                
+                            
+                                
+                            
+                                
+                            
+                        </section>
+
+                        <section id="formal" class="scroll-section cv-teaching mb-8">
+                            <h3>Formal Mathematics &amp; Verification</h3>
+                            <p style="font-size:14px; color:#4b5563; margin-bottom:12px;">I prove mathematics with an LLM in the loop and the Lean kernel, keeping an honest record of what is proved versus assumed via Conventional Knowledge Commits. <a href="https://quemy.info/2026-07-06-machine-checked-maths-llm-in-the-loop.html" target="_blank" rel="noopener" class="ext-link">[write-up]</a></p>
                             <ul class="cv-patent-list">
-                                <li><strong><a href="https://patents.google.com/patent/US20240256946A1/en" target="_blank" rel="noopener" class="ext-link">US20240256946A1</a> (2024):</strong> Data synthesis with enhanced scalability using plurality of data synthesizers</li>
-                                <li><strong><a href="https://patents.google.com/patent/US11328715B2/en" target="_blank" rel="noopener" class="ext-link">US11328715B2</a> (2021):</strong> Cooperative platform tasks - automatic assignment using machine learning algorithms</li>
-                                <li><strong><a href="https://patents.google.com/patent/US11263113B2/en" target="_blank" rel="noopener" class="ext-link">US11263113B2</a> (2021):</strong> Code quality prediction - cloud application for automatic issue detection using RL and rule-based learning</li>
-                                <li><strong><a href="https://patents.google.com/patent/US11226889B2/en" target="_blank" rel="noopener" class="ext-link">US11226889B2</a> (2021):</strong> Regression prediction - software development regression prediction using ML techniques</li>
+                                <li class="cv-full-only"><strong><a href="https://github.com/aquemy/measure-to-measure-transformers" target="_blank" rel="noopener" class="ext-link">Measure-to-Measure Transformers</a>:</strong> Lean&nbsp;4 formalization of optimal-transport control results for transformers (kernel-checked leaves with a labeled axiom layer)</li>
+                                <li><strong><a href="https://github.com/hotherio/paper-igl" target="_blank" rel="noopener" class="ext-link">Intrinsic Green's Learning</a>:</strong> 18 kernel-checked results accompanying the ICLR&nbsp;2026 paper</li>
+                                <li><strong><a href="https://conventional-knowledge-commits.org/" target="_blank" rel="noopener" class="ext-link">Conventional Knowledge Commits</a> / <a href="https://claimgraph.conventional-knowledge-commits.org/" target="_blank" rel="noopener" class="ext-link">ClaimGraph</a>:</strong> a commit standard and tooling for kernel-honest, reproducible formal-maths workflows</li>
+                            </ul>
+                        </section>
+
+                        <section id="software" class="scroll-section cv-teaching mb-8 cv-full-only">
+                            <h3>Research Software</h3>
+                            <ul class="cv-patent-list">
+                                
+                                <li><strong><a href="https://github.com/hotherio/intrinsic-green-learning" target="_blank" rel="noopener" class="ext-link">Intrinsic Green's Learning (IGL)</a>:</strong> PyTorch library for the IGL framework: scikit-learn-compatible estimators and bare building blocks that discover task-conditioned intrinsic dimension via a learned encoder and Green's-function kernel, with a Riemannian/SPD (AIRM) extension for covariance-valued data (EEG, fMRI).</li>
+                                
+                                <li><strong><a href="https://github.com/hotherio/streamblocks" target="_blank" rel="noopener" class="ext-link">Streamblocks</a>:</strong> Real-time extraction of structured blocks (code, tool calls, file ops) from LLM output streams. Emits fine-grained events so applications react before the full response arrives; pluggable syntaxes and adapters for OpenAI, Anthropic, Gemini and the AG-UI protocol.</li>
+                                
+                                <li><strong>Reactive Agent (Coming soon):</strong> Reactive ReAct runtime that streams reasoning, extracts blocks with Streamblocks, and executes tools mid-stream. Ships speculative continuation, hybrid thinking budgets, progressive disclosure, XGrammar grammar-constrained decoding, and text-mode tool calling to run capable agents on smaller, cheaper models.</li>
+                                
+                                <li><strong><a href="https://conventional-knowledge-commits.org/" target="_blank" rel="noopener" class="ext-link">Conventional Knowledge Commits (CKC)</a>:</strong> A commit convention for research that records both the type of a change and how established each claim is (conjectured → proved → machine-checked). A strict superset of Conventional Commits, with proof and science profiles and a git-native ClaimGraph of dependencies.</li>
+                                
+                                <li><strong><a href="https://github.com/nojhan/paradiseo" target="_blank" rel="noopener" class="ext-link">ParadisEO</a>:</strong> White-box, object-oriented C++ framework for the flexible design of mono- and multi-objective metaheuristics; contributed the shared-memory parallelism (SMP) module.</li>
+                                
                             </ul>
                         </section>
 
                         <!-- Page Break for Second Page -->
                         <div class="page-break cv-full-only"></div>
 
-                        <section id="publications" class="scroll-section cv-publications mb-8 cv-full-only">
-                            <h3>Selected Publications</h3>
-                            <p><em>Full publication list (20+ papers) available at: <a href="https://quemy.info/research.html#publications" target="_blank" rel="noopener" class="ext-link">quemy.info/research</a></em></p><br>
-
-                            <div class="cv-publication-item">
-                                <h4>Intrinsic Green's Learning: Supervised Learning on Manifolds via Inverse PDE (2026)</h4>
-                                <p><em>A. Quemy - AI & PDE Workshop @ ICLR 2026</em></p>
-                            </div>
-                            <div class="cv-publication-item">
-                                <h4>The Decoupling Index κ: A Coincidence Theorem for MLP Gating Structure (2026) <span class="status-badge">Under review</span></h4>
-                                <p><em>A. Quemy - BlackboxNLP Workshop</em></p>
-                            </div>
-                            <div class="cv-publication-item">
-                                <h4>ydata-profiling: Accelerating Data-Centric AI with high-quality data (2023)</h4>
-                                <p><em>F. Clemente, G. Martins Ribeiro, A. Quemy, et al. - Neurocomputing</em></p>
-                            </div>
-                            <div class="cv-publication-item">
-                                <h4>Artificial Intelligence & Fair Trial Rights (2023)</h4>
-                                <p><em>H. Molbæk-Steensig, A. Quemy - Oxford Press book chapter</em></p>
-                            </div>
-                            <div class="cv-publication-item">
-                                <h4>Binary Classification in Unstructured Space With Hypergraph Case-Based Reasoning (2019)</h4>
-                                <p><em>A. Quemy - Information Systems</em></p>
-                            </div>
-                            <div class="cv-publication-item">
-                                <h4>A large reproducible benchmark on text classification for the legal domain (2023)</h4>
-                                <p><em>A. Quemy, R. Wrembel, et al. - Information Systems</em></p>
-                            </div>
-                        </section>
-
                         <section id="teaching" class="scroll-section cv-teaching mb-8 cv-full-only">
-                            <h3>Teaching & Supervision</h3>
-                            <div class="cv-teaching-item">
-                                <h4>MLOps Lectures (Winter 2023)</h4>
-                                <p>Poznan University of Technology · Guest lecturer on machine learning operations and deployment</p>
-                            </div>
-                            <div class="cv-teaching-item">
-                                <h4>Theoretical Machine Learning (2018-2019)</h4>
-                                <p>IBM Krakow Software Lab · Internal training on advanced ML theory and applications</p>
-                            </div>
+                            <h3>Teaching &amp; Supervision</h3>
                             <div class="cv-teaching-item">
                                 <h4>Master Thesis Supervision</h4>
                                 <ul>
-                                    <li><strong>Rodrigo Tuna (2023-2024):</strong> Fairness Aware Semi-Synthetic Graph Generation</li>
-                                    <li><strong>Pawel Mroz (2018-2019):</strong> Graph-based linear explanation for supervised machine learning models</li>
+                                    <li><strong>Rodrigo Tuna (2023-2024):</strong> Fairness-Aware Semi-Synthetic Graph Generation</li>
+                                    <li><strong>Paweł Mróz (2018-2019):</strong> Graph-based linear explanation for supervised ML models</li>
                                 </ul>
                             </div>
                             <div class="cv-teaching-item">
-                                <h4>Research Internship Supervision</h4>
-                                <p>Supervised 8+ research internships on topics including hyperparameter optimization, ECHR decision prediction, regression prediction, and semantic partitioning algorithms</p>
+                                <h4>Lecturing</h4>
+                                <p>MLOps (Poznan University of Technology, 2023); Theoretical Machine Learning (IBM Kraków, 2018-2019). Supervised 8+ research internships.</p>
                             </div>
                         </section>
 
-                        <section id="achievements" class="scroll-section cv-achievements mb-8 cv-full-only">
-                            <h3>Professional Recognition</h3>
+                        <section id="training" class="scroll-section cv-achievements mb-8 cv-full-only">
+                            <h3>Training &amp; Certifications</h3>
                             <ul>
-                                <li><strong>Technical Program Committee Member:</strong> Fuzzy Information and Engineering (Taylor & Francis), Computing (Springer), Data & Knowledge Engineering (Springer), Expert Systems With Applications (Elsevier)</li>
-                                <li><strong>Open Source Impact:</strong> Author/maintainer of Streamblocks, Reactive Agent, Intrinsic Green's Learning and the CKC tooling; co-author of ydata-profiling (10k+ stars); contributor to ParadisEO and ECHR-OD</li>
-                                <li><strong>Research Impact:</strong> 20+ peer-reviewed publications in international journals and conferences</li>
-                                <li><strong>Industry Recognition:</strong> 4 granted US patents and 1 pending application in AI/ML domain</li>
+                                
+                                
+                                <li>Technical AI Safety · BlueDot Impact (2026)</li>
+                                
+                                
+                                
+                                <li>ML4Good Bootcamp (Technical Track) · ML4Good (2026)</li>
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                                
+                            </ul>
+                        </section>
+
+                        <section id="service" class="scroll-section cv-achievements mb-8 cv-full-only">
+                            <h3>Academic Service</h3>
+                            <ul>
+                                <li><strong>Reviewer / TPC:</strong> Expert Systems With Applications (Elsevier), Data &amp; Knowledge Engineering (Springer), Computing (Springer), Fuzzy Information and Engineering (Taylor &amp; Francis)</li>
+                                <li><strong>Community of Experts:</strong> <a href="https://eloquenceai.eu/" target="_blank" rel="noopener" class="ext-link">Eloquence AI</a> (Horizon Europe)</li>
                             </ul>
                         </section>
                     </main>

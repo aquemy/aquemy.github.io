@@ -93,7 +93,7 @@
             },
             colors: {
               paper: '#F8F6F1',     // original warm off-white
-              surface: '#f5ede0',   // warm cream — accents only (code, cards, TOC)
+              surface: '#f5ede0',   // warm cream - accents only (code, cards, TOC)
               ink: '#2A2927',
               accent: {
                 light: '#D97706', // amber-600
@@ -217,7 +217,7 @@
 <p>La liaison, <em>dispatch</em> en anglais ne doit pas être confondu avec le <em>binding</em>, malgré que dans beaucoup d’articles ou de livres le terme de <em>binding</em> remplace et / ou aggrège celui de <em>dispatch</em> et que la traduction française de liaison soit plus proche de la traduction de <em>binding</em>. Le <em>binding</em> est en effet la capacité à associer à un appel le nom d’une méthode, tandis que le <em>dispatch</em> sélectionne l’implémentation d’une méthode parmi plusieurs proposant le même nom. Le <em>dispatch</em> intervient donc après le <em>binding</em> et un <em>binding</em> peut être statique là où le dispatch sera dynamique. L’inverse est évidemment impossible puisqu’avant de choisir une implémentation d’une méthode il faut évidemment en choisir son nom.</p>
 <p>Cependant, selon le langage ainsi que la communauté et les habitudes de chacun, le terme <em>dispatch</em> peut être ou non confondu avec le terme <em>binding</em>, l’un désignant le concept général de sélection de la méthode à appeler et le second l’implémentation des mécanismes.</p>
 <h4 id="liaison-statique-ou-dynamique">Liaison statique ou dynamique<a class="headerlink" href="#liaison-statique-ou-dynamique" title="Permanent link">¶</a></h4>
-<p>Dans un premier temps, on peut caractériser la liaison selon que toute l’information nécessaire à l’appel puisse être déduite en <em>compile time</em> – on parlera alors de liaison statique – ou qu’il faille un contexte donné en <em>run time</em>.</p>
+<p>Dans un premier temps, on peut caractériser la liaison selon que toute l’information nécessaire à l’appel puisse être déduite en <em>compile time</em> -- on parlera alors de liaison statique -- ou qu’il faille un contexte donné en <em>run time</em>.</p>
 <p>Il y a un liaison dynamique lorsque la sélection d’une méthode à utiliser dépend d’un type qui ne sera connu qu’à l’exécution, comme celui du paramètre d’une méthode par exemple.</p>
 <p>Le C++ propose ces deux types de liaisons, la liaison statique étant le comportement par défaut et la liaison dynamique étant obtenue grâce à l’utilisation du mot clef <code>virtual</code>.</p>
 <p>Exemple de static dispatch :</p>
