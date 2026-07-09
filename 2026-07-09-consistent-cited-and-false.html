@@ -1,0 +1,576 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PWL24785Z6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-PWL24785Z6');
+    </script>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Alexandre Quemy" />
+    <meta name="description" content="A satisfiability check let every axiom in a formalisation through, and eleven of twelve turned out to be false anyway. What that gap looks like, and what I built to close it." />
+    <title>Consistent, Cited, and False: Auditing My Own Axioms</title>
+
+    <link rel="canonical" href="https://quemy.info/2026-07-09-consistent-cited-and-false.html" />
+    <meta name="theme-color" content="#F8F6F1" />
+    <link rel="shortcut icon" href="https://quemy.info/favicon.ico" />
+    <link rel="alternate" type="application/rss+xml" title="Alexandre Quemy" href="https://quemy.info/rss.xml" />
+
+    <!-- Social cards: default site-level; blog posts override the `social` block with article data -->
+    
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://quemy.info/2026-07-09-consistent-cited-and-false.html" />
+    <meta property="og:title" content="Consistent, Cited, and False: Auditing My Own Axioms" />
+    <meta property="og:description" content="A satisfiability check let every axiom in a formalisation through, and eleven of twelve turned out to be false anyway. What that gap looks like, and what I built to close it." />
+    <meta property="og:image" content="https://quemy.info/og/2026-07-09-consistent-cited-and-false.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="Alexandre Quemy" />
+    <meta property="article:published_time" content="2026-07-09T12:00:00Z" />
+    <meta property="article:author" content="Alexandre Quemy" />
+    <meta property="article:tag" content="Mathematics" />
+    <meta property="article:tag" content="Lean" />
+    <meta property="article:tag" content="Formal Verification" />
+    <meta property="article:tag" content="Claude Code" />
+    <meta property="article:tag" content="Reproducibility" />
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@alexandre_quemy" />
+    <meta name="twitter:creator" content="@alexandre_quemy" />
+    <meta name="twitter:title" content="Consistent, Cited, and False: Auditing My Own Axioms" />
+    <meta name="twitter:description" content="A satisfiability check let every axiom in a formalisation through, and eleven of twelve turned out to be false anyway. What that gap looks like, and what I built to close it." />
+    <meta name="twitter:image" content="https://quemy.info/og/2026-07-09-consistent-cited-and-false.png" />
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "Consistent, Cited, and False: Auditing My Own Axioms",
+      "description": "A satisfiability check let every axiom in a formalisation through, and eleven of twelve turned out to be false anyway. What that gap looks like, and what I built to close it.",
+      "datePublished": "2026-07-09T12:00:00Z",
+      "dateModified": "2026-07-09T12:00:00Z",
+      "image": "https://quemy.info/og/2026-07-09-consistent-cited-and-false.png",
+      "url": "https://quemy.info/2026-07-09-consistent-cited-and-false.html",
+      "inLanguage": "en",
+      "mainEntityOfPage": {"@type": "WebPage", "@id": "https://quemy.info/2026-07-09-consistent-cited-and-false.html"},
+      "author": {"@type": "Person", "name": "Alexandre Quemy", "url": "https://quemy.info/"},
+      "publisher": {"@type": "Person", "name": "Alexandre Quemy", "url": "https://quemy.info/"},
+      "keywords": "Mathematics, Lean, Formal Verification, Claude Code, Reproducibility"
+    }
+    </script>
+
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Alexandre Quemy",
+      "url": "https://quemy.info/",
+      "author": {
+        "@type": "Person",
+        "name": "Alexandre Quemy",
+        "url": "https://quemy.info/",
+        "email": "alexandre@quemy.info",
+        "sameAs": [
+          "https://github.com/aquemy",
+          "https://www.linkedin.com/in/aquemy"
+        ]
+      }
+    }
+    </script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Source Sans Pro', 'sans-serif'],
+              serif: ['STIX Two Text', 'Georgia', 'serif'],
+              mono: ['Roboto Mono', 'monospace'],
+            },
+            colors: {
+              paper: '#F8F6F1',     // original warm off-white
+              surface: '#f5ede0',   // warm cream - accents only (code, cards, TOC)
+              ink: '#2A2927',
+              accent: {
+                light: '#D97706', // amber-600
+                dark: '#FBBF24'   // amber-400
+              },
+              'dark-bg': '#1c1917',
+              'dark-ink': '#E7E2D6',
+            }
+          }
+        }
+      }
+    </script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Sans+Pro:wght@400;600;700&family=Roboto+Mono&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX for Math Rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, { delimiters: [ {left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}, {left: '\\(', right: '\\)', display: false}, {left: '\\[', right: '\\]', display: true} ]});"></script>
+    
+    <!-- Custom Styles and Theming -->
+    <link rel="stylesheet" href="https://quemy.info/css/custom.css">
+    <link rel="stylesheet" href="https://quemy.info/css/friendly.css">
+
+    <script>
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+</head>
+<body class="bg-paper dark:bg-dark-bg text-ink dark:text-dark-ink font-sans transition-colors duration-500 antialiased">
+    
+    <!-- Background Animation Layer (only populated on index.html) -->
+    <div class="fixed inset-0 z-0">
+        
+    </div>
+
+    <!-- Main Content Layer -->
+    <div class="relative z-10">
+        <nav class="w-full max-w-4xl mx-auto py-6 px-4 flex justify-between items-center">
+    <a href="./index.html" class="font-serif text-xl font-bold hover:text-accent-light dark:hover:text-accent-dark transition-colors">
+        Alexandre Quemy
+    </a>
+    <div class="flex items-center space-x-6">
+        <div class="hidden md:flex items-center space-x-6 text-sm font-semibold tracking-wider uppercase">
+            <a href="./research.html" class="nav-link" data-page="research">Research</a>
+            <a href="./cv.html" class="nav-link" data-page="cv">CV</a>
+            <a href="./blog.html" class="nav-link" data-page="blog">Blog</a>
+        </div>
+        <button id="theme-toggle" class="w-8 h-8 flex items-center justify-center rounded-full text-ink dark:text-dark-ink hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+             <i id="theme-toggle-dark-icon" class="fas fa-moon hidden"></i>
+             <i id="theme-toggle-light-icon" class="fas fa-sun hidden"></i>
+        </button>
+        <button id="mobile-menu-button" class="md:hidden text-2xl">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div id="mobile-menu" class="hidden md:hidden fixed inset-0 bg-paper/80 dark:bg-dark-bg/80 backdrop-blur-sm z-50">
+    <div class="flex justify-end p-4">
+        <button id="mobile-menu-close" class="text-3xl">×</button>
+    </div>
+    <div class="flex flex-col items-center justify-center h-full space-y-8 text-2xl font-semibold tracking-wider uppercase">
+        <a href="./index.html" class="nav-link" data-page="index">Home</a>
+        <a href="./research.html" class="nav-link" data-page="research">Research</a>
+        <a href="./cv.html" class="nav-link" data-page="cv">CV</a>
+        <a href="./blog.html" class="nav-link" data-page="blog">Blog</a>
+    </div>
+</div>
+        <main>  <!-- class="fade-in"> -->
+            
+<div class="w-full max-w-7xl mx-auto py-12 px-4">
+    <!-- Header moved outside the grid for proper alignment -->
+    <header class="max-w-5xl mx-auto mb-12 text-center lg:text-left">
+        <a href="https://quemy.info/blog.html" class="post-meta text-accent-light dark:text-accent-dark hover:underline mb-6 inline-block">← Back to all posts</a>
+        <h1 class="font-serif text-4xl md:text-5xl font-bold text-ink dark:text-dark-ink leading-tight">Consistent, Cited, and False: Auditing My Own Axioms</h1>
+        <p class="post-meta mt-4">Mathematics · 2026-07-09 · 10 min read</p>
+    </header>
+
+    <div class="lg:grid lg:grid-cols-5 lg:gap-16">
+        <!-- Sticky Sidebar for Table of Contents (now wider) -->
+        <aside class="hidden lg:block lg:col-span-1">
+            <div class="sticky top-24">
+                <h3 class="font-semibold text-sm uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-4">ON THIS PAGE</h3>
+                <div id="toc-sidebar">
+                    <!-- ToC will be moved here by JavaScript -->
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Main Article Content -->
+        <div class="lg:col-span-4">
+            <article class="fade-in">
+                <div id="prose-content" class="prose lg:prose-lg dark:prose-invert max-w-none">
+                    <style>a.link-card{display:block;max-width:540px;margin:1.75em auto;border:1px solid #e7e3da;border-radius:12px;overflow:hidden;background:#fff;text-decoration:none;color:inherit;transition:box-shadow .15s ease,transform .15s ease;}a.link-card:hover{box-shadow:0 8px 24px rgba(60,50,40,.12);transform:translateY(-2px);}.link-card-media{line-height:0;background:#faf8f4;border-bottom:1px solid #efeae0;}.link-card-media img{width:100%;height:auto;display:block;margin:0;}.link-card-body{padding:14px 17px 16px;}.link-card-title{display:block;font-weight:600;font-size:1.03rem;line-height:1.3;color:#2A2927;}.link-card-desc{display:block;margin-top:6px;font-size:.9rem;line-height:1.45;color:#6b6760;}.link-card-domain{display:block;margin-top:10px;font-size:.74rem;letter-spacing:.07em;text-transform:uppercase;color:#a89f92;}html.dark a.link-card{background:#221f1c;border-color:#38332c;}html.dark .link-card-media{background:#1a1816;border-bottom-color:#2e2a24;}html.dark .link-card-title{color:#f3efe6;}html.dark .link-card-desc{color:#c5beb0;}html.dark .link-card-domain{color:#a8a29e;}</style><div class="toc">
+<ul>
+<li><a href="#two-ways-for-an-axiom-to-be-wrong">Two ways for an axiom to be wrong</a></li>
+<li><a href="#one-of-the-eleven">One of the eleven</a></li>
+<li><a href="#a-protocol-for-fidelity-not-just-consistency">A protocol for fidelity, not just consistency</a></li>
+<li><a href="#wired-through-the-pipeline-not-left-to-memory">Wired through the pipeline, not left to memory</a></li>
+<li><a href="#a-durable-record-and-a-regression-test-for-the-fix">A durable record, and a regression test for the fix</a></li>
+<li><a href="#what-this-adds">What this adds</a></li>
+</ul>
+</div>
+<p>In <a href="2026-07-06-machine-checked-maths-llm-in-the-loop.html">the piece just before this one</a>, I
+described the harness I use to get a proof from an idea to something Lean’s kernel accepts, and the
+commit discipline, <a href="https://conventional-knowledge-commits.org/">Conventional Knowledge
+Commits</a>, that keeps an honest record of what is proved
+and what is only assumed. Both worked exactly as advertised on the next project I ran them against, a
+formalisation of Geshkovski, Rigollet and Ruiz-Balet’s paper on the mean-field dynamics of
+Transformers as measure-to-measure maps (<a href="https://arxiv.org/abs/2411.04551">arXiv:2411.04551</a>). Zero
+<code>sorry</code>. Every axiom named, individually consistent, cited. And eleven of the twelve turned out to be
+false as stated.</p>
+<p>Not false in the sense of contradicting each other, which is the failure the pipeline already checked
+for. False in the sense of claiming more than the paper does: a hypothesis dropped somewhere between
+the source and the Lean statement, invisible to every check I had, because a dropped hypothesis does
+not make an axiom inconsistent. It makes it stronger, and a stronger axiom is exactly as easy to
+satisfy and exactly as easy to cite as the one you meant to write.</p>
+<h3 id="two-ways-for-an-axiom-to-be-wrong">Two ways for an axiom to be wrong<a class="headerlink" href="#two-ways-for-an-axiom-to-be-wrong" title="Permanent link">¶</a></h3>
+<p>An axiom in this pipeline already goes through one check before it is trusted. <code>proof-review</code> asks
+whether it is satisfiable: does a mathematical object exist that has the property the axiom claims?
+This catches real mistakes, and the same project had already produced one. An early axiom demanded a
+measure split into M pieces, each confined to an open hemisphere of the sphere. Set M = 1, the
+smallest case, and the demand forces the entire measure into a half-space: no centrally-symmetric
+measure without atoms satisfies that, not a Gaussian, not the uniform law on a ball or a sphere. The
+axiom was asking for an object that provably does not exist. Try to build one and the construction
+breaks in your hands; the fix was to stop building the hemisphere confinement into the definition of
+the pieces and let each one acquire it separately, the way the paper’s own argument does.</p>
+<p>That is what satisfiability review is built to find: an axiom that is not just wrong but incoherent,
+the kind that would let the kernel prove anything if it slipped through, because a false hypothesis
+implies everything. It is also, precisely for that reason, a narrow check. It asks only whether some
+mathematical object fits the axiom’s description. It does not ask whether that description matches
+the paper. Eleven of the twelve axioms in the same project described objects that certainly exist,
+real Mathlib types, correctly quantified, individually satisfiable, and every one of them claimed a
+little more than the source had actually shown: a boundedness condition loosened, a non-degeneracy
+assumption folded away, a regime the argument only holds in generalised past its edge. Satisfiable
+does not mean faithful. It only means something exists that fits what you wrote down, and it says
+nothing about whether what you wrote down is what you meant.</p>
+<p>Put simply:</p>
+<ul>
+<li>satisfiability review asks <em>does an object exist that fits this axiom</em>, and catches an axiom that
+  is internally incoherent, like the hemisphere one above;</li>
+<li>it cannot catch an axiom that dropped a hypothesis in translation, because the loosened axiom is
+  still perfectly satisfiable, just stronger than what the paper proved;</li>
+<li>that second kind is what eleven of the twelve axioms in this project turned out to have.</li>
+</ul>
+<h3 id="one-of-the-eleven">One of the eleven<a class="headerlink" href="#one-of-the-eleven" title="Permanent link">¶</a></h3>
+<p>Here is one, in full, because the shape of the mistake is easier to see concrete than described. The
+paper’s Lemma 3.4 (p.16) reads:</p>
+<blockquote>
+<p>Let <span class="arithmatex">\(T &gt; 0\)</span> and let <span class="arithmatex">\(\mu_0, \nu_0 \in P(Q_1^{d-1})\)</span> be two <em>different</em> measures such that
+<span class="arithmatex">\(\mathbb{E}_{\mu_0}[x] = \gamma_1 \mathbb{E}_{\nu_0}[x]\)</span> for some <span class="arithmatex">\(\gamma_1 \in (0, 1]\)</span>. 1. If
+<span class="arithmatex">\(\gamma_1 = 1\)</span>, then, setting <span class="arithmatex">\(V \equiv 0\)</span>, there exist <span class="arithmatex">\(W, U \in M_{d \times d}(\mathbb{R})\)</span> and
+<span class="arithmatex">\(b \in \mathbb{R}^d\)</span> such that the solutions <span class="arithmatex">\(\mu, \nu\)</span> to (1.3)-(3.1) corresponding to
+<span class="arithmatex">\(\mu_0, \nu_0\)</span> and these parameters satisfy
+<span class="arithmatex">\(\mathbb{E}_{\mu(T)}[x] \neq \mathbb{E}_{\nu(T)}[x]\)</span>.</p>
+</blockquote>
+<p>The project’s word for the paper’s expectation <span class="arithmatex">\(\mathbb{E}_\mu[x]\)</span> is barycenter, the same object,
+<span class="arithmatex">\(\int x \, d\mu\)</span>. The Lean axiom as first committed:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span></pre></div></td><td class="code"><div><pre><span></span><code>axiom lemma_3_4_part1 (μ ν : Measure (Eucl d)) (T : ℝ) (hT : 0 &lt; T)
+    (hbar : barycenter μ = barycenter ν) :
+    ∃ θ : Params d, barycenter (measureFlow θ T μ) ≠ barycenter (measureFlow θ T ν)
+</code></pre></div></td></tr></table></div>
+<p>Type-correct, and it reads as a faithful transcription if you do not check it against the paper
+sentence by sentence: two measures, equal barycenters, some parameter separates them after the flow.
+What it dropped is everything the blockquote states before that equality. The stub’s
+<code>hbar : barycenter μ = barycenter ν</code> is exactly the paper’s <span class="arithmatex">\(\mathbb{E}_{\mu_0}[x] =
+\mathbb{E}_{\nu_0}[x]\)</span> (the <span class="arithmatex">\(\gamma_1 = 1\)</span> case) and nothing else: none of <em>different</em>, <em>probability</em>,
+or <em>on the orthant</em> made it into the axiom’s binders. Take <code>μ = ν</code>. The equal-barycenter hypothesis
+holds, trivially. But <code>measureFlow θ T μ</code> and <code>measureFlow θ T ν</code> are then the same object for every
+<code>θ</code>, so no <code>θ</code> can make their barycenters differ. The axiom as stated is refutable, and the refutation
+compiles.</p>
+<p>Restoring the paper’s hypotheses:</p>
+<div class="highlight"><table class="highlighttable"><tr><td class="linenos"><div class="linenodiv"><pre><span></span><span class="normal">1</span>
+<span class="normal">2</span>
+<span class="normal">3</span>
+<span class="normal">4</span>
+<span class="normal">5</span></pre></div></td><td class="code"><div><pre><span></span><code>axiom lemma_3_4_part1 (μ ν : Measure (Eucl d)) [IsProbabilityMeasure μ] [IsProbabilityMeasure ν]
+    (T : ℝ) (hT : 0 &lt; T) (hne : μ ≠ ν)
+    (hμ : supportedIn μ (orthant d)) (hν : supportedIn ν (orthant d))
+    (hbar : barycenter μ = barycenter ν) :
+    ∃ θ : Params d, barycenter (measureFlow θ T μ) ≠ barycenter (measureFlow θ T ν)
+</code></pre></div></td></tr></table></div>
+<p>closes exactly the gap the refutation used.</p>
+<p>The impact, honestly stated, was smaller than the number eleven makes it sound. <code>#print axioms</code> on the
+two headline theorems shows neither ever cited this axiom: nothing proved rested on it, so nothing
+proved was ever false. It sat in the codebase, unused, false, and cleanly separated from everything the
+kernel had actually checked, because the headline theorems still rest on a separate axiom this lemma
+chain was built to someday replace, not on the chain itself yet. That separation is exactly the
+failure a per-node <code>#print axioms</code> reading cannot see: it tells you a <em>used</em> axiom’s name, never that
+an <em>unused</em> one is wrong. The lesson was in the
+review discipline, not in a retracted result. It did not stay an axiom for long, either: this one has
+since been fully discharged to a machine-checked theorem, its signature still carrying every hypothesis
+the fidelity fix restored.</p>
+<h3 id="a-protocol-for-fidelity-not-just-consistency">A protocol for fidelity, not just consistency<a class="headerlink" href="#a-protocol-for-fidelity-not-just-consistency" title="Permanent link">¶</a></h3>
+<p>Catching the second kind of error needs a different question than “does a model exist”, asked against
+a different object: not the axiom in isolation, but the axiom next to the sentence in the paper it is
+supposed to formalise. Three checks now run wherever an axiom gets written.</p>
+<p>The first is hypothesis parity: read the source statement, page-anchored so the comparison is against
+the actual sentence and not a memory of it, and check that every hypothesis it carries survives into
+the Lean statement. Dropping one is the failure mode that started this, and it is also the easiest one
+to miss by inspection, because the Lean statement still reads as a faithful translation of
+<em>something</em> true, just not of the theorem the paper proved.</p>
+<p>The second is a degenerate-instantiation attack: take the hypotheses the source explicitly excludes
+and try to instantiate the axiom there anyway. If the Lean statement lets you plug in the case the
+paper ruled out and still derive its conclusion (or, worse, derive <code>False</code>), the parity check has
+already failed somewhere, and this is the version of it a person can actually run without re-deriving
+the whole argument by hand.</p>
+<p>The third is model adequacy, and it is the one I found least obvious: can the formal class the axiom
+is stated over even express what the source’s <em>proof</em> actually uses, not just what its statement
+claims? A paper’s own impossibility results are often the tightest evidence here. If the authors prove
+their own construction cannot be strengthened past some line, and the Lean axiom is stated in a class
+where it <em>can</em> be strengthened past that line, the axiom has already said too much regardless of what
+its hypotheses list.</p>
+<h3 id="wired-through-the-pipeline-not-left-to-memory">Wired through the pipeline, not left to memory<a class="headerlink" href="#wired-through-the-pipeline-not-left-to-memory" title="Permanent link">¶</a></h3>
+<p>None of this is worth much as a checklist I am supposed to remember. It is wired into the same points
+where an axiom gets introduced or touched:</p>
+<ul>
+<li><code>proof-review</code> runs it as a third standing check beside satisfiability, and re-runs it against the
+  actual Lean text once the axiom is written, not only against the plan for it.</li>
+<li><code>lean-formalize</code> triggers the full protocol the moment a new axiom appears in a proof, in place of
+  the old prompt to just confirm intent with me.</li>
+<li><code>mathlib-coverage-check</code> and <code>paper-to-blueprint</code> apply the same parity check earlier, at the
+  planning and stub-scaffolding stage, diffing a stub’s signature against the verbatim extract before
+  any proof is attempted against it.</li>
+<li>the orchestrator’s gates record the sub-checks in the project ledger and carry the distinction
+  through to the write-up gate: kernel-honest and statement-honest are different claims, and the
+  second does not follow from the first.</li>
+<li>the blueprint renderer asserts hypothesis parity between the paper’s box and mine before it will
+  grant the axiomatised badge, so the badge itself is now evidence the check ran, not just that
+  <code>#print axioms</code> named the axiom.</li>
+</ul>
+<p>The pattern across all of them is the same one CKC already uses for kernel status: move the check as
+close as possible to the moment the claim is made, and make it something the tooling verifies rather
+than something I am trusted to have done.</p>
+<h3 id="a-durable-record-and-a-regression-test-for-the-fix">A durable record, and a regression test for the fix<a class="headerlink" href="#a-durable-record-and-a-regression-test-for-the-fix" title="Permanent link">¶</a></h3>
+<p>A review that runs once and leaves no trace is exactly the failure mode this whole approach is meant
+to close. This finding is in fact what pushed <a href="https://conventional-knowledge-commits.org/">Conventional Knowledge
+Commits</a> to a new revision, v0.2.0: an axiomatising
+commit now carries two required footers, checked before the kernel is even consulted, so a missing one
+cannot hide behind an unavailable build. <code>Source-Ref:</code> anchors the
+axiom to the exact locus it was checked against: a theorem, an equation, a page, not a citation
+floating loose in the prose. <code>Refutation-Attempt:</code> names the artifact of the degenerate-instantiation
+attack that failed to break it. Neither is diff-checked the way kernel status is; both are a required
+presence, forcing the anchor and the attempt to exist rather than verifying their content, which is a
+real limit and one I would like the tooling to close next.</p>
+<a class="link-card" href="https://conventional-knowledge-commits.org/" rel="noopener"><div class="link-card-media"><img src="images/2026-07-09-consistent-cited-and-false/figures/ckc-card.png" alt="Conventional Knowledge Commits" loading="lazy"></div><div class="link-card-body"><span class="link-card-title">Conventional Knowledge Commits</span><span class="link-card-desc">A commit convention for research that records how established each claim is and checks it against the proof.</span><span class="link-card-domain">conventional-knowledge-commits.org</span></div></a>
+<p>Two more artifacts live in the project itself, not the commit log. A <em>witness</em> instantiates every
+hypothesis with concrete data and applies the axiom, so a vacuous or over-strengthened statement, one
+nobody could actually invoke, breaks the build instead of passing every check by never being used. And
+because eleven axioms in this project got rewritten to be faithful, the old, over-strong versions are
+worth guarding against returning: each correction leaves behind the disproof of the retracted
+statement, kept in the build forever, and a short adapter that tries to re-derive the retracted
+statement from the current axiom, checked to <em>fail</em> to elaborate, a regression test for a bug that was
+a sentence, not a stack trace. If a future edit widens the axiom back past where the paper actually
+goes, either check catches it.</p>
+<h3 id="what-this-adds">What this adds<a class="headerlink" href="#what-this-adds" title="Permanent link">¶</a></h3>
+<p>The boundary I described in the last post, proved, assumed, open, turned out to have a seam I had not
+been checking. Kernel-honest and status-honest are both about whether the bookkeeping matches the
+kernel; this is about whether the axiom matches the paper, and the kernel has no opinion on that at
+all. It cannot: <code>#print axioms</code> tells you a result rests on exactly this cited fact, truthfully,
+whether or not the cited fact is the one you meant to cite.</p>
+<p>Eleven wrong axioms in one project is not a flattering number, and I would rather publish it than not.
+The alternative was a formalisation that was zero-<code>sorry</code>, every axiom named and consistent, and
+quietly asserting more than its source paper, which is a more dangerous state than an honest <code>sorry</code>,
+because it looks finished. The protocol above is what I now have in its place: not a stronger trust in
+the axioms, but a stronger, cheaper way to keep from having to trust them at all.</p>
+                </div>
+                
+                <!-- Mermaid Script -->
+                <script type="module">
+                    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+                    
+                    // Configure and initialize mermaid
+                    const initMermaid = async () => {
+                        try {
+                            await mermaid.initialize({ 
+                                startOnLoad: true,
+                                theme: document.documentElement.classList.contains('dark') ? 'dark' : 'default',
+                                securityLevel: 'loose',
+                                flowchart: {
+                                    useMaxWidth: false,
+                                    htmlLabels: true,
+                                    curve: 'basis',
+                                    padding: 20,
+                                    nodeSpacing: 50,
+                                    rankSpacing: 50
+                                },
+                                themeVariables: {
+                                    primaryColor: '#D97706',
+                                    primaryTextColor: '#2A2927',
+                                    primaryBorderColor: '#D97706',
+                                    lineColor: '#78716c',
+                                    secondaryColor: '#f5f5f4',
+                                    tertiaryColor: '#fafaf9',
+                                    background: '#F8F6F1',
+                                    mainBkg: '#f5ede0',
+                                    secondBkg: '#faf7f0',
+                                    tertiaryBkg: '#faf7f0'
+                                }
+                            });
+                            
+                            // Log any mermaid elements found
+                            const elements = document.querySelectorAll('.mermaid');
+                            console.log(`Mermaid initialized. Found ${elements.length} diagram(s)`);
+                            
+                            // Force render if elements exist
+                            if (elements.length > 0) {
+                                mermaid.contentLoaded();
+                            }
+                        } catch (error) {
+                            console.error('Mermaid initialization error:', error);
+                        }
+                    };
+                    
+                    // Initialize when DOM is ready
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', initMermaid);
+                    } else {
+                        // DOM already loaded
+                        await initMermaid();
+                    }
+                </script>
+            </article>
+
+            <!-- Prev / Next + same-category navigation -->
+            
+            <nav class="mt-16 pt-8 border-t border-stone-200 dark:border-stone-700 flex justify-between gap-8">
+                <div class="flex-1">
+                    
+                    <a href="https://quemy.info/2026-07-06-machine-checked-maths-llm-in-the-loop.html" class="group block">
+                        <span class="post-meta block mb-1">← Previous</span>
+                        <span class="font-serif text-lg text-ink dark:text-dark-ink group-hover:text-accent-light dark:group-hover:text-accent-dark transition-colors">Machine-Checked Mathematics, with an LLM in the Loop</span>
+                    </a>
+                    
+                </div>
+                <div class="flex-1 text-right">
+                    
+                </div>
+            </nav>
+            
+            
+            <div class="mt-10">
+                <span class="post-meta block mb-3">More in Mathematics</span>
+                <ul class="space-y-1.5">
+                    
+                    <li><a href="https://quemy.info/2026-07-06-machine-checked-maths-llm-in-the-loop.html" class="font-serif text-accent-light dark:text-accent-dark hover:underline">Machine-Checked Mathematics, with an LLM in the Loop</a></li>
+                    
+                    <li><a href="https://quemy.info/2026-03-22-mhalm-parameter-golf.html" class="font-serif text-accent-light dark:text-accent-dark hover:underline">MHALM: When Geometric Kernels Meet Language Modelling</a></li>
+                    
+                    <li><a href="https://quemy.info/2026-03-21-intrinsic-greens-learning.html" class="font-serif text-accent-light dark:text-accent-dark hover:underline">Intrinsic Green's Learning: Supervised Learning as an Inverse PDE Problem</a></li>
+                    
+                </ul>
+            </div>
+            
+
+            <!-- Giscus Comments Section -->
+            <div class="mt-16 pt-8 border-t border-stone-200 dark:border-stone-700">
+                <script src="https://giscus.app/client.js"
+                    data-repo="aquemy/aquemy.github.io"
+                    data-repo-id="MDEwOlJlcG9zaXRvcnkzMTM5NTY4OTU="
+                    data-category="Ideas"
+                    data-category-id="DIC_kwDOEraaH84CdPT4"
+                    data-mapping="pathname"
+                    data-strict="0"
+                    data-reactions-enabled="1"
+                    data-emit-metadata="1"
+                    data-input-position="top"
+                    data-theme="preferred_color_scheme"
+                    data-lang="en"
+                    data-loading="lazy"
+                    crossorigin="anonymous"
+                    async>
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Image lightbox: click a content image to view it full-screen; click the backdrop or press Esc to close -->
+<style>
+  .lightbox-overlay { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 4vmin; background: rgba(22,20,18,.88); opacity: 0; transition: opacity .18s ease; cursor: zoom-out; }
+  .lightbox-overlay.open { opacity: 1; }
+  .lightbox-overlay img { max-width: 94vw; max-height: 92vh; width: auto; height: auto; border-radius: 6px; background: #fff; box-shadow: 0 16px 60px rgba(0,0,0,.55); cursor: default; }
+  .lightbox-close { position: fixed; top: 16px; right: 22px; font-size: 36px; line-height: 1; color: #fff; opacity: .8; cursor: pointer; background: none; border: 0; padding: 4px 10px; }
+  .lightbox-close:hover { opacity: 1; }
+  #prose-content img.zoomable { cursor: zoom-in; }
+  /* Ink-diagram SVGs are authored for a light surface; give them one in dark mode so the dark ink stays readable. */
+  html.dark #prose-content img[src$=".svg"] { background: #f4f1ea; padding: 16px; border-radius: 8px; box-shadow: 0 2px 16px rgba(0,0,0,.30); }
+  .lightbox-overlay img[src$=".svg"] { padding: 18px; }
+  /* Interactive HTML widgets are authored for a light surface; give the container one in dark mode. */
+  html.dark .igl-widget { background: #f4f1ea; }
+</style>
+<script>
+(function () {
+  function init() {
+    var prose = document.getElementById('prose-content');
+    if (!prose) return;
+    var overlay = null;
+    function close() {
+      if (!overlay) return;
+      var o = overlay; overlay = null;
+      o.classList.remove('open');
+      document.body.style.overflow = '';
+      setTimeout(function () { if (o && o.parentNode) o.parentNode.removeChild(o); }, 200);
+    }
+    function open(src, alt) {
+      close();
+      overlay = document.createElement('div');
+      overlay.className = 'lightbox-overlay';
+      var btn = document.createElement('button');
+      btn.className = 'lightbox-close'; btn.setAttribute('aria-label', 'Close'); btn.innerHTML = '&times;';
+      var im = document.createElement('img');
+      im.src = src; im.alt = alt || '';
+      overlay.appendChild(btn); overlay.appendChild(im);
+      document.body.appendChild(overlay);
+      document.body.style.overflow = 'hidden';
+      requestAnimationFrame(function () { overlay.classList.add('open'); });
+      overlay.addEventListener('click', function (e) { if (e.target !== im) close(); });
+    }
+    var imgs = prose.querySelectorAll('img');
+    for (var i = 0; i < imgs.length; i++) {
+      var img = imgs[i];
+      if (img.closest('a')) continue;
+      img.classList.add('zoomable');
+      (function (im) { im.addEventListener('click', function () { open(im.currentSrc || im.src, im.alt); }); })(img);
+    }
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+
+        </main>
+        <footer class="w-full max-w-4xl mx-auto text-center py-8 px-4 mt-6 border-t border-black/10 dark:border-white/10">
+    <div class="flex justify-center space-x-6 mb-4">
+        
+        <a href="mailto:alexandre@quemy.info" title="Email" class="footer-icon"><i class="fas fa-envelope"></i></a>
+        
+        
+        <a href="https://linkedin.com/in/aquemy" title="LinkedIn" target="_blank" class="footer-icon"><i class="fab fa-linkedin"></i></a>
+        
+        
+        <a href="http://github.com/aquemy" title="GitHub" target="_blank" class="footer-icon"><i class="fab fa-github"></i></a>
+        
+        
+        <a href="https://twitter.com/@alexandre_quemy" title="Twitter" target="_blank" class="footer-icon"><i class="fab fa-twitter"></i></a>
+        
+        <a href="https://orcid.org/0000-0002-5865-6403" title="ORCID" target="_blank" class="footer-icon"><i class="fab fa-orcid"></i></a>
+    </div>
+    <p class="text-xs text-stone-500 dark:text-stone-400">
+        © <span id="current-year"></span> Alexandre Quemy. All rights reserved.
+    </p>
+</footer> <!-- This is the footer -->
+    </div>
+    
+
+    <!-- Custom JavaScript -->
+    <script src="https://quemy.info/js/main.js"></script>
+
+    
+</body>
+</html>

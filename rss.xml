@@ -7,6 +7,13 @@
     <language>en</language>
     <atom:link href="https://quemy.info/rss.xml" rel="self" type="application/rss+xml" />
     <item>
+      <title>Consistent, Cited, and False: Auditing My Own Axioms</title>
+      <link>https://quemy.info/2026-07-09-consistent-cited-and-false.html</link>
+      <guid isPermaLink="true">https://quemy.info/2026-07-09-consistent-cited-and-false.html</guid>
+      <pubDate>Thu, 09 Jul 2026 00:00:00 +0000</pubDate>
+      <description>A satisfiability check let every axiom in a formalisation through, and eleven of twelve turned out to be false anyway. What that gap looks like, and what I built to close it.</description>
+    </item>
+    <item>
       <title>Machine-Checked Mathematics, with an LLM in the Loop</title>
       <link>https://quemy.info/2026-07-06-machine-checked-maths-llm-in-the-loop.html</link>
       <guid isPermaLink="true">https://quemy.info/2026-07-06-machine-checked-maths-llm-in-the-loop.html</guid>
