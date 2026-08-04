@@ -179,6 +179,7 @@
                 <h2 class="section-title"><i class="fas fa-book-open text-accent-light dark:text-accent-dark"></i> Summary</h2>
                 <p>I work at the intersection of <b>machine learning, mathematics, and software engineering</b>. My research develops <b>geometric and PDE-based methods for machine learning</b>, along with interpretability and reproducibility tooling, and I build the systems that put them into practice.</p>
                 <p>My main research interest is <b>differential geometry for AI</b>. My primary work here, Intrinsic Green's Learning, discovers and reconstructs the unknown, task-conditioned intrinsic manifold underlying a dataset, modelling the target function on it as the solution of a linear PDE learned from data, scaling linearly in the intrinsic dimension while staying interpretable. It was presented at the <b>AI &amp; PDE Workshop @ ICLR 2026</b>.</p>
+                <p>The current focus is the invited journal extension, on <b>inverse field reconstruction</b>: recovering a physical field from scattered samples alone, where the operator, mesh, source and boundary conditions are all unknown, along with a proof that the chart it learns cannot be identified from the fit. The same machinery reaches <b>mechanistic interpretability</b>, measuring how much of a language model's width its computation really uses, and a sub-quadratic sequence primitive for long-context retrieval and precise editing. Wherever the mathematics allows, I prove the results in <b>Lean</b>.</p>
                 <p>I am in general interested in <b>AI Safety</b>, which motivates my mechanistic-interpretability work above; I completed the <a href="https://ml4good.org/" target="_blank" rel="noopener" class="ext-link">ML4Good</a> Technical Track and <a href="https://bluedot.org/" target="_blank" rel="noopener" class="ext-link">BlueDot Impact</a>'s Technical AI Safety course.</p>
                 <p>My doctoral thesis brought end-to-end classification to unstructured spaces, applied to judicial decisions, cutting the expertise the usual ML workflow demands. A detailed summary is <a href="./static/others/phd_summary.pdf" target="_blank">here</a>.</p>
                 <p class="mt-4">I am a member of the <a href="https://eloquenceai.eu/" target="_blank" rel="noopener" class="ext-link font-semibold text-accent-light dark:text-accent-dark hover:underline">Eloquence AI</a> Community of Experts (Horizon Europe). You can view my <a href="./cv-research.html" class="font-semibold text-accent-light dark:text-accent-dark hover:underline">research CV</a> or my <a href="./cv.html" class="font-semibold text-accent-light dark:text-accent-dark hover:underline">engineering CV</a>.</p>
@@ -189,24 +190,30 @@
                 <div class="thread-list">
                     <div class="thread-item">
                         <h4><i class="fas fa-shapes"></i> Geometry &amp; PDE for ML</h4>
-                        <p>Intrinsic Green's Learning and its extensions: an SPD-manifold (AIRM) framework for cross-subject motor-imagery BCI, geometric readouts for language-model embeddings, and MHALM, my entry to the OpenAI Parameter Golf challenge: a geometric multi-kernel language model trained under a 16&nbsp;MB / 10-minute budget.</p>
-                        <p class="tl-line"><span class="tl-label">Papers</span><a href="https://openreview.net/forum?id=Y6RpdS98l8" target="_blank" rel="noopener" class="ext-link">Intrinsic Green's Learning</a> <span class="tl-meta">(ICLR 2026)</span> · <a href="#pub-igl-airm">IGL on the SPD manifold</a> <span class="tl-meta">(in prep)</span> · <a href="#pub-riemannian">Riemannian geometry for LM embeddings</a> <span class="tl-meta">(under review)</span> · <a href="#pub-igl-wic">IGL for contextual word embeddings</a> <span class="tl-meta">(in prep)</span></p>
+                        <p>Intrinsic Green's Learning and its extensions. The main line is the invited journal paper on <b>inverse field reconstruction</b> from scattered samples, together with its companion on how many coordinates a task actually needs. Around it: an SPD-manifold (AIRM) framework for cross-subject motor-imagery BCI, geometric readouts for language-model embeddings, and MHALM, my entry to the OpenAI Parameter Golf challenge, a geometric multi-kernel language model trained under a 16&nbsp;MB / 10-minute budget.</p>
+                        <p class="tl-line"><span class="tl-label">Papers</span><a href="#pub-igl-mlst">IGL for sparse field reconstruction</a> <span class="tl-meta">(in prep, invited to MLST)</span> · <a href="#pub-igl-dimensions">How many coordinates does a task need?</a> <span class="tl-meta">(in prep)</span> · <a href="https://openreview.net/forum?id=Y6RpdS98l8" target="_blank" rel="noopener" class="ext-link">Intrinsic Green's Learning</a> <span class="tl-meta">(ICLR 2026)</span> · <a href="#pub-igl-airm">IGL on the SPD manifold</a> <span class="tl-meta">(in prep)</span> · <a href="#pub-riemannian">Riemannian geometry for LM embeddings</a> <span class="tl-meta">(under review)</span> · <a href="#pub-igl-wic">IGL for contextual word embeddings</a> <span class="tl-meta">(in prep)</span></p>
+                        <p class="tl-line"><span class="tl-label">Ongoing</span>Singularity-aware IGL: the kernel absorbs manifold singularities through integral smoothing while the encoder records them as Jacobian degeneracy, so the tangent map detects what the reconstruction hides. <span class="tl-muted">(targeting NeurReps 2026)</span></p>
                         <p class="tl-line"><span class="tl-label">Writing</span><a href="https://quemy.info/2026-03-21-intrinsic-greens-learning.html" target="_blank" rel="noopener" class="ext-link">Intrinsic Green's Learning</a> · <a href="https://quemy.info/2026-03-22-mhalm-parameter-golf.html" target="_blank" rel="noopener" class="ext-link">MHALM: Parameter Golf</a></p>
                     </div>
                     <div class="thread-item">
                         <h4><i class="fas fa-microscope"></i> Mechanistic Interpretability</h4>
-                        <p>The decoupling index <b>κ</b> and a signed-hypergraph account of MLP gating structure: a measurable diagnostic that maps, and bounds, what interpretability tools can detect about computation in superposition (validated across GPT-2-small).</p>
-                        <p class="tl-line"><span class="tl-label">Paper</span><a href="#pub-kappa">The Decoupling Index κ</a> <span class="tl-meta">(under review, BlackboxNLP)</span></p>
+                        <p>Two questions about what interpretability tools can actually see. First, how much of a language model's width its computation really uses: measured with <b>task-weighted charts</b>, coordinate systems fit against a chosen functional under that functional's own metric, which turns distillation into a change of metric. Two directions carry 90% of GPT-2's activation variance and almost none of its function, and dimension turns out to be a property of the functional rather than of the model. Second, when the common practice of reading an MLP through its strongest connections is faithful: the <b>decoupling index κ</b> of the gating matrix certifies, layer by layer, whether that binarized reading agrees with the magnitude-aware one.</p>
+                        <p class="tl-line"><span class="tl-label">Papers</span><a href="#pub-charts">Function Lives Where Variance Doesn't</a> <span class="tl-meta">(submitted, BlackboxNLP)</span> · <a href="#pub-kappa">When is binarized MLP analysis faithful?</a> <span class="tl-meta">(in prep)</span></p>
                     </div>
                     <div class="thread-item">
                         <h4><i class="fas fa-check-double"></i> Machine-Checked Mathematics</h4>
-                        <p>Proving mathematics with an LLM in the loop and the Lean kernel, keeping an honest record of what is proved versus assumed via <b>Conventional Knowledge Commits</b> and the ClaimGraph.</p>
+                        <p>Proving mathematics with an LLM in the loop and the Lean kernel, keeping an honest record of what is proved versus assumed via <b>Conventional Knowledge Commits</b> and the ClaimGraph. A claim's validity is decided by the kernel, its coverage by the blueprint; conflating the two makes a machine-checked theorem report as a hole.</p>
+                        <p class="tl-line"><span class="tl-label">Paper</span><a href="#pub-ckc">Conventional Knowledge Commits</a> <span class="tl-meta">(in prep)</span></p>
                         <p class="tl-line"><span class="tl-label">Writing</span><a href="https://quemy.info/2026-07-06-machine-checked-maths-llm-in-the-loop.html" target="_blank" rel="noopener" class="ext-link">Machine-checked mathematics, with an LLM in the loop</a></p>
                         <p class="tl-line"><span class="tl-label">Tools</span><a href="https://conventional-knowledge-commits.org/" target="_blank" rel="noopener" class="ext-link">Conventional Knowledge Commits</a> · <a href="https://claimgraph.conventional-knowledge-commits.org/" target="_blank" rel="noopener" class="ext-link">ClaimGraph</a></p>
                     </div>
                     <div class="thread-item">
+                        <h4><i class="fas fa-layer-group"></i> Sequence Models &amp; Efficient Architectures</h4>
+                        <p>Discrete, memory-shaped alternatives to attention, built for long-context retrieval and precise editing. Hypergraph Case-Based Reasoning, the classification method from my doctoral work, recast as a sub-quadratic primitive that drops into both transformer sublayers: tokens are projected onto features, the top few are kept as a hyperedge, and a learned set-intersection read replaces the query-key product in linear time and constant state. The all-subsets match kernel over those code sets is exactly the softmax kernel, which puts linear attention and softmax at two ends of one interaction-degree axis.</p>
+                    </div>
+                    <div class="thread-item">
                         <h4><i class="fas fa-robot"></i> Agentic Systems</h4>
-                        <p>Reactive agent runtimes with real-time block extraction (Streamblocks), speculative tool execution, and grammar-constrained (XGrammar) decoding, plus in-progress research on SFT/RL to run capable agents on smaller, cheaper models.</p>
+                        <p>Reactive agent runtimes with real-time block extraction (Streamblocks), speculative tool execution, and grammar-constrained (XGrammar) decoding, plus in-progress research on SFT/RL to run capable agents on smaller, cheaper models. A benchmark campaign is under way on the parts that should be measurable rather than asserted: latency and token cost under speculative continuation, and whether text-mode tool calling lets models without native function calling compete.</p>
                         <p class="tl-line"><span class="tl-label">Tools</span><a href="https://github.com/hotherio/streamblocks" target="_blank" rel="noopener" class="ext-link">Streamblocks</a> · <span class="tl-muted">Reactive Agent <em>(coming soon)</em></span></p>
                     </div>
                 </div>
@@ -221,7 +228,7 @@
                         <p class="pub-title">“Intrinsic Green's Learning: Supervised Learning on Manifolds via Inverse PDE”</p>
                         <p class="pub-authors">Alexandre Quemy</p>
                         <p class="pub-venue">AI & PDE Workshop @ ICLR 2026, 2026</p>
-                        <p class="pub-note">Invited to extend for the IOP Focus Collection on AI & Partial Differential Equations (Machine Learning: Science and Technology / Machine Learning: Engineering).</p>
+                        <p class="pub-note">Invited to extend for the IOP Focus Collection on AI & Partial Differential Equations.</p>
                         
                         <div class="pub-links">
                             
@@ -238,12 +245,20 @@
                 
                     
                     <li>
-                        <p class="pub-title">“The Decoupling Index κ: A Coincidence Theorem for MLP Gating Structure, and the Counting Barrier to Detecting Computation in Superposition”</p>
+                        <p class="pub-title">“Function Lives Where Variance Doesn't: Task-Weighted Charts of a Language Model's Computation”</p>
                         <p class="pub-authors">Alexandre Quemy</p>
-                        <p class="pub-venue">BlackboxNLP Workshop, 2026<span class="status-badge">Under review</span></p>
+                        <p class="pub-venue">BlackboxNLP Workshop @ EMNLP 2026, 2026<span class="status-badge">Submitted</span></p>
                         
                         
                     </li>
+                    
+                
+                    
+                
+                    
+                
+                    
+                
                     
                 
                     
@@ -402,7 +417,7 @@
                                 <p class="pub-title">“Intrinsic Green's Learning: Supervised Learning on Manifolds via Inverse PDE”</p>
                                 <p class="pub-authors">Alexandre Quemy</p>
                                 <p class="pub-venue">AI & PDE Workshop @ ICLR 2026</p>
-                                <p class="pub-note">Invited to extend for the IOP Focus Collection on AI & Partial Differential Equations (Machine Learning: Science and Technology / Machine Learning: Engineering).</p>
+                                <p class="pub-note">Invited to extend for the IOP Focus Collection on AI & Partial Differential Equations.</p>
                                 
                                 <div class="pub-links">
                                     
@@ -423,10 +438,25 @@
                             <div class="year-badge">
                                  
                             </div>
-                            <div class="flex-1 list-item-hover" id="pub-kappa" style="scroll-margin-top: 6rem;">
-                                <p class="pub-title">“The Decoupling Index κ: A Coincidence Theorem for MLP Gating Structure, and the Counting Barrier to Detecting Computation in Superposition”</p>
+                            <div class="flex-1 list-item-hover" id="pub-charts" style="scroll-margin-top: 6rem;">
+                                <p class="pub-title">“Function Lives Where Variance Doesn't: Task-Weighted Charts of a Language Model's Computation”</p>
                                 <p class="pub-authors">Alexandre Quemy</p>
-                                <p class="pub-venue">BlackboxNLP Workshop<span class="status-badge">Under review</span></p>
+                                <p class="pub-venue">BlackboxNLP Workshop @ EMNLP 2026<span class="status-badge">Submitted</span></p>
+                                
+                                
+                            </div>
+                        </div>
+                        
+                    
+                        
+                        <div class="flex items-start gap-x-6">
+                            <div class="year-badge">
+                                 
+                            </div>
+                            <div class="flex-1 list-item-hover" id="pub-quantum-eeg" style="scroll-margin-top: 6rem;">
+                                <p class="pub-title">“Benchmarking Quantum Classifiers for Resting-State EEG”</p>
+                                <p class="pub-authors">Grégoire Cattan, Alexandre Quemy, Ulvi Movsum-zada</p>
+                                <p class="pub-venue">Scientific Reports<span class="status-badge">Submitted</span></p>
                                 
                                 
                             </div>
@@ -453,11 +483,56 @@
                             <div class="year-badge">
                                  
                             </div>
+                            <div class="flex-1 list-item-hover" id="pub-igl-mlst" style="scroll-margin-top: 6rem;">
+                                <p class="pub-title">“Intrinsic Green's Learning for Sparse Field Reconstruction: Compensated Sources and Nonidentifiable Charts”</p>
+                                <p class="pub-authors">Alexandre Quemy</p>
+                                <p class="pub-venue">Machine Learning: Science and Technology (IOP)<span class="status-badge">In preparation</span></p>
+                                <p class="pub-note">Invited contribution to the IOP Focus Collection on AI & Partial Differential Equations, extending the ICLR 2026 workshop paper. Reconstructs physical fields from scattered samples alone, with no operator, mesh, source or boundary conditions, and proves that the chart it learns is not identifiable from the fit.</p>
+                                
+                            </div>
+                        </div>
+                        
+                    
+                        
+                        <div class="flex items-start gap-x-6">
+                            <div class="year-badge">
+                                 
+                            </div>
+                            <div class="flex-1 list-item-hover" id="pub-kappa" style="scroll-margin-top: 6rem;">
+                                <p class="pub-title">“When Is Binarized MLP Analysis Faithful? A Per-Layer Certificate from the Gating Matrix”</p>
+                                <p class="pub-authors">Alexandre Quemy</p>
+                                <p class="pub-venue">BlackboxNLP Workshop @ EMNLP 2026 (target)<span class="status-badge">In preparation</span></p>
+                                
+                                
+                            </div>
+                        </div>
+                        
+                    
+                        
+                        <div class="flex items-start gap-x-6">
+                            <div class="year-badge">
+                                 
+                            </div>
                             <div class="flex-1 list-item-hover" id="pub-igl-wic" style="scroll-margin-top: 6rem;">
                                 <p class="pub-title">“Intrinsic Green's Learning Reveals Low-Dimensional Geometric Structure in Contextual Word Embeddings”</p>
                                 <p class="pub-authors">Alexandre Quemy</p>
                                 <p class="pub-venue">Workshop on Word-in-Context (WiC)<span class="status-badge">In preparation</span></p>
                                 
+                                
+                            </div>
+                        </div>
+                        
+                    
+                        
+                        <div class="flex items-start gap-x-6">
+                            <div class="year-badge">
+                                 
+                            </div>
+                            <div class="flex-1 list-item-hover" id="pub-igl-dimensions" style="scroll-margin-top: 6rem;">
+                                <p class="pub-title">“How Many Coordinates Does a Task Need? A Dimension Hierarchy for Learned Charts”</p>
+                                <p class="pub-authors">Alexandre Quemy</p>
+                                <p class="pub-venue">Machine Learning: Science and Technology (IOP)<span class="status-badge">In preparation</span></p>
+                                <p class="pub-note">Companion to the sparse field reconstruction paper: classification, regression and reconstruction each require a different number of coordinates, and the tiers are provably ordered.</p>
                                 
                             </div>
                         </div>
@@ -483,11 +558,19 @@
                             <div class="year-badge">
                                  
                             </div>
-                            <div class="flex-1 list-item-hover" id="pub-quantum-eeg" style="scroll-margin-top: 6rem;">
-                                <p class="pub-title">“Benchmarking Quantum Classifiers for Resting-State EEG”</p>
-                                <p class="pub-authors">Grégoire Cattan, Alexandre Quemy, Ulvi Movsum-zada</p>
-                                <p class="pub-venue">Scientific Reports<span class="status-badge">Submitted</span></p>
+                            <div class="flex-1 list-item-hover" id="pub-ckc" style="scroll-margin-top: 6rem;">
+                                <p class="pub-title">“Conventional Knowledge Commits: Semantic Commits and the ClaimGraph for Mathematical Projects”</p>
+                                <p class="pub-authors">Alexandre Quemy</p>
+                                <p class="pub-venue">Under submission (CPP / CICM / ITP)<span class="status-badge">In preparation</span></p>
+                                <p class="pub-note">Records each knowledge event on two axes, dependency impact and epistemic status, with the status of formalized results bound to the proof assistant through #print axioms.</p>
                                 
+                                <div class="pub-links">
+                                    
+                                    <a href="https://conventional-knowledge-commits.org/" target="_blank"><i class="fas fa-link"></i> Website</a>
+                                    
+                                    <a href="https://github.com/hotherio/conventional-knowledge-commits" target="_blank"><i class="fab fa-github"></i> Code</a>
+                                    
+                                </div>
                                 
                             </div>
                         </div>
@@ -543,6 +626,14 @@
                     
                 
                     
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
                     
                         
                     
@@ -731,6 +822,14 @@
                         
                     
                         
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
                         <div class="flex items-start gap-x-6">
                             <div class="year-badge">
                                 2022
@@ -791,6 +890,14 @@
                     
                 
                     
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
                     
                         
                     
@@ -987,6 +1094,14 @@
                         
                     
                         
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
                         <div class="flex items-start gap-x-6">
                             <div class="year-badge">
                                 2020
@@ -1125,6 +1240,14 @@
                         
                     
                         
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
                         <div class="flex items-start gap-x-6">
                             <div class="year-badge">
                                 2019
@@ -1190,6 +1313,14 @@
                     
                 
                     
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
                     
                         
                     
@@ -1376,6 +1507,14 @@
                         
                     
                         
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
                         <div class="flex items-start gap-x-6">
                             <div class="year-badge">
                                 2017
@@ -1406,6 +1545,14 @@
                     
                 
                     
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
                     
                         
                     
@@ -1548,6 +1695,18 @@
                             <a href="https://hotherio.github.io/intrinsic-green-learning/latest/" target="_blank"><i class="fas fa-book"></i> Docs</a>
                             
                         </div>
+                        
+                    </div>
+                    
+                    <div class="software-card">
+                        <div class="sw-head">
+                            <h4>HCBR sequence primitive</h4>
+                            <span class="sw-lang">Python / PyTorch</span>
+                        </div>
+                        <p class="sw-role">Author · Early research</p>
+                        <p>Research implementation of Hypergraph Case-Based Reasoning as a sub-quadratic sequence primitive for both transformer sublayers: discrete top-m code sets read by learned set intersection, in linear time and constant state, aimed at long-context retrieval and precise editing.</p>
+                        
+                        <div class="pub-links"><span class="sw-lang">Not yet public</span></div>
                         
                     </div>
                     
@@ -1952,11 +2111,114 @@
                         
                         <div class="flex items-start gap-x-6 list-item-hover">
                             <div class="year-badge">
+                                2026
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-semibold text-ink dark:text-dark-ink">“Learning as Solving the Right PDE: Geometry, separability, curved manifolds and the structure hiding inside every learning problem”</p>
+                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">Elements Scientific Conference (Studencka Konferencja Naukowa), Studenckie Koło Matematyków AGH, Cracow, Poland<span class="status-badge">Upcoming</span></p>
+                                <p class="pub-note">23 October 2026.</p>
+                                
+                            </div>
+                        </div>
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                
+                    
+                    
+                        
+                    
+                        
+                        <div class="flex items-start gap-x-6 list-item-hover">
+                            <div class="year-badge">
+                                2025
+                            </div>
+                            <div class="flex-1">
+                                <p class="font-semibold text-ink dark:text-dark-ink">“LLM Function Calling: a Signature Model Approach”</p>
+                                <p class="text-sm text-stone-500 dark:text-stone-400 italic">Data Science Summit 2025, AI // ML Edition, Warsaw, Poland</p>
+                                <p class="pub-note">A client-side alternative to native function calling, with benefits in cost, agentic capabilities and scalability.</p>
+                                
+                                <div class="flex flex-wrap gap-x-4 mt-2">
+                                    
+                                    <a href="./2025-15-06-signature-function-models.html" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
+                                        <i class="far fa-newspaper"></i> Article
+                                    </a>
+                                    
+                                </div>
+                                
+                            </div>
+                        </div>
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                        
+                    
+                
+                    
+                    
+                        
+                    
+                        
+                    
+                        
+                        <div class="flex items-start gap-x-6 list-item-hover">
+                            <div class="year-badge">
                                 2020
                             </div>
                             <div class="flex-1">
                                 <p class="font-semibold text-ink dark:text-dark-ink">“A Better Approach to Data Science: the example of COVID 19”</p>
                                 <p class="text-sm text-stone-500 dark:text-stone-400 italic">HackYeah, Online Webinar</p>
+                                
                                 
                                 <div class="flex flex-wrap gap-x-4 mt-2">
                                     
@@ -1986,6 +2248,7 @@
                             <div class="flex-1">
                                 <p class="font-semibold text-ink dark:text-dark-ink">“PCI Passthrough with Consumer GPU”</p>
                                 <p class="text-sm text-stone-500 dark:text-stone-400 italic">IBM Vitality Talks Cracow, Poland</p>
+                                
                                 
                                 <div class="flex flex-wrap gap-x-4 mt-2">
                                     
@@ -2029,6 +2292,10 @@
                         
                     
                         
+                    
+                        
+                    
+                        
                         <div class="flex items-start gap-x-6 list-item-hover">
                             <div class="year-badge">
                                 2019
@@ -2036,6 +2303,7 @@
                             <div class="flex-1">
                                 <p class="font-semibold text-ink dark:text-dark-ink">“Is practical AutoML more than CASH?”</p>
                                 <p class="text-sm text-stone-500 dark:text-stone-400 italic">GHOST Day: a practical machine learning conference Poznan, Poland</p>
+                                
                                 
                                 <div class="flex flex-wrap gap-x-4 mt-2">
                                     
@@ -2057,6 +2325,7 @@
                             <div class="flex-1">
                                 <p class="font-semibold text-ink dark:text-dark-ink">“Towards Data Pipeline Selection and Optimization”</p>
                                 <p class="text-sm text-stone-500 dark:text-stone-400 italic">IBM CEE Regional Technical Exchange Budapest, Hungary</p>
+                                
                                 
                             </div>
                         </div>
@@ -2092,6 +2361,10 @@
                         
                     
                         
+                    
+                        
+                    
+                        
                         <div class="flex items-start gap-x-6 list-item-hover">
                             <div class="year-badge">
                                 2018
@@ -2099,6 +2372,7 @@
                             <div class="flex-1">
                                 <p class="font-semibold text-ink dark:text-dark-ink">“Towards Data Pipeline Optimization”</p>
                                 <p class="text-sm text-stone-500 dark:text-stone-400 italic">PyData Warsaw Cracow, Poland</p>
+                                
                                 
                                 <div class="flex flex-wrap gap-x-4 mt-2">
                                     
@@ -2125,6 +2399,7 @@
                                 <p class="font-semibold text-ink dark:text-dark-ink">“AI for the legal domain: an explainability challenge (extended)”</p>
                                 <p class="text-sm text-stone-500 dark:text-stone-400 italic">IBM Vitality Talks Cracow, Poland</p>
                                 
+                                
                                 <div class="flex flex-wrap gap-x-4 mt-2">
                                     
                                     <a href="./static/slides/IFIP_extended.pptx" target="_blank" class="text-sm font-semibold text-accent-light dark:text-accent-dark hover:underline">
@@ -2145,6 +2420,7 @@
                             <div class="flex-1">
                                 <p class="font-semibold text-ink dark:text-dark-ink">“Artificial Intelligence Microservices for NLP”</p>
                                 <p class="text-sm text-stone-500 dark:text-stone-400 italic">IBM Vitality Talks Cracow, Poland</p>
+                                
                                 
                             </div>
                         </div>
@@ -2180,6 +2456,10 @@
                         
                     
                         
+                    
+                        
+                    
+                        
                         <div class="flex items-start gap-x-6 list-item-hover">
                             <div class="year-badge">
                                 2017
@@ -2187,6 +2467,7 @@
                             <div class="flex-1">
                                 <p class="font-semibold text-ink dark:text-dark-ink">“Can we really compare our algorithms? Beyond worst-case time complexity”</p>
                                 <p class="text-sm text-stone-500 dark:text-stone-400 italic">IBM Vitality Talks Cracow, Poland</p>
+                                
                                 
                             </div>
                         </div>
@@ -2200,6 +2481,7 @@
                             <div class="flex-1">
                                 <p class="font-semibold text-ink dark:text-dark-ink">“IBM Watson Services in Scala”</p>
                                 <p class="text-sm text-stone-500 dark:text-stone-400 italic">ScalaSphere Cracow, Poland</p>
+                                
                                 
                                 <div class="flex flex-wrap gap-x-4 mt-2">
                                     
@@ -2225,6 +2507,7 @@
                             <div class="flex-1">
                                 <p class="font-semibold text-ink dark:text-dark-ink">“Data Science Techniques for Law and Justice: Current State of Research and Open Problems”</p>
                                 <p class="text-sm text-stone-500 dark:text-stone-400 italic">IBM Vitality Talks Cracow, Poland</p>
+                                
                                 
                                 <div class="flex flex-wrap gap-x-4 mt-2">
                                     
@@ -2268,6 +2551,10 @@
                         
                     
                         
+                    
+                        
+                    
+                        
                         <div class="flex items-start gap-x-6 list-item-hover">
                             <div class="year-badge">
                                 2016
@@ -2275,6 +2562,7 @@
                             <div class="flex-1">
                                 <p class="font-semibold text-ink dark:text-dark-ink">“Intelligent Home Automation, combining IoT and Machine Learning”</p>
                                 <p class="text-sm text-stone-500 dark:text-stone-400 italic">KrakYourNet 7 Cracow, Poland</p>
+                                
                                 
                                 <div class="flex flex-wrap gap-x-4 mt-2">
                                     
@@ -2296,6 +2584,7 @@
                             <div class="flex-1">
                                 <p class="font-semibold text-ink dark:text-dark-ink">“CESTAC: Stochastic estimation and control of rounding floatting point errors”</p>
                                 <p class="text-sm text-stone-500 dark:text-stone-400 italic">IBM Vitality Talks Cracow, Poland</p>
+                                
                                 
                                 <div class="flex flex-wrap gap-x-4 mt-2">
                                     
@@ -2321,6 +2610,7 @@
                             <div class="flex-1">
                                 <p class="font-semibold text-ink dark:text-dark-ink">“General Parallel File System (GPFS) presentation and administration”</p>
                                 <p class="text-sm text-stone-500 dark:text-stone-400 italic">IBM Vitality Talks Cracow, Poland</p>
+                                
                                 
                                 <div class="flex flex-wrap gap-x-4 mt-2">
                                     

@@ -49,6 +49,13 @@
       <description>Like many technical folks these days, I use Claude Code constantly. But here’s the thing - I’m usually running multiple Claude sessions in parallel…</description>
     </item>
     <item>
+      <title>Signature Model Tutorial Part 1 - Introduction to the Function Calling</title>
+      <link>https://quemy.info/2025-15-06-tutorial-fsm-1.html</link>
+      <guid isPermaLink="true">https://quemy.info/2025-15-06-tutorial-fsm-1.html</guid>
+      <pubDate>Sun, 15 Jun 2025 00:00:00 +0000</pubDate>
+      <description>This blog post is the part 1 of the tutorial on the Signature Model approach to function calling. The following interactive tutorial is embedded directly…</description>
+    </item>
+    <item>
       <title>Signature Model Tutorial Part 3 - Introduction to the Signature Model</title>
       <link>https://quemy.info/2025-15-06-tutorial-fsm-3.html</link>
       <guid isPermaLink="true">https://quemy.info/2025-15-06-tutorial-fsm-3.html</guid>
@@ -63,13 +70,6 @@
       <description>This blog post is the part 2 of the tutorial on the Signature Model approach to function calling. The following interactive tutorial is embedded directly…</description>
     </item>
     <item>
-      <title>Function Calling in LLMs: A Signature Model Approach</title>
-      <link>https://quemy.info/2025-15-06-signature-function-models.html</link>
-      <guid isPermaLink="true">https://quemy.info/2025-15-06-signature-function-models.html</guid>
-      <pubDate>Sun, 15 Jun 2025 00:00:00 +0000</pubDate>
-      <description>This blog post is an introduction to the Signature Model approach to function calling. The following repository contains a collection of tutorials…</description>
-    </item>
-    <item>
       <title>Signature Model Tutorial Part 4 - SFM and Dependency Resolution</title>
       <link>https://quemy.info/2025-15-06-tutorial-fsm-4.html</link>
       <guid isPermaLink="true">https://quemy.info/2025-15-06-tutorial-fsm-4.html</guid>
@@ -77,11 +77,11 @@
       <description>This blog post is the part 4 of the tutorial on the Signature Model approach to function calling. The following interactive tutorial is embedded directly…</description>
     </item>
     <item>
-      <title>Signature Model Tutorial Part 1 - Introduction to the Function Calling</title>
-      <link>https://quemy.info/2025-15-06-tutorial-fsm-1.html</link>
-      <guid isPermaLink="true">https://quemy.info/2025-15-06-tutorial-fsm-1.html</guid>
+      <title>Function Calling in LLMs: A Signature Model Approach</title>
+      <link>https://quemy.info/2025-15-06-signature-function-models.html</link>
+      <guid isPermaLink="true">https://quemy.info/2025-15-06-signature-function-models.html</guid>
       <pubDate>Sun, 15 Jun 2025 00:00:00 +0000</pubDate>
-      <description>This blog post is the part 1 of the tutorial on the Signature Model approach to function calling. The following interactive tutorial is embedded directly…</description>
+      <description>This blog post is an introduction to the Signature Model approach to function calling. The following repository contains a collection of tutorials…</description>
     </item>
     <item>
       <title>Stop using "Correlation is not causation" and maybe stop using correlation</title>
@@ -147,6 +147,13 @@
       <description>Le billet qui suit est une tentative de mettre en exergue l’omniprésence des mathématiques et l’utilisation des mathématiques dans nos sociétés. J’essaye…</description>
     </item>
     <item>
+      <title>Island Model with ParadisEO: components and basics</title>
+      <link>https://quemy.info/2013-11-23-island-model-with-paradiseo-components-and-basics.html</link>
+      <guid isPermaLink="true">https://quemy.info/2013-11-23-island-model-with-paradiseo-components-and-basics.html</guid>
+      <pubDate>Sat, 23 Nov 2013 00:00:00 +0000</pubDate>
+      <description>The purpose of this article is to present how to create an homogeneous island model, that is to say with the same Evolutionary Algorithm (EA) on each…</description>
+    </item>
+    <item>
       <title>Island Model with ParadisEO: advanced island model manipulations</title>
       <link>https://quemy.info/2013-11-23-island-model-with-paradiseo-advanced-island-model-manipulations.html</link>
       <guid isPermaLink="true">https://quemy.info/2013-11-23-island-model-with-paradiseo-advanced-island-model-manipulations.html</guid>
@@ -159,13 +166,6 @@
       <guid isPermaLink="true">https://quemy.info/2013-11-23-island-model-with-paradiseo-heterogeneous-island-model.html</guid>
       <pubDate>Sat, 23 Nov 2013 00:00:00 +0000</pubDate>
       <description>Depending on the problem, one might want to create a model that contains different types of algorithms such as Evolutionary Algorithms or Particle Swarm…</description>
-    </item>
-    <item>
-      <title>Island Model with ParadisEO: components and basics</title>
-      <link>https://quemy.info/2013-11-23-island-model-with-paradiseo-components-and-basics.html</link>
-      <guid isPermaLink="true">https://quemy.info/2013-11-23-island-model-with-paradiseo-components-and-basics.html</guid>
-      <pubDate>Sat, 23 Nov 2013 00:00:00 +0000</pubDate>
-      <description>The purpose of this article is to present how to create an homogeneous island model, that is to say with the same Evolutionary Algorithm (EA) on each…</description>
     </item>
     <item>
       <title>Modèle de parallélisme en îles pour des métaheuristiques</title>
@@ -182,18 +182,18 @@
       <description>L’objectif de cet article est de présenter les différents types de liaisons en C++. Pour cela, nous introduirons la notion de liaisons et donnerons…</description>
     </item>
     <item>
-      <title>Réflexions sur la complexité algorithmique</title>
-      <link>https://quemy.info/2013-03-14-reflexions-sur-la-complexite-algorithmique.html</link>
-      <guid isPermaLink="true">https://quemy.info/2013-03-14-reflexions-sur-la-complexite-algorithmique.html</guid>
-      <pubDate>Fri, 26 Jul 2013 00:00:00 +0000</pubDate>
-      <description>L’article qui suit présuppose quelques notions basiques d’algorithmique et de calcul de complexité (temporelle). Il vise à aborder deux grandes erreurs…</description>
-    </item>
-    <item>
       <title>Idiome NVI &amp;amp; paramétrage par politique en C++</title>
       <link>https://quemy.info/2013-07-26-idiome-nvi-and-parametrage-par-politique-en-c-plus-plus.html</link>
       <guid isPermaLink="true">https://quemy.info/2013-07-26-idiome-nvi-and-parametrage-par-politique-en-c-plus-plus.html</guid>
       <pubDate>Fri, 26 Jul 2013 00:00:00 +0000</pubDate>
       <description>Cet article, sur le C++, vise à présenter d’une part l’idiome NVI , pour « Non Virtual Interface », et d’autre part, une technique de conception…</description>
+    </item>
+    <item>
+      <title>Réflexions sur la complexité algorithmique</title>
+      <link>https://quemy.info/2013-03-14-reflexions-sur-la-complexite-algorithmique.html</link>
+      <guid isPermaLink="true">https://quemy.info/2013-03-14-reflexions-sur-la-complexite-algorithmique.html</guid>
+      <pubDate>Fri, 26 Jul 2013 00:00:00 +0000</pubDate>
+      <description>L’article qui suit présuppose quelques notions basiques d’algorithmique et de calcul de complexité (temporelle). Il vise à aborder deux grandes erreurs…</description>
     </item>
   </channel>
 </rss>
