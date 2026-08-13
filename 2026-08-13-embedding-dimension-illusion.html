@@ -1,0 +1,1014 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PWL24785Z6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-PWL24785Z6');
+    </script>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Alexandre Quemy" />
+    <meta name="description" content="We measured the intrinsic dimension of five token-embedding tables, from GPT-2 to a 2.8-trillion-parameter model, twice: once the standard way, once patch by patch. The standard number is wrong by a factor of 2 to 5 in every model, and the reason it is wrong tells you something real about how vocabularies are organized." />
+    <title>Your Embedding Dimension Is a Statistical Illusion</title>
+
+    <link rel="canonical" href="https://quemy.info/2026-08-13-embedding-dimension-illusion.html" />
+    <meta name="theme-color" content="#F8F6F1" />
+    <link rel="shortcut icon" href="https://quemy.info/favicon.ico" />
+    <link rel="alternate" type="application/rss+xml" title="Alexandre Quemy" href="https://quemy.info/rss.xml" />
+
+    <!-- Social cards: default site-level; blog posts override the `social` block with article data -->
+    
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://quemy.info/2026-08-13-embedding-dimension-illusion.html" />
+    <meta property="og:title" content="Your Embedding Dimension Is a Statistical Illusion" />
+    <meta property="og:description" content="We measured the intrinsic dimension of five token-embedding tables, from GPT-2 to a 2.8-trillion-parameter model, twice: once the standard way, once patch by patch. The standard number is wrong by a factor of 2 to 5 in every model, and the reason it is wrong tells you something real about how vocabularies are organized." />
+    <meta property="og:image" content="https://quemy.info/og/2026-08-13-embedding-dimension-illusion.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="Alexandre Quemy" />
+    <meta property="article:published_time" content="2026-08-01T12:00:00Z" />
+    <meta property="article:author" content="Alexandre Quemy" />
+    <meta property="article:tag" content="LLM" />
+    <meta property="article:tag" content="Embeddings" />
+    <meta property="article:tag" content="Geometry" />
+    <meta property="article:tag" content="Intrinsic Dimension" />
+    <meta property="article:tag" content="Interpretability" />
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@alexandre_quemy" />
+    <meta name="twitter:creator" content="@alexandre_quemy" />
+    <meta name="twitter:title" content="Your Embedding Dimension Is a Statistical Illusion" />
+    <meta name="twitter:description" content="We measured the intrinsic dimension of five token-embedding tables, from GPT-2 to a 2.8-trillion-parameter model, twice: once the standard way, once patch by patch. The standard number is wrong by a factor of 2 to 5 in every model, and the reason it is wrong tells you something real about how vocabularies are organized." />
+    <meta name="twitter:image" content="https://quemy.info/og/2026-08-13-embedding-dimension-illusion.png" />
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "Your Embedding Dimension Is a Statistical Illusion",
+      "description": "We measured the intrinsic dimension of five token-embedding tables, from GPT-2 to a 2.8-trillion-parameter model, twice: once the standard way, once patch by patch. The standard number is wrong by a factor of 2 to 5 in every model, and the reason it is wrong tells you something real about how vocabularies are organized.",
+      "datePublished": "2026-08-01T12:00:00Z",
+      "dateModified": "2026-08-01T12:00:00Z",
+      "image": "https://quemy.info/og/2026-08-13-embedding-dimension-illusion.png",
+      "url": "https://quemy.info/2026-08-13-embedding-dimension-illusion.html",
+      "inLanguage": "en",
+      "mainEntityOfPage": {"@type": "WebPage", "@id": "https://quemy.info/2026-08-13-embedding-dimension-illusion.html"},
+      "author": {"@type": "Person", "name": "Alexandre Quemy", "url": "https://quemy.info/"},
+      "publisher": {"@type": "Person", "name": "Alexandre Quemy", "url": "https://quemy.info/"},
+      "keywords": "LLM, Embeddings, Geometry, Intrinsic Dimension, Interpretability"
+    }
+    </script>
+
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Alexandre Quemy",
+      "url": "https://quemy.info/",
+      "author": {
+        "@type": "Person",
+        "name": "Alexandre Quemy",
+        "url": "https://quemy.info/",
+        "email": "alexandre@quemy.info",
+        "sameAs": [
+          "https://github.com/aquemy",
+          "https://www.linkedin.com/in/aquemy"
+        ]
+      }
+    }
+    </script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Source Sans Pro', 'sans-serif'],
+              serif: ['STIX Two Text', 'Georgia', 'serif'],
+              mono: ['Roboto Mono', 'monospace'],
+            },
+            colors: {
+              paper: '#F8F6F1',     // original warm off-white
+              surface: '#f5ede0',   // warm cream - accents only (code, cards, TOC)
+              ink: '#2A2927',
+              accent: {
+                light: '#D97706', // amber-600
+                dark: '#FBBF24'   // amber-400
+              },
+              'dark-bg': '#1c1917',
+              'dark-ink': '#E7E2D6',
+            }
+          }
+        }
+      }
+    </script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Sans+Pro:wght@400;600;700&family=Roboto+Mono&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX for Math Rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, { delimiters: [ {left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}, {left: '\\(', right: '\\)', display: false}, {left: '\\[', right: '\\]', display: true} ]});"></script>
+    
+    <!-- Custom Styles and Theming -->
+    <link rel="stylesheet" href="https://quemy.info/css/custom.css">
+    <link rel="stylesheet" href="https://quemy.info/css/friendly.css">
+
+    <script>
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+</head>
+<body class="bg-paper dark:bg-dark-bg text-ink dark:text-dark-ink font-sans transition-colors duration-500 antialiased">
+    
+    <!-- Background Animation Layer (only populated on index.html) -->
+    <div class="fixed inset-0 z-0">
+        
+    </div>
+
+    <!-- Main Content Layer -->
+    <div class="relative z-10">
+        <nav class="w-full max-w-4xl mx-auto py-6 px-4 flex justify-between items-center">
+    <a href="./index.html" class="font-serif text-xl font-bold hover:text-accent-light dark:hover:text-accent-dark transition-colors">
+        Alexandre Quemy
+    </a>
+    <div class="flex items-center space-x-6">
+        <div class="hidden md:flex items-center space-x-6 text-sm font-semibold tracking-wider uppercase">
+            <a href="./research.html" class="nav-link" data-page="research">Research</a>
+            <a href="./cv.html" class="nav-link" data-page="cv">CV</a>
+            <a href="./blog.html" class="nav-link" data-page="blog">Blog</a>
+        </div>
+        <button id="theme-toggle" class="w-8 h-8 flex items-center justify-center rounded-full text-ink dark:text-dark-ink hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+             <i id="theme-toggle-dark-icon" class="fas fa-moon hidden"></i>
+             <i id="theme-toggle-light-icon" class="fas fa-sun hidden"></i>
+        </button>
+        <button id="mobile-menu-button" class="md:hidden text-2xl">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div id="mobile-menu" class="hidden md:hidden fixed inset-0 bg-paper/80 dark:bg-dark-bg/80 backdrop-blur-sm z-50">
+    <div class="flex justify-end p-4">
+        <button id="mobile-menu-close" class="text-3xl">×</button>
+    </div>
+    <div class="flex flex-col items-center justify-center h-full space-y-8 text-2xl font-semibold tracking-wider uppercase">
+        <a href="./index.html" class="nav-link" data-page="index">Home</a>
+        <a href="./research.html" class="nav-link" data-page="research">Research</a>
+        <a href="./cv.html" class="nav-link" data-page="cv">CV</a>
+        <a href="./blog.html" class="nav-link" data-page="blog">Blog</a>
+    </div>
+</div>
+        <main>  <!-- class="fade-in"> -->
+            
+<div class="w-full max-w-7xl mx-auto py-12 px-4">
+    <!-- Header moved outside the grid for proper alignment -->
+    <header class="max-w-5xl mx-auto mb-12 text-center lg:text-left">
+        <a href="https://quemy.info/blog.html" class="post-meta text-accent-light dark:text-accent-dark hover:underline mb-6 inline-block">← Back to all posts</a>
+        <h1 class="font-serif text-4xl md:text-5xl font-bold text-ink dark:text-dark-ink leading-tight">Your Embedding Dimension Is a Statistical Illusion</h1>
+        <p class="post-meta mt-4">LLM · 2026-08-01 · 20 min read</p>
+    </header>
+
+    <div class="lg:grid lg:grid-cols-5 lg:gap-16">
+        <!-- Sticky Sidebar for Table of Contents (now wider) -->
+        <aside class="hidden lg:block lg:col-span-1">
+            <div class="sticky top-24">
+                <h3 class="font-semibold text-sm uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-4">ON THIS PAGE</h3>
+                <div id="toc-sidebar">
+                    <!-- ToC will be moved here by JavaScript -->
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Main Article Content -->
+        <div class="lg:col-span-4">
+            <article class="fade-in">
+                <div id="prose-content" class="prose lg:prose-lg dark:prose-invert max-w-none">
+                    <div class="toc">
+<ul>
+<li><a href="#the-lookup-table-and-the-number-everyone-reports">The lookup table and the number everyone reports</a></li>
+<li><a href="#how-dimension-is-measured-and-the-assumption-everyone-forgets">How dimension is measured, and the assumption everyone forgets</a></li>
+<li><a href="#how-we-know-the-islands-are-real">How we know the islands are real</a></li>
+<li><a href="#the-fix-to-twonn-measure-inside-coherent-patches">The fix to TwoNN: measure inside coherent patches</a></li>
+<li><a href="#the-result">The result</a></li>
+<li><a href="#why-it-matters">Why it matters</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+</div>
+<p>This post is about the geometry of a language model’s token-embedding table, measured for five models from GPT-2 to the 2.8-trillion-parameter Kimi K3. Three findings. First, <strong>a vocabulary is not a single manifold: it is an archipelago</strong>, islands of tokens (word families, scripts, code, numbers) with real space between them, and we verify the islands directly, through graph connectivity, spectral structure, and their semantic coherence. Second, because of that structure, the intrinsic dimension the literature reports is inflated by construction: the standard TwoNN estimator assumes one manifold, and on a mixture it measures how the islands are arranged rather than the shape of anything a token lives on, <strong>overstating the global number by a factor of 2 to 5 in every model</strong> and mis-sizing every instrument tuned by it. Third, we propose the fix, measuring inside islands, and the honest numbers tell a different story: <mark>the local dimension tracks token frequency rather than model scale, and its median barely moves from 15.5 in a 160M-parameter model to 38 in the 2.8-trillion-parameter K3, while the global estimate swings from 29 to 180</mark>.</p>
+<h3 id="the-lookup-table-and-the-number-everyone-reports">The lookup table and the number everyone reports<a class="headerlink" href="#the-lookup-table-and-the-number-everyone-reports" title="Permanent link">¶</a></h3>
+<p>Every language model begins with a lookup table: one vector per token in its
+vocabulary. For GPT-2 that is 50,257 vectors in 768 dimensions; for Kimi K3,
+the largest open-weight model released to date, it is 163,840 vectors in
+7,168 dimensions. This table is where every input enters the network. In
+weight-tied architectures, where the same matrix also scores the output
+logits, it is the frame in which the output distribution is computed as
+well. In this study, three of the five models tie (GPT-2, Qwen, Gemma), two
+do not (Pythia, K3).
+It is also a complete object: every token is there, with no sampling and no
+inference required, which makes it one of the few parts of a frontier model
+you can study exhaustively on a laptop.</p>
+<p>Despite this importance, the embedding table is rarely studied as an object
+in its own right. The field’s attention goes to the residual stream, to
+activations, and to the weights, the home ground of mechanistic
+interpretability, and the table mostly appears as a preprocessing detail. I
+have a strong conviction, which a series of experiments and articles here
+will put to the test: there is life in the token embedding, geometry of its
+own, formed by training and carried into the network: a structured substrate
+that the rest of the model receives and manipulates along the residual
+stream. This first post establishes the most basic fact about that geometry:
+its shape.</p>
+<p>A natural first question about any cloud of points is how many dimensions it
+really uses. Not the ambient count of 768 or 7,168 columns, but the
+intrinsic dimension: how many coordinates you would need to describe where a
+point can actually be. This question is important because whatever
+you do with an embedding table next, whether you reduce it, cluster it,
+chart it, probe it, or compress it, you will pick ranks, neighborhood sizes,
+and model capacities based on some belief about its dimension. The
+literature answers with single numbers, “the intrinsic dimension of the
+representation is about d,” because the default assumption is
+the manifold hypothesis [<a href="https://arxiv.org/abs/1310.0425">Fefferman et al., 2016</a>]:
+that the tokens live on one lower-dimensional manifold. A few papers have questioned that
+default, proposing a
+union of disjoint manifolds of varying dimension for image data
+[<a href="https://arxiv.org/abs/2207.02862">Brown et al., 2023</a>], or showing that
+token embeddings fail statistical tests of the manifold hypothesis
+altogether [<a href="https://arxiv.org/abs/2504.01002">Robinson et al., 2025</a>].</p>
+<p>We asked this question across five models spanning three orders of
+magnitude: GPT-2 (124M), Pythia-160M, Qwen2.5-0.5B, Gemma-4-31B, and Kimi K3
+(2.8T). The answers looked bizarre from the start. Pythia, a small model,
+measured 83. K3 measured 180. Gemma, three hundred times larger than Pythia,
+measured 29. <mark>Nothing about model scale, architecture, or training data
+explains this ordering.</mark></p>
+<h3 id="how-dimension-is-measured-and-the-assumption-everyone-forgets">How dimension is measured, and the assumption everyone forgets<a class="headerlink" href="#how-dimension-is-measured-and-the-assumption-everyone-forgets" title="Permanent link">¶</a></h3>
+<p>The most common estimator for intrinsic dimension is TwoNN
+[<a href="https://www.nature.com/articles/s41598-017-11873-y">Facco et al., 2017</a>].
+The idea is elegant. For each point, take the distance to its nearest neighbor and to
+its second-nearest neighbor. On a d-dimensional manifold, the ratio of these
+two distances follows a known distribution that depends only on d, so from
+the ratios across many points you can read the dimension directly, without
+ever building a global model of the data. It is fast, it has no bandwidth to
+tune, and it is everywhere in the representation-geometry literature, from studies
+of deep representations [<a href="https://arxiv.org/abs/1905.12784">Ansuini et al., 2019</a>]
+to the estimator surveys [<a href="https://arxiv.org/abs/2509.15517">Bi and Lafaye de Micheaux, 2025</a>].</p>
+<p>It also carries an assumption stated in the original paper and forgotten in
+most applications: the points should locally look like samples from <strong>one
+manifold</strong> with slowly varying density. Each point’s two nearest neighbors
+should be neighbors in the honest sense, nearby points of the same
+structure.</p>
+<p>What I found is that a token vocabulary is nothing like that. It is a federation of very
+different populations: inflected word families, code fragments, numbers,
+punctuation, several scripts, byte-level debris. These populations form
+separate clusters with real space between them. For tokens near a cluster’s
+edge, the nearest neighbor may be a genuine neighbor while the
+second-nearest sits across a gap in another cluster entirely. That
+inter-cluster distance enters the ratio statistic as if it were a local
+measurement. The estimator has no way to know its premise is broken, so it
+<mark>converts “my second neighbor is far away, across
+a gap” into “I must live in a very high-dimensional space.”</mark></p>
+<p>You can watch the artifact happen in miniature. The widget below holds the
+two ingredients every real vocabulary has: a set of flat, two-dimensional
+islands, and a population of isolated tokens scattered between them in a
+high-dimensional ambient space (512 dimensions here; think of the rare-token
+debris in the long tail of any vocabulary). The slider adds debris. <strong>No
+island ever changes, and each island’s own TwoNN stays at 2. The global
+estimate more than doubles</strong>, because every isolated token’s two nearest
+neighbors sit across between-island distances, and high dimension makes
+those distances nearly equal, which the estimator reads as high dimension.</p>
+<figure style="margin:2em 0;">
+<div class="igl-widget" id="igl-fig-2" style="border-radius:12px; border:1px solid #e2e8f0; overflow:hidden; padding:28px 20px 22px;">
+<style>#igl-fig-2 .tw-wrap { font:13px system-ui;color:#1a2330 }
+#igl-fig-2 .tw-row { display:flex;gap:22px;align-items:center;flex-wrap:wrap;margin-bottom:8px }
+#igl-fig-2 .tw-num { font:600 17px ui-monospace,monospace;color:#0e7a8f }
+#igl-fig-2 .tw-num.bad { color:#c0392b }
+#igl-fig-2 #tw-cv { width:100%;max-width:640px;border:1px solid #d5dde2;border-radius:6px }
+#igl-fig-2 input[type=range] { width:240px }</style>
+
+<div class="tw-wrap">
+<div class="tw-row">
+<label>isolated rare tokens added:
+  <input id="f2_tw-sl" max="8" min="0" step="1" type="range" value="0"/>
+<span class="tw-num" id="f2_tw-nd" style="color:#e67e22">0</span></label>
+<span>global TwoNN: <span class="tw-num bad" id="f2_tw-g">?</span></span>
+<span>median island TwoNN: <span class="tw-num" id="f2_tw-l">?</span></span>
+</div>
+<canvas height="360" id="f2_tw-cv" width="640"></canvas>
+<div style="color:#8697a3;margin-top:6px">Ten 2-D islands (teal) plus a
+growing population of isolated tokens (orange) scattered between them in a
+512-dimensional ambient space, the configuration every real vocabulary has.
+The islands never change, and their measured dimension stays at 2. The
+global estimate more than doubles, because the isolated tokens' neighbor
+distances are between-island distances, concentrated by high dimension.
+Numbers are precomputed with the standard TwoNN fit (top 10% of ratios
+discarded) on the actual 512-D configuration; the drawing is a 2-D
+schematic of it.</div>
+</div>
+
+
+<script>(function(){ 
+var Dt={"counts": [0, 25, 50, 75, 100, 125, 150, 175, 200], "glob": [2.06, 2.41, 2.75, 3.09, 3.39, 3.72, 4.04, 4.39, 4.73], "loc": 1.99, "isl": [[0.574, -0.005], [0.643, 0.041], [0.516, 0.034], [0.596, 0.013], [0.54, 0.08], [0.671, 0.066], [0.581, 0.1], [0.661, 0.062], [0.652, 0.136], [0.61, 0.034], [0.641, 0.092], [0.682, 0.008], [0.533, 0.314], [0.474, 0.367], [0.599, 0.319], [0.646, 0.405], [0.604, 0.382], [0.622, 0.286], [0.603, 0.393], [0.472, 0.379], [0.556, 0.403], [0.545, 0.359], [0.588, 0.311], [0.603, 0.354], [0.28, 0.595], [0.313, 0.657], [0.243, 0.658], [0.322, 0.722], [0.166, 0.672], [0.278, 0.619], [0.197, 0.693], [0.183, 0.655], [0.324, 0.536], [0.236, 0.552], [0.266, 0.707], [0.364, 0.526], [-0.249, 0.622], [-0.13, 0.606], [-0.258, 0.599], [-0.218, 0.572], [-0.258, 0.604], [-0.2, 0.578], [-0.229, 0.512], [-0.244, 0.649], [-0.228, 0.504], [-0.144, 0.612], [-0.101, 0.586], [-0.242, 0.503], [-0.444, 0.487], [-0.562, 0.31], [-0.484, 0.3], [-0.531, 0.326], [-0.506, 0.406], [-0.515, 0.396], [-0.54, 0.364], [-0.634, 0.266], [-0.473, 0.313], [-0.485, 0.375], [-0.444, 0.39], [-0.461, 0.339], [-0.685, -0.017], [-0.673, -0.039], [-0.676, 0.018], [-0.633, 0.005], [-0.752, 0.019], [-0.634, 0.083], [-0.615, -0.012], [-0.686, 0.134], [-0.605, 0.124], [-0.529, -0.022], [-0.625, 0.048], [-0.616, 0.053], [-0.462, -0.314], [-0.556, -0.332], [-0.514, -0.316], [-0.499, -0.289], [-0.428, -0.306], [-0.456, -0.318], [-0.498, -0.332], [-0.5, -0.302], [-0.472, -0.291], [-0.546, -0.274], [-0.515, -0.364], [-0.484, -0.354], [-0.178, -0.631], [-0.253, -0.646], [-0.122, -0.597], [-0.259, -0.599], [-0.28, -0.501], [-0.278, -0.573], [-0.164, -0.68], [-0.178, -0.545], [-0.169, -0.585], [-0.142, -0.591], [-0.176, -0.607], [-0.16, -0.652], [0.272, -0.625], [0.169, -0.577], [0.322, -0.544], [0.201, -0.559], [0.204, -0.604], [0.234, -0.725], [0.239, -0.654], [0.191, -0.678], [0.146, -0.649], [0.274, -0.506], [0.228, -0.537], [0.214, -0.702], [0.417, -0.306], [0.386, -0.314], [0.441, -0.378], [0.328, -0.342], [0.398, -0.35], [0.464, -0.235], [0.386, -0.292], [0.461, -0.291], [0.467, -0.352], [0.45, -0.219], [0.453, -0.364], [0.443, -0.261]], "deb": [[-0.602, -0.396], [0.419, -0.333], [0.364, 0.004], [-0.097, 0.888], [-0.634, -0.024], [-0.647, 0.831], [-0.022, -0.319], [-0.63, 0.179], [-0.192, -0.708], [-0.888, -0.207], [0.158, 0.036], [0.76, 0.782], [0.829, 0.569], [-0.043, 0.045], [-0.195, -0.191], [-0.871, 0.568], [-0.483, -0.894], [-0.064, 0.414], [-0.122, -0.258], [0.301, -0.641], [-0.928, 0.176], [0.058, 0.695], [-0.16, 0.544], [-0.916, -0.898], [0.187, -0.52], [-0.822, -0.707], [-0.238, -0.309], [0.121, 0.736], [-0.255, -0.6], [0.148, -0.946], [-0.219, -0.347], [-0.214, -0.853], [0.103, 0.236], [0.474, 0.869], [-0.276, 0.297], [-0.11, -0.541], [0.74, 0.467], [0.841, 0.611], [0.793, -0.707], [-0.92, -0.573], [-0.167, 0.357], [-0.117, 0.025], [0.496, -0.816], [0.339, -0.857], [-0.478, 0.422], [0.348, -0.18], [-0.39, 0.623], [-0.428, -0.891], [-0.48, -0.91], [0.59, -0.718], [0.901, -0.545], [-0.368, 0.162], [-0.364, -0.229], [-0.752, -0.211], [-0.902, -0.524], [0.778, -0.417], [-0.435, 0.341], [0.728, -0.388], [-0.235, 0.408], [0.555, 0.216], [-0.61, -0.607], [0.49, 0.393], [0.753, 0.532], [-0.15, -0.697], [0.742, 0.372], [0.145, 0.346], [-0.218, -0.298], [0.143, -0.033], [0.397, 0.829], [0.66, -0.214], [-0.242, 0.811], [-0.2, 0.57], [-0.774, -0.093], [0.031, 0.587], [0.717, -0.66], [0.223, 0.245], [-0.662, 0.634], [0.102, 0.877], [-0.596, 0.047], [-0.335, 0.271], [0.205, 0.024], [-0.333, 0.007], [-0.243, 0.742], [-0.073, -0.047], [-0.459, -0.468], [0.862, -0.353], [0.7, 0.18], [0.913, -0.638], [0.839, 0.518], [0.129, 0.397], [0.423, -0.098], [0.256, -0.516], [-0.909, 0.335], [-0.049, 0.771], [-0.448, 0.604], [0.924, 0.756], [0.882, -0.648], [-0.636, -0.516], [-0.263, -0.731], [-0.664, -0.915], [0.823, -0.264], [0.239, -0.086], [0.462, 0.582], [-0.222, 0.067], [-0.765, -0.408], [-0.527, -0.364], [-0.334, 0.143], [-0.318, -0.329], [0.629, -0.927], [-0.94, -0.841], [0.695, 0.254], [0.433, 0.87], [-0.536, 0.798], [-0.489, 0.036], [0.344, 0.565], [-0.479, -0.044], [-0.863, -0.403], [0.914, 0.77], [0.156, 0.544], [0.764, -0.319], [0.913, -0.098], [-0.648, 0.057], [0.178, 0.366], [0.325, -0.871], [0.264, 0.801], [0.323, 0.903], [0.022, 0.589], [-0.683, 0.752], [-0.121, 0.716], [-0.34, 0.236], [0.659, 0.402], [0.228, 0.894], [-0.783, -0.756], [0.098, 0.864], [0.354, -0.362], [-0.745, -0.098], [-0.037, -0.06], [0.227, -0.432], [0.723, -0.402], [-0.747, -0.287], [0.828, -0.647], [-0.422, 0.81], [-0.289, 0.652], [-0.864, 0.738], [-0.499, -0.607], [0.46, 0.93], [0.873, 0.479], [0.787, 0.925], [0.1, -0.675], [0.664, -0.198], [-0.356, 0.002], [-0.884, -0.914], [-0.448, 0.182], [0.474, 0.869], [0.604, 0.838], [0.259, 0.444], [0.166, -0.795], [-0.832, 0.494], [-0.566, 0.551], [-0.068, -0.937], [0.117, -0.108], [-0.81, -0.454], [-0.367, -0.293], [0.393, -0.632], [-0.108, 0.203], [0.848, -0.732], [-0.799, -0.586], [-0.531, -0.641], [-0.806, -0.552], [-0.526, -0.039], [0.281, -0.259], [-0.63, -0.77], [-0.45, -0.625], [-0.036, 0.705], [0.411, -0.564], [-0.882, -0.822], [-0.122, -0.259], [0.347, -0.791], [-0.466, 0.353], [0.129, 0.032], [0.763, -0.735], [-0.579, 0.125], [0.124, 0.912], [0.907, 0.166], [0.492, 0.375], [-0.697, 0.194], [-0.369, -0.268], [-0.653, -0.934], [0.672, 0.412], [0.479, -0.403], [-0.157, -0.615], [0.194, 0.644], [0.53, 0.824], [-0.455, 0.383], [-0.709, 0.069], [-0.741, 0.077], [0.08, -0.291], [-0.286, 0.401], [-0.036, -0.175], [-0.736, -0.414]]};
+var cv=document.getElementById('f2_tw-cv'),ctx=cv.getContext('2d');
+function draw(k){
+ var nd=Dt.counts[k];
+ ctx.clearRect(0,0,cv.width,cv.height);
+ function px(p){return [cv.width/2+p[0]*cv.width*0.48, cv.height/2+p[1]*cv.height*0.46]}
+ ctx.fillStyle='#0e7a8f';ctx.globalAlpha=0.8;
+ for(var i=0;i<Dt.isl.length;i++){var q=px(Dt.isl[i]);
+  ctx.beginPath();ctx.arc(q[0],q[1],3,0,7);ctx.fill()}
+ ctx.fillStyle='#e67e22';ctx.globalAlpha=0.85;
+ for(var i=0;i<nd;i++){var q=px(Dt.deb[i]);
+  ctx.beginPath();ctx.arc(q[0],q[1],2.6,0,7);ctx.fill()}
+ ctx.globalAlpha=1;
+ document.getElementById('f2_tw-nd').textContent=nd;
+ document.getElementById('f2_tw-g').textContent=Dt.glob[k].toFixed(2);
+ document.getElementById('f2_tw-l').textContent=Dt.loc.toFixed(2);
+}
+var sl=document.getElementById('f2_tw-sl');
+sl.addEventListener('input',function(){draw(parseInt(sl.value))});
+draw(0);
+ })();</script>
+</div>
+<figcaption style="text-align:center; font-size:0.85em; color:#64748b; margin-top:8px; font-style:italic;"><strong>Interactive.</strong> Ten 2-D islands plus isolated tokens in a 512-D ambient space. The islands stay 2-dimensional throughout; the global estimate climbs from 2.1 to 4.7 as debris is added. The estimator measures the arrangement, not the shape.</figcaption>
+</figure>
+<p>So the global number stops measuring the shape of anything a token lives on
+and starts measuring how the clusters are spread relative to each other. We
+call this the mixture artifact.</p>
+<h3 id="how-we-know-the-islands-are-real">How we know the islands are real<a class="headerlink" href="#how-we-know-the-islands-are-real" title="Permanent link">¶</a></h3>
+<p>Everything so far assumes the vocabulary really is split into separated
+clusters, and that assumption is not necessarily trivial. The inflated global
+number cannot serve as its own evidence: TwoNN also misreads data with
+strong density variation or strong curvature, and neither of those involves
+clusters. So we need checks that do not use the estimator at all. There are
+three.</p>
+<p>The two graph checks share one construction, so here it is once. Work
+directly in the raw table: each token is its full row, all 7,168
+coordinates for K3, and distance is plain Euclidean distance between
+rows. Connect each token to its k nearest neighbors; a link stands
+if either token lists the other. The first check asks whether this
+network is in one piece. The second asks how easily a random walk moves
+through it, and runs on a random 20,000-token subsample of K3 to keep the
+eigenvalue computation light.</p>
+<p>You can run this construction live before seeing the real numbers. The
+widget below builds the neighbor network of a small toy vocabulary, eight
+islands plus scattered rare tokens, and lets you drag k.</p>
+<figure style="margin:2em 0;">
+<div class="igl-widget" id="igl-fig-1" style="border-radius:12px; border:1px solid #e2e8f0; overflow:hidden; padding:28px 20px 22px;">
+<style>#igl-fig-1 .cl-wrap { font:13px system-ui;color:#1a2330 }
+#igl-fig-1 .cl-row { display:flex;gap:20px;align-items:center;flex-wrap:wrap;margin-bottom:8px }
+#igl-fig-1 .cl-num { font:600 16px ui-monospace,monospace;color:#0e7a8f }
+#igl-fig-1 #cl-cv { width:100%;max-width:640px;border:1px solid #d5dde2;border-radius:6px }
+#igl-fig-1 input[type=range] { width:220px }</style>
+
+<div class="cl-wrap">
+<div class="cl-row">
+<label>neighbors per token (k):
+  <input id="f1_cl-sl" max="10" min="1" step="1" type="range" value="3"/>
+<span class="cl-num" id="f1_cl-k">3</span></label>
+<span>components: <span class="cl-num" id="f1_cl-nc">?</span></span>
+<span>largest holds <span class="cl-num" id="f1_cl-big">?</span></span>
+</div>
+<canvas height="420" id="f1_cl-cv" width="640"></canvas>
+<div style="color:#8697a3;margin-top:6px">A toy vocabulary: eight islands plus
+scattered rare tokens. Each point links to its k nearest neighbors; a link
+counts if either end lists the other. At small k the network is in pieces
+(each colored by component; gray = the largest). Raise k and thin bridges
+stitch everything together. TwoNN operates below k = 3, at the most
+fragmented scale.</div>
+</div>
+
+
+<script>(function(){ 
+var P=[[0.68, -0.027], [0.685, 0.028], [0.684, 0.059], [0.677, 0.065], [0.672, 0.198], [0.613, -0.019], [0.669, 0.017], [0.645, 0.035], [0.727, 0.024], [0.693, -0.044], [0.664, 0.009], [0.654, 0.035], [0.685, 0.003], [0.684, 0.091], [0.72, 0.029], [0.677, 0.011], [0.609, -0.046], [0.492, 0.502], [0.417, 0.601], [0.449, 0.542], [0.416, 0.478], [0.602, 0.473], [0.49, 0.469], [0.422, 0.474], [0.397, 0.611], [0.408, 0.533], [0.455, 0.569], [0.441, 0.478], [0.484, 0.577], [0.439, 0.46], [0.45, 0.54], [0.388, 0.345], [0.445, 0.535], [0.445, 0.451], [0.035, 0.565], [-0.026, 0.662], [0.018, 0.638], [0.008, 0.69], [0.033, 0.708], [0.049, 0.679], [0.06, 0.688], [0.068, 0.58], [-0.016, 0.643], [0.031, 0.726], [0.154, 0.761], [0.006, 0.747], [0.068, 0.712], [-0.042, 0.6], [0.011, 0.667], [-0.042, 0.667], [-0.038, 0.712], [-0.42, 0.553], [-0.347, 0.706], [-0.388, 0.545], [-0.446, 0.516], [-0.485, 0.524], [-0.451, 0.604], [-0.484, 0.531], [-0.298, 0.606], [-0.336, 0.593], [-0.437, 0.547], [-0.34, 0.49], [-0.469, 0.636], [-0.354, 0.612], [-0.35, 0.625], [-0.36, 0.647], [-0.433, 0.549], [-0.422, 0.661], [-0.7, 0.001], [-0.722, 0.036], [-0.633, 0.06], [-0.667, -0.003], [-0.729, 0.053], [-0.635, -0.063], [-0.673, 0.046], [-0.685, -0.065], [-0.667, 0.036], [-0.631, -0.047], [-0.737, -0.036], [-0.699, 0.027], [-0.776, -0.011], [-0.66, 0.031], [-0.663, -0.042], [-0.647, -0.012], [-0.588, -0.014], [-0.551, -0.46], [-0.586, -0.476], [-0.549, -0.401], [-0.522, -0.388], [-0.648, -0.513], [-0.519, -0.452], [-0.592, -0.493], [-0.557, -0.382], [-0.599, -0.434], [-0.591, -0.402], [-0.473, -0.584], [-0.494, -0.479], [-0.56, -0.412], [-0.451, -0.503], [-0.499, -0.536], [-0.497, -0.512], [-0.429, -0.443], [0.088, -0.739], [0.051, -0.653], [0.023, -0.702], [-0.023, -0.673], [0.022, -0.729], [0.062, -0.816], [0.017, -0.704], [-0.01, -0.78], [0.002, -0.793], [-0.015, -0.66], [0.056, -0.682], [-0.015, -0.729], [-0.042, -0.767], [0.063, -0.689], [-0.063, -0.608], [-0.04, -0.675], [0.119, -0.651], [0.443, -0.604], [0.452, -0.487], [0.435, -0.573], [0.437, -0.585], [0.457, -0.561], [0.456, -0.562], [0.418, -0.566], [0.431, -0.484], [0.407, -0.62], [0.429, -0.478], [0.501, -0.412], [0.436, -0.5], [0.51, -0.536], [0.451, -0.514], [0.494, -0.389], [0.458, -0.532], [0.416, -0.58], [0.886, -0.637], [0.157, 0.034], [-0.025, -0.113], [-0.825, 0.599], [-0.864, 0.824], [-0.891, 0.599], [-0.885, 0.579], [0.02, -0.141], [0.651, 0.807], [-0.009, -0.119], [-0.128, 0.145], [-0.902, -0.287], [-0.874, 0.689], [-0.063, -0.016], [0.821, 0.769], [0.71, -0.805], [-0.535, -0.917], [-0.041, -0.217], [-0.043, 0.11], [-0.811, -0.824], [0.084, 0.207], [0.348, -0.179], [0.795, 0.898], [-0.842, 0.911], [-0.078, -0.297], [-0.797, 0.421], [0.805, 0.614], [0.318, -0.178], [0.27, -0.055], [0.819, -0.663], [0.269, -0.108], [-0.787, -0.916], [0.338, 0.889], [0.902, -0.825], [-0.688, 0.899], [0.851, -0.68], [-0.86, 0.651], [-0.387, -0.798], [-0.213, -0.186], [-0.004, -0.055], [0.28, -0.126], [0.428, -0.915], [-0.117, 0.25], [0.794, -0.373]];
+var N=P.length;
+var D2=[];
+for(var i=0;i<N;i++){D2.push(new Float64Array(N));
+ for(var j=0;j<N;j++){var dx=P[i][0]-P[j][0],dy=P[i][1]-P[j][1];
+  D2[i][j]=(i===j)?1e18:dx*dx+dy*dy}}
+var ORD=[];
+for(var i=0;i<N;i++){var id=[];for(var j=0;j<N;j++)id.push(j);
+ id.sort(function(a,b){return D2[i][a]-D2[i][b]});ORD.push(id)}
+var cv=document.getElementById('f1_cl-cv'),ctx=cv.getContext('2d');
+var COLS=['#c0392b','#e67e22','#8e44ad','#2980b9','#16a085','#d35400',
+'#7f8c8d','#c2185b','#5d4037','#2e7d32','#455a64','#f39c12'];
+function find(pa,x){while(pa[x]!==x){pa[x]=pa[pa[x]];x=pa[x]}return x}
+function render(k){
+ var edges=[],pa=[];
+ for(var i=0;i<N;i++)pa.push(i);
+ for(var i=0;i<N;i++)for(var t=0;t<k;t++){var j=ORD[i][t];
+  edges.push([i,j]);
+  var a=find(pa,i),b=find(pa,j);if(a!==b)pa[a]=b}
+ var comp={},lab=[];
+ for(var i=0;i<N;i++){var r=find(pa,i);
+  if(!(r in comp))comp[r]=Object.keys(comp).length;lab.push(comp[r])}
+ var nc=Object.keys(comp).length;
+ var counts=new Array(nc).fill(0);
+ for(var i=0;i<N;i++)counts[lab[i]]++;
+ var big=0;for(var c=1;c<nc;c++)if(counts[c]>counts[big])big=c;
+ document.getElementById('f1_cl-k').textContent=k;
+ document.getElementById('f1_cl-nc').textContent=nc;
+ document.getElementById('f1_cl-big').textContent=Math.round(100*counts[big]/N)+'%';
+ ctx.clearRect(0,0,cv.width,cv.height);
+ function px(p){return[cv.width/2+p[0]*cv.width*0.47,cv.height/2+p[1]*cv.height*0.45]}
+ ctx.strokeStyle='rgba(140,150,160,0.25)';ctx.lineWidth=1;
+ for(var e=0;e<edges.length;e++){var q1=px(P[edges[e][0]]),q2=px(P[edges[e][1]]);
+  ctx.beginPath();ctx.moveTo(q1[0],q1[1]);ctx.lineTo(q2[0],q2[1]);ctx.stroke()}
+ for(var i=0;i<N;i++){var q=px(P[i]);
+  ctx.fillStyle=(lab[i]===big)?'#9fb2bc':COLS[lab[i]%COLS.length];
+  ctx.beginPath();ctx.arc(q[0],q[1],3.4,0,7);ctx.fill()}
+}
+var sl=document.getElementById('f1_cl-sl');
+sl.addEventListener('input',function(){render(parseInt(sl.value))});
+render(3);
+ })();</script>
+</div>
+<figcaption style="text-align:center; font-size:0.85em; color:#64748b; margin-top:8px; font-style:italic;"><strong>Interactive.</strong> A nearest-neighbor network over eight islands and scattered debris. At small k the network is in pieces, each colored by component; raising k stitches them together through thin bridges.</figcaption>
+</figure>
+<p><strong>The network falls into pieces.</strong> If the vocabulary were one connected
+fabric, you could reach any token from any other by hopping between
+neighbors, for any reasonable k. Instead, at k = 3, K3’s network breaks
+into <strong>84 disconnected components</strong>; GPT-2’s breaks into 142. The
+distribution of tokens per component is a continent and dust: K3’s
+largest piece holds 163,501 tokens, 99.79 percent of the vocabulary, and
+the other 83 pieces hold 4 to 8 tokens each, 339 tokens in total. GPT-2
+reads the same way, a 98.4 percent continent plus 141 pieces of 4 to 14
+tokens. A disconnected component is the strictest possible meaning of
+“separate clusters with real space between them”: a group of tokens with
+no neighbor links to the rest of the vocabulary at all, at that scale.
+The scale also works against the estimator: TwoNN consults each token’s
+first and second neighbors only, a radius below even k = 3, so it
+operates precisely where the vocabulary is most fragmented. Raising k
+stitches the pieces together with thin bridges: K3 is down to two
+components at k = 4 and one at k = 5; GPT-2 holds out to k = 6.</p>
+<p>
+<figure><img src="images/2026-08-13-embedding-dimension-illusion/a1_piece_sizes.png"/><figcaption>One continent and dust: tokens per component at k = 3 in the raw tables, both models, on log-log axes. Every off-continent piece is tiny.</figcaption>
+</figure>
+</p>
+<p>Decoding the sealed components makes them concrete. K3’s islands are
+families of variants of one word. The largest holds the eight case and
+spacing variants of <code>though</code> and <code>although</code>; others hold the variants of
+<code>different</code>, <code>something</code>, <code>female</code>, <code>purple</code>, or the inflections of one
+verb: <code>behave / behaves / behaved / behaving</code>, <code>convey / conveyed /
+conveys / conveying</code>. Tokens the tokenizer minted as near-duplicates of
+one string, parked together in a tight cluster with no neighbor links to
+anything else.</p>
+<p>
+<figure><img src="images/2026-08-13-embedding-dimension-illusion/a1_components.png"/><figcaption>Left: number of disconnected components as k grows, for K3 and GPT-2 in the raw tables. Right: the 339 K3 tokens that live in the 83 pieces with no k = 3 link to the main component, marked in red on a 2-D layout of the vocabulary. The layout is for display only; the counts are exact in the full 7,168-dimensional space.</figcaption>
+</figure>
+</p>
+<p>The second check asks a different question of the same network: not
+whether it is in one piece, but how easily a random walker that hops
+between neighboring tokens moves around it. This one can also be tried on
+the toy first. The widget below releases such a walker on two toy
+networks: a single connected fabric, and islands joined by thin bridges.
+On the fabric the walker spreads everywhere; on the islands it stays
+trapped for a long time behind the bridges. The two readouts the widget
+shows, the second eigenvalue λ₂ and the sorted eigenvector in the right
+panel, are exactly the measurements the real analysis below relies on.</p>
+<figure style="margin:2em 0;">
+<div class="igl-widget" id="igl-fig-0" style="border-radius:12px; border:1px solid #e2e8f0; overflow:hidden; padding:28px 20px 22px;">
+<style>#igl-fig-0 .rw-wrap { font:13px system-ui;color:#1a2330 }
+#igl-fig-0 .rw-row { display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:8px }
+#igl-fig-0 .rw-num { font:600 15px ui-monospace,monospace;color:#0e7a8f }
+#igl-fig-0 #rw-cv { border:1px solid #d5dde2;border-radius:6px }
+#igl-fig-0 #rw-ev { border:1px solid #d5dde2;border-radius:6px }
+#igl-fig-0 .rw-seg button { background:#eef2f5;border:1px solid #c9d2d8;color:#1a2330;
+padding:5px 12px;font:13px system-ui;cursor:pointer }
+#igl-fig-0 .rw-seg button.on { background:#0e7a8f;color:#fff;border-color:#0e7a8f }</style>
+
+<div class="rw-wrap">
+<div class="rw-row">
+<span class="rw-seg">
+<button class="on" id="f0_rw-bf">one fabric</button><button id="f0_rw-bi">islands with bridges</button>
+</span>
+<button id="f0_rw-rs" style="font:600 13px system-ui;padding:5px 12px;cursor:pointer">restart walk</button>
+<span>λ₂ = <span class="rw-num" id="f0_rw-l">?</span></span>
+<span>steps <span class="rw-num" id="f0_rw-st">0</span></span>
+<span>visited <span class="rw-num" id="f0_rw-vi">0%</span></span>
+</div>
+<div class="rw-row">
+<canvas height="380" id="f0_rw-cv" width="410"></canvas>
+<canvas height="380" id="f0_rw-ev" width="220"></canvas>
+</div>
+<div style="color:#8697a3;margin-top:6px">A random walker on the neighbor
+network (darker = visited more). On one fabric the walk spreads; on islands
+the walker starts inside one of the two hanging islands and stays trapped there for a long time behind the two-token bridge. Note λ₂ is close to 1
+in BOTH cases, which is why the eigenvalue alone cannot decide. The right
+panel shows what does: the sorted second eigenvector is a smooth ramp on a
+fabric and a plateau with a jump on islands.</div>
+</div>
+
+
+<script>(function(){ 
+var DS={"fabric": {"pts": [[-0.866, -0.876], [-0.734, -0.842], [-0.584, -0.848], [-0.497, -0.866], [-0.349, -0.817], [-0.237, -0.875], [-0.141, -0.818], [0.004, -0.885], [0.12, -0.873], [0.23, -0.86], [0.35, -0.839], [0.484, -0.862], [0.615, -0.833], [0.696, -0.855], [0.83, -0.853], [-0.876, -0.728], [-0.729, -0.735], [-0.628, -0.736], [-0.508, -0.756], [-0.36, -0.751], [-0.219, -0.714], [-0.161, -0.723], [-0.022, -0.728], [0.122, -0.768], [0.238, -0.734], [0.384, -0.752], [0.5, -0.751], [0.601, -0.745], [0.758, -0.717], [0.899, -0.716], [-0.833, -0.59], [-0.741, -0.609], [-0.58, -0.615], [-0.482, -0.608], [-0.352, -0.614], [-0.246, -0.602], [-0.119, -0.624], [0.018, -0.633], [0.097, -0.633], [0.262, -0.614], [0.345, -0.63], [0.494, -0.628], [0.582, -0.595], [0.705, -0.614], [0.85, -0.616], [-0.851, -0.459], [-0.739, -0.511], [-0.644, -0.49], [-0.493, -0.48], [-0.374, -0.495], [-0.257, -0.496], [-0.118, -0.493], [0.002, -0.448], [0.131, -0.517], [0.278, -0.479], [0.345, -0.468], [0.486, -0.498], [0.594, -0.506], [0.73, -0.464], [0.843, -0.477], [-0.812, -0.389], [-0.723, -0.37], [-0.628, -0.385], [-0.486, -0.356], [-0.375, -0.363], [-0.228, -0.358], [-0.104, -0.355], [0.01, -0.328], [0.134, -0.362], [0.257, -0.383], [0.358, -0.348], [0.498, -0.333], [0.607, -0.394], [0.768, -0.342], [0.829, -0.337], [-0.849, -0.279], [-0.737, -0.253], [-0.575, -0.259], [-0.491, -0.248], [-0.372, -0.261], [-0.238, -0.221], [-0.109, -0.261], [-0.023, -0.24], [0.107, -0.255], [0.209, -0.204], [0.383, -0.262], [0.504, -0.216], [0.559, -0.254], [0.721, -0.23], [0.848, -0.247], [-0.851, -0.084], [-0.685, -0.132], [-0.626, -0.068], [-0.505, -0.133], [-0.364, -0.112], [-0.222, -0.114], [-0.139, -0.111], [0.005, -0.084], [0.121, -0.148], [0.222, -0.092], [0.353, -0.164], [0.474, -0.121], [0.631, -0.142], [0.742, -0.106], [0.836, -0.125], [-0.815, 0.034], [-0.711, 0.007], [-0.584, -0.003], [-0.488, -0.017], [-0.364, -0.002], [-0.187, -0.004], [-0.096, 0.026], [-0.004, 0.023], [0.078, 0.002], [0.26, -0.048], [0.341, 0.021], [0.481, -0.022], [0.6, -0.011], [0.743, 0.009], [0.844, -0.013], [-0.851, 0.148], [-0.722, 0.134], [-0.61, 0.096], [-0.5, 0.134], [-0.362, 0.103], [-0.275, 0.124], [-0.128, 0.114], [-0.007, 0.127], [0.127, 0.141], [0.261, 0.148], [0.38, 0.115], [0.485, 0.131], [0.601, 0.132], [0.752, 0.105], [0.815, 0.145], [-0.85, 0.257], [-0.755, 0.278], [-0.592, 0.24], [-0.493, 0.245], [-0.368, 0.237], [-0.265, 0.268], [-0.122, 0.244], [0.002, 0.196], [0.132, 0.236], [0.237, 0.244], [0.345, 0.26], [0.472, 0.225], [0.59, 0.246], [0.743, 0.231], [0.82, 0.264], [-0.871, 0.388], [-0.73, 0.35], [-0.62, 0.374], [-0.468, 0.36], [-0.345, 0.406], [-0.247, 0.341], [-0.143, 0.336], [-0.013, 0.35], [0.095, 0.375], [0.191, 0.338], [0.405, 0.385], [0.496, 0.373], [0.643, 0.375], [0.73, 0.34], [0.849, 0.35], [-0.864, 0.471], [-0.729, 0.479], [-0.59, 0.459], [-0.489, 0.523], [-0.364, 0.51], [-0.22, 0.512], [-0.107, 0.458], [-0.005, 0.478], [0.09, 0.476], [0.218, 0.452], [0.369, 0.485], [0.472, 0.467], [0.596, 0.478], [0.72, 0.485], [0.841, 0.493], [-0.84, 0.614], [-0.742, 0.595], [-0.598, 0.603], [-0.487, 0.557], [-0.418, 0.614], [-0.236, 0.635], [-0.107, 0.612], [0.0, 0.579], [0.139, 0.595], [0.253, 0.611], [0.37, 0.625], [0.476, 0.599], [0.59, 0.6], [0.762, 0.6], [0.874, 0.624], [-0.835, 0.745], [-0.749, 0.736], [-0.575, 0.715], [-0.487, 0.715], [-0.358, 0.707], [-0.211, 0.721], [-0.152, 0.764], [0.019, 0.739], [0.132, 0.721], [0.238, 0.743], [0.383, 0.747], [0.49, 0.719], [0.603, 0.751], [0.757, 0.722], [0.84, 0.754], [-0.836, 0.864], [-0.755, 0.843], [-0.617, 0.854], [-0.519, 0.875], [-0.358, 0.859], [-0.267, 0.849], [-0.095, 0.819], [0.006, 0.864], [0.108, 0.866], [0.236, 0.875], [0.375, 0.854], [0.526, 0.867], [0.633, 0.826], [0.716, 0.867], [0.868, 0.849]], "nbr": [[1, 15, 16, 17, 2], [16, 0, 17, 2, 15], [3, 17, 18, 1, 16], [2, 18, 4, 19, 17], [19, 5, 3, 20, 18], [6, 4, 20, 21, 19], [21, 5, 20, 22, 7], [8, 22, 6, 23, 9], [23, 9, 7, 24, 22], [8, 10, 24, 23, 25], [25, 9, 11, 24, 26], [26, 12, 10, 25, 27], [13, 27, 11, 26, 28], [12, 14, 27, 28, 11], [13, 29, 28, 12, 44], [30, 16, 0, 31, 1], [17, 1, 31, 15, 30], [16, 2, 18, 32, 1], [3, 2, 17, 19, 33], [4, 34, 20, 18, 5], [21, 35, 6, 36, 19], [20, 6, 36, 22, 35], [37, 21, 36, 6, 23], [8, 24, 38, 9, 22], [23, 39, 9, 25, 40], [10, 26, 40, 24, 11], [27, 11, 25, 41, 12], [12, 26, 13, 42, 41], [43, 44, 29, 13, 14], [44, 28, 14, 43, 59], [31, 46, 45, 15, 16], [30, 46, 16, 47, 32], [33, 17, 47, 18, 48], [32, 48, 34, 18, 49], [35, 49, 33, 19, 50], [50, 34, 20, 36, 21], [21, 35, 51, 20, 37], [38, 22, 36, 53, 23], [37, 53, 23, 22, 39], [40, 24, 54, 53, 38], [39, 25, 24, 41, 55], [42, 26, 56, 40, 27], [57, 41, 43, 56, 27], [28, 42, 44, 58, 57], [29, 28, 59, 43, 58], [60, 46, 30, 61, 75], [47, 31, 30, 45, 61], [46, 62, 32, 61, 48], [49, 63, 33, 47, 32], [50, 48, 34, 64, 33], [35, 49, 51, 65, 34], [52, 36, 66, 50, 35], [67, 51, 66, 53, 68], [38, 52, 54, 68, 37], [55, 69, 39, 53, 70], [54, 70, 69, 56, 40], [57, 41, 42, 55, 72], [42, 56, 72, 58, 43], [59, 73, 72, 57, 43], [58, 44, 74, 73, 43], [45, 61, 75, 46, 76], [60, 62, 76, 46, 47], [61, 47, 77, 63, 48], [78, 64, 48, 77, 62], [79, 63, 49, 65, 78], [66, 80, 50, 64, 81], [81, 67, 65, 51, 82], [82, 66, 52, 83, 68], [83, 69, 67, 53, 52], [54, 70, 55, 68, 85], [85, 69, 55, 71, 54], [87, 86, 72, 85, 70], [57, 71, 58, 87, 56], [74, 88, 89, 58, 59], [73, 89, 59, 88, 58], [76, 60, 61, 45, 90], [75, 61, 91, 60, 77], [78, 63, 62, 93, 76], [77, 63, 93, 79, 64], [64, 78, 80, 63, 94], [95, 81, 65, 79, 96], [82, 66, 80, 67, 96], [81, 67, 83, 66, 97], [98, 68, 84, 67, 82], [98, 99, 83, 100, 114], [70, 100, 86, 71, 101], [87, 101, 71, 85, 102], [86, 71, 102, 72, 101], [73, 102, 103, 89, 74], [74, 104, 73, 88, 103], [105, 106, 91, 75, 76], [92, 76, 106, 107, 77], [107, 91, 106, 93, 108], [78, 108, 92, 94, 77], [109, 95, 93, 79, 108], [96, 80, 110, 94, 109], [95, 110, 111, 97, 80], [112, 113, 98, 96, 111], [84, 83, 99, 97, 113], [114, 84, 98, 100, 115], [85, 101, 114, 99, 84], [86, 116, 100, 87, 102], [103, 88, 87, 117, 86], [104, 118, 102, 88, 119], [103, 119, 89, 88, 118], [106, 120, 90, 121, 91], [105, 92, 107, 121, 122], [92, 108, 122, 106, 93], [107, 93, 109, 92, 123], [124, 94, 108, 125, 110], [111, 95, 96, 126, 125], [112, 126, 110, 127, 96], [113, 111, 127, 97, 126], [112, 97, 128, 127, 98], [99, 115, 100, 84, 98], [130, 114, 116, 129, 99], [101, 117, 115, 131, 130], [116, 102, 132, 118, 101], [133, 119, 103, 117, 134], [118, 104, 103, 133, 134], [135, 105, 121, 136, 106], [122, 106, 120, 105, 136], [107, 123, 121, 106, 137], [138, 122, 137, 124, 108], [125, 109, 139, 123, 108], [124, 140, 139, 126, 109], [111, 127, 141, 110, 125], [142, 112, 126, 128, 111], [143, 129, 127, 142, 113], [144, 130, 128, 145, 115], [115, 131, 129, 146, 145], [146, 130, 132, 116, 147], [147, 131, 117, 133, 146], [134, 118, 148, 119, 132], [133, 148, 149, 118, 119], [136, 120, 150, 151, 121], [151, 135, 121, 150, 120], [138, 152, 123, 122, 136], [137, 123, 153, 139, 152], [140, 138, 124, 125, 153], [155, 139, 156, 125, 141], [156, 126, 142, 140, 157], [127, 141, 143, 128, 126], [128, 144, 159, 142, 158], [129, 159, 143, 145, 128], [144, 146, 160, 129, 130], [131, 147, 145, 130, 161], [132, 146, 162, 148, 131], [149, 163, 134, 133, 147], [148, 164, 163, 134, 133], [165, 135, 151, 136, 166], [136, 152, 166, 150, 135], [167, 151, 137, 166, 153], [138, 154, 152, 167, 139], [169, 155, 153, 140, 170], [140, 156, 154, 141, 139], [141, 155, 171, 157, 140], [158, 172, 156, 171, 141], [173, 159, 157, 143, 172], [158, 144, 143, 174, 173], [161, 176, 175, 145, 146], [160, 176, 177, 162, 146], [163, 177, 178, 147, 161], [162, 148, 149, 164, 178], [149, 163, 179, 148, 178], [150, 166, 180, 181, 151], [181, 151, 165, 167, 152], [152, 168, 166, 183, 182], [183, 184, 167, 169, 182], [154, 184, 168, 183, 170], [185, 171, 169, 186, 154], [172, 170, 156, 157, 186], [173, 187, 171, 157, 158], [172, 158, 188, 174, 187], [159, 173, 158, 175, 189], [176, 160, 190, 174, 191], [161, 175, 160, 177, 191], [162, 192, 178, 176, 161], [179, 193, 177, 162, 163], [178, 193, 194, 164, 163], [181, 195, 165, 196, 166], [180, 166, 196, 182, 165], [197, 183, 168, 181, 167], [168, 184, 182, 169, 167], [183, 199, 168, 169, 198], [200, 170, 186, 199, 201], [187, 185, 170, 200, 171], [172, 186, 173, 188, 171], [189, 203, 173, 187, 174], [188, 190, 204, 174, 203], [191, 189, 205, 175, 206], [190, 192, 206, 176, 175], [191, 177, 207, 206, 193], [194, 208, 178, 179, 192], [193, 209, 179, 208, 178], [196, 210, 211, 180, 181], [195, 211, 181, 180, 210], [198, 182, 212, 213, 196], [197, 184, 199, 183, 182], [184, 198, 185, 200, 214], [201, 185, 215, 199, 186], [200, 216, 215, 185, 186], [203, 217, 216, 218, 187], [204, 202, 188, 218, 189], [203, 219, 189, 205, 220], [220, 206, 190, 204, 191], [205, 207, 191, 221, 190], [222, 206, 221, 192, 208], [209, 193, 223, 194, 207], [208, 224, 194, 223, 193], [211, 195, 196, 212, 180], [210, 196, 195, 212, 197], [213, 211, 197, 196, 198], [212, 214, 198, 197, 199], [215, 199, 213, 198, 200], [214, 200, 201, 199, 216], [201, 217, 202, 200, 215], [218, 216, 202, 201, 203], [217, 219, 203, 202, 204], [218, 204, 220, 203, 205], [205, 219, 221, 204, 206], [222, 207, 220, 206, 205], [207, 223, 221, 208, 206], [222, 208, 224, 207, 209], [209, 223, 208, 194, 222]], "ev": [-0.1301, -0.1252, -0.125, -0.1228, -0.1223, -0.1221, -0.1214, -0.1202, -0.1158, -0.1148, -0.1146, -0.1126, -0.1126, -0.1121, -0.1083, -0.1069, -0.1047, -0.1036, -0.1028, -0.1015, -0.1008, -0.0967, -0.0956, -0.0947, -0.0947, -0.0938, -0.0888, -0.0875, -0.0875, -0.0855, -0.083, -0.0827, -0.0806, -0.0795, -0.079, -0.0786, -0.0779, -0.0764, -0.0756, -0.0754, -0.0753, -0.0753, -0.0747, -0.0712, -0.071, -0.0697, -0.0664, -0.0664, -0.0662, -0.0642, -0.0602, -0.0557, -0.054, -0.0532, -0.053, -0.0502, -0.0476, -0.0461, -0.0454, -0.0449, -0.0434, -0.0433, -0.0412, -0.0382, -0.0359, -0.035, -0.0344, -0.0341, -0.0336, -0.0336, -0.0336, -0.0329, -0.0312, -0.0312, -0.0291, -0.029, -0.0286, -0.0279, -0.0272, -0.024, -0.0235, -0.0232, -0.0229, -0.0227, -0.0225, -0.0218, -0.0218, -0.021, -0.0194, -0.0194, -0.0189, -0.018, -0.0174, -0.0169, -0.0144, -0.0144, -0.0143, -0.0128, -0.0112, -0.0091, -0.006, -0.0058, -0.0031, -0.0024, -0.0023, -0.0021, -0.002, -0.0014, -0.0014, -0.0006, 0.0009, 0.0025, 0.0039, 0.0046, 0.0047, 0.0048, 0.0049, 0.0068, 0.0073, 0.0076, 0.0087, 0.0094, 0.0098, 0.0113, 0.0125, 0.0125, 0.0138, 0.0146, 0.0157, 0.0159, 0.0161, 0.0171, 0.0177, 0.0185, 0.0187, 0.0188, 0.0191, 0.0191, 0.0215, 0.0246, 0.0247, 0.0252, 0.0257, 0.0258, 0.0278, 0.0289, 0.0292, 0.0308, 0.0318, 0.0323, 0.0336, 0.0337, 0.036, 0.0371, 0.0379, 0.0393, 0.0397, 0.0425, 0.0442, 0.0457, 0.0458, 0.0466, 0.0466, 0.0483, 0.0485, 0.0486, 0.0494, 0.0512, 0.0534, 0.0537, 0.054, 0.0557, 0.0562, 0.0565, 0.0565, 0.0578, 0.0589, 0.0598, 0.0605, 0.0606, 0.0618, 0.0635, 0.0652, 0.0668, 0.0677, 0.0682, 0.0684, 0.0694, 0.0698, 0.0713, 0.0735, 0.0742, 0.0744, 0.0765, 0.0805, 0.081, 0.082, 0.0854, 0.0876, 0.0876, 0.0897, 0.0912, 0.0915, 0.0928, 0.0931, 0.0953, 0.0978, 0.0983, 0.0988, 0.1016, 0.1039, 0.1063, 0.1079, 0.1081, 0.1088, 0.1092, 0.1108, 0.1112, 0.1128, 0.114, 0.1151, 0.1171, 0.1182, 0.1279, 0.1301], "lam": 0.988, "start": 100}, "islands": {"pts": [[-0.888, -0.866], [-0.769, -0.867], [-0.639, -0.857], [-0.526, -0.849], [-0.362, -0.865], [-0.27, -0.834], [-0.14, -0.823], [-0.002, -0.849], [0.128, -0.824], [0.26, -0.842], [-0.896, -0.732], [-0.786, -0.686], [-0.632, -0.701], [-0.507, -0.716], [-0.384, -0.722], [-0.255, -0.719], [-0.137, -0.702], [-0.01, -0.699], [0.129, -0.703], [0.27, -0.73], [-0.924, -0.557], [-0.758, -0.536], [-0.633, -0.554], [-0.53, -0.555], [-0.379, -0.583], [-0.275, -0.568], [-0.129, -0.611], [-0.005, -0.563], [0.12, -0.563], [0.257, -0.582], [-0.894, -0.429], [-0.786, -0.422], [-0.622, -0.447], [-0.541, -0.45], [-0.359, -0.429], [-0.262, -0.437], [-0.147, -0.455], [-0.003, -0.421], [0.093, -0.441], [0.239, -0.425], [-0.896, -0.266], [-0.752, -0.267], [-0.624, -0.301], [-0.525, -0.266], [-0.385, -0.283], [-0.291, -0.311], [-0.122, -0.278], [-0.01, -0.29], [0.096, -0.278], [0.266, -0.259], [-0.899, -0.145], [-0.789, -0.123], [-0.619, -0.151], [-0.512, -0.14], [-0.397, -0.179], [-0.267, -0.133], [-0.155, -0.154], [-0.055, -0.122], [0.13, -0.141], [0.246, -0.151], [-0.901, -0.005], [-0.776, -0.001], [-0.643, 0.023], [-0.538, 0.004], [-0.398, -0.017], [-0.297, 0.009], [-0.148, -0.011], [0.001, -0.016], [0.122, -0.001], [0.262, 0.015], [-0.913, 0.155], [-0.774, 0.143], [-0.648, 0.153], [-0.535, 0.145], [-0.371, 0.137], [-0.231, 0.13], [-0.13, 0.134], [-0.015, 0.125], [0.114, 0.141], [0.238, 0.155], [-0.877, 0.26], [-0.76, 0.286], [-0.641, 0.32], [-0.499, 0.288], [-0.386, 0.251], [-0.25, 0.272], [-0.131, 0.285], [0.009, 0.314], [0.137, 0.302], [0.246, 0.29], [-0.888, 0.403], [-0.742, 0.414], [-0.664, 0.45], [-0.485, 0.414], [-0.398, 0.472], [-0.259, 0.395], [-0.143, 0.455], [0.004, 0.436], [0.141, 0.435], [0.245, 0.401], [-0.893, 0.55], [-0.773, 0.593], [-0.636, 0.568], [-0.516, 0.578], [-0.375, 0.547], [-0.258, 0.592], [-0.122, 0.555], [-0.016, 0.536], [0.11, 0.591], [0.249, 0.554], [-0.909, 0.707], [-0.774, 0.703], [-0.656, 0.718], [-0.494, 0.7], [-0.397, 0.726], [-0.283, 0.699], [-0.139, 0.711], [-0.01, 0.695], [0.127, 0.691], [0.224, 0.678], [-0.889, 0.824], [-0.766, 0.86], [-0.632, 0.847], [-0.525, 0.851], [-0.398, 0.831], [-0.242, 0.837], [-0.106, 0.858], [-0.012, 0.857], [0.141, 0.829], [0.236, 0.834], [0.688, 0.57], [0.681, 0.514], [0.654, 0.609], [0.736, 0.557], [0.614, 0.581], [0.694, 0.563], [0.767, 0.591], [0.631, 0.502], [0.749, 0.56], [0.724, 0.545], [0.633, 0.566], [0.761, 0.57], [0.627, 0.538], [0.659, 0.562], [0.735, 0.653], [0.696, 0.533], [0.689, 0.556], [0.664, 0.556], [0.685, 0.496], [0.712, 0.537], [0.636, 0.579], [0.66, 0.642], [0.709, 0.558], [0.647, 0.534], [0.727, 0.52], [0.722, 0.449], [0.694, 0.595], [0.701, 0.554], [0.734, 0.511], [0.635, 0.559], [0.744, -0.525], [0.674, -0.531], [0.706, -0.609], [0.543, -0.598], [0.609, -0.575], [0.624, -0.59], [0.705, -0.541], [0.683, -0.463], [0.661, -0.565], [0.748, -0.601], [0.603, -0.48], [0.701, -0.515], [0.717, -0.5], [0.661, -0.549], [0.629, -0.538], [0.697, -0.567], [0.719, -0.397], [0.628, -0.503], [0.733, -0.491], [0.646, -0.484], [0.719, -0.55], [0.669, -0.531], [0.734, -0.499], [0.802, -0.56], [0.718, -0.564], [0.727, -0.536], [0.658, -0.609], [0.649, -0.53], [0.761, -0.503], [0.628, -0.567], [0.38, 0.38], [0.52, 0.47], [0.38, -0.38], [0.52, -0.47]], "nbr": [[1, 10, 11, 2, 12], [0, 2, 11, 10, 12], [3, 1, 12, 13, 11], [2, 13, 4, 12, 14], [5, 14, 3, 15, 13], [4, 15, 6, 14, 16], [16, 5, 7, 15, 17], [8, 6, 17, 18, 16], [18, 7, 9, 19, 17], [19, 8, 18, 29, 7], [11, 0, 20, 1, 21], [10, 21, 12, 1, 20], [13, 22, 11, 2, 23], [14, 12, 3, 23, 24], [13, 15, 24, 4, 5], [5, 16, 14, 25, 6], [26, 15, 6, 17, 5], [16, 27, 18, 26, 7], [8, 17, 28, 19, 29], [9, 18, 29, 8, 28], [30, 21, 10, 11, 31], [31, 22, 11, 32, 20], [23, 32, 21, 33, 12], [22, 33, 32, 24, 13], [25, 14, 23, 34, 15], [24, 35, 26, 15, 34], [16, 27, 17, 25, 36], [28, 26, 17, 37, 38], [27, 38, 29, 18, 39], [28, 19, 39, 18, 38], [31, 20, 40, 21, 41], [30, 21, 41, 32, 40], [33, 22, 23, 42, 21], [32, 23, 22, 42, 34], [35, 45, 44, 24, 25], [34, 36, 45, 25, 24], [35, 37, 26, 25, 46], [38, 47, 27, 36, 48], [37, 28, 39, 27, 48], [38, 192, 29, 49, 28], [50, 41, 30, 51, 31], [42, 40, 51, 31, 52], [43, 41, 32, 52, 33], [42, 53, 44, 52, 54], [45, 54, 43, 34, 55], [44, 35, 34, 54, 46], [47, 56, 57, 45, 36], [48, 46, 37, 57, 38], [47, 58, 38, 49, 37], [59, 192, 39, 48, 58], [51, 40, 60, 61, 41], [50, 61, 41, 60, 52], [53, 43, 42, 51, 63], [52, 54, 43, 63, 64], [44, 53, 55, 43, 64], [56, 54, 65, 66, 64], [57, 55, 46, 66, 47], [56, 67, 66, 46, 47], [59, 68, 48, 67, 49], [49, 58, 69, 68, 48], [61, 50, 70, 51, 71], [51, 60, 62, 71, 50], [63, 72, 61, 73, 52], [62, 73, 64, 53, 52], [65, 63, 74, 54, 53], [64, 75, 55, 74, 66], [56, 57, 76, 67, 65], [57, 68, 77, 66, 58], [67, 58, 69, 78, 77], [68, 79, 59, 78, 58], [80, 71, 60, 81, 61], [72, 70, 81, 61, 80], [73, 71, 62, 82, 81], [72, 63, 83, 62, 74], [84, 75, 65, 64, 73], [76, 65, 74, 85, 66], [75, 77, 66, 86, 85], [76, 78, 67, 68, 66], [79, 77, 68, 88, 67], [78, 89, 69, 88, 68], [70, 81, 90, 71, 91], [80, 82, 91, 71, 72], [81, 92, 91, 83, 72], [84, 93, 82, 73, 74], [74, 83, 85, 73, 93], [86, 95, 84, 75, 74], [85, 87, 76, 95, 96], [97, 88, 86, 98, 77], [89, 87, 98, 99, 78], [88, 99, 79, 190, 98], [80, 100, 91, 81, 101], [92, 81, 82, 90, 101], [91, 102, 82, 101, 93], [94, 83, 103, 104, 92], [104, 93, 103, 95, 105], [85, 96, 94, 86, 104], [106, 95, 97, 107, 86], [107, 87, 98, 96, 106], [99, 88, 97, 108, 109], [98, 89, 190, 88, 109], [101, 90, 110, 111, 91], [111, 100, 102, 112, 110], [103, 92, 101, 112, 91], [102, 113, 104, 94, 93], [94, 105, 103, 93, 115], [115, 104, 106, 116, 96], [96, 107, 105, 116, 97], [97, 106, 108, 96, 117], [118, 107, 119, 109, 98], [119, 108, 99, 98, 118], [120, 111, 100, 101, 121], [101, 112, 110, 121, 120], [111, 122, 102, 113, 101], [114, 103, 123, 124, 112], [113, 124, 115, 123, 104], [105, 114, 125, 116, 124], [117, 115, 126, 106, 125], [116, 118, 108, 107, 127], [119, 108, 117, 128, 129], [118, 109, 108, 129, 128], [110, 121, 111, 112, 122], [120, 122, 111, 112, 110], [123, 112, 121, 111, 113], [122, 124, 113, 114, 112], [114, 123, 125, 113, 115], [126, 115, 124, 116, 114], [127, 125, 116, 117, 115], [126, 128, 117, 116, 118], [129, 118, 127, 119, 117], [128, 119, 118, 127, 108], [135, 146, 157, 152, 156], [148, 145, 149, 153, 146], [151, 150, 156, 143, 140], [138, 139, 152, 141, 149], [150, 140, 159, 142, 143], [146, 130, 157, 152, 145], [141, 138, 133, 139, 152], [153, 142, 131, 148, 159], [133, 141, 139, 136, 152], [149, 133, 152, 154, 157], [159, 150, 134, 143, 142], [138, 136, 133, 139, 152], [153, 159, 140, 137, 143], [147, 159, 140, 150, 153], [136, 156, 151, 141, 132], [149, 157, 146, 131, 152], [135, 157, 130, 152, 145], [143, 146, 153, 130, 159], [131, 145, 154, 149, 158], [139, 145, 157, 152, 154], [140, 159, 134, 143, 132], [132, 156, 150, 144, 134], [157, 135, 146, 139, 149], [142, 147, 159, 143, 140], [158, 149, 139, 145, 133], [148, 158, 154, 131, 149], [130, 135, 152, 146, 157], [152, 135, 146, 149, 130], [154, 149, 139, 145, 133], [140, 150, 142, 143, 153], [185, 188, 182, 180, 178], [181, 173, 187, 171, 166], [175, 169, 184, 186, 180], [164, 165, 189, 174, 186], [165, 189, 174, 168, 173], [164, 189, 186, 168, 174], [180, 185, 184, 171, 175], [179, 172, 171, 178, 182], [173, 189, 181, 175, 161], [162, 184, 180, 175, 183], [177, 179, 174, 187, 167], [172, 166, 161, 185, 181], [182, 178, 171, 160, 185], [168, 181, 161, 187, 174], [187, 189, 173, 177, 181], [184, 166, 180, 168, 173], [167, 178, 182, 172, 179], [179, 170, 187, 174, 181], [182, 172, 188, 160, 171], [177, 167, 170, 187, 181], [184, 166, 185, 175, 160], [161, 173, 187, 168, 171], [178, 172, 160, 188, 171], [169, 160, 188, 185, 184], [180, 175, 166, 185, 162], [180, 160, 166, 184, 171], [165, 168, 162, 189, 175], [181, 174, 173, 161, 177], [160, 182, 178, 172, 185], [164, 165, 174, 168, 173], [99, 89, 191, 109, 98], [137, 142, 153, 159, 134], [39, 193, 49, 29, 170], [170, 177, 179, 174, 163]], "ev": [-0.2022, -0.1843, -0.1758, -0.1744, -0.1658, -0.1646, -0.1632, -0.1627, -0.1598, -0.1545, -0.1545, -0.1533, -0.1522, -0.1513, -0.1504, -0.1434, -0.1434, -0.1429, -0.1423, -0.1414, -0.1407, -0.1397, -0.1365, -0.1335, -0.1313, -0.1312, -0.1298, -0.1283, -0.1248, -0.1239, -0.1145, -0.0299, -0.0131, -0.013, -0.012, -0.0103, -0.0075, -0.007, -0.0069, -0.0054, -0.0048, -0.0035, -0.0034, -0.0032, -0.0015, -0.0014, 0.0004, 0.0006, 0.0008, 0.001, 0.0027, 0.0033, 0.0039, 0.0042, 0.0044, 0.0057, 0.0064, 0.0064, 0.0067, 0.007, 0.0077, 0.0078, 0.0085, 0.0086, 0.0095, 0.0102, 0.0102, 0.0103, 0.0109, 0.0109, 0.0109, 0.0114, 0.0116, 0.0118, 0.0118, 0.0119, 0.0124, 0.0125, 0.0127, 0.013, 0.0131, 0.0131, 0.0136, 0.0136, 0.0145, 0.0146, 0.0153, 0.0154, 0.0158, 0.0159, 0.0161, 0.0163, 0.0165, 0.0168, 0.0172, 0.0173, 0.0177, 0.0178, 0.018, 0.0192, 0.0193, 0.0193, 0.0196, 0.0196, 0.0197, 0.02, 0.02, 0.0202, 0.0205, 0.021, 0.0213, 0.0213, 0.0216, 0.0219, 0.0219, 0.0225, 0.0227, 0.0228, 0.0233, 0.0241, 0.0241, 0.0247, 0.0249, 0.0251, 0.0252, 0.0252, 0.0255, 0.0255, 0.026, 0.0262, 0.0263, 0.0266, 0.0267, 0.027, 0.0273, 0.0274, 0.0276, 0.0283, 0.0284, 0.0286, 0.0286, 0.029, 0.0295, 0.0296, 0.0298, 0.0298, 0.0298, 0.031, 0.0312, 0.0323, 0.0323, 0.0325, 0.033, 0.033, 0.0332, 0.0344, 0.0351, 0.0354, 0.0358, 0.0362, 0.0387, 0.0414, 0.0478, 0.0754, 0.0766, 0.078, 0.0783, 0.0784, 0.0797, 0.0816, 0.0825, 0.0827, 0.0828, 0.0835, 0.0838, 0.0853, 0.0856, 0.0869, 0.0876, 0.0895, 0.0898, 0.0917, 0.0917, 0.0925, 0.0926, 0.0927, 0.0951, 0.0958, 0.0964, 0.0976, 0.0981, 0.0982, 0.0989, 0.1046], "lam": 0.997, "start": 130}};
+var cur='fabric',pos=0,steps=0,visit=null,timer=null;
+var cv=document.getElementById('f0_rw-cv'),ctx=cv.getContext('2d');
+var ev=document.getElementById('f0_rw-ev'),ectx=ev.getContext('2d');
+function sym(ds){if(ds.adj)return;
+ var n=ds.pts.length,adj=[];
+ for(var i=0;i<n;i++)adj.push({});
+ for(var i=0;i<n;i++)for(var t=0;t<ds.nbr[i].length;t++){
+  var j=ds.nbr[i][t];adj[i][j]=1;adj[j][i]=1}
+ ds.adj=adj.map(function(a){return Object.keys(a).map(Number)})}
+function reset(){var ds=DS[cur];sym(ds);
+ visit=new Float32Array(ds.pts.length);
+ pos=(ds.start!=null)?ds.start:Math.floor(ds.pts.length*0.13);steps=0;
+ document.getElementById('f0_rw-l').textContent=ds.lam.toFixed(3);
+ drawEv();draw()}
+function px(p){return[cv.width/2+p[0]*cv.width*0.46,cv.height/2+p[1]*cv.height*0.46]}
+function draw(){var ds=DS[cur];
+ ctx.clearRect(0,0,cv.width,cv.height);
+ ctx.strokeStyle='rgba(140,150,160,0.18)';ctx.lineWidth=1;
+ for(var i=0;i<ds.pts.length;i++){var q1=px(ds.pts[i]);
+  for(var t=0;t<ds.adj[i].length;t++){var j=ds.adj[i][t];if(j<i)continue;
+   var q2=px(ds.pts[j]);ctx.beginPath();ctx.moveTo(q1[0],q1[1]);
+   ctx.lineTo(q2[0],q2[1]);ctx.stroke()}}
+ var vmax=1;for(var i=0;i<visit.length;i++)if(visit[i]>vmax)vmax=visit[i];
+ for(var i=0;i<ds.pts.length;i++){var q=px(ds.pts[i]);
+  var u=visit[i]/vmax;
+  ctx.fillStyle=u>0?'rgba(14,122,143,'+(0.25+0.75*u)+')':'#d8dfe4';
+  ctx.beginPath();ctx.arc(q[0],q[1],3.2,0,7);ctx.fill()}
+ var q=px(ds.pts[pos]);
+ ctx.fillStyle='#c0392b';ctx.beginPath();ctx.arc(q[0],q[1],5.2,0,7);ctx.fill();
+ var nv=0;for(var i=0;i<visit.length;i++)if(visit[i]>0)nv++;
+ document.getElementById('f0_rw-st').textContent=steps;
+ document.getElementById('f0_rw-vi').textContent=Math.round(100*nv/visit.length)+'%'}
+function drawEv(){var ds=DS[cur];
+ ectx.clearRect(0,0,ev.width,ev.height);
+ ectx.strokeStyle='#0e7a8f';ectx.lineWidth=1.8;ectx.beginPath();
+ var v=ds.ev,n=v.length,lo=v[0],hi=v[n-1],pad=0.12;
+ for(var i=0;i<n;i++){var x=18+(ev.width-30)*i/(n-1);
+  var y=ev.height-24-(ev.height-48)*((v[i]-lo)/(hi-lo));
+  if(i===0)ectx.moveTo(x,y);else ectx.lineTo(x,y)}
+ ectx.stroke();
+ ectx.fillStyle='#8697a3';ectx.font='11px system-ui';
+ ectx.fillText('sorted eigenvector 2',16,16);
+ ectx.fillText(cur==='fabric'?'a smooth ramp':'a plateau with a jump',16,ev.height-8)}
+function tick(){var ds=DS[cur];
+ for(var s=0;s<5;s++){var nb=ds.adj[pos];
+  pos=nb[Math.floor(Math.random()*nb.length)];visit[pos]+=1;steps+=1}
+ draw()}
+document.getElementById('f0_rw-bf').addEventListener('click',function(){
+ cur='fabric';this.classList.add('on');
+ document.getElementById('f0_rw-bi').classList.remove('on');reset()});
+document.getElementById('f0_rw-bi').addEventListener('click',function(){
+ cur='islands';this.classList.add('on');
+ document.getElementById('f0_rw-bf').classList.remove('on');reset()});
+document.getElementById('f0_rw-rs').addEventListener('click',reset);
+reset();
+timer=setInterval(tick,60);
+ })();</script>
+</div>
+<figcaption style="text-align:center; font-size:0.85em; color:#64748b; margin-top:8px; font-style:italic;"><strong>Interactive.</strong> A random walker on one fabric versus islands with bridges (darker = visited more). λ₂ is near 1 in both worlds; the visiting pattern and the sorted-eigenvector shape (ramp versus plateau) are what tell them apart.</figcaption>
+</figure>
+<p><strong>The random walk finds the same islands, and measures their bridges.</strong>
+By k = 5 the network is connected, so counting pieces says nothing more,
+and the walk question takes over: on a k = 10 neighbor graph over the
+20,000-token subsample, how easily does a random walk move around? The
+eigenvalues of the network’s normalized adjacency matrix measure exactly
+this: values near 1 mean there are regions a walk enters and almost never
+leaves. In the raw table, K3’s second eigenvalue is 0.542, so at this
+scale no region is close to sealed; the bridges that appear between k = 3
+and k = 5 are wide enough to walk across. What still separates islands
+from fabric is the shape of the eigenvectors. On one connected surface
+they are smooth ramps, varying gradually across the whole dataset. On a
+network of communities they are localized: nearly all of the eigenvector
+sits on one small group of tokens and is flat everywhere else. Ours are
+localized: 99.8 percent of eigenvector 2 lives on about 230 of the 20,000
+tokens (right panel below). The islands are written in the walk’s
+geometry even where the walk is no longer trapped.</p>
+<p>
+<figure><img src="images/2026-08-13-embedding-dimension-illusion/a1_clusters_spectral.png"/><figcaption>Left: leading eigenvalues of the k = 10 neighbor graph on 20,000 K3 tokens in the raw table: λ₂ = 0.542, nothing near 1. Right: eigenvector 2 of the same graph, sorted over tokens: 99.8 percent of it lives on about 230 tokens. Localized, not a ramp.</figcaption>
+</figure>
+</p>
+<p><strong>The islands are recognizable kinds of tokens.</strong> A clustering algorithm
+will happily cut a featureless cloud into arbitrary pieces, so the last
+check asks whether the groups the table defines correspond to anything a
+human would recognize. It has two steps, one blind and one deliberately
+simple.</p>
+<p>The blind step groups tokens by geometry alone. Dictionary learning finds
+a small set of directions in the table such that each token’s vector is
+well approximated by a combination of only a few of them. Each direction
+then comes with a natural group, the 250 tokens that use it most
+strongly. Nothing in this step sees spelling. It works on the vectors and
+nothing else.</p>
+<p>The simple step tries to name those groups using spelling alone. There
+are four rules. A token can be pure punctuation, like “)).,”; pure
+digits, like “2019”; written entirely in one script, say a run of
+Cyrillic; or a variant of one suffix, like “ARD / ard / ards”. For each
+group, each rule captures some share of the 250 tokens, and the group’s
+score is the largest of those four shares. A group that really is a
+family scores near 1: in one GPT-2 group almost every token is pure
+punctuation, so the punctuation rule captures almost all of it. A random
+collection of 250 tokens does not score zero, though, because any
+vocabulary is full of digits and punctuation to begin with. So the bar is
+calibrated instead of guessed: draw 1,000 groups of 250 tokens at random,
+score them the same way, and call a real group recognizable only if it
+beats the 99<sup>th</sup> percentile of those random scores.</p>
+<p>On GPT-2, <strong>18 of the 20 strongest directions</strong> clear that bar; on K3,
+<strong>17 of 20</strong>. The groups the table defines by geometry alone are, almost
+every time, groups a reader can name: punctuation strata like “)).,”,
+digit tokens, script blocks, suffix families like “ARD / ard / ards”.</p>
+<p>
+<figure><img src="images/2026-08-13-embedding-dimension-illusion/a1_clusters_purity.png"/><figcaption>String-class purity of the top sparse components, against the purity of random 250-token lists (red line: their 99<sup>th</sup> percentile). The vocabulary’s clusters are recognizable populations, not artifacts of the partition.</figcaption>
+</figure>
+</p>
+<h3 id="the-fix-to-twonn-measure-inside-coherent-patches">The fix to TwoNN: measure inside coherent patches<a class="headerlink" href="#the-fix-to-twonn-measure-inside-coherent-patches" title="Permanent link">¶</a></h3>
+<p>Once the structure of the embedding table has been validated, the fix to
+the TwoNN is almost obvious: measure inside coherent patches, and never
+across them. We partition each table with a random-projection tree, a
+data-adaptive splitting that produces leaves of a few hundred tokens (64
+leaves for GPT-2, up to 256 for K3); RP-trees assume nothing about what the
+clusters are and simply cut where the data is wide. TwoNN then runs twice
+on the same table: once globally, which is the standard procedure, and once
+inside each leaf, where the single-structure assumption has a chance of
+holding. <strong>The gap between the two readings is the measurement.</strong></p>
+<p>Results are stable to the partition
+seed, and leaf sizes of a few hundred tokens keep TwoNN well above its
+small-sample regime while staying below the scale where leaves themselves
+become mixtures. The per-leaf estimator inherits TwoNN’s remaining
+assumptions (approximate local uniformity within a leaf), so leaf values
+should be read as well-founded estimates rather than exact truths. What
+carries the finding is the gap between the leaf distribution and the global
+number, and that gap dwarfs any within-leaf estimation error.</p>
+<p>The five embedding tables were extracted directly from released weights. For K3 that
+deserves a sentence, because it sounds implausible to run on a laptop. The table is a single
+named tensor in one safetensors shard, and the format’s header gives byte
+offsets per tensor, so you can pull 2.3 GB out of a multi-terabyte model
+release and never load, let alone run, the model itself.</p>
+<h3 id="the-result">The result<a class="headerlink" href="#the-result" title="Permanent link">¶</a></h3>
+<p>Here is the comparison across all five models:</p>
+<table>
+<thead>
+<tr>
+<th>Model</th>
+<th>Global TwoNN</th>
+<th>Median leaf (local)</th>
+<th>Overstatement</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>GPT-2 (124M)</td>
+<td>31</td>
+<td>16.3</td>
+<td>~2×</td>
+</tr>
+<tr>
+<td>Pythia-160M</td>
+<td>83</td>
+<td>15.5</td>
+<td>~5×</td>
+</tr>
+<tr>
+<td>Qwen2.5-0.5B</td>
+<td>52</td>
+<td>24.6</td>
+<td>~2×</td>
+</tr>
+<tr>
+<td>Gemma-4-31B</td>
+<td>29</td>
+<td>21.8</td>
+<td>~1.3×</td>
+</tr>
+<tr>
+<td>Kimi K3 (2.8T)</td>
+<td>180</td>
+<td>38.2</td>
+<td>~5×</td>
+</tr>
+</tbody>
+</table>
+<p>
+<figure><img src="images/2026-08-13-embedding-dimension-illusion/fig_mixture_artifact.png"/><figcaption>Per-leaf local dimension versus the global estimate, five models. Each violin is the distribution of per-leaf TwoNN values across that model’s partition; the marker above it is the global estimate computed on the same table. The bulk of every distribution sits far below the global marker.</figcaption>
+</figure>
+</p>
+<p>Two readings of this figure matter.</p>
+<p>First, the size of the gap. K3’s global estimate is 180, but the median
+leaf reads 38. Pythia reads 83 globally and 15.5 locally. These are not
+refinements of a roughly-correct number. <strong>The global estimate is not a
+property of the typical data. It is a property of the mixture.</strong> Note: the leaf
+distribution does have an upper tail, visible in the violins: a minority of
+K3 leaves read into the low hundreds. Those are the debris-heavy cells, in
+which even the local estimator inherits the concentration effect the widget
+demonstrates, and they are the exception that explains itself.</p>
+<p>Second, the resolution of the bizarre cross-model ordering. Pythia and K3,
+the two models with the most inflated global numbers, are the two whose
+embedding clouds are most isotropic. Measured as the mean pairwise cosine
+between normalized rows, both sit at 0.004, against 0.27 for GPT-2’s
+strongly cone-shaped cloud, 0.15 for Qwen and 0.03 for Gemma; this kind of
+anisotropy, a shared direction that dominates every vector, is well
+documented in language-model representations
+[<a href="https://arxiv.org/abs/1909.00512">Ethayarajh, 2019</a>;
+<a href="https://arxiv.org/abs/2109.04404">Timkey &amp; van Schijndel, 2021</a>]. In an
+isotropic cloud the clusters are spread over many directions, so the
+between-cluster geometry contributes many effective dimensions to the
+artifact. Gemma’s mild 1.3× overstatement reflects a more
+compactly organized vocabulary, not a simpler one. Separate “how complex are
+the islands” from “how are the islands arranged” and each model’s numbers
+become interpretable. The island complexities (16 to 38) vary far less
+across three orders of magnitude of scale than the global numbers (29 to
+180) ever suggested.</p>
+<h3 id="why-it-matters">Why it matters<a class="headerlink" href="#why-it-matters" title="Permanent link">¶</a></h3>
+<p>Intrinsic dimension is not a decorative statistic. Published estimates of
+it steer real decisions: how many components to keep,
+how small an adaptation of a language model can afford to be
+[<a href="https://arxiv.org/abs/2012.13255">Aghajanyan et al., 2021</a>], whether one
+representation is “simpler” than another
+[<a href="https://arxiv.org/abs/1905.12784">Ansuini et al., 2019</a>]. Such
+comparisons are increasingly common for language models, with TwoNN itself
+the standard instrument for tracking dimension across transformer layers
+[<a href="https://arxiv.org/abs/2302.00294">Valeriani et al., 2023</a>],
+and for token-embedding tables this result says the number they rest on is
+an artifact: off by a factor of 2 to 5, in a direction and with a
+cross-model ordering that mislead exactly the conclusions people want to
+draw from it.
+The estimator’s validity conditions were stated in its original paper,
+but it does not surprise me that people apply the recipe without reading
+the hypothesis.
+Two consequences follow that we have measured directly.</p>
+<p><strong>Everything sized by the global number is mis-sized.</strong> Chart dimensions, PCA
+truncations, kernel bandwidths, probe capacities: the global estimate is the
+number people reach for, and it is off by up to 5×. And too many dimensions
+are not a harmless surplus. Every dimension beyond what the data supports is
+room for noise: a probe or kernel budgeted at 180 dimensions has over a
+hundred directions in which to fit sampling accidents that the
+38-dimensional structure never produced. Worse, neighbor-based machinery
+degrades outright as dimensions accumulate, because distances concentrate
+and the contrast between the nearest and the farthest neighbor collapses
+[<a href="https://doi.org/10.1007/3-540-49257-7_15">Beyer et al., 1999</a>]. We hit
+this concretely on K3: estimating each token’s dimension from its own
+nearest-neighbor ball in the full table returns values that saturate around
+500, a number with no geometric meaning, while the same estimator confined
+to coherent cells reads 38.</p>
+<p><strong>At frontier scale, naive neighborhoods are mixtures too.</strong> In K3’s table, a
+token’s nearest-neighbor ball routinely spans several islands, so any
+“local” quantity computed in it (density, dimension, curvature) inherits the
+same artifact at small scale.</p>
+<p>There is also something positive hiding in the per-leaf profile. Once you
+measure dimension where it is actually defined, it stops being noise and
+becomes a field with structure. Leaf dimension correlates with token
+frequency, negatively, in all five models (Spearman −0.27 to −0.56). Rare
+tokens live in measurably higher-dimensional neighborhoods than frequent
+ones. That law, its echo in the models’ activations, and the training
+dynamics that produce it are measured results in their own right. This will
+deserve a full article on its own soon.</p>
+<p>The practical summary fits in one line: a token vocabulary is an
+archipelago, not a manifold, and a dimension is only worth quoting if you
+can say which island it was measured on.</p>
+<h3 id="references">References<a class="headerlink" href="#references" title="Permanent link">¶</a></h3>
+<ul>
+<li>Aghajanyan, A., Zettlemoyer, L., and Gupta, S. (2021). Intrinsic
+  Dimensionality Explains the Effectiveness of Language Model Fine-Tuning.
+  ACL 2021. <a href="https://arxiv.org/abs/2012.13255">arXiv:2012.13255</a></li>
+<li>Ansuini, A., Laio, A., Macke, J. H., and Zoccolan, D. (2019). Intrinsic
+  dimension of data representations in deep neural networks. NeurIPS 2019.
+  <a href="https://arxiv.org/abs/1905.12784">arXiv:1905.12784</a></li>
+<li>Beyer, K., Goldstein, J., Ramakrishnan, R., and Shaft, U. (1999). When Is
+  “Nearest Neighbor” Meaningful? ICDT 1999.
+  <a href="https://doi.org/10.1007/3-540-49257-7_15">DOI</a></li>
+<li>Bi, Z., and Lafaye de Micheaux, P. (2025). A Survey and Comparative
+  Evaluation of Intrinsic Dimension Estimators under the Manifold
+  Hypothesis. <a href="https://arxiv.org/abs/2509.15517">arXiv:2509.15517</a></li>
+<li>Brown, B., Caterini, A. L., Ross, B. L., Cresswell, J. C., and
+  Loaiza-Ganem, G. (2023). Verifying the Union of Manifolds Hypothesis for
+  Image Data. ICLR 2023.
+  <a href="https://arxiv.org/abs/2207.02862">arXiv:2207.02862</a></li>
+<li>Ethayarajh, K. (2019). How Contextual are Contextualized Word
+  Representations? Comparing the Geometry of BERT, ELMo, and GPT-2
+  Embeddings. EMNLP 2019.
+  <a href="https://arxiv.org/abs/1909.00512">arXiv:1909.00512</a></li>
+<li>Facco, E., d’Errico, M., Rodriguez, A., and Laio, A. (2017). Estimating
+  the intrinsic dimension of datasets by a minimal neighborhood
+  information. Scientific Reports 7, 12140.
+  <a href="https://www.nature.com/articles/s41598-017-11873-y">Nature</a></li>
+<li>Fefferman, C., Mitter, S., and Narayanan, H. (2016). Testing the manifold
+  hypothesis. Journal of the American Mathematical Society 29(4), 983-1049.
+  <a href="https://arxiv.org/abs/1310.0425">arXiv:1310.0425</a></li>
+<li>Robinson, M., Dey, S., and Chiang, T. (2025). Token embeddings violate
+  the manifold hypothesis.
+  <a href="https://arxiv.org/abs/2504.01002">arXiv:2504.01002</a></li>
+<li>Timkey, W., and van Schijndel, M. (2021). All Bark and No Bite: Rogue
+  Dimensions in Transformer Language Models Obscure Representational
+  Quality. EMNLP 2021.
+  <a href="https://arxiv.org/abs/2109.04404">arXiv:2109.04404</a></li>
+<li>Valeriani, L., Doimo, D., Cuturello, F., Laio, A., Ansuini, A., and
+  Cazzaniga, A. (2023). The geometry of hidden representations of large
+  transformer models. NeurIPS 2023.
+  <a href="https://arxiv.org/abs/2302.00294">arXiv:2302.00294</a></li>
+</ul>
+                </div>
+                
+                <!-- Mermaid Script -->
+                <script type="module">
+                    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+                    
+                    // Configure and initialize mermaid
+                    const initMermaid = async () => {
+                        try {
+                            await mermaid.initialize({ 
+                                startOnLoad: true,
+                                theme: document.documentElement.classList.contains('dark') ? 'dark' : 'default',
+                                securityLevel: 'loose',
+                                flowchart: {
+                                    useMaxWidth: false,
+                                    htmlLabels: true,
+                                    curve: 'basis',
+                                    padding: 20,
+                                    nodeSpacing: 50,
+                                    rankSpacing: 50
+                                },
+                                themeVariables: {
+                                    primaryColor: '#D97706',
+                                    primaryTextColor: '#2A2927',
+                                    primaryBorderColor: '#D97706',
+                                    lineColor: '#78716c',
+                                    secondaryColor: '#f5f5f4',
+                                    tertiaryColor: '#fafaf9',
+                                    background: '#F8F6F1',
+                                    mainBkg: '#f5ede0',
+                                    secondBkg: '#faf7f0',
+                                    tertiaryBkg: '#faf7f0'
+                                }
+                            });
+                            
+                            // Log any mermaid elements found
+                            const elements = document.querySelectorAll('.mermaid');
+                            console.log(`Mermaid initialized. Found ${elements.length} diagram(s)`);
+                            
+                            // Force render if elements exist
+                            if (elements.length > 0) {
+                                mermaid.contentLoaded();
+                            }
+                        } catch (error) {
+                            console.error('Mermaid initialization error:', error);
+                        }
+                    };
+                    
+                    // Initialize when DOM is ready
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', initMermaid);
+                    } else {
+                        // DOM already loaded
+                        await initMermaid();
+                    }
+                </script>
+            </article>
+
+            <!-- Prev / Next + same-category navigation -->
+            
+            <nav class="mt-16 pt-8 border-t border-stone-200 dark:border-stone-700 flex justify-between gap-8">
+                <div class="flex-1">
+                    
+                    <a href="https://quemy.info/2026-07-09-consistent-cited-and-false.html" class="group block">
+                        <span class="post-meta block mb-1">← Previous</span>
+                        <span class="font-serif text-lg text-ink dark:text-dark-ink group-hover:text-accent-light dark:group-hover:text-accent-dark transition-colors">Consistent, Cited, and False: Auditing My Own Axioms</span>
+                    </a>
+                    
+                </div>
+                <div class="flex-1 text-right">
+                    
+                </div>
+            </nav>
+            
+            
+            <div class="mt-10">
+                <span class="post-meta block mb-3">More in LLM</span>
+                <ul class="space-y-1.5">
+                    
+                    <li><a href="https://quemy.info/2025-15-06-tutorial-fsm-2.html" class="font-serif text-accent-light dark:text-accent-dark hover:underline">Signature Model Tutorial Part 2 - The problems with Native Function Calling</a></li>
+                    
+                    <li><a href="https://quemy.info/2025-15-06-tutorial-fsm-3.html" class="font-serif text-accent-light dark:text-accent-dark hover:underline">Signature Model Tutorial Part 3 - Introduction to the Signature Model</a></li>
+                    
+                    <li><a href="https://quemy.info/2025-15-06-tutorial-fsm-1.html" class="font-serif text-accent-light dark:text-accent-dark hover:underline">Signature Model Tutorial Part 1 - Introduction to the Function Calling</a></li>
+                    
+                </ul>
+            </div>
+            
+
+            <!-- Giscus Comments Section -->
+            <div class="mt-16 pt-8 border-t border-stone-200 dark:border-stone-700">
+                <script src="https://giscus.app/client.js"
+                    data-repo="aquemy/aquemy.github.io"
+                    data-repo-id="MDEwOlJlcG9zaXRvcnkzMTM5NTY4OTU="
+                    data-category="Ideas"
+                    data-category-id="DIC_kwDOEraaH84CdPT4"
+                    data-mapping="pathname"
+                    data-strict="0"
+                    data-reactions-enabled="1"
+                    data-emit-metadata="1"
+                    data-input-position="top"
+                    data-theme="preferred_color_scheme"
+                    data-lang="en"
+                    data-loading="lazy"
+                    crossorigin="anonymous"
+                    async>
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Image lightbox: click a content image to view it full-screen; click the backdrop or press Esc to close -->
+<style>
+  .lightbox-overlay { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 4vmin; background: rgba(22,20,18,.88); opacity: 0; transition: opacity .18s ease; cursor: zoom-out; }
+  .lightbox-overlay.open { opacity: 1; }
+  .lightbox-overlay img { max-width: 94vw; max-height: 92vh; width: auto; height: auto; border-radius: 6px; background: #fff; box-shadow: 0 16px 60px rgba(0,0,0,.55); cursor: default; }
+  .lightbox-close { position: fixed; top: 16px; right: 22px; font-size: 36px; line-height: 1; color: #fff; opacity: .8; cursor: pointer; background: none; border: 0; padding: 4px 10px; }
+  .lightbox-close:hover { opacity: 1; }
+  #prose-content img.zoomable { cursor: zoom-in; }
+  /* Ink-diagram SVGs are authored for a light surface; give them one in dark mode so the dark ink stays readable. */
+  html.dark #prose-content img[src$=".svg"] { background: #f4f1ea; padding: 16px; border-radius: 8px; box-shadow: 0 2px 16px rgba(0,0,0,.30); }
+  .lightbox-overlay img[src$=".svg"] { padding: 18px; }
+  /* Interactive HTML widgets are authored for a light surface; give the container one in dark mode. */
+  html.dark .igl-widget { background: #f4f1ea; }
+</style>
+<script>
+(function () {
+  function init() {
+    var prose = document.getElementById('prose-content');
+    if (!prose) return;
+    var overlay = null;
+    function close() {
+      if (!overlay) return;
+      var o = overlay; overlay = null;
+      o.classList.remove('open');
+      document.body.style.overflow = '';
+      setTimeout(function () { if (o && o.parentNode) o.parentNode.removeChild(o); }, 200);
+    }
+    function open(src, alt) {
+      close();
+      overlay = document.createElement('div');
+      overlay.className = 'lightbox-overlay';
+      var btn = document.createElement('button');
+      btn.className = 'lightbox-close'; btn.setAttribute('aria-label', 'Close'); btn.innerHTML = '&times;';
+      var im = document.createElement('img');
+      im.src = src; im.alt = alt || '';
+      overlay.appendChild(btn); overlay.appendChild(im);
+      document.body.appendChild(overlay);
+      document.body.style.overflow = 'hidden';
+      requestAnimationFrame(function () { overlay.classList.add('open'); });
+      overlay.addEventListener('click', function (e) { if (e.target !== im) close(); });
+    }
+    var imgs = prose.querySelectorAll('img');
+    for (var i = 0; i < imgs.length; i++) {
+      var img = imgs[i];
+      if (img.closest('a')) continue;
+      img.classList.add('zoomable');
+      (function (im) { im.addEventListener('click', function () { open(im.currentSrc || im.src, im.alt); }); })(img);
+    }
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+
+        </main>
+        <footer class="w-full max-w-4xl mx-auto text-center py-8 px-4 mt-6 border-t border-black/10 dark:border-white/10">
+    <div class="flex justify-center space-x-6 mb-4">
+        
+        <a href="mailto:alexandre@quemy.info" title="Email" class="footer-icon"><i class="fas fa-envelope"></i></a>
+        
+        
+        <a href="https://linkedin.com/in/aquemy" title="LinkedIn" target="_blank" class="footer-icon"><i class="fab fa-linkedin"></i></a>
+        
+        
+        <a href="http://github.com/aquemy" title="GitHub" target="_blank" class="footer-icon"><i class="fab fa-github"></i></a>
+        
+        
+        <a href="https://twitter.com/@alexandre_quemy" title="Twitter" target="_blank" class="footer-icon"><i class="fab fa-twitter"></i></a>
+        
+        <a href="https://orcid.org/0000-0002-5865-6403" title="ORCID" target="_blank" class="footer-icon"><i class="fab fa-orcid"></i></a>
+    </div>
+    <p class="text-xs text-stone-500 dark:text-stone-400">
+        © <span id="current-year"></span> Alexandre Quemy. All rights reserved.
+    </p>
+</footer> <!-- This is the footer -->
+    </div>
+    
+
+    <!-- Custom JavaScript -->
+    <script src="https://quemy.info/js/main.js"></script>
+
+    
+</body>
+</html>

@@ -1,0 +1,68 @@
+<style>
+.cl-wrap{font:13px system-ui;color:#1a2330}
+.cl-row{display:flex;gap:20px;align-items:center;flex-wrap:wrap;margin-bottom:8px}
+.cl-num{font:600 16px ui-monospace,monospace;color:#0e7a8f}
+#cl-cv{width:100%;max-width:640px;border:1px solid #d5dde2;border-radius:6px}
+input[type=range]{width:220px}
+</style>
+<body>
+<div class="cl-wrap">
+<div class="cl-row">
+ <label>neighbors per token (k):
+  <input type="range" id="cl-sl" min="1" max="10" step="1" value="3">
+  <span class="cl-num" id="cl-k">3</span></label>
+ <span>components: <span class="cl-num" id="cl-nc">?</span></span>
+ <span>largest holds <span class="cl-num" id="cl-big">?</span></span>
+</div>
+<canvas id="cl-cv" width="640" height="420"></canvas>
+<div style="color:#8697a3;margin-top:6px">A toy vocabulary: eight islands plus
+scattered rare tokens. Each point links to its k nearest neighbors; a link
+counts if either end lists the other. At small k the network is in pieces
+(each colored by component; gray = the largest). Raise k and thin bridges
+stitch everything together. TwoNN operates below k = 3, at the most
+fragmented scale.</div>
+</div>
+<script>
+var P=[[0.68, -0.027], [0.685, 0.028], [0.684, 0.059], [0.677, 0.065], [0.672, 0.198], [0.613, -0.019], [0.669, 0.017], [0.645, 0.035], [0.727, 0.024], [0.693, -0.044], [0.664, 0.009], [0.654, 0.035], [0.685, 0.003], [0.684, 0.091], [0.72, 0.029], [0.677, 0.011], [0.609, -0.046], [0.492, 0.502], [0.417, 0.601], [0.449, 0.542], [0.416, 0.478], [0.602, 0.473], [0.49, 0.469], [0.422, 0.474], [0.397, 0.611], [0.408, 0.533], [0.455, 0.569], [0.441, 0.478], [0.484, 0.577], [0.439, 0.46], [0.45, 0.54], [0.388, 0.345], [0.445, 0.535], [0.445, 0.451], [0.035, 0.565], [-0.026, 0.662], [0.018, 0.638], [0.008, 0.69], [0.033, 0.708], [0.049, 0.679], [0.06, 0.688], [0.068, 0.58], [-0.016, 0.643], [0.031, 0.726], [0.154, 0.761], [0.006, 0.747], [0.068, 0.712], [-0.042, 0.6], [0.011, 0.667], [-0.042, 0.667], [-0.038, 0.712], [-0.42, 0.553], [-0.347, 0.706], [-0.388, 0.545], [-0.446, 0.516], [-0.485, 0.524], [-0.451, 0.604], [-0.484, 0.531], [-0.298, 0.606], [-0.336, 0.593], [-0.437, 0.547], [-0.34, 0.49], [-0.469, 0.636], [-0.354, 0.612], [-0.35, 0.625], [-0.36, 0.647], [-0.433, 0.549], [-0.422, 0.661], [-0.7, 0.001], [-0.722, 0.036], [-0.633, 0.06], [-0.667, -0.003], [-0.729, 0.053], [-0.635, -0.063], [-0.673, 0.046], [-0.685, -0.065], [-0.667, 0.036], [-0.631, -0.047], [-0.737, -0.036], [-0.699, 0.027], [-0.776, -0.011], [-0.66, 0.031], [-0.663, -0.042], [-0.647, -0.012], [-0.588, -0.014], [-0.551, -0.46], [-0.586, -0.476], [-0.549, -0.401], [-0.522, -0.388], [-0.648, -0.513], [-0.519, -0.452], [-0.592, -0.493], [-0.557, -0.382], [-0.599, -0.434], [-0.591, -0.402], [-0.473, -0.584], [-0.494, -0.479], [-0.56, -0.412], [-0.451, -0.503], [-0.499, -0.536], [-0.497, -0.512], [-0.429, -0.443], [0.088, -0.739], [0.051, -0.653], [0.023, -0.702], [-0.023, -0.673], [0.022, -0.729], [0.062, -0.816], [0.017, -0.704], [-0.01, -0.78], [0.002, -0.793], [-0.015, -0.66], [0.056, -0.682], [-0.015, -0.729], [-0.042, -0.767], [0.063, -0.689], [-0.063, -0.608], [-0.04, -0.675], [0.119, -0.651], [0.443, -0.604], [0.452, -0.487], [0.435, -0.573], [0.437, -0.585], [0.457, -0.561], [0.456, -0.562], [0.418, -0.566], [0.431, -0.484], [0.407, -0.62], [0.429, -0.478], [0.501, -0.412], [0.436, -0.5], [0.51, -0.536], [0.451, -0.514], [0.494, -0.389], [0.458, -0.532], [0.416, -0.58], [0.886, -0.637], [0.157, 0.034], [-0.025, -0.113], [-0.825, 0.599], [-0.864, 0.824], [-0.891, 0.599], [-0.885, 0.579], [0.02, -0.141], [0.651, 0.807], [-0.009, -0.119], [-0.128, 0.145], [-0.902, -0.287], [-0.874, 0.689], [-0.063, -0.016], [0.821, 0.769], [0.71, -0.805], [-0.535, -0.917], [-0.041, -0.217], [-0.043, 0.11], [-0.811, -0.824], [0.084, 0.207], [0.348, -0.179], [0.795, 0.898], [-0.842, 0.911], [-0.078, -0.297], [-0.797, 0.421], [0.805, 0.614], [0.318, -0.178], [0.27, -0.055], [0.819, -0.663], [0.269, -0.108], [-0.787, -0.916], [0.338, 0.889], [0.902, -0.825], [-0.688, 0.899], [0.851, -0.68], [-0.86, 0.651], [-0.387, -0.798], [-0.213, -0.186], [-0.004, -0.055], [0.28, -0.126], [0.428, -0.915], [-0.117, 0.25], [0.794, -0.373]];
+var N=P.length;
+var D2=[];
+for(var i=0;i<N;i++){D2.push(new Float64Array(N));
+ for(var j=0;j<N;j++){var dx=P[i][0]-P[j][0],dy=P[i][1]-P[j][1];
+  D2[i][j]=(i===j)?1e18:dx*dx+dy*dy}}
+var ORD=[];
+for(var i=0;i<N;i++){var id=[];for(var j=0;j<N;j++)id.push(j);
+ id.sort(function(a,b){return D2[i][a]-D2[i][b]});ORD.push(id)}
+var cv=document.getElementById('cl-cv'),ctx=cv.getContext('2d');
+var COLS=['#c0392b','#e67e22','#8e44ad','#2980b9','#16a085','#d35400',
+'#7f8c8d','#c2185b','#5d4037','#2e7d32','#455a64','#f39c12'];
+function find(pa,x){while(pa[x]!==x){pa[x]=pa[pa[x]];x=pa[x]}return x}
+function render(k){
+ var edges=[],pa=[];
+ for(var i=0;i<N;i++)pa.push(i);
+ for(var i=0;i<N;i++)for(var t=0;t<k;t++){var j=ORD[i][t];
+  edges.push([i,j]);
+  var a=find(pa,i),b=find(pa,j);if(a!==b)pa[a]=b}
+ var comp={},lab=[];
+ for(var i=0;i<N;i++){var r=find(pa,i);
+  if(!(r in comp))comp[r]=Object.keys(comp).length;lab.push(comp[r])}
+ var nc=Object.keys(comp).length;
+ var counts=new Array(nc).fill(0);
+ for(var i=0;i<N;i++)counts[lab[i]]++;
+ var big=0;for(var c=1;c<nc;c++)if(counts[c]>counts[big])big=c;
+ document.getElementById('cl-k').textContent=k;
+ document.getElementById('cl-nc').textContent=nc;
+ document.getElementById('cl-big').textContent=Math.round(100*counts[big]/N)+'%';
+ ctx.clearRect(0,0,cv.width,cv.height);
+ function px(p){return[cv.width/2+p[0]*cv.width*0.47,cv.height/2+p[1]*cv.height*0.45]}
+ ctx.strokeStyle='rgba(140,150,160,0.25)';ctx.lineWidth=1;
+ for(var e=0;e<edges.length;e++){var q1=px(P[edges[e][0]]),q2=px(P[edges[e][1]]);
+  ctx.beginPath();ctx.moveTo(q1[0],q1[1]);ctx.lineTo(q2[0],q2[1]);ctx.stroke()}
+ for(var i=0;i<N;i++){var q=px(P[i]);
+  ctx.fillStyle=(lab[i]===big)?'#9fb2bc':COLS[lab[i]%COLS.length];
+  ctx.beginPath();ctx.arc(q[0],q[1],3.4,0,7);ctx.fill()}
+}
+var sl=document.getElementById('cl-sl');
+sl.addEventListener('input',function(){render(parseInt(sl.value))});
+render(3);
+</script>
+</body>
