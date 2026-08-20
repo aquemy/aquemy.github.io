@@ -28,7 +28,7 @@ variance the top k principal directions capture, zoomed into its last two
 percent. It starts at 98.5 percent for a single direction and is saturated by
 k = 2. Bottom: how well GPT-2's own head predicts when it must read the state
 through k dimensions, as a multiple of the intact perplexity of 29.3 (log
-scale). Grey is the best possible linear map, blue is the chart trained under
+scale). Grey is the optimal linear map under the logit metric, blue is the chart trained under
 the Fisher metric, and the red dot is plain variance ranking at k = 32. By the top
 panel's accounting the state is fully summarized almost immediately. The
 bottom panel does not get near intact before roughly 384 of 768 dimensions.

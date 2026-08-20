@@ -184,7 +184,7 @@
     <header class="max-w-5xl mx-auto mb-12 text-center lg:text-left">
         <a href="https://quemy.info/blog.html" class="post-meta text-accent-light dark:text-accent-dark hover:underline mb-6 inline-block">← Back to all posts</a>
         <h1 class="font-serif text-4xl md:text-5xl font-bold text-ink dark:text-dark-ink leading-tight">Function Lives Where Variance Doesn't</h1>
-        <p class="post-meta mt-4">LLM · 2026-08-20 · 22 min read</p>
+        <p class="post-meta mt-4">LLM · 2026-08-20 · 23 min read</p>
     </header>
 
     <div class="lg:grid lg:grid-cols-5 lg:gap-16">
@@ -286,11 +286,24 @@ dimensions and narrow cones documented across contextual models
 (<a href="https://arxiv.org/abs/1909.00512">Ethayarajh, 2019</a>,
 <a href="https://arxiv.org/abs/2109.04404">Timkey and van Schijndel, 2021</a>).
 What is new is the direct measurement of what they carry.</p>
+<p>Three details for the careful reader, because each rules out an easy
+explanation. First, the principal directions come from centered PCA: we
+subtract the mean state before computing them, so the top directions
+carry real variance, not the constant offset. Second, deleting a
+direction means mean-ablation: along that direction, every state is
+moved back to the average state. Third, the state we intervene on is the
+one the unembedding actually reads, after GPT-2’s final LayerNorm.
+Nothing stands between the intervention and the logits, so normalization
+cannot quietly undo our deletions. In particular, the 90 percent
+concentration is a property of the already-normalized state. LayerNorm
+had its chance, and these directions survived it.</p>
 <h3 id="the-ruler-that-works-a-fisher-metric-through-the-heads-jacobian">The ruler that works: a Fisher metric through the head’s Jacobian<a class="headerlink" href="#the-ruler-that-works-a-fisher-metric-through-the-heads-jacobian" title="Permanent link">¶</a></h3>
 <p>If variance is the wrong ruler, what is the right one? Ask the model.
 Everything GPT-2 does with a layer-11 state <span class="arithmatex">\(h\)</span>, a vector of 768 numbers,
 passes through the head: logits <span class="arithmatex">\(\ell = W_U h\)</span>, then probabilities
-<span class="arithmatex">\(p = \mathrm{softmax}(\ell)\)</span>.</p>
+<span class="arithmatex">\(p = \mathrm{softmax}(\ell)\)</span>. This is exact rather than shorthand: <span class="arithmatex">\(h\)</span>
+is the state after the final LayerNorm, so the head’s Jacobian really is
+<span class="arithmatex">\(W_U\)</span>.</p>
 <p>Our instrument for measuring the state is a chart: a pair of maps
 <span class="arithmatex">\(\hat h = D(E(h))\)</span>, where the encoder <span class="arithmatex">\(E\)</span> compresses the state to <span class="arithmatex">\(k\)</span>
 coordinates and the decoder <span class="arithmatex">\(D\)</span> rebuilds it. PCA is the simplest linear
@@ -526,8 +539,9 @@ head’s Jacobian <span class="arithmatex">\(W_U\)</span>, and the softmax facto
 <span class="arithmatex">\(\mathrm{diag}(p) - p\,p^\top\)</span>. Remove the softmax factor and the metric
 becomes <span class="arithmatex">\(W_U^\top W_U\)</span>. That version measures how much a step moves the
 logits, all 50,257 of them counted equally. It sounds reasonable and it
-fails: charts trained under it land at perplexity 512, far behind the
-Fisher chart’s 184. The reason is saturation. At any given position,
+fails: charts trained under it at k = 32 land at perplexity 512 (spread
+61 across seeds), far behind the Fisher chart’s 184 (spread 17). The
+reason is saturation. At any given position,
 almost every token in the vocabulary has probability near zero. Moving a
 dead token’s logit changes nothing in what the model says, yet the plain
 metric spends the chart’s capacity on exactly those directions. The
@@ -545,8 +559,8 @@ tests exactly this.</p>
 <p>In GPT-2 the hidden state is a residual stream: one vector <span class="arithmatex">\(h\)</span> of 768
 numbers that every block reads from and writes to by addition,
 <span class="arithmatex">\(h \leftarrow h + \mathrm{block}(h)\)</span>. The state we study is that stream
-after the last block, just before the head turns it into next-token
-probabilities. Steering means writing into the stream ourselves. Pick a
+after the last block and after the final normalization: exactly the
+vector the head reads. Steering means writing into it ourselves. Pick a
 unit direction <span class="arithmatex">\(u\)</span> and replace the state by</p>
 <div class="arithmatex">\[
 h' = h + \varepsilon\, u, \qquad
@@ -569,6 +583,12 @@ hard, as predicted. The variance directions are quieter than directions
 picked blindly. If the next-word computation read what those big
 directions store, a push along them would show up in the output. It does
 not.</p>
+<p>One could object that the ordering is baked in: the top directions of
+<span class="arithmatex">\(G\)</span> maximize the very quadratic form that approximates KL at small
+steps. So we also pushed four times harder, far past where the quadratic
+approximation holds. The three numbers become 45.2, 11.5, and 1.7 nats.
+Same ordering, and the variance directions still lose to random by a
+factor of seven.</p>
 <h3 id="the-same-ruler-at-every-depth">The same ruler at every depth<a class="headerlink" href="#the-same-ruler-at-every-depth" title="Permanent link">¶</a></h3>
 <p>Everything so far reads the state through the head, and that is correct
 only at the last layer. A middle layer’s state is not consumed by the
@@ -770,7 +790,9 @@ predicts it correctly.</p>
 <p>Does the trick work in the real model? Two checks say yes.</p>
 <p>First, a correctness test. To see what it proves, look at how the
 estimator works. Factor the head metric as
-<span class="arithmatex">\(G = A^\top A\)</span>, with <span class="arithmatex">\(A\)</span> its matrix square root. Draw a random vector
+<span class="arithmatex">\(G = A^\top A\)</span>, with <span class="arithmatex">\(A\)</span> its matrix square root. <span class="arithmatex">\(A\)</span> is computed once
+from data and then held fixed, so the backward pass treats it as a
+constant. Draw a random vector
 <span class="arithmatex">\(u\)</span> with independent unit-variance entries, form the scalar
 <span class="arithmatex">\(s = u^\top A\, h_{\mathrm{final}}\)</span>, and backpropagate <span class="arithmatex">\(s\)</span> down to the
 layer-<span class="arithmatex">\(L\)</span> state. That single backward pass returns the gradient
@@ -799,7 +821,8 @@ it directly: project the hidden state onto its best k dimensions,
 hand the result to the model’s own prediction head, and sweep k. Every
 experiment in this article follows the same protocol: perplexity on
 held-out WikiText-103 text, with three seeds for every trained chart.
-The widget shows both verdicts on the same dimension axis.</p>
+Trained numbers are seed means, and we quote the spread where it
+matters. The widget shows both verdicts on the same dimension axis.</p>
 <figure style="margin:2em 0;">
 <div class="igl-widget" id="igl-fig-0" style="border-radius:12px; border:1px solid #e2e8f0; overflow:hidden; padding:28px 20px 22px;">
 <style>#igl-fig-0 .vf-wrap { font:13px system-ui;color:#1a2330;max-width:680px }
@@ -830,7 +853,7 @@ variance the top k principal directions capture, zoomed into its last two
 percent. It starts at 98.5 percent for a single direction and is saturated by
 k = 2. Bottom: how well GPT-2's own head predicts when it must read the state
 through k dimensions, as a multiple of the intact perplexity of 29.3 (log
-scale). Grey is the best possible linear map, blue is the chart trained under
+scale). Grey is the optimal linear map under the logit metric, blue is the chart trained under
 the Fisher metric, and the red dot is plain variance ranking at k = 32. By the top
 panel's accounting the state is fully summarized almost immediately. The
 bottom panel does not get near intact before roughly 384 of 768 dimensions.
@@ -946,16 +969,18 @@ render();
 </figure>
 <p>Three things to notice. The red curve saturates immediately: by any
 variance accounting, the state is “fully summarized” at a handful of
-dimensions. The function curves say otherwise. Even the best possible
-linear read is still 8 times worse than intact at k = 32. It does not get
-near intact before roughly 384 of 768 dimensions, with no elbow anywhere
-on the way. And the ruler matters more than the budget. At the same
+dimensions. The function curves say otherwise. Even the best linear
+read, the optimal projection under the head’s own logit metric, is
+still 8 times worse than intact at k = 32. It does not come within 15
+percent of intact before roughly 384 of 768 dimensions, with no elbow
+anywhere on the way. And the ruler matters more than the budget. At the same
 k = 32, pure variance ranking sits at 9.2 times intact, the best linear
 map at 8.1, the Fisher-metric chart at 6.3.</p>
 <p>There is a fourth ruler, and it deserves its own paragraph. Train a
 small autoencoder, a generic neural network of about 800 thousand
 parameters, on exactly the same Fisher-whitened target, and it reaches
-2.7 times intact at the same k = 32. That number carries two lessons.
+2.7 times intact at the same k = 32. The three seeds land within one
+perplexity point of each other. That number carries two lessons.
 First, <strong>the advantage belongs to the metric</strong>: any reasonable learner
 handed the right target beats every linear chart by a wide margin. We
 use IGL charts for two reasons. They separate the metric that defines
@@ -1028,8 +1053,9 @@ practical rules follow.</p>
 <ul>
 <li>Never report “percent of variance kept” as a measure of fidelity. Here
   the two diverge by an order of magnitude.</li>
-<li>Grade any truncation, compression, or probe against the model’s own
-  outputs, not against reconstruction error.</li>
+<li>Put the model’s own outputs in the training objective, not only in
+  the evaluation. A dictionary fitted on reconstruction error keeps the
+  wrong directions, however it is scored afterwards.</li>
 <li>If you must compress to few dimensions, pick them with a task-weighted
   target. The same budget spent by variance is wasted.</li>
 </ul>
