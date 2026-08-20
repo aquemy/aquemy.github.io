@@ -1,0 +1,140 @@
+<style>
+.vf-wrap{font:13px system-ui;color:#1a2330;max-width:680px}
+.vf-row{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:6px}
+.vf-num{font:600 14px ui-monospace,monospace;color:#0e7a8f}
+.vf-var{font:600 14px ui-monospace,monospace;color:#c0392b}
+.vf-lin{font:600 14px ui-monospace,monospace;color:#66727c}
+#vf-cv{width:100%;max-width:660px;border:1px solid #d5dde2;border-radius:6px}
+input[type=range]{width:220px}
+.vf-sub{color:#8697a3;margin-top:6px;font-size:12px;line-height:1.5}
+.vf-big{font:600 13px system-ui;margin:4px 0 8px 0}
+#vf-play{font:600 12px system-ui;padding:2px 10px;border:1px solid #b8c4cc;
+ border-radius:4px;background:#f2f5f7;cursor:pointer}
+</style>
+<body>
+<div class="vf-wrap">
+<div class="vf-row">
+ <label>keep the top k of 768 dimensions:
+  <input type="range" id="vf-sl" min="0" max="11" step="1" value="0">
+  <span class="vf-num" id="vf-k">1</span></label>
+ <button id="vf-play">pause</button>
+</div>
+<div class="vf-big">variance captured: <span class="vf-var" id="vf-vc">?</span>
+ &nbsp;·&nbsp; best linear read: <span class="vf-lin" id="vf-lin">?</span>
+ &nbsp;·&nbsp; Fisher chart: <span class="vf-num" id="vf-fis">?</span></div>
+<canvas id="vf-cv" width="660" height="470"></canvas>
+<div class="vf-sub">Two verdicts on the same k. Top: the share of activation
+variance the top k principal directions capture, zoomed into its last two
+percent. It starts at 98.5 percent for a single direction and is saturated by
+k = 2. Bottom: how well GPT-2's own head predicts when it must read the state
+through k dimensions, as a multiple of the intact perplexity of 29.3 (log
+scale). Grey is the best possible linear map, blue is the chart trained under
+the Fisher metric, and the red dot is plain variance ranking at k = 32. By the top
+panel's accounting the state is fully summarized almost immediately. The
+bottom panel does not get near intact before roughly 384 of 768 dimensions.
+Curves are drawn only where a value was measured.</div>
+</div>
+<script>
+var KS=[1,2,4,8,16,32,64,128,256,384,512,640];
+var VC={1:98.5,2:99.06,4:99.52,8:99.71,16:99.77,32:99.8};
+var LIN={32:236.1,64:122.5,128:67.1,256:41.1,384:33.7,512:30.7,640:29.5};
+var FIS={8:338.6,16:257.3,32:183.8,64:106.0,128:71.8};
+var INTACT=29.25,PCA32=269.4;
+var cv=document.getElementById('vf-cv'),ctx=cv.getContext('2d');
+var PL=64,PR=16;
+var T1=30,B1=140;
+var T2=185,B2=430;
+var LK0=Math.log(1),LK1=Math.log(640);
+var R0=Math.log(0.9),R1=Math.log(14);
+function X(k){return PL+(Math.log(k)-LK0)/(LK1-LK0)*(cv.width-PL-PR)}
+function Yv(pct){return T1+(100-pct)/2*(B1-T1)}
+function Yr(ratio){return T2+(R1-Math.log(ratio))/(R1-R0)*(B2-T2)}
+function line(pts,color,dash){
+ ctx.strokeStyle=color;ctx.lineWidth=2;if(dash)ctx.setLineDash([5,4]);
+ ctx.beginPath();
+ for(var i=0;i<pts.length;i++){if(i===0)ctx.moveTo(pts[i][0],pts[i][1]);
+  else ctx.lineTo(pts[i][0],pts[i][1])}
+ ctx.stroke();ctx.setLineDash([]);
+}
+function dots(pts,color,r){ctx.fillStyle=color;
+ for(var i=0;i<pts.length;i++){ctx.beginPath();
+  ctx.arc(pts[i][0],pts[i][1],r||3,0,7);ctx.fill()}}
+function render(){
+ var k=KS[parseInt(document.getElementById('vf-sl').value)];
+ document.getElementById('vf-k').textContent=k;
+ document.getElementById('vf-vc').textContent=(k in VC)?(VC[k].toFixed(1)+'%'):'≥ 99.8%';
+ document.getElementById('vf-lin').textContent=(k in LIN)?('×'+(LIN[k]/INTACT).toFixed(1)+' intact'):'—';
+ document.getElementById('vf-fis').textContent=(k in FIS)?('×'+(FIS[k]/INTACT).toFixed(1)+' intact'):'—';
+ ctx.clearRect(0,0,cv.width,cv.height);
+ ctx.font='11px system-ui';ctx.lineWidth=1;
+ // ---- top panel: variance captured, zoom 98-100 ----
+ ctx.strokeStyle='#eceff2';ctx.fillStyle='#8697a3';
+ [98,99,100].forEach(function(p){var y=Yv(p);
+  ctx.beginPath();ctx.moveTo(PL,y);ctx.lineTo(cv.width-PR,y);ctx.stroke();
+  ctx.fillText(p+'%',PL-30,y+4)});
+ ctx.fillStyle='#c0392b';
+ ctx.fillText('variance captured (zoom on 98–100%)',PL+4,T1-8);
+ var vpts=[];[1,2,4,8,16,32].forEach(function(kk){vpts.push([X(kk),Yv(VC[kk])])});
+ line(vpts,'#c0392b');dots(vpts,'#c0392b');
+ line([[X(32),Yv(99.8)],[X(640),Yv(99.9)]],'#c0392b',true);
+ ctx.fillStyle='#c0392b';ctx.font='600 11px system-ui';
+ ctx.fillText('saturated by k = 2',X(2)+8,Yv(99.06)+16);
+ // ---- bottom panel: multiple of intact, log ----
+ ctx.font='11px system-ui';
+ ctx.strokeStyle='#eceff2';ctx.fillStyle='#8697a3';
+ [1,2,4,8].forEach(function(r){var y=Yr(r);
+  ctx.beginPath();ctx.moveTo(PL,y);ctx.lineTo(cv.width-PR,y);ctx.stroke();
+  ctx.fillText('×'+r,PL-26,y+4)});
+ ctx.fillText('how much worse than intact (log)',PL+4,T2-8);
+ var yI=Yr(1);
+ ctx.strokeStyle='#8697a3';ctx.setLineDash([5,4]);ctx.lineWidth=1.2;
+ ctx.beginPath();ctx.moveTo(PL,yI);ctx.lineTo(cv.width-PR,yI);ctx.stroke();ctx.setLineDash([]);
+ ctx.fillStyle='#8697a3';ctx.fillText('intact model',PL+6,yI+14);
+ var lpts=[];[32,64,128,256,384,512,640].forEach(function(kk){lpts.push([X(kk),Yr(LIN[kk]/INTACT)])});
+ line(lpts,'#8a97a0');dots(lpts,'#8a97a0');
+ var fpts=[];[8,16,32,64,128].forEach(function(kk){fpts.push([X(kk),Yr(FIS[kk]/INTACT)])});
+ line(fpts,'#0e7a8f');dots(fpts,'#0e7a8f');
+ ctx.fillStyle='#c0392b';ctx.beginPath();ctx.arc(X(32),Yr(PCA32/INTACT),5.5,0,7);ctx.fill();
+ ctx.font='600 11px system-ui';
+ ctx.fillText('variance ranking: ×9.2',X(32)+9,Yr(PCA32/INTACT)+4);
+ ctx.fillStyle='#0e7a8f';
+ ctx.fillText('Fisher chart',X(8)+8,Yr(FIS[8]/INTACT)-8);
+ ctx.fillStyle='#8a97a0';
+ ctx.fillText('best linear map',X(64)+8,Yr(LIN[64]/INTACT)-8);
+ ctx.fillStyle='#1a2330';
+ ctx.fillText('first near intact: k ≈ 384',X(384)-140,Yr(LIN[384]/INTACT)-12);
+ // ---- shared x axis ----
+ ctx.font='11px system-ui';ctx.fillStyle='#8697a3';
+ [1,4,16,32,128,384,640].forEach(function(kk){
+  ctx.fillText(kk,X(kk)-(kk>=100?10:(kk>=10?7:3)),B2+18)});
+ ctx.fillText('dimensions kept (log)',cv.width/2-56,B2+34);
+ // ---- cursor through both panels ----
+ var xk=X(k);
+ ctx.strokeStyle='#1a2330';ctx.lineWidth=1.3;ctx.setLineDash([2,3]);
+ ctx.beginPath();ctx.moveTo(xk,T1);ctx.lineTo(xk,B2);ctx.stroke();ctx.setLineDash([]);
+ // current-point halos
+ var vcNow=(k in VC)?VC[k]:99.85;
+ ctx.strokeStyle='#c0392b';ctx.lineWidth=2;
+ ctx.beginPath();ctx.arc(xk,Yv(vcNow),6,0,7);ctx.stroke();
+ if(k in LIN){ctx.strokeStyle='#8a97a0';
+  ctx.beginPath();ctx.arc(xk,Yr(LIN[k]/INTACT),6,0,7);ctx.stroke()}
+ if(k in FIS){ctx.strokeStyle='#0e7a8f';
+  ctx.beginPath();ctx.arc(xk,Yr(FIS[k]/INTACT),6,0,7);ctx.stroke()}
+}
+var AUTO=true;
+setInterval(function(){
+ if(!AUTO)return;
+ var s=document.getElementById('vf-sl');
+ s.value=(parseInt(s.value)+1)%12;
+ render();
+},900);
+document.getElementById('vf-sl').addEventListener('input',function(){
+ AUTO=false;document.getElementById('vf-play').textContent='play';render();
+});
+document.getElementById('vf-play').addEventListener('click',function(){
+ AUTO=!AUTO;
+ document.getElementById('vf-play').textContent=AUTO?'pause':'play';
+});
+render();
+</script>
+</body>

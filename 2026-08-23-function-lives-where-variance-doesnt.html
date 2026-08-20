@@ -1,0 +1,1275 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <script async src="https://www.googletagmanager.com/gtag/js?id=G-PWL24785Z6"></script>
+    <script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){dataLayer.push(arguments);}
+      gtag('js', new Date());
+      gtag('config', 'G-PWL24785Z6');
+    </script>
+    <meta charset="utf-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="author" content="Alexandre Quemy" />
+    <meta name="description" content="Two directions carry 90 percent of the variance in GPT-2&#39;s last hidden layer. Delete both and the model barely notices: 0.018 nats. Keep 99 percent of the variance instead, and perplexity explodes from 29 to 269. The model&#39;s function lives in the variance tail, and every tool that ranks directions by variance silently throws it away. The result replicates in six models across three families, up to 7B, where a single direction holds 17 percent of all variance and costs 0.06 nats to remove." />
+    <title>Function Lives Where Variance Doesn't</title>
+
+    <link rel="canonical" href="https://quemy.info/2026-08-23-function-lives-where-variance-doesnt.html" />
+    <meta name="theme-color" content="#F8F6F1" />
+    <link rel="shortcut icon" href="https://quemy.info/favicon.ico" />
+    <link rel="alternate" type="application/rss+xml" title="Alexandre Quemy" href="https://quemy.info/rss.xml" />
+
+    <!-- Social cards: default site-level; blog posts override the `social` block with article data -->
+    
+    <meta property="og:type" content="article" />
+    <meta property="og:url" content="https://quemy.info/2026-08-23-function-lives-where-variance-doesnt.html" />
+    <meta property="og:title" content="Function Lives Where Variance Doesn&#39;t" />
+    <meta property="og:description" content="Two directions carry 90 percent of the variance in GPT-2&#39;s last hidden layer. Delete both and the model barely notices: 0.018 nats. Keep 99 percent of the variance instead, and perplexity explodes from 29 to 269. The model&#39;s function lives in the variance tail, and every tool that ranks directions by variance silently throws it away. The result replicates in six models across three families, up to 7B, where a single direction holds 17 percent of all variance and costs 0.06 nats to remove." />
+    <meta property="og:image" content="https://quemy.info/og/2026-08-23-function-lives-where-variance-doesnt.png" />
+    <meta property="og:image:width" content="1200" />
+    <meta property="og:image:height" content="630" />
+    <meta property="og:site_name" content="Alexandre Quemy" />
+    <meta property="article:published_time" content="2026-08-20T12:00:00Z" />
+    <meta property="article:author" content="Alexandre Quemy" />
+    <meta property="article:tag" content="LLM" />
+    <meta property="article:tag" content="Activations" />
+    <meta property="article:tag" content="Variance" />
+    <meta property="article:tag" content="Interpretability" />
+    <meta property="article:tag" content="Dimension" />
+    
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@alexandre_quemy" />
+    <meta name="twitter:creator" content="@alexandre_quemy" />
+    <meta name="twitter:title" content="Function Lives Where Variance Doesn&#39;t" />
+    <meta name="twitter:description" content="Two directions carry 90 percent of the variance in GPT-2&#39;s last hidden layer. Delete both and the model barely notices: 0.018 nats. Keep 99 percent of the variance instead, and perplexity explodes from 29 to 269. The model&#39;s function lives in the variance tail, and every tool that ranks directions by variance silently throws it away. The result replicates in six models across three families, up to 7B, where a single direction holds 17 percent of all variance and costs 0.06 nats to remove." />
+    <meta name="twitter:image" content="https://quemy.info/og/2026-08-23-function-lives-where-variance-doesnt.png" />
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "BlogPosting",
+      "headline": "Function Lives Where Variance Doesn\u0027t",
+      "description": "Two directions carry 90 percent of the variance in GPT-2\u0027s last hidden layer. Delete both and the model barely notices: 0.018 nats. Keep 99 percent of the variance instead, and perplexity explodes from 29 to 269. The model\u0027s function lives in the variance tail, and every tool that ranks directions by variance silently throws it away. The result replicates in six models across three families, up to 7B, where a single direction holds 17 percent of all variance and costs 0.06 nats to remove.",
+      "datePublished": "2026-08-20T12:00:00Z",
+      "dateModified": "2026-08-20T12:00:00Z",
+      "image": "https://quemy.info/og/2026-08-23-function-lives-where-variance-doesnt.png",
+      "url": "https://quemy.info/2026-08-23-function-lives-where-variance-doesnt.html",
+      "inLanguage": "en",
+      "mainEntityOfPage": {"@type": "WebPage", "@id": "https://quemy.info/2026-08-23-function-lives-where-variance-doesnt.html"},
+      "author": {"@type": "Person", "name": "Alexandre Quemy", "url": "https://quemy.info/"},
+      "publisher": {"@type": "Person", "name": "Alexandre Quemy", "url": "https://quemy.info/"},
+      "keywords": "LLM, Activations, Variance, Interpretability, Dimension"
+    }
+    </script>
+
+
+    <script type="application/ld+json">
+    {
+      "@context": "https://schema.org",
+      "@type": "WebSite",
+      "name": "Alexandre Quemy",
+      "url": "https://quemy.info/",
+      "author": {
+        "@type": "Person",
+        "name": "Alexandre Quemy",
+        "url": "https://quemy.info/",
+        "email": "alexandre@quemy.info",
+        "sameAs": [
+          "https://github.com/aquemy",
+          "https://www.linkedin.com/in/aquemy"
+        ]
+      }
+    }
+    </script>
+
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            fontFamily: {
+              sans: ['Source Sans Pro', 'sans-serif'],
+              serif: ['STIX Two Text', 'Georgia', 'serif'],
+              mono: ['Roboto Mono', 'monospace'],
+            },
+            colors: {
+              paper: '#F8F6F1',     // original warm off-white
+              surface: '#f5ede0',   // warm cream - accents only (code, cards, TOC)
+              ink: '#2A2927',
+              accent: {
+                light: '#D97706', // amber-600
+                dark: '#FBBF24'   // amber-400
+              },
+              'dark-bg': '#1c1917',
+              'dark-ink': '#E7E2D6',
+            }
+          }
+        }
+      }
+    </script>
+
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=STIX+Two+Text:ital,wght@0,400;0,500;0,600;0,700;1,400;1,500&family=Source+Sans+Pro:wght@400;600;700&family=Roboto+Mono&display=swap" rel="stylesheet">
+    
+    <!-- KaTeX for Math Rendering -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.css">
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/katex.min.js"></script>
+    <script defer src="https://cdn.jsdelivr.net/npm/katex@0.16.0/dist/contrib/auto-render.min.js" onload="renderMathInElement(document.body, { delimiters: [ {left: '$$', right: '$$', display: true}, {left: '$', right: '$', display: false}, {left: '\\(', right: '\\)', display: false}, {left: '\\[', right: '\\]', display: true} ]});"></script>
+    
+    <!-- Custom Styles and Theming -->
+    <link rel="stylesheet" href="https://quemy.info/css/custom.css">
+    <link rel="stylesheet" href="https://quemy.info/css/friendly.css">
+
+    <script>
+        if (localStorage.theme === 'dark' || (!('theme' in localStorage) && window.matchMedia('(prefers-color-scheme: dark)').matches)) {
+            document.documentElement.classList.add('dark');
+        } else {
+            document.documentElement.classList.remove('dark');
+        }
+    </script>
+</head>
+<body class="bg-paper dark:bg-dark-bg text-ink dark:text-dark-ink font-sans transition-colors duration-500 antialiased">
+    
+    <!-- Background Animation Layer (only populated on index.html) -->
+    <div class="fixed inset-0 z-0">
+        
+    </div>
+
+    <!-- Main Content Layer -->
+    <div class="relative z-10">
+        <nav class="w-full max-w-4xl mx-auto py-6 px-4 flex justify-between items-center">
+    <a href="./index.html" class="font-serif text-xl font-bold hover:text-accent-light dark:hover:text-accent-dark transition-colors">
+        Alexandre Quemy
+    </a>
+    <div class="flex items-center space-x-6">
+        <div class="hidden md:flex items-center space-x-6 text-sm font-semibold tracking-wider uppercase">
+            <a href="./research.html" class="nav-link" data-page="research">Research</a>
+            <a href="./cv.html" class="nav-link" data-page="cv">CV</a>
+            <a href="./blog.html" class="nav-link" data-page="blog">Blog</a>
+        </div>
+        <button id="theme-toggle" class="w-8 h-8 flex items-center justify-center rounded-full text-ink dark:text-dark-ink hover:bg-black/5 dark:hover:bg-white/10 transition-colors">
+             <i id="theme-toggle-dark-icon" class="fas fa-moon hidden"></i>
+             <i id="theme-toggle-light-icon" class="fas fa-sun hidden"></i>
+        </button>
+        <button id="mobile-menu-button" class="md:hidden text-2xl">
+            <i class="fas fa-bars"></i>
+        </button>
+    </div>
+</nav>
+
+<!-- Mobile Menu -->
+<div id="mobile-menu" class="hidden md:hidden fixed inset-0 bg-paper/80 dark:bg-dark-bg/80 backdrop-blur-sm z-50">
+    <div class="flex justify-end p-4">
+        <button id="mobile-menu-close" class="text-3xl">×</button>
+    </div>
+    <div class="flex flex-col items-center justify-center h-full space-y-8 text-2xl font-semibold tracking-wider uppercase">
+        <a href="./index.html" class="nav-link" data-page="index">Home</a>
+        <a href="./research.html" class="nav-link" data-page="research">Research</a>
+        <a href="./cv.html" class="nav-link" data-page="cv">CV</a>
+        <a href="./blog.html" class="nav-link" data-page="blog">Blog</a>
+    </div>
+</div>
+        <main>  <!-- class="fade-in"> -->
+            
+<div class="w-full max-w-7xl mx-auto py-12 px-4">
+    <!-- Header moved outside the grid for proper alignment -->
+    <header class="max-w-5xl mx-auto mb-12 text-center lg:text-left">
+        <a href="https://quemy.info/blog.html" class="post-meta text-accent-light dark:text-accent-dark hover:underline mb-6 inline-block">← Back to all posts</a>
+        <h1 class="font-serif text-4xl md:text-5xl font-bold text-ink dark:text-dark-ink leading-tight">Function Lives Where Variance Doesn't</h1>
+        <p class="post-meta mt-4">LLM · 2026-08-20 · 22 min read</p>
+    </header>
+
+    <div class="lg:grid lg:grid-cols-5 lg:gap-16">
+        <!-- Sticky Sidebar for Table of Contents (now wider) -->
+        <aside class="hidden lg:block lg:col-span-1">
+            <div class="sticky top-24">
+                <h3 class="font-semibold text-sm uppercase tracking-wider text-stone-500 dark:text-stone-400 mb-4">ON THIS PAGE</h3>
+                <div id="toc-sidebar">
+                    <!-- ToC will be moved here by JavaScript -->
+                </div>
+            </div>
+        </aside>
+        
+        <!-- Main Article Content -->
+        <div class="lg:col-span-4">
+            <article class="fade-in">
+                <div id="prose-content" class="prose lg:prose-lg dark:prose-invert max-w-none">
+                    <div class="toc">
+<ul>
+<li><a href="#why-this-matters-beyond-one-model">Why this matters beyond one model</a></li>
+<li><a href="#an-illustration-on-real-text-with-gpt-2">An illustration on real text with GPT-2</a></li>
+<li><a href="#the-ruler-that-works-a-fisher-metric-through-the-heads-jacobian">The ruler that works: a Fisher metric through the head’s Jacobian</a></li>
+<li><a href="#the-causal-check">The causal check</a></li>
+<li><a href="#the-same-ruler-at-every-depth">The same ruler at every depth</a></li>
+<li><a href="#where-the-function-actually-lives">Where the function actually lives</a></li>
+<li><a href="#six-models-three-families-one-picture">Six models, three families, one picture</a></li>
+<li><a href="#what-to-take-away">What to take away</a></li>
+<li><a href="#references">References</a></li>
+</ul>
+</div>
+<p>Two directions carry 90 percent of the activation variance in GPT-2’s last
+hidden layer. Delete both, and the model’s predictions barely move: 0.018
+nats of extra loss, invisible on real text. Now do the opposite. Keep the
+top principal directions holding 99 percent of the variance, and perplexity
+explodes from 29.3 to 269. Almost all of the variance is function-free, and
+almost all of the function lives in the variance tail. In this article, I explore
+that dissociation, its causal confirmation, and its replication in
+six models across three families up to 7B. It summarizes a paper of ours on
+GPT-2’s computation, currently in submission. We will link it when it is
+public.</p>
+<h3 id="why-this-matters-beyond-one-model">Why this matters beyond one model<a class="headerlink" href="#why-this-matters-beyond-one-model" title="Permanent link">¶</a></h3>
+<p>When researchers look inside a model, variance is usually the first
+ruler they reach for. PCA truncation
+keeps the top-variance directions, represented by the eigenvectors of the
+activations’ covariance matrix. The percentage of variance a direction
+explains is its associated eigenvalue, normalized by the sum of all
+eigenvalues. Compression papers report “95+ percent of variance retained”. Probes are fitted on leading principal components.
+The frontier labs are no exception. The feature dictionaries behind current
+interpretability work at Anthropic are trained to reconstruct
+activations under plain squared error
+(<a href="https://transformer-circuits.pub/2025/attribution-graphs/biology.html">Lindsey et al., 2025</a>).
+The field’s standard benchmark evaluates whole families of such
+reconstruction-trained dictionaries
+(<a href="https://arxiv.org/abs/2503.09532">Karvonen et al., 2025</a>). And recent
+probing studies ask what those same features can read out
+(<a href="https://arxiv.org/abs/2502.16681">Kantamneni et al., 2025</a>).
+Every one of these tools assumes that big directions matter and small ones
+are noise. The measurement below says the assumption fails where it counts:
+in a language model’s hidden state, the directions that carry the answer
+are small, and the huge ones are almost inert.</p>
+<p>One word needs pinning down first: function. By the function of a hidden
+state we mean what the model computes from it. In this article that is
+one concrete thing: the probability distribution over the next token
+that the head reads out of the state. When we say the function lives in
+some directions, we mean the readout actually depends on them: change
+them and the prediction changes, delete them and it breaks. The choice
+of readout matters. A state supports many readouts, and each can need a
+different number of directions. Reading the model’s own uncertainty, for
+example, turns out to be a far smaller ask than reproducing its full
+next-token distribution. Everything in this article grades against the
+full distribution, the model’s actual output.</p>
+<p>A standard summary can point at the wrong thing entirely. We met one case
+already: the
+<a href="2026-08-13-embedding-dimension-illusion.html">dimension of an embedding table</a>,
+where the usual global estimate overstates the real, local dimension 2 to
+5 times. This article is another example where standard analysis fails.
+In the hidden state, the most
+standard summary of all, variance, misses the function almost completely.
+We have measured the same split on embedding tables too, and those
+results will be published separately.</p>
+<h3 id="an-illustration-on-real-text-with-gpt-2">An illustration on real text with GPT-2<a class="headerlink" href="#an-illustration-on-real-text-with-gpt-2" title="Permanent link">¶</a></h3>
+<p>The fairest way to show the result is on an actual passage, token by
+token. For each token, the model assigns a probability to it given the
+text before it. An intervention on the hidden state changes that
+probability. We color each token by its extra loss: how much the
+log-probability of the correct token drops, in nats, between the intact
+model and the intervened one. Pale means unharmed while dark red means
+destroyed.</p>
+<p>
+<figure><img src="images/2026-08-23-function-lives-where-variance-doesnt/wow_heattext.png"/><figcaption>A held-out passage read by GPT-2 under different interventions, each token colored by its extra loss. Deleting the two directions that carry 90 percent of the variance (second row) is visually invisible: 0.018 nats. Keeping the top 32 principal directions, 99 percent of the variance (third row), destroys the content words: 2.35 nats. A chart trained against what the answers care about, at the same 32 dimensions (fourth row), preserves visibly more: 1.94.</figcaption>
+</figure>
+</p>
+<p>The second row is the most important. Ninety percent of the variance is gone,
+and the text reads fine. The third row keeps 99 percent of the variance and
+kills every content word, while the function words survive. Variance
+measures size, and size is not the same thing as use.</p>
+<p>The two dominant directions themselves are not news. They are the rogue
+dimensions and narrow cones documented across contextual models
+(<a href="https://arxiv.org/abs/1909.00512">Ethayarajh, 2019</a>,
+<a href="https://arxiv.org/abs/2109.04404">Timkey and van Schijndel, 2021</a>).
+What is new is the direct measurement of what they carry.</p>
+<h3 id="the-ruler-that-works-a-fisher-metric-through-the-heads-jacobian">The ruler that works: a Fisher metric through the head’s Jacobian<a class="headerlink" href="#the-ruler-that-works-a-fisher-metric-through-the-heads-jacobian" title="Permanent link">¶</a></h3>
+<p>If variance is the wrong ruler, what is the right one? Ask the model.
+Everything GPT-2 does with a layer-11 state <span class="arithmatex">\(h\)</span>, a vector of 768 numbers,
+passes through the head: logits <span class="arithmatex">\(\ell = W_U h\)</span>, then probabilities
+<span class="arithmatex">\(p = \mathrm{softmax}(\ell)\)</span>.</p>
+<p>Our instrument for measuring the state is a chart: a pair of maps
+<span class="arithmatex">\(\hat h = D(E(h))\)</span>, where the encoder <span class="arithmatex">\(E\)</span> compresses the state to <span class="arithmatex">\(k\)</span>
+coordinates and the decoder <span class="arithmatex">\(D\)</span> rebuilds it. PCA is the simplest linear
+example: project onto the top eigenvectors and back. Ours are IGL
+charts (<a href="https://arxiv.org/abs/2607.07034">Quemy, 2026</a>): learned
+dictionaries fitted by two-stage variable projection,
+where the coordinates come from a closed-form least-squares solve. They
+are trained Matryoshka style
+(<a href="https://arxiv.org/abs/2205.13147">Kusupati et al., 2022</a>), with the
+coordinates nested by importance, so one trained chart can be read at
+any budget <span class="arithmatex">\(k\)</span>.</p>
+<p>Everything a chart preserves is decided by which errors
+<span class="arithmatex">\(\delta = \hat h - h\)</span> it is trained to avoid. Plain reconstruction
+minimizes the squared length <span class="arithmatex">\(\lVert \delta \rVert^2\)</span>, which treats all
+768 directions as equally important. Under a budget of <span class="arithmatex">\(k\)</span> coordinates,
+that objective spends the budget where the states spread the most. For
+linear charts the optimum is exactly PCA: keep the top-variance
+directions, and the error that remains is the sum of the variances of
+the directions you dropped. Minimizing squared error and maximizing
+captured variance are the same act. That is how a method ends up chasing
+variance.</p>
+<p>The right ruler measures a step <span class="arithmatex">\(\delta\)</span> by how much it moves the answer:
+the KL divergence between <span class="arithmatex">\(p(h)\)</span> and <span class="arithmatex">\(p(h + \delta)\)</span>. For small steps,
+that divergence is a quadratic form in <span class="arithmatex">\(\delta\)</span>:</p>
+<div class="arithmatex">\[
+\mathrm{KL}(p(h) \,\Vert\, p(h+\delta)) \approx \tfrac{1}{2}\, \delta^\top G(h)\, \delta,
+\qquad
+G(h) = W_U^\top (\mathrm{diag}(p) - p\,p^\top)\, W_U .
+\]</div>
+<p>Read <span class="arithmatex">\(G(h)\)</span> from the inside out. The middle factor is the Fisher
+information of the softmax. It says how sensitive the output
+probabilities are to each logit. The outer factor <span class="arithmatex">\(W_U\)</span> is the head’s
+Jacobian, the matrix that converts state changes into logit changes.
+Sandwiching the Fisher between <span class="arithmatex">\(W_U^\top\)</span> and <span class="arithmatex">\(W_U\)</span> carries the output’s
+notion of distance back onto the state space. That operation is called a
+<a href="https://en.wikipedia.org/wiki/Pullback_%28differential_geometry%29">pullback</a>.
+Averaging the middle factor over states gives one fixed metric
+<span class="arithmatex">\(G\)</span> for the whole layer.</p>
+<figure style="margin:2em 0;">
+<div class="igl-widget" id="igl-fig-2" style="border-radius:12px; border:1px solid #e2e8f0; overflow:hidden; padding:28px 20px 22px;">
+<style>#igl-fig-2 .fp-wrap { font:13px system-ui;color:#1a2330;max-width:680px }
+#igl-fig-2 .fp-row { display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:6px }
+#igl-fig-2 .fp-cvrow { display:flex;gap:10px;flex-wrap:wrap;align-items:flex-start }
+#igl-fig-2 .fp-num { font:600 14px ui-monospace,monospace;color:#0e7a8f }
+#igl-fig-2 .fp-grey { font:600 14px ui-monospace,monospace;color:#66727c }
+#igl-fig-2 #fp-cv, #igl-fig-2 #fp-br { border:1px solid #d5dde2;border-radius:6px }
+#igl-fig-2 input[type=range] { width:170px }
+#igl-fig-2 .fp-sub { color:#8697a3;margin-top:6px;font-size:12px;line-height:1.5 }
+#igl-fig-2 .fp-big { font:600 13px system-ui;margin:4px 0 8px 0 }
+#igl-fig-2 #fp-play { font:600 12px system-ui;padding:2px 10px;border:1px solid #b8c4cc;
+ border-radius:4px;background:#f2f5f7;cursor:pointer }</style>
+
+<div class="fp-wrap">
+<div class="fp-row">
+<label>probe direction:
+  <input id="f2_fp-th" max="360" min="0" step="1" type="range" value="20"/></label>
+<button id="f2_fp-play">pause</button>
+<label>push the state into saturation:
+  <input id="f2_fp-hx" max="1.2" min="-1.2" step="0.05" type="range" value="0"/></label>
+</div>
+<div class="fp-big">true KL for this step: <span class="fp-num" id="f2_fp-kl">?</span>
+  ·  metric prediction ½δᵀGδ: <span class="fp-grey" id="f2_fp-qd">?</span></div>
+<div class="fp-cvrow">
+<canvas height="340" id="f2_fp-cv" width="340"></canvas>
+<canvas height="340" id="f2_fp-br" width="240"></canvas>
+</div>
+<div class="fp-sub">Left: a two-dimensional state cloud read by a three-token
+softmax head. The cloud is stretched along the vertical axis, which holds 96
+percent of the variance, but the head barely reads it. The grey circle is
+every step of the same Euclidean length: this is all that plain reconstruction
+error can see. The blue ellipse is the Fisher pullback's answer: every step on
+it moves the output distribution by the same amount. The same-length step
+moves the answer about 60 times more along the loud axis than along the
+quiet one. Right: the head's output before (solid) and after (outline) the
+probe step. Drag the state to the right: the output saturates, the metric
+shrinks, and the equal-movement ellipse balloons off the plot. The prediction
+½δᵀGδ is a small-step approximation. It is tight near
+the balanced state and overshoots when a step this size hits saturation.</div>
+</div>
+
+
+<script>(function(){ 
+var W=[[2.0,0.15],[-2.0,0.15],[0.0,-0.30]];
+var EPS=0.4,HY=0.2,RG=4.2,TOK=['cat','sat','mat'];
+function pOf(hx,hy){
+ var l=[],i,m=-1e9,s=0,p=[];
+ for(i=0;i<3;i++){l[i]=W[i][0]*hx+W[i][1]*hy;if(l[i]>m)m=l[i]}
+ for(i=0;i<3;i++){p[i]=Math.exp(l[i]-m);s+=p[i]}
+ for(i=0;i<3;i++)p[i]/=s;
+ return p;
+}
+function GOf(hx,hy){
+ var p=pOf(hx,hy),g=[[0,0],[0,0]],i,j,a,b;
+ for(a=0;a<2;a++)for(b=0;b<2;b++){
+  var v=0;
+  for(i=0;i<3;i++)v+=p[i]*W[i][a]*W[i][b];
+  var u1=0,u2=0;
+  for(i=0;i<3;i++){u1+=p[i]*W[i][a];u2+=p[i]*W[i][b]}
+  g[a][b]=v-u1*u2;
+ }
+ return g;
+}
+function eig2(g){
+ var tr=g[0][0]+g[1][1],dt=g[0][0]*g[1][1]-g[0][1]*g[1][0];
+ var d=Math.sqrt(Math.max(tr*tr/4-dt,0));
+ var l1=tr/2+d,l2=tr/2-d;
+ var vx,vy;
+ if(Math.abs(g[0][1])>1e-12){vx=l1-g[1][1];vy=g[0][1]}
+ else{vx=1;vy=0}
+ var n=Math.sqrt(vx*vx+vy*vy);
+ return {l1:l1,l2:l2,vx:vx/n,vy:vy/n};
+}
+var G0=GOf(0,HY),E0=eig2(G0),C0=EPS*EPS*E0.l1;
+var CLOUD=[];
+(function(){
+ var s=42,i;
+ function rnd(){s=(s*48271)%2147483647;return s/2147483647}
+ for(i=0;i<140;i++){
+  var u1=rnd(),u2=rnd();
+  var r=Math.sqrt(-2*Math.log(u1+1e-9));
+  CLOUD.push([0.5*r*Math.cos(6.2832*u2),2.6*r*Math.sin(6.2832*u2)]);
+ }
+})();
+var cv=document.getElementById('f2_fp-cv'),ctx=cv.getContext('2d');
+var br=document.getElementById('f2_fp-br'),btx=br.getContext('2d');
+function X(x){return (x+RG)/(2*RG)*cv.width}
+function Y(y){return (RG-y)/(2*RG)*cv.height}
+function render(){
+ var th=parseFloat(document.getElementById('f2_fp-th').value)*Math.PI/180;
+ var hx=parseFloat(document.getElementById('f2_fp-hx').value),hy=HY;
+ var dx=EPS*Math.cos(th),dy=EPS*Math.sin(th);
+ var p0=pOf(hx,hy),p1=pOf(hx+dx,hy+dy),G=GOf(hx,hy),i;
+ var kl=0;
+ for(i=0;i<3;i++)kl+=p0[i]*Math.log(p0[i]/p1[i]);
+ var qd=0.5*(dx*(G[0][0]*dx+G[0][1]*dy)+dy*(G[1][0]*dx+G[1][1]*dy));
+ document.getElementById('f2_fp-kl').textContent=(kl*1000).toFixed(1)+' mnats';
+ document.getElementById('f2_fp-qd').textContent=(qd*1000).toFixed(1)+' mnats';
+ ctx.clearRect(0,0,cv.width,cv.height);
+ ctx.strokeStyle='#eceff2';ctx.lineWidth=1;
+ ctx.beginPath();ctx.moveTo(X(-RG),Y(0));ctx.lineTo(X(RG),Y(0));ctx.stroke();
+ ctx.beginPath();ctx.moveTo(X(0),Y(-RG));ctx.lineTo(X(0),Y(RG));ctx.stroke();
+ ctx.fillStyle='#c9d4da';
+ for(i=0;i<CLOUD.length;i++){
+  ctx.beginPath();ctx.arc(X(CLOUD[i][0]),Y(CLOUD[i][1]),2,0,7);ctx.fill();
+ }
+ ctx.fillStyle='#8697a3';ctx.font='11px system-ui';
+ ctx.fillText('loud axis (the head reads it)',X(0.5),Y(-3.7));
+ ctx.save();ctx.translate(X(-3.6),Y(-0.2));ctx.rotate(-Math.PI/2);
+ ctx.fillText('quiet axis (96% of the variance)',0,0);ctx.restore();
+ var E=eig2(G);
+ var L1=Math.sqrt(C0/Math.max(E.l1,1e-9)),L2=Math.sqrt(C0/Math.max(E.l2,1e-9));
+ ctx.strokeStyle='#0e7a8f';ctx.lineWidth=2;ctx.beginPath();
+ for(i=0;i<=90;i++){
+  var t=i/90*2*Math.PI;
+  var ex=hx+L1*Math.cos(t)*E.vx-L2*Math.sin(t)*E.vy;
+  var ey=hy+L1*Math.cos(t)*E.vy+L2*Math.sin(t)*E.vx;
+  if(i===0)ctx.moveTo(X(ex),Y(ey));else ctx.lineTo(X(ex),Y(ey));
+ }
+ ctx.stroke();
+ ctx.strokeStyle='#66727c';ctx.setLineDash([4,3]);ctx.lineWidth=1.6;
+ ctx.beginPath();ctx.arc(X(hx),Y(hy),EPS/(2*RG)*cv.width,0,7);ctx.stroke();
+ ctx.setLineDash([]);
+ ctx.strokeStyle='#1a2330';ctx.lineWidth=2;
+ ctx.beginPath();ctx.moveTo(X(hx),Y(hy));ctx.lineTo(X(hx+dx),Y(hy+dy));ctx.stroke();
+ ctx.fillStyle='#1a2330';
+ ctx.beginPath();ctx.arc(X(hx+dx),Y(hy+dy),3,0,7);ctx.fill();
+ ctx.fillStyle='#c0392b';
+ ctx.beginPath();ctx.arc(X(hx),Y(hy),4.5,0,7);ctx.fill();
+ ctx.fillStyle='#0e7a8f';ctx.font='600 11px system-ui';
+ ctx.fillText('equal output movement',X(hx)+8,Y(hy+L1*E.vy+0.3));
+ ctx.fillStyle='#66727c';
+ ctx.fillText('equal length',X(hx)+EPS/(2*RG)*cv.width+4,Y(hy)+14);
+ btx.clearRect(0,0,br.width,br.height);
+ btx.font='11px system-ui';
+ var bw=44,gap=26,x0=34,base=280,hmax=230;
+ for(i=0;i<3;i++){
+  var x=x0+i*(bw+gap);
+  btx.fillStyle='#0e7a8f';
+  btx.fillRect(x,base-p0[i]*hmax,bw,p0[i]*hmax);
+  btx.strokeStyle='#c0392b';btx.lineWidth=2;
+  btx.strokeRect(x+5,base-p1[i]*hmax,bw,p1[i]*hmax);
+  btx.fillStyle='#1a2330';
+  btx.fillText(TOK[i],x+bw/2-9,base+16);
+  btx.fillStyle='#8697a3';
+  btx.fillText((100*p0[i]).toFixed(0)+'%',x+bw/2-9,base-p0[i]*hmax-6);
+ }
+ btx.fillStyle='#0e7a8f';btx.fillText('p before the step (solid)',x0,26);
+ btx.fillStyle='#c0392b';btx.fillText('p after the step (outline)',x0,42);
+}
+var AUTO=true;
+setInterval(function(){
+ if(!AUTO)return;
+ var s=document.getElementById('f2_fp-th');
+ s.value=(parseFloat(s.value)+1.2)%360;
+ render();
+},50);
+document.getElementById('f2_fp-th').addEventListener('input',function(){
+ AUTO=false;document.getElementById('f2_fp-play').textContent='play';render();
+});
+document.getElementById('f2_fp-hx').addEventListener('input',render);
+document.getElementById('f2_fp-play').addEventListener('click',function(){
+ AUTO=!AUTO;
+ document.getElementById('f2_fp-play').textContent=AUTO?'pause':'play';
+});
+render();
+ })();</script>
+</div>
+<figcaption style="text-align:center; font-size:0.85em; color:#64748b; margin-top:8px; font-style:italic;"><strong>Interactive.</strong> The pullback in two dimensions: a toy state read by a three-token softmax head. The grey circle holds all steps of the same length, which is all plain reconstruction sees. The blue ellipse holds the steps that move the output equally, the Fisher pullback's idea of equal. Sweep the probe direction and compare the true KL with the metric's prediction, then push the state into saturation and watch the ellipse balloon.</figcaption>
+</figure>
+<p>In the real model this happens in 768 dimensions. The head reads the horizontal axis strongly and the vertical axis
+barely, while the state cloud puts 96 percent of its variance on the
+vertical. The two rulers then disagree about what “small” means. To the
+plain norm, every step on the grey circle is the same. To the pullback,
+the equal steps are the blue ellipse, stretched about nine to one along
+the quiet axis. GPT-2’s layer 11 is this picture with 766 more axes and a
+harsher ratio.</p>
+<p>The metric is also easy to use. You do not need a new training method to
+fit a chart under it. Transform every state once, <span class="arithmatex">\(\tilde h = G^{1/2} h\)</span>,
+a step known as
+<a href="https://en.wikipedia.org/wiki/Whitening_transformation">whitening</a>,
+and train an ordinary chart on the transformed
+states with plain squared error. That error is exactly the metric’s error
+on the original state:
+<span class="arithmatex">\(\lVert G^{1/2}\delta \rVert^2 = \delta^\top G\, \delta\)</span>, which is twice
+the KL divergence, to second order. So the ordinary recipe, pointed at
+transformed data, minimizes the right thing: how far the compressed
+state’s answers drift from the intact model’s answers. The “task-weighted
+chart” measured later in this article is built exactly this way. It uses
+the same fitting procedure as a reconstruction chart, run in the metric
+<span class="arithmatex">\(G\)</span> instead of the plain one.</p>
+<p>Which part of <span class="arithmatex">\(G\)</span> does the work? The metric has two ingredients: the
+head’s Jacobian <span class="arithmatex">\(W_U\)</span>, and the softmax factor
+<span class="arithmatex">\(\mathrm{diag}(p) - p\,p^\top\)</span>. Remove the softmax factor and the metric
+becomes <span class="arithmatex">\(W_U^\top W_U\)</span>. That version measures how much a step moves the
+logits, all 50,257 of them counted equally. It sounds reasonable and it
+fails: charts trained under it land at perplexity 512, far behind the
+Fisher chart’s 184. The reason is saturation. At any given position,
+almost every token in the vocabulary has probability near zero. Moving a
+dead token’s logit changes nothing in what the model says, yet the plain
+metric spends the chart’s capacity on exactly those directions. The
+softmax factor weights each logit by the probability behind it. That
+concentrates the target on the few directions that matter, and the
+target becomes learnable. The effect is not a tuning accident: even
+blending the Fisher metric partway toward the plain one degrades the
+chart, to 221.</p>
+<h3 id="the-causal-check">The causal check<a class="headerlink" href="#the-causal-check" title="Permanent link">¶</a></h3>
+<p>The metric makes a prediction we can test. If the function lives where
+<span class="arithmatex">\(G\)</span> is large, then pushing the state along a top direction of <span class="arithmatex">\(G\)</span> must
+change what the model says next. Pushing along a top-variance direction
+must change almost nothing, however big that direction looks. Steering
+tests exactly this.</p>
+<p>In GPT-2 the hidden state is a residual stream: one vector <span class="arithmatex">\(h\)</span> of 768
+numbers that every block reads from and writes to by addition,
+<span class="arithmatex">\(h \leftarrow h + \mathrm{block}(h)\)</span>. The state we study is that stream
+after the last block, just before the head turns it into next-token
+probabilities. Steering means writing into the stream ourselves. Pick a
+unit direction <span class="arithmatex">\(u\)</span> and replace the state by</p>
+<div class="arithmatex">\[
+h' = h + \varepsilon\, u, \qquad
+\varepsilon = 0.05 \times \mathrm{median}\, \lVert h \rVert \approx 12.3,
+\]</div>
+<p>then let the model finish its prediction from <span class="arithmatex">\(h'\)</span> instead of <span class="arithmatex">\(h\)</span>. We
+score the movement as the KL divergence between the intact output <span class="arithmatex">\(p(h)\)</span>
+and the steered output <span class="arithmatex">\(p(h')\)</span>, averaged over eight directions of each
+kind and 640 positions of held-out text. Every push has the same length
+<span class="arithmatex">\(\varepsilon\)</span>, 5 percent of the typical size of a state, so all
+directions compete on equal footing. Only the direction <span class="arithmatex">\(u\)</span> changes.</p>
+<p>Three choices of <span class="arithmatex">\(u\)</span>, one number each. A random direction moves the
+output by 0.56 nats. That is the baseline. The two top-variance
+directions, which carry 90 percent of the variance, move it by 0.12
+nats, five times less than random. The top directions of <span class="arithmatex">\(G\)</span> move it by
+<strong>6.0 nats: more than ten times the baseline, and fifty times the
+variance directions</strong>.</p>
+<p>The ordering is the finding. The metric’s directions steer the model
+hard, as predicted. The variance directions are quieter than directions
+picked blindly. If the next-word computation read what those big
+directions store, a push along them would show up in the output. It does
+not.</p>
+<h3 id="the-same-ruler-at-every-depth">The same ruler at every depth<a class="headerlink" href="#the-same-ruler-at-every-depth" title="Permanent link">¶</a></h3>
+<p>Everything so far reads the state through the head, and that is correct
+only at the last layer. A middle layer’s state is not consumed by the
+head. It is consumed by the remaining blocks first, and those blocks
+amplify directions the head alone would ignore. The measurement agrees:
+at layer 6, a metric built as if the head read the state directly loses
+to plain PCA.</p>
+<p>The fix is one more pullback (I know, it sounds like a meme!). A small
+step <span class="arithmatex">\(\delta\)</span> at layer <span class="arithmatex">\(L\)</span> arrives
+at the final layer, to first order, as <span class="arithmatex">\(J\,\delta\)</span>, where <span class="arithmatex">\(J\)</span> is the
+Jacobian of all the remaining blocks together. So the right metric at
+layer <span class="arithmatex">\(L\)</span> is the same Fisher, pulled back one stage further:
+<span class="arithmatex">\(\bar G_L = \mathbb{E}\lbrack J^\top G\, J \rbrack\)</span>, averaged over
+positions. We estimate it with random probe vectors, one backward pass
+of the model each.</p>
+<figure style="margin:2em 0;">
+<div class="igl-widget" id="igl-fig-1" style="border-radius:12px; border:1px solid #e2e8f0; overflow:hidden; padding:28px 20px 22px;">
+<style>#igl-fig-1 .dp-wrap { font:13px system-ui;color:#1a2330;max-width:680px }
+#igl-fig-1 .dp-row { display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:6px }
+#igl-fig-1 .dp-num { font:600 14px ui-monospace,monospace;color:#0e7a8f }
+#igl-fig-1 .dp-grey { font:600 14px ui-monospace,monospace;color:#66727c }
+#igl-fig-1 .dp-dark { font:600 14px ui-monospace,monospace;color:#1a2330 }
+#igl-fig-1 #dp-cv { width:100%;max-width:660px;border:1px solid #d5dde2;border-radius:6px }
+#igl-fig-1 input[type=range] { width:220px }
+#igl-fig-1 .dp-sub { color:#8697a3;margin-top:6px;font-size:12px;line-height:1.5 }
+#igl-fig-1 .dp-big { font:600 13px system-ui;margin:4px 0 8px 0 }
+#igl-fig-1 #dp-play { font:600 12px system-ui;padding:2px 10px;border:1px solid #b8c4cc;
+ border-radius:4px;background:#f2f5f7;cursor:pointer }</style>
+
+<div class="dp-wrap">
+<div class="dp-row">
+<label>probe direction at the middle layer:
+  <input id="f1_dp-th" max="360" min="0" step="1" type="range" value="90"/></label>
+<button id="f1_dp-play">pause</button>
+</div>
+<div class="dp-big">true movement: <span class="dp-dark" id="f1_dp-kl">?</span>
+  ·  through the blocks: <span class="dp-num" id="f1_dp-qt">?</span>
+  ·  head alone: <span class="dp-grey" id="f1_dp-qh">?</span></div>
+<canvas height="380" id="f1_dp-cv" width="660"></canvas>
+<div class="dp-sub">Left: a probe step at the middle layer, one direction on
+the circle of all directions. The grey dashed ellipse marks the steps the
+head-only ruler scores as equal movement: tall, because that ruler calls
+vertical steps nearly free. Right: the same steps after the remaining block,
+which is what the head actually receives. The block stretches the circle into
+a slanted ellipse. A vertical step at the middle layer arrives long and
+almost horizontal, aligned with the axis the head reads loudest. That is why
+the head-alone prediction misses vertical probes by a factor of several
+hundred, while the prediction made through the block tracks the true
+movement. Readouts are for a probe step of length 0.15.</div>
+</div>
+
+
+<script>(function(){ 
+var W=[[2.0,0.15],[-2.0,0.15],[0.0,-0.30]];
+var A=[[1.0,2.5],[0.0,1.0]];
+var EPS=0.15,V0=[-0.5,0.2],R=0.8;
+function mv(M,x){return [M[0][0]*x[0]+M[0][1]*x[1],M[1][0]*x[0]+M[1][1]*x[1]]}
+function pOf(h){
+ var l=[],i,m=-1e9,s=0,p=[];
+ for(i=0;i<3;i++){l[i]=W[i][0]*h[0]+W[i][1]*h[1];if(l[i]>m)m=l[i]}
+ for(i=0;i<3;i++){p[i]=Math.exp(l[i]-m);s+=p[i]}
+ for(i=0;i<3;i++)p[i]/=s;
+ return p;
+}
+function GofP(Wm,p){
+ var g=[[0,0],[0,0]],i,a,b;
+ for(a=0;a<2;a++)for(b=0;b<2;b++){
+  var v=0,u1=0,u2=0;
+  for(i=0;i<3;i++){v+=p[i]*Wm[i][a]*Wm[i][b];u1+=p[i]*Wm[i][a];u2+=p[i]*Wm[i][b]}
+  g[a][b]=v-u1*u2;
+ }
+ return g;
+}
+function WA(){
+ var M=[],i;
+ for(i=0;i<3;i++)M.push([W[i][0]*A[0][0]+W[i][1]*A[1][0],
+                         W[i][0]*A[0][1]+W[i][1]*A[1][1]]);
+ return M;
+}
+function eig2(g){
+ var tr=g[0][0]+g[1][1],dt=g[0][0]*g[1][1]-g[0][1]*g[1][0];
+ var d=Math.sqrt(Math.max(tr*tr/4-dt,0));
+ var l1=tr/2+d,l2=tr/2-d,vx,vy;
+ if(Math.abs(g[0][1])>1e-12){vx=l1-g[1][1];vy=g[0][1]}else{vx=1;vy=0}
+ var n=Math.sqrt(vx*vx+vy*vy);
+ return {l1:l1,l2:l2,vx:vx/n,vy:vy/n};
+}
+var GH=GofP(W,pOf(V0));
+var GT=GofP(WA(),pOf(mv(A,V0)));
+var cv=document.getElementById('f1_dp-cv'),ctx=cv.getContext('2d');
+var TOP=44,BOT=356;
+var LX0=16,LX1=316,RX0=344,RX1=644;
+var LR=1.35,RR=2.6;
+function XL(x){return LX0+(x+LR)/(2*LR)*(LX1-LX0)}
+function YL(y){return TOP+(LR-y)/(2*LR)*(BOT-TOP)}
+function XR(x){return RX0+(x+RR)/(2*RR)*(RX1-RX0)}
+function YR(y){return TOP+(RR-y)/(2*RR)*(BOT-TOP)}
+function arrow(x0,y0,x1,y1,color){
+ ctx.strokeStyle=color;ctx.fillStyle=color;ctx.lineWidth=2.2;
+ ctx.beginPath();ctx.moveTo(x0,y0);ctx.lineTo(x1,y1);ctx.stroke();
+ var a=Math.atan2(y1-y0,x1-x0);
+ ctx.beginPath();ctx.moveTo(x1,y1);
+ ctx.lineTo(x1-9*Math.cos(a-0.4),y1-9*Math.sin(a-0.4));
+ ctx.lineTo(x1-9*Math.cos(a+0.4),y1-9*Math.sin(a+0.4));
+ ctx.closePath();ctx.fill();
+}
+function render(){
+ var th=parseFloat(document.getElementById('f1_dp-th').value)*Math.PI/180;
+ var u=[Math.cos(th),Math.sin(th)];
+ var d=[EPS*u[0],EPS*u[1]];
+ var p0=pOf(mv(A,V0)),p1=pOf(mv(A,[V0[0]+d[0],V0[1]+d[1]])),i;
+ var kl=0;for(i=0;i<3;i++)kl+=p0[i]*Math.log(p0[i]/p1[i]);
+ function quad(G){return 0.5*(d[0]*(G[0][0]*d[0]+G[0][1]*d[1])+d[1]*(G[1][0]*d[0]+G[1][1]*d[1]))}
+ document.getElementById('f1_dp-kl').textContent=(kl*1000).toFixed(1)+' mnats';
+ document.getElementById('f1_dp-qt').textContent=(quad(GT)*1000).toFixed(1)+' mnats';
+ document.getElementById('f1_dp-qh').textContent=(quad(GH)*1000).toFixed(1)+' mnats';
+ ctx.clearRect(0,0,cv.width,cv.height);
+ ctx.font='600 12px system-ui';ctx.fillStyle='#1a2330';
+ ctx.fillText('the probe step at layer L',LX0+52,20);
+ ctx.fillText('what the head actually receives',RX0+58,20);
+ ctx.font='11px system-ui';ctx.fillStyle='#8697a3';
+ ctx.fillText('(after the remaining block)',RX0+96,34);
+ ctx.strokeStyle='#dfe5e9';ctx.lineWidth=1;
+ ctx.beginPath();ctx.moveTo(330,TOP);ctx.lineTo(330,BOT);ctx.stroke();
+ // left panel
+ ctx.strokeStyle='#eceff2';
+ ctx.beginPath();ctx.moveTo(XL(-LR),YL(0));ctx.lineTo(XL(LR),YL(0));ctx.stroke();
+ ctx.beginPath();ctx.moveTo(XL(0),YL(-LR));ctx.lineTo(XL(0),YL(LR));ctx.stroke();
+ ctx.strokeStyle='#b8c4cc';ctx.lineWidth=1.6;
+ ctx.beginPath();
+ for(i=0;i<=90;i++){var t=i/90*2*Math.PI;
+  if(i===0)ctx.moveTo(XL(R*Math.cos(t)),YL(R*Math.sin(t)));
+  else ctx.lineTo(XL(R*Math.cos(t)),YL(R*Math.sin(t)));}
+ ctx.stroke();
+ var EH=eig2(GH),s=0.15;
+ var hx=s,hy=s*Math.sqrt(EH.l1/Math.max(EH.l2,1e-9));
+ ctx.strokeStyle='#66727c';ctx.setLineDash([5,4]);ctx.lineWidth=1.8;
+ ctx.beginPath();
+ for(i=0;i<=90;i++){var t=i/90*2*Math.PI;
+  if(i===0)ctx.moveTo(XL(hx*Math.cos(t)),YL(hy*Math.sin(t)));
+  else ctx.lineTo(XL(hx*Math.cos(t)),YL(hy*Math.sin(t)));}
+ ctx.stroke();ctx.setLineDash([]);
+ ctx.fillStyle='#66727c';ctx.font='600 11px system-ui';
+ ctx.fillText('what the head-only ruler',XL(0.16),YL(1.16));
+ ctx.fillText('calls equal movement',XL(0.16),YL(1.16)+13);
+ ctx.fillStyle='#8697a3';ctx.font='11px system-ui';
+ ctx.fillText('all probe directions',XL(-1.28),YL(-1.05));
+ arrow(XL(0),YL(0),XL(R*u[0]),YL(R*u[1]),'#1a2330');
+ ctx.fillStyle='#c0392b';
+ ctx.beginPath();ctx.arc(XL(0),YL(0),4.5,0,7);ctx.fill();
+ // right panel
+ ctx.strokeStyle='#eceff2';ctx.lineWidth=1;
+ ctx.beginPath();ctx.moveTo(XR(0),YR(-RR));ctx.lineTo(XR(0),YR(RR));ctx.stroke();
+ ctx.strokeStyle='#c0392b';ctx.lineWidth=1.2;
+ ctx.beginPath();ctx.moveTo(XR(-RR),YR(0));ctx.lineTo(XR(RR),YR(0));ctx.stroke();
+ ctx.fillStyle='#c0392b';ctx.font='600 11px system-ui';
+ ctx.fillText('the axis the head reads loudest',XR(-2.5),YR(0)+16);
+ ctx.strokeStyle='#b8c4cc';ctx.lineWidth=1.6;
+ ctx.beginPath();
+ for(i=0;i<=90;i++){var t=i/90*2*Math.PI;
+  var q=mv(A,[R*Math.cos(t),R*Math.sin(t)]);
+  if(i===0)ctx.moveTo(XR(q[0]),YR(q[1]));else ctx.lineTo(XR(q[0]),YR(q[1]));}
+ ctx.stroke();
+ ctx.fillStyle='#8697a3';ctx.font='11px system-ui';
+ ctx.fillText('where the block sends those steps',XR(-2.3),YR(-1.75));
+ var q=mv(A,[R*u[0],R*u[1]]);
+ arrow(XR(0),YR(0),XR(q[0]),YR(q[1]),'#0e7a8f');
+ ctx.fillStyle='#c0392b';
+ ctx.beginPath();ctx.arc(XR(0),YR(0),4.5,0,7);ctx.fill();
+}
+var AUTO=true;
+setInterval(function(){
+ if(!AUTO)return;
+ var s=document.getElementById('f1_dp-th');
+ s.value=(parseFloat(s.value)+1.2)%360;
+ render();
+},50);
+document.getElementById('f1_dp-th').addEventListener('input',function(){
+ AUTO=false;document.getElementById('f1_dp-play').textContent='play';render();
+});
+document.getElementById('f1_dp-play').addEventListener('click',function(){
+ AUTO=!AUTO;
+ document.getElementById('f1_dp-play').textContent=AUTO?'pause':'play';
+});
+render();
+ })();</script>
+</div>
+<figcaption style="text-align:center; font-size:0.85em; color:#64748b; margin-top:8px; font-style:italic;"><strong>Interactive.</strong> Why the head alone is the wrong ruler in the middle of the model. Left: a probe step at the middle layer, with the steps the head-only ruler calls equal movement (grey dashed). Right: the same steps after the remaining block, which is what the head actually receives. The block stretches vertical steps onto the axis the head reads loudest. The readouts compare the true output movement with both predictions.</figcaption>
+</figure>
+<p>The widget shows the mechanism with one remaining block. On the left is
+a probe step at the middle layer. Judged there by the head alone, a
+vertical step looks harmless, because the head barely reads the vertical
+axis. On the right is the same step after the block, which is what the
+head actually receives. The block stretches vertical steps onto the axis
+the head reads loudest. Set the probe vertical and compare the readouts.
+The head-alone prediction is close to zero. The true movement is
+hundreds of times larger, and the metric pulled back through the block
+predicts it correctly.</p>
+<p>Does the trick work in the real model? Two checks say yes.</p>
+<p>First, a correctness test. To see what it proves, look at how the
+estimator works. Factor the head metric as
+<span class="arithmatex">\(G = A^\top A\)</span>, with <span class="arithmatex">\(A\)</span> its matrix square root. Draw a random vector
+<span class="arithmatex">\(u\)</span> with independent unit-variance entries, form the scalar
+<span class="arithmatex">\(s = u^\top A\, h_{\mathrm{final}}\)</span>, and backpropagate <span class="arithmatex">\(s\)</span> down to the
+layer-<span class="arithmatex">\(L\)</span> state. That single backward pass returns the gradient
+<span class="arithmatex">\(g = J^\top A^\top u\)</span>. Now average the outer product over many draws:</p>
+<div class="arithmatex">\[
+\mathbb{E}\lbrack g\, g^\top \rbrack
+ = J^\top A^\top\, \mathbb{E}\lbrack u\, u^\top \rbrack\, A\, J
+ = J^\top G\, J ,
+\]</div>
+<p>because <span class="arithmatex">\(\mathbb{E}\lbrack u\, u^\top \rbrack\)</span> is the identity. The
+randomness cancels exactly in expectation. Nothing about the network is
+approximated, so the only error left is that we average finitely many
+probes. The last layer turns this into a test. There the tail is empty
+and <span class="arithmatex">\(J\)</span> is the identity, so the average must come back as the analytic
+<span class="arithmatex">\(G\)</span> itself, a matrix we can compute in closed form with no sampling at
+all. We ran the full probe machinery anyway and compared the two
+matrices as a whole. They agree to within 2.5 percent, and that gap is
+most likely pure sampling noise.</p>
+<p>Second, the payoff. At any other depth, the only thing that changes is
+which blocks the backward pass walks through. We trained charts under
+this per-layer metric at eleven depths of GPT-2. At every one of them,
+they beat every linear baseline.</p>
+<h3 id="where-the-function-actually-lives">Where the function actually lives<a class="headerlink" href="#where-the-function-actually-lives" title="Permanent link">¶</a></h3>
+<p>If two directions hold the variance, how many hold the function? We measure
+it directly: project the hidden state onto its best k dimensions,
+hand the result to the model’s own prediction head, and sweep k. Every
+experiment in this article follows the same protocol: perplexity on
+held-out WikiText-103 text, with three seeds for every trained chart.
+The widget shows both verdicts on the same dimension axis.</p>
+<figure style="margin:2em 0;">
+<div class="igl-widget" id="igl-fig-0" style="border-radius:12px; border:1px solid #e2e8f0; overflow:hidden; padding:28px 20px 22px;">
+<style>#igl-fig-0 .vf-wrap { font:13px system-ui;color:#1a2330;max-width:680px }
+#igl-fig-0 .vf-row { display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:6px }
+#igl-fig-0 .vf-num { font:600 14px ui-monospace,monospace;color:#0e7a8f }
+#igl-fig-0 .vf-var { font:600 14px ui-monospace,monospace;color:#c0392b }
+#igl-fig-0 .vf-lin { font:600 14px ui-monospace,monospace;color:#66727c }
+#igl-fig-0 #vf-cv { width:100%;max-width:660px;border:1px solid #d5dde2;border-radius:6px }
+#igl-fig-0 input[type=range] { width:220px }
+#igl-fig-0 .vf-sub { color:#8697a3;margin-top:6px;font-size:12px;line-height:1.5 }
+#igl-fig-0 .vf-big { font:600 13px system-ui;margin:4px 0 8px 0 }
+#igl-fig-0 #vf-play { font:600 12px system-ui;padding:2px 10px;border:1px solid #b8c4cc;
+ border-radius:4px;background:#f2f5f7;cursor:pointer }</style>
+
+<div class="vf-wrap">
+<div class="vf-row">
+<label>keep the top k of 768 dimensions:
+  <input id="f0_vf-sl" max="11" min="0" step="1" type="range" value="0"/>
+<span class="vf-num" id="f0_vf-k">1</span></label>
+<button id="f0_vf-play">pause</button>
+</div>
+<div class="vf-big">variance captured: <span class="vf-var" id="f0_vf-vc">?</span>
+  ·  best linear read: <span class="vf-lin" id="f0_vf-lin">?</span>
+  ·  Fisher chart: <span class="vf-num" id="f0_vf-fis">?</span></div>
+<canvas height="470" id="f0_vf-cv" width="660"></canvas>
+<div class="vf-sub">Two verdicts on the same k. Top: the share of activation
+variance the top k principal directions capture, zoomed into its last two
+percent. It starts at 98.5 percent for a single direction and is saturated by
+k = 2. Bottom: how well GPT-2's own head predicts when it must read the state
+through k dimensions, as a multiple of the intact perplexity of 29.3 (log
+scale). Grey is the best possible linear map, blue is the chart trained under
+the Fisher metric, and the red dot is plain variance ranking at k = 32. By the top
+panel's accounting the state is fully summarized almost immediately. The
+bottom panel does not get near intact before roughly 384 of 768 dimensions.
+Curves are drawn only where a value was measured.</div>
+</div>
+
+
+<script>(function(){ 
+var KS=[1,2,4,8,16,32,64,128,256,384,512,640];
+var VC={1:98.5,2:99.06,4:99.52,8:99.71,16:99.77,32:99.8};
+var LIN={32:236.1,64:122.5,128:67.1,256:41.1,384:33.7,512:30.7,640:29.5};
+var FIS={8:338.6,16:257.3,32:183.8,64:106.0,128:71.8};
+var INTACT=29.25,PCA32=269.4;
+var cv=document.getElementById('f0_vf-cv'),ctx=cv.getContext('2d');
+var PL=64,PR=16;
+var T1=30,B1=140;
+var T2=185,B2=430;
+var LK0=Math.log(1),LK1=Math.log(640);
+var R0=Math.log(0.9),R1=Math.log(14);
+function X(k){return PL+(Math.log(k)-LK0)/(LK1-LK0)*(cv.width-PL-PR)}
+function Yv(pct){return T1+(100-pct)/2*(B1-T1)}
+function Yr(ratio){return T2+(R1-Math.log(ratio))/(R1-R0)*(B2-T2)}
+function line(pts,color,dash){
+ ctx.strokeStyle=color;ctx.lineWidth=2;if(dash)ctx.setLineDash([5,4]);
+ ctx.beginPath();
+ for(var i=0;i<pts.length;i++){if(i===0)ctx.moveTo(pts[i][0],pts[i][1]);
+  else ctx.lineTo(pts[i][0],pts[i][1])}
+ ctx.stroke();ctx.setLineDash([]);
+}
+function dots(pts,color,r){ctx.fillStyle=color;
+ for(var i=0;i<pts.length;i++){ctx.beginPath();
+  ctx.arc(pts[i][0],pts[i][1],r||3,0,7);ctx.fill()}}
+function render(){
+ var k=KS[parseInt(document.getElementById('f0_vf-sl').value)];
+ document.getElementById('f0_vf-k').textContent=k;
+ document.getElementById('f0_vf-vc').textContent=(k in VC)?(VC[k].toFixed(1)+'%'):'≥ 99.8%';
+ document.getElementById('f0_vf-lin').textContent=(k in LIN)?('×'+(LIN[k]/INTACT).toFixed(1)+' intact'):'—';
+ document.getElementById('f0_vf-fis').textContent=(k in FIS)?('×'+(FIS[k]/INTACT).toFixed(1)+' intact'):'—';
+ ctx.clearRect(0,0,cv.width,cv.height);
+ ctx.font='11px system-ui';ctx.lineWidth=1;
+ // ---- top panel: variance captured, zoom 98-100 ----
+ ctx.strokeStyle='#eceff2';ctx.fillStyle='#8697a3';
+ [98,99,100].forEach(function(p){var y=Yv(p);
+  ctx.beginPath();ctx.moveTo(PL,y);ctx.lineTo(cv.width-PR,y);ctx.stroke();
+  ctx.fillText(p+'%',PL-30,y+4)});
+ ctx.fillStyle='#c0392b';
+ ctx.fillText('variance captured (zoom on 98–100%)',PL+4,T1-8);
+ var vpts=[];[1,2,4,8,16,32].forEach(function(kk){vpts.push([X(kk),Yv(VC[kk])])});
+ line(vpts,'#c0392b');dots(vpts,'#c0392b');
+ line([[X(32),Yv(99.8)],[X(640),Yv(99.9)]],'#c0392b',true);
+ ctx.fillStyle='#c0392b';ctx.font='600 11px system-ui';
+ ctx.fillText('saturated by k = 2',X(2)+8,Yv(99.06)+16);
+ // ---- bottom panel: multiple of intact, log ----
+ ctx.font='11px system-ui';
+ ctx.strokeStyle='#eceff2';ctx.fillStyle='#8697a3';
+ [1,2,4,8].forEach(function(r){var y=Yr(r);
+  ctx.beginPath();ctx.moveTo(PL,y);ctx.lineTo(cv.width-PR,y);ctx.stroke();
+  ctx.fillText('×'+r,PL-26,y+4)});
+ ctx.fillText('how much worse than intact (log)',PL+4,T2-8);
+ var yI=Yr(1);
+ ctx.strokeStyle='#8697a3';ctx.setLineDash([5,4]);ctx.lineWidth=1.2;
+ ctx.beginPath();ctx.moveTo(PL,yI);ctx.lineTo(cv.width-PR,yI);ctx.stroke();ctx.setLineDash([]);
+ ctx.fillStyle='#8697a3';ctx.fillText('intact model',PL+6,yI+14);
+ var lpts=[];[32,64,128,256,384,512,640].forEach(function(kk){lpts.push([X(kk),Yr(LIN[kk]/INTACT)])});
+ line(lpts,'#8a97a0');dots(lpts,'#8a97a0');
+ var fpts=[];[8,16,32,64,128].forEach(function(kk){fpts.push([X(kk),Yr(FIS[kk]/INTACT)])});
+ line(fpts,'#0e7a8f');dots(fpts,'#0e7a8f');
+ ctx.fillStyle='#c0392b';ctx.beginPath();ctx.arc(X(32),Yr(PCA32/INTACT),5.5,0,7);ctx.fill();
+ ctx.font='600 11px system-ui';
+ ctx.fillText('variance ranking: ×9.2',X(32)+9,Yr(PCA32/INTACT)+4);
+ ctx.fillStyle='#0e7a8f';
+ ctx.fillText('Fisher chart',X(8)+8,Yr(FIS[8]/INTACT)-8);
+ ctx.fillStyle='#8a97a0';
+ ctx.fillText('best linear map',X(64)+8,Yr(LIN[64]/INTACT)-8);
+ ctx.fillStyle='#1a2330';
+ ctx.fillText('first near intact: k ≈ 384',X(384)-140,Yr(LIN[384]/INTACT)-12);
+ // ---- shared x axis ----
+ ctx.font='11px system-ui';ctx.fillStyle='#8697a3';
+ [1,4,16,32,128,384,640].forEach(function(kk){
+  ctx.fillText(kk,X(kk)-(kk>=100?10:(kk>=10?7:3)),B2+18)});
+ ctx.fillText('dimensions kept (log)',cv.width/2-56,B2+34);
+ // ---- cursor through both panels ----
+ var xk=X(k);
+ ctx.strokeStyle='#1a2330';ctx.lineWidth=1.3;ctx.setLineDash([2,3]);
+ ctx.beginPath();ctx.moveTo(xk,T1);ctx.lineTo(xk,B2);ctx.stroke();ctx.setLineDash([]);
+ // current-point halos
+ var vcNow=(k in VC)?VC[k]:99.85;
+ ctx.strokeStyle='#c0392b';ctx.lineWidth=2;
+ ctx.beginPath();ctx.arc(xk,Yv(vcNow),6,0,7);ctx.stroke();
+ if(k in LIN){ctx.strokeStyle='#8a97a0';
+  ctx.beginPath();ctx.arc(xk,Yr(LIN[k]/INTACT),6,0,7);ctx.stroke()}
+ if(k in FIS){ctx.strokeStyle='#0e7a8f';
+  ctx.beginPath();ctx.arc(xk,Yr(FIS[k]/INTACT),6,0,7);ctx.stroke()}
+}
+var AUTO=true;
+setInterval(function(){
+ if(!AUTO)return;
+ var s=document.getElementById('f0_vf-sl');
+ s.value=(parseInt(s.value)+1)%12;
+ render();
+},900);
+document.getElementById('f0_vf-sl').addEventListener('input',function(){
+ AUTO=false;document.getElementById('f0_vf-play').textContent='play';render();
+});
+document.getElementById('f0_vf-play').addEventListener('click',function(){
+ AUTO=!AUTO;
+ document.getElementById('f0_vf-play').textContent=AUTO?'pause':'play';
+});
+render();
+ })();</script>
+</div>
+<figcaption style="text-align:center; font-size:0.85em; color:#64748b; margin-top:8px; font-style:italic;"><strong>Interactive.</strong> Press play or drag k: one dimension budget, two verdicts. The top panel is the variance story, zoomed into its last two percent: 98.5 percent captured by a single direction, saturated by k = 2. The bottom panel is the function story on the same k axis: how much worse than intact the model reads through k dimensions, for the best linear map (grey), the Fisher chart (blue), and plain variance ranking (red dot). The cursor ties the two panels together at your k.</figcaption>
+</figure>
+<p>Three things to notice. The red curve saturates immediately: by any
+variance accounting, the state is “fully summarized” at a handful of
+dimensions. The function curves say otherwise. Even the best possible
+linear read is still 8 times worse than intact at k = 32. It does not get
+near intact before roughly 384 of 768 dimensions, with no elbow anywhere
+on the way. And the ruler matters more than the budget. At the same
+k = 32, pure variance ranking sits at 9.2 times intact, the best linear
+map at 8.1, the Fisher-metric chart at 6.3.</p>
+<p>There is a fourth ruler, and it deserves its own paragraph. Train a
+small autoencoder, a generic neural network of about 800 thousand
+parameters, on exactly the same Fisher-whitened target, and it reaches
+2.7 times intact at the same k = 32. That number carries two lessons.
+First, <strong>the advantage belongs to the metric</strong>: any reasonable learner
+handed the right target beats every linear chart by a wide margin. We
+use IGL charts for two reasons. They separate the metric that defines
+the target from the geometry that represents it, and their nested
+coordinates measure the requirement at every budget from one fitted
+chart. Second, nonlinearity pays at tight budgets. Thirty-two
+linear dimensions cap at 8.1 times intact even when chosen optimally,
+because a linear map can only pick a subspace. Thirty-two nonlinear
+coordinates reach 2.7, because they can bend around the state’s
+structure. Our dictionary chart sits between the two at 6.3: it gives up
+part of the nonlinear gain in exchange for coordinates that are nested
+by importance and readable at any budget. Function is spread wide, and
+it is found by asking what the answers care about, never by asking what
+is big.</p>
+<p>How does a requirement of 384 dimensions sit with the literature on
+intrinsic dimension? Geometric estimators read GPT-2’s states at a local
+dimension of roughly 5 to 13, consistent with what intrinsic-dimension
+studies report across large transformers
+(<a href="https://arxiv.org/abs/2302.00294">Valeriani et al., 2023</a>). There is
+no contradiction. Those estimators measure where the states sit, and we
+measure what a readout needs. The same resolution covers the famous
+result that fine-tuning needs surprisingly few parameters
+(<a href="https://arxiv.org/abs/2012.13255">Aghajanyan et al., 2021</a>): the
+fine-tuning objective is one more functional, with its own, much smaller
+requirement. Each number is a correct answer to a different question.</p>
+<p>One more cut, because it explains who pays. The dimension a token needs is
+bimodal: about a third of tokens survive an 8-dimension budget, while 39
+percent need more than 128, and almost nothing sits in between.</p>
+<p>
+<figure><img src="images/2026-08-23-function-lives-where-variance-doesnt/bimodality.png"/><figcaption>How many dimensions each token needs, at a 0.5-nat tolerance. The distribution is bimodal: one third of tokens are satisfied by 8 dimensions, 39 percent need more than 128. Splitting by frequency explains it: two thirds of the most frequent tokens sit at 8 (green), while nearly two thirds of the rarest need more than 128 (red).</figcaption>
+</figure>
+</p>
+<p>The best predictor of a token’s requirement is how often that token
+occurs in text: the rarer the token, the more dimensions it needs, with
+rank correlation 0.49. A frequent token is predicted well from a handful
+of coordinates, while a rare token needs most of the state’s width
+before its prediction survives. We found the same
+frequency law in the
+<a href="2026-08-13-embedding-dimension-illusion.html">geometry of embedding tables</a>,
+where rare tokens live in higher-dimensional neighborhoods. Here it shows
+up again in the running activations, as a cost. Why rare tokens pay this
+cost is a question for a separate article.</p>
+<h3 id="six-models-three-families-one-picture">Six models, three families, one picture<a class="headerlink" href="#six-models-three-families-one-picture" title="Permanent link">¶</a></h3>
+<p>Does this depend on GPT-2’s famous quirks? No. The same measurement runs on
+six models from three families, from 70 million to 7 billion parameters.</p>
+<p>
+<figure><img src="images/2026-08-23-function-lives-where-variance-doesnt/dissociation_scatter.png"/><figcaption>For six models: where 90 percent of the variance sits (horizontal) against how much of the width the function needs (vertical). Every model sits far above the diagonal: function needs 70 to 90 percent of the width regardless of where the variance went. Qwen’s collapsed middle layer is marked: the variance concentrates there, and the function still lives elsewhere.</figcaption>
+</figure>
+</p>
+<p>Each family parks its variance in a different place. GPT-2 concentrates
+it in the last layer. Qwen concentrates it in the middle layers. Pythia
+never concentrates it at all. Wherever the pile sits, it is an accident
+of architecture, not a fact about language. The functional requirement
+is the invariant: in every model, reading the state near-intact takes 70
+to 90 percent of the width. And scale does not soften the dissociation,
+it sharpens it. In Qwen2.5-7B, the largest model we measured, a single
+direction carries 17 percent of all activation variance, and deleting it
+costs 0.06 nats.</p>
+<h3 id="what-to-take-away">What to take away<a class="headerlink" href="#what-to-take-away" title="Permanent link">¶</a></h3>
+<p>Three findings. In GPT-2’s last hidden layer, the directions holding 90
+percent of the variance are causally inert, and the function lives in
+the 1 percent variance tail. The right ruler is the model’s own Fisher
+metric, and under it the same training recipe recovers far more function
+at every budget. Neither fact is a quirk of one model: the dissociation
+replicates in six models from three families up to 7 billion parameters,
+and the metric’s advantage in all five models where we measured it.</p>
+<p>The lesson in one line: <strong>if you summarize a model’s internals by
+variance, you are measuring its storage, not its computation.</strong> Three
+practical rules follow.</p>
+<ul>
+<li>Never report “percent of variance kept” as a measure of fidelity. Here
+  the two diverge by an order of magnitude.</li>
+<li>Grade any truncation, compression, or probe against the model’s own
+  outputs, not against reconstruction error.</li>
+<li>If you must compress to few dimensions, pick them with a task-weighted
+  target. The same budget spent by variance is wasted.</li>
+</ul>
+<div class="admonition note">
+<p class="admonition-title">The paper behind this article</p>
+<p>The full paper, with the instrument’s validation, the per-layer
+anatomy, and the cross-model tables, is in submission. We will link
+it here when it is public.</p>
+</div>
+<h3 id="references">References<a class="headerlink" href="#references" title="Permanent link">¶</a></h3>
+<ul>
+<li>Aghajanyan, A., Zettlemoyer, L., and Gupta, S. (2021). Intrinsic
+  Dimensionality Explains the Effectiveness of Language Model Fine-Tuning.
+  ACL 2021. <a href="https://arxiv.org/abs/2012.13255">arXiv:2012.13255</a></li>
+<li>Ethayarajh, K. (2019). How Contextual are Contextualized Word
+  Representations? Comparing the Geometry of BERT, ELMo, and GPT-2
+  Embeddings. EMNLP 2019.
+  <a href="https://arxiv.org/abs/1909.00512">arXiv:1909.00512</a></li>
+<li>Kantamneni, S., Engels, J., Rajamanoharan, S., Tegmark, M., and
+  Nanda, N. (2025). Are Sparse Autoencoders Useful? A Case Study in
+  Sparse Probing. <a href="https://arxiv.org/abs/2502.16681">arXiv:2502.16681</a></li>
+<li>Karvonen, A., Rager, C., Lin, J., Tigges, C., Bloom, J., Chanin, D.,
+  Lau, Y.-T., Farrell, E., McDougall, C., Ayonrinde, K., Till, D.,
+  Wearden, M., Conmy, A., Marks, S., and Nanda, N. (2025). SAEBench: A
+  Comprehensive Benchmark for Sparse Autoencoders in Language Model
+  Interpretability. <a href="https://arxiv.org/abs/2503.09532">arXiv:2503.09532</a></li>
+<li>Kusupati, A., Bhatt, G., Rege, A., Wallingford, M., Sinha, A.,
+  Ramanujan, V., Howard-Snyder, W., Chen, K., Kakade, S., Jain, P., and
+  Farhadi, A. (2022). Matryoshka Representation Learning. NeurIPS 2022.
+  <a href="https://arxiv.org/abs/2205.13147">arXiv:2205.13147</a></li>
+<li>Lindsey, J., Gurnee, W., Ameisen, E., Chen, B., Pearce, A., Turner,
+  N. L., Citro, C., et al. (2025). On the Biology of a Large Language
+  Model. Transformer Circuits Thread, Anthropic.
+  <a href="https://transformer-circuits.pub/2025/attribution-graphs/biology.html">transformer-circuits.pub</a></li>
+<li>Quemy, A. (2026). Intrinsic Green’s Learning: Supervised Learning on
+  Manifolds via Inverse PDE. ICLR 2026 AI&amp;PDE Workshop.
+  <a href="https://arxiv.org/abs/2607.07034">arXiv:2607.07034</a></li>
+<li>Timkey, W., and van Schijndel, M. (2021). All Bark and No Bite: Rogue
+  Dimensions in Transformer Language Models Obscure Representational
+  Quality. EMNLP 2021.
+  <a href="https://arxiv.org/abs/2109.04404">arXiv:2109.04404</a></li>
+<li>Valeriani, L., Doimo, D., Cuturello, F., Laio, A., Ansuini, A., and
+  Cazzaniga, A. (2023). The geometry of hidden representations of large
+  transformer models. NeurIPS 2023.
+  <a href="https://arxiv.org/abs/2302.00294">arXiv:2302.00294</a></li>
+</ul>
+                </div>
+                
+                <!-- Mermaid Script -->
+                <script type="module">
+                    import mermaid from 'https://cdn.jsdelivr.net/npm/mermaid@11/dist/mermaid.esm.min.mjs';
+                    
+                    // Configure and initialize mermaid
+                    const initMermaid = async () => {
+                        try {
+                            await mermaid.initialize({ 
+                                startOnLoad: true,
+                                theme: document.documentElement.classList.contains('dark') ? 'dark' : 'default',
+                                securityLevel: 'loose',
+                                flowchart: {
+                                    useMaxWidth: false,
+                                    htmlLabels: true,
+                                    curve: 'basis',
+                                    padding: 20,
+                                    nodeSpacing: 50,
+                                    rankSpacing: 50
+                                },
+                                themeVariables: {
+                                    primaryColor: '#D97706',
+                                    primaryTextColor: '#2A2927',
+                                    primaryBorderColor: '#D97706',
+                                    lineColor: '#78716c',
+                                    secondaryColor: '#f5f5f4',
+                                    tertiaryColor: '#fafaf9',
+                                    background: '#F8F6F1',
+                                    mainBkg: '#f5ede0',
+                                    secondBkg: '#faf7f0',
+                                    tertiaryBkg: '#faf7f0'
+                                }
+                            });
+                            
+                            // Log any mermaid elements found
+                            const elements = document.querySelectorAll('.mermaid');
+                            console.log(`Mermaid initialized. Found ${elements.length} diagram(s)`);
+                            
+                            // Force render if elements exist
+                            if (elements.length > 0) {
+                                mermaid.contentLoaded();
+                            }
+                        } catch (error) {
+                            console.error('Mermaid initialization error:', error);
+                        }
+                    };
+                    
+                    // Initialize when DOM is ready
+                    if (document.readyState === 'loading') {
+                        document.addEventListener('DOMContentLoaded', initMermaid);
+                    } else {
+                        // DOM already loaded
+                        await initMermaid();
+                    }
+                </script>
+            </article>
+
+            <!-- Prev / Next + same-category navigation -->
+            
+            <nav class="mt-16 pt-8 border-t border-stone-200 dark:border-stone-700 flex justify-between gap-8">
+                <div class="flex-1">
+                    
+                    <a href="https://quemy.info/2026-08-13-embedding-dimension-illusion.html" class="group block">
+                        <span class="post-meta block mb-1">← Previous</span>
+                        <span class="font-serif text-lg text-ink dark:text-dark-ink group-hover:text-accent-light dark:group-hover:text-accent-dark transition-colors">Your Embedding Dimension Is a Statistical Illusion</span>
+                    </a>
+                    
+                </div>
+                <div class="flex-1 text-right">
+                    
+                </div>
+            </nav>
+            
+            
+            <div class="mt-10">
+                <span class="post-meta block mb-3">More in LLM</span>
+                <ul class="space-y-1.5">
+                    
+                    <li><a href="https://quemy.info/2026-08-13-embedding-dimension-illusion.html" class="font-serif text-accent-light dark:text-accent-dark hover:underline">Your Embedding Dimension Is a Statistical Illusion</a></li>
+                    
+                    <li><a href="https://quemy.info/2025-15-06-tutorial-fsm-2.html" class="font-serif text-accent-light dark:text-accent-dark hover:underline">Signature Model Tutorial Part 2 - The problems with Native Function Calling</a></li>
+                    
+                    <li><a href="https://quemy.info/2025-15-06-tutorial-fsm-3.html" class="font-serif text-accent-light dark:text-accent-dark hover:underline">Signature Model Tutorial Part 3 - Introduction to the Signature Model</a></li>
+                    
+                </ul>
+            </div>
+            
+
+            <!-- Giscus Comments Section -->
+            <div class="mt-16 pt-8 border-t border-stone-200 dark:border-stone-700">
+                <script src="https://giscus.app/client.js"
+                    data-repo="aquemy/aquemy.github.io"
+                    data-repo-id="MDEwOlJlcG9zaXRvcnkzMTM5NTY4OTU="
+                    data-category="Ideas"
+                    data-category-id="DIC_kwDOEraaH84CdPT4"
+                    data-mapping="pathname"
+                    data-strict="0"
+                    data-reactions-enabled="1"
+                    data-emit-metadata="1"
+                    data-input-position="top"
+                    data-theme="preferred_color_scheme"
+                    data-lang="en"
+                    data-loading="lazy"
+                    crossorigin="anonymous"
+                    async>
+                </script>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Image lightbox: click a content image to view it full-screen; click the backdrop or press Esc to close -->
+<style>
+  .lightbox-overlay { position: fixed; inset: 0; z-index: 1000; display: flex; align-items: center; justify-content: center; padding: 4vmin; background: rgba(22,20,18,.88); opacity: 0; transition: opacity .18s ease; cursor: zoom-out; }
+  .lightbox-overlay.open { opacity: 1; }
+  .lightbox-overlay img { max-width: 94vw; max-height: 92vh; width: auto; height: auto; border-radius: 6px; background: #fff; box-shadow: 0 16px 60px rgba(0,0,0,.55); cursor: default; }
+  .lightbox-close { position: fixed; top: 16px; right: 22px; font-size: 36px; line-height: 1; color: #fff; opacity: .8; cursor: pointer; background: none; border: 0; padding: 4px 10px; }
+  .lightbox-close:hover { opacity: 1; }
+  #prose-content img.zoomable { cursor: zoom-in; }
+  /* Ink-diagram SVGs are authored for a light surface; give them one in dark mode so the dark ink stays readable. */
+  html.dark #prose-content img[src$=".svg"] { background: #f4f1ea; padding: 16px; border-radius: 8px; box-shadow: 0 2px 16px rgba(0,0,0,.30); }
+  .lightbox-overlay img[src$=".svg"] { padding: 18px; }
+  /* Interactive HTML widgets are authored for a light surface; give the container one in dark mode. */
+  html.dark .igl-widget { background: #f4f1ea; }
+</style>
+<script>
+(function () {
+  function init() {
+    var prose = document.getElementById('prose-content');
+    if (!prose) return;
+    var overlay = null;
+    function close() {
+      if (!overlay) return;
+      var o = overlay; overlay = null;
+      o.classList.remove('open');
+      document.body.style.overflow = '';
+      setTimeout(function () { if (o && o.parentNode) o.parentNode.removeChild(o); }, 200);
+    }
+    function open(src, alt) {
+      close();
+      overlay = document.createElement('div');
+      overlay.className = 'lightbox-overlay';
+      var btn = document.createElement('button');
+      btn.className = 'lightbox-close'; btn.setAttribute('aria-label', 'Close'); btn.innerHTML = '&times;';
+      var im = document.createElement('img');
+      im.src = src; im.alt = alt || '';
+      overlay.appendChild(btn); overlay.appendChild(im);
+      document.body.appendChild(overlay);
+      document.body.style.overflow = 'hidden';
+      requestAnimationFrame(function () { overlay.classList.add('open'); });
+      overlay.addEventListener('click', function (e) { if (e.target !== im) close(); });
+    }
+    var imgs = prose.querySelectorAll('img');
+    for (var i = 0; i < imgs.length; i++) {
+      var img = imgs[i];
+      if (img.closest('a')) continue;
+      img.classList.add('zoomable');
+      (function (im) { im.addEventListener('click', function () { open(im.currentSrc || im.src, im.alt); }); })(img);
+    }
+    document.addEventListener('keydown', function (e) { if (e.key === 'Escape') close(); });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
+  else init();
+})();
+</script>
+
+        </main>
+        <footer class="w-full max-w-4xl mx-auto text-center py-8 px-4 mt-6 border-t border-black/10 dark:border-white/10">
+    <div class="flex justify-center space-x-6 mb-4">
+        
+        <a href="mailto:alexandre@quemy.info" title="Email" class="footer-icon"><i class="fas fa-envelope"></i></a>
+        
+        
+        <a href="https://linkedin.com/in/aquemy" title="LinkedIn" target="_blank" class="footer-icon"><i class="fab fa-linkedin"></i></a>
+        
+        
+        <a href="http://github.com/aquemy" title="GitHub" target="_blank" class="footer-icon"><i class="fab fa-github"></i></a>
+        
+        
+        <a href="https://twitter.com/@alexandre_quemy" title="Twitter" target="_blank" class="footer-icon"><i class="fab fa-twitter"></i></a>
+        
+        <a href="https://orcid.org/0000-0002-5865-6403" title="ORCID" target="_blank" class="footer-icon"><i class="fab fa-orcid"></i></a>
+    </div>
+    <p class="text-xs text-stone-500 dark:text-stone-400">
+        © <span id="current-year"></span> Alexandre Quemy. All rights reserved.
+    </p>
+</footer> <!-- This is the footer -->
+    </div>
+    
+
+    <!-- Custom JavaScript -->
+    <script src="https://quemy.info/js/main.js"></script>
+
+    
+</body>
+</html>

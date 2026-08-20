@@ -1,0 +1,170 @@
+<style>
+.dp-wrap{font:13px system-ui;color:#1a2330;max-width:680px}
+.dp-row{display:flex;gap:16px;align-items:center;flex-wrap:wrap;margin-bottom:6px}
+.dp-num{font:600 14px ui-monospace,monospace;color:#0e7a8f}
+.dp-grey{font:600 14px ui-monospace,monospace;color:#66727c}
+.dp-dark{font:600 14px ui-monospace,monospace;color:#1a2330}
+#dp-cv{width:100%;max-width:660px;border:1px solid #d5dde2;border-radius:6px}
+input[type=range]{width:220px}
+.dp-sub{color:#8697a3;margin-top:6px;font-size:12px;line-height:1.5}
+.dp-big{font:600 13px system-ui;margin:4px 0 8px 0}
+#dp-play{font:600 12px system-ui;padding:2px 10px;border:1px solid #b8c4cc;
+ border-radius:4px;background:#f2f5f7;cursor:pointer}
+</style>
+<body>
+<div class="dp-wrap">
+<div class="dp-row">
+ <label>probe direction at the middle layer:
+  <input type="range" id="dp-th" min="0" max="360" step="1" value="90"></label>
+ <button id="dp-play">pause</button>
+</div>
+<div class="dp-big">true movement: <span class="dp-dark" id="dp-kl">?</span>
+ &nbsp;·&nbsp; through the blocks: <span class="dp-num" id="dp-qt">?</span>
+ &nbsp;·&nbsp; head alone: <span class="dp-grey" id="dp-qh">?</span></div>
+<canvas id="dp-cv" width="660" height="380"></canvas>
+<div class="dp-sub">Left: a probe step at the middle layer, one direction on
+the circle of all directions. The grey dashed ellipse marks the steps the
+head-only ruler scores as equal movement: tall, because that ruler calls
+vertical steps nearly free. Right: the same steps after the remaining block,
+which is what the head actually receives. The block stretches the circle into
+a slanted ellipse. A vertical step at the middle layer arrives long and
+almost horizontal, aligned with the axis the head reads loudest. That is why
+the head-alone prediction misses vertical probes by a factor of several
+hundred, while the prediction made through the block tracks the true
+movement. Readouts are for a probe step of length 0.15.</div>
+</div>
+<script>
+var W=[[2.0,0.15],[-2.0,0.15],[0.0,-0.30]];
+var A=[[1.0,2.5],[0.0,1.0]];
+var EPS=0.15,V0=[-0.5,0.2],R=0.8;
+function mv(M,x){return [M[0][0]*x[0]+M[0][1]*x[1],M[1][0]*x[0]+M[1][1]*x[1]]}
+function pOf(h){
+ var l=[],i,m=-1e9,s=0,p=[];
+ for(i=0;i<3;i++){l[i]=W[i][0]*h[0]+W[i][1]*h[1];if(l[i]>m)m=l[i]}
+ for(i=0;i<3;i++){p[i]=Math.exp(l[i]-m);s+=p[i]}
+ for(i=0;i<3;i++)p[i]/=s;
+ return p;
+}
+function GofP(Wm,p){
+ var g=[[0,0],[0,0]],i,a,b;
+ for(a=0;a<2;a++)for(b=0;b<2;b++){
+  var v=0,u1=0,u2=0;
+  for(i=0;i<3;i++){v+=p[i]*Wm[i][a]*Wm[i][b];u1+=p[i]*Wm[i][a];u2+=p[i]*Wm[i][b]}
+  g[a][b]=v-u1*u2;
+ }
+ return g;
+}
+function WA(){
+ var M=[],i;
+ for(i=0;i<3;i++)M.push([W[i][0]*A[0][0]+W[i][1]*A[1][0],
+                         W[i][0]*A[0][1]+W[i][1]*A[1][1]]);
+ return M;
+}
+function eig2(g){
+ var tr=g[0][0]+g[1][1],dt=g[0][0]*g[1][1]-g[0][1]*g[1][0];
+ var d=Math.sqrt(Math.max(tr*tr/4-dt,0));
+ var l1=tr/2+d,l2=tr/2-d,vx,vy;
+ if(Math.abs(g[0][1])>1e-12){vx=l1-g[1][1];vy=g[0][1]}else{vx=1;vy=0}
+ var n=Math.sqrt(vx*vx+vy*vy);
+ return {l1:l1,l2:l2,vx:vx/n,vy:vy/n};
+}
+var GH=GofP(W,pOf(V0));
+var GT=GofP(WA(),pOf(mv(A,V0)));
+var cv=document.getElementById('dp-cv'),ctx=cv.getContext('2d');
+var TOP=44,BOT=356;
+var LX0=16,LX1=316,RX0=344,RX1=644;
+var LR=1.35,RR=2.6;
+function XL(x){return LX0+(x+LR)/(2*LR)*(LX1-LX0)}
+function YL(y){return TOP+(LR-y)/(2*LR)*(BOT-TOP)}
+function XR(x){return RX0+(x+RR)/(2*RR)*(RX1-RX0)}
+function YR(y){return TOP+(RR-y)/(2*RR)*(BOT-TOP)}
+function arrow(x0,y0,x1,y1,color){
+ ctx.strokeStyle=color;ctx.fillStyle=color;ctx.lineWidth=2.2;
+ ctx.beginPath();ctx.moveTo(x0,y0);ctx.lineTo(x1,y1);ctx.stroke();
+ var a=Math.atan2(y1-y0,x1-x0);
+ ctx.beginPath();ctx.moveTo(x1,y1);
+ ctx.lineTo(x1-9*Math.cos(a-0.4),y1-9*Math.sin(a-0.4));
+ ctx.lineTo(x1-9*Math.cos(a+0.4),y1-9*Math.sin(a+0.4));
+ ctx.closePath();ctx.fill();
+}
+function render(){
+ var th=parseFloat(document.getElementById('dp-th').value)*Math.PI/180;
+ var u=[Math.cos(th),Math.sin(th)];
+ var d=[EPS*u[0],EPS*u[1]];
+ var p0=pOf(mv(A,V0)),p1=pOf(mv(A,[V0[0]+d[0],V0[1]+d[1]])),i;
+ var kl=0;for(i=0;i<3;i++)kl+=p0[i]*Math.log(p0[i]/p1[i]);
+ function quad(G){return 0.5*(d[0]*(G[0][0]*d[0]+G[0][1]*d[1])+d[1]*(G[1][0]*d[0]+G[1][1]*d[1]))}
+ document.getElementById('dp-kl').textContent=(kl*1000).toFixed(1)+' mnats';
+ document.getElementById('dp-qt').textContent=(quad(GT)*1000).toFixed(1)+' mnats';
+ document.getElementById('dp-qh').textContent=(quad(GH)*1000).toFixed(1)+' mnats';
+ ctx.clearRect(0,0,cv.width,cv.height);
+ ctx.font='600 12px system-ui';ctx.fillStyle='#1a2330';
+ ctx.fillText('the probe step at layer L',LX0+52,20);
+ ctx.fillText('what the head actually receives',RX0+58,20);
+ ctx.font='11px system-ui';ctx.fillStyle='#8697a3';
+ ctx.fillText('(after the remaining block)',RX0+96,34);
+ ctx.strokeStyle='#dfe5e9';ctx.lineWidth=1;
+ ctx.beginPath();ctx.moveTo(330,TOP);ctx.lineTo(330,BOT);ctx.stroke();
+ // left panel
+ ctx.strokeStyle='#eceff2';
+ ctx.beginPath();ctx.moveTo(XL(-LR),YL(0));ctx.lineTo(XL(LR),YL(0));ctx.stroke();
+ ctx.beginPath();ctx.moveTo(XL(0),YL(-LR));ctx.lineTo(XL(0),YL(LR));ctx.stroke();
+ ctx.strokeStyle='#b8c4cc';ctx.lineWidth=1.6;
+ ctx.beginPath();
+ for(i=0;i<=90;i++){var t=i/90*2*Math.PI;
+  if(i===0)ctx.moveTo(XL(R*Math.cos(t)),YL(R*Math.sin(t)));
+  else ctx.lineTo(XL(R*Math.cos(t)),YL(R*Math.sin(t)));}
+ ctx.stroke();
+ var EH=eig2(GH),s=0.15;
+ var hx=s,hy=s*Math.sqrt(EH.l1/Math.max(EH.l2,1e-9));
+ ctx.strokeStyle='#66727c';ctx.setLineDash([5,4]);ctx.lineWidth=1.8;
+ ctx.beginPath();
+ for(i=0;i<=90;i++){var t=i/90*2*Math.PI;
+  if(i===0)ctx.moveTo(XL(hx*Math.cos(t)),YL(hy*Math.sin(t)));
+  else ctx.lineTo(XL(hx*Math.cos(t)),YL(hy*Math.sin(t)));}
+ ctx.stroke();ctx.setLineDash([]);
+ ctx.fillStyle='#66727c';ctx.font='600 11px system-ui';
+ ctx.fillText('what the head-only ruler',XL(0.16),YL(1.16));
+ ctx.fillText('calls equal movement',XL(0.16),YL(1.16)+13);
+ ctx.fillStyle='#8697a3';ctx.font='11px system-ui';
+ ctx.fillText('all probe directions',XL(-1.28),YL(-1.05));
+ arrow(XL(0),YL(0),XL(R*u[0]),YL(R*u[1]),'#1a2330');
+ ctx.fillStyle='#c0392b';
+ ctx.beginPath();ctx.arc(XL(0),YL(0),4.5,0,7);ctx.fill();
+ // right panel
+ ctx.strokeStyle='#eceff2';ctx.lineWidth=1;
+ ctx.beginPath();ctx.moveTo(XR(0),YR(-RR));ctx.lineTo(XR(0),YR(RR));ctx.stroke();
+ ctx.strokeStyle='#c0392b';ctx.lineWidth=1.2;
+ ctx.beginPath();ctx.moveTo(XR(-RR),YR(0));ctx.lineTo(XR(RR),YR(0));ctx.stroke();
+ ctx.fillStyle='#c0392b';ctx.font='600 11px system-ui';
+ ctx.fillText('the axis the head reads loudest',XR(-2.5),YR(0)+16);
+ ctx.strokeStyle='#b8c4cc';ctx.lineWidth=1.6;
+ ctx.beginPath();
+ for(i=0;i<=90;i++){var t=i/90*2*Math.PI;
+  var q=mv(A,[R*Math.cos(t),R*Math.sin(t)]);
+  if(i===0)ctx.moveTo(XR(q[0]),YR(q[1]));else ctx.lineTo(XR(q[0]),YR(q[1]));}
+ ctx.stroke();
+ ctx.fillStyle='#8697a3';ctx.font='11px system-ui';
+ ctx.fillText('where the block sends those steps',XR(-2.3),YR(-1.75));
+ var q=mv(A,[R*u[0],R*u[1]]);
+ arrow(XR(0),YR(0),XR(q[0]),YR(q[1]),'#0e7a8f');
+ ctx.fillStyle='#c0392b';
+ ctx.beginPath();ctx.arc(XR(0),YR(0),4.5,0,7);ctx.fill();
+}
+var AUTO=true;
+setInterval(function(){
+ if(!AUTO)return;
+ var s=document.getElementById('dp-th');
+ s.value=(parseFloat(s.value)+1.2)%360;
+ render();
+},50);
+document.getElementById('dp-th').addEventListener('input',function(){
+ AUTO=false;document.getElementById('dp-play').textContent='play';render();
+});
+document.getElementById('dp-play').addEventListener('click',function(){
+ AUTO=!AUTO;
+ document.getElementById('dp-play').textContent=AUTO?'pause':'play';
+});
+render();
+</script>
+</body>
