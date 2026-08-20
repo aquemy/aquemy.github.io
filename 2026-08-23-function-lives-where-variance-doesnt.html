@@ -30,7 +30,7 @@
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
     <meta property="og:site_name" content="Alexandre Quemy" />
-    <meta property="article:published_time" content="2026-08-20T12:00:00Z" />
+    <meta property="article:published_time" content="2026-08-23T12:00:00Z" />
     <meta property="article:author" content="Alexandre Quemy" />
     <meta property="article:tag" content="LLM" />
     <meta property="article:tag" content="Activations" />
@@ -51,8 +51,8 @@
       "@type": "BlogPosting",
       "headline": "Function Lives Where Variance Doesn\u0027t",
       "description": "Two directions carry 90 percent of the variance in GPT-2\u0027s last hidden layer. Delete both and the model barely notices: 0.018 nats. Keep 99 percent of the variance instead, and perplexity explodes from 29 to 269. The model\u0027s function lives in the variance tail, and every tool that ranks directions by variance silently throws it away. The result replicates in six models across three families, up to 7B, where a single direction holds 17 percent of all variance and costs 0.06 nats to remove.",
-      "datePublished": "2026-08-20T12:00:00Z",
-      "dateModified": "2026-08-20T12:00:00Z",
+      "datePublished": "2026-08-23T12:00:00Z",
+      "dateModified": "2026-08-23T12:00:00Z",
       "image": "https://quemy.info/og/2026-08-23-function-lives-where-variance-doesnt.png",
       "url": "https://quemy.info/2026-08-23-function-lives-where-variance-doesnt.html",
       "inLanguage": "en",
@@ -184,7 +184,7 @@
     <header class="max-w-5xl mx-auto mb-12 text-center lg:text-left">
         <a href="https://quemy.info/blog.html" class="post-meta text-accent-light dark:text-accent-dark hover:underline mb-6 inline-block">← Back to all posts</a>
         <h1 class="font-serif text-4xl md:text-5xl font-bold text-ink dark:text-dark-ink leading-tight">Function Lives Where Variance Doesn't</h1>
-        <p class="post-meta mt-4">LLM · 2026-08-20 · 23 min read</p>
+        <p class="post-meta mt-4">LLM · 2026-08-23 · 23 min read</p>
     </header>
 
     <div class="lg:grid lg:grid-cols-5 lg:gap-16">
@@ -976,10 +976,9 @@ percent of intact before roughly 384 of 768 dimensions, with no elbow
 anywhere on the way. And the ruler matters more than the budget. At the same
 k = 32, pure variance ranking sits at 9.2 times intact, the best linear
 map at 8.1, the Fisher-metric chart at 6.3.</p>
-<p>There is a fourth ruler, and it deserves its own paragraph. Train a
-small autoencoder, a generic neural network of about 800 thousand
-parameters, on exactly the same Fisher-whitened target, and it reaches
-2.7 times intact at the same k = 32. The three seeds land within one
+<p>A small autoencoder pushes the same budget further still. Train a
+generic network of about 800 thousand parameters on the same
+Fisher-whitened target and it reaches 2.7 times intact at k = 32. The three seeds land within one
 perplexity point of each other. That number carries two lessons.
 First, <strong>the advantage belongs to the metric</strong>: any reasonable learner
 handed the right target beats every linear chart by a wide margin. We
@@ -1006,9 +1005,10 @@ result that fine-tuning needs surprisingly few parameters
 (<a href="https://arxiv.org/abs/2012.13255">Aghajanyan et al., 2021</a>): the
 fine-tuning objective is one more functional, with its own, much smaller
 requirement. Each number is a correct answer to a different question.</p>
-<p>One more cut, because it explains who pays. The dimension a token needs is
-bimodal: about a third of tokens survive an 8-dimension budget, while 39
-percent need more than 128, and almost nothing sits in between.</p>
+<p>These averages hide a sharp split between tokens. The dimension a
+single token needs is bimodal: about a third of tokens survive an
+8-dimension budget, while 39 percent need more than 128, and almost
+nothing sits in between.</p>
 <p>
 <figure><img src="images/2026-08-23-function-lives-where-variance-doesnt/bimodality.png"/><figcaption>How many dimensions each token needs, at a 0.5-nat tolerance. The distribution is bimodal: one third of tokens are satisfied by 8 dimensions, 39 percent need more than 128. Splitting by frequency explains it: two thirds of the most frequent tokens sit at 8 (green), while nearly two thirds of the rarest need more than 128 (red).</figcaption>
 </figure>
