@@ -12,7 +12,7 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta name="author" content="Alexandre Quemy" />
-    <meta name="description" content="Two directions carry 90 percent of the variance in GPT-2&#39;s last hidden layer. Delete both and the model barely notices: 0.018 nats. Keep 99 percent of the variance instead, and perplexity explodes from 29 to 269. The model&#39;s function lives in the variance tail, and every tool that ranks directions by variance silently throws it away. The result replicates in six models across three families, up to 7B, where a single direction holds 17 percent of all variance and costs 0.06 nats to remove." />
+    <meta name="description" content="Two directions carry 90 percent of the variance in GPT-2&#39;s last hidden layer. Delete both and the model barely notices: 0.018 nats. Keep 99 percent of the variance instead, and perplexity explodes from 29 to 269. The model&#39;s function lives in the variance tail, and every tool that ranks directions by variance throws it away. The result replicates in six models across three families, up to 7B, where a single direction holds 17 percent of all variance and costs 0.06 nats to remove." />
     <title>Function Lives Where Variance Doesn't</title>
 
     <link rel="canonical" href="https://quemy.info/2026-08-23-function-lives-where-variance-doesnt.html" />
@@ -25,7 +25,7 @@
     <meta property="og:type" content="article" />
     <meta property="og:url" content="https://quemy.info/2026-08-23-function-lives-where-variance-doesnt.html" />
     <meta property="og:title" content="Function Lives Where Variance Doesn&#39;t" />
-    <meta property="og:description" content="Two directions carry 90 percent of the variance in GPT-2&#39;s last hidden layer. Delete both and the model barely notices: 0.018 nats. Keep 99 percent of the variance instead, and perplexity explodes from 29 to 269. The model&#39;s function lives in the variance tail, and every tool that ranks directions by variance silently throws it away. The result replicates in six models across three families, up to 7B, where a single direction holds 17 percent of all variance and costs 0.06 nats to remove." />
+    <meta property="og:description" content="Two directions carry 90 percent of the variance in GPT-2&#39;s last hidden layer. Delete both and the model barely notices: 0.018 nats. Keep 99 percent of the variance instead, and perplexity explodes from 29 to 269. The model&#39;s function lives in the variance tail, and every tool that ranks directions by variance throws it away. The result replicates in six models across three families, up to 7B, where a single direction holds 17 percent of all variance and costs 0.06 nats to remove." />
     <meta property="og:image" content="https://quemy.info/og/2026-08-23-function-lives-where-variance-doesnt.png" />
     <meta property="og:image:width" content="1200" />
     <meta property="og:image:height" content="630" />
@@ -42,7 +42,7 @@
     <meta name="twitter:site" content="@alexandre_quemy" />
     <meta name="twitter:creator" content="@alexandre_quemy" />
     <meta name="twitter:title" content="Function Lives Where Variance Doesn&#39;t" />
-    <meta name="twitter:description" content="Two directions carry 90 percent of the variance in GPT-2&#39;s last hidden layer. Delete both and the model barely notices: 0.018 nats. Keep 99 percent of the variance instead, and perplexity explodes from 29 to 269. The model&#39;s function lives in the variance tail, and every tool that ranks directions by variance silently throws it away. The result replicates in six models across three families, up to 7B, where a single direction holds 17 percent of all variance and costs 0.06 nats to remove." />
+    <meta name="twitter:description" content="Two directions carry 90 percent of the variance in GPT-2&#39;s last hidden layer. Delete both and the model barely notices: 0.018 nats. Keep 99 percent of the variance instead, and perplexity explodes from 29 to 269. The model&#39;s function lives in the variance tail, and every tool that ranks directions by variance throws it away. The result replicates in six models across three families, up to 7B, where a single direction holds 17 percent of all variance and costs 0.06 nats to remove." />
     <meta name="twitter:image" content="https://quemy.info/og/2026-08-23-function-lives-where-variance-doesnt.png" />
 
     <script type="application/ld+json">
@@ -50,7 +50,7 @@
       "@context": "https://schema.org",
       "@type": "BlogPosting",
       "headline": "Function Lives Where Variance Doesn\u0027t",
-      "description": "Two directions carry 90 percent of the variance in GPT-2\u0027s last hidden layer. Delete both and the model barely notices: 0.018 nats. Keep 99 percent of the variance instead, and perplexity explodes from 29 to 269. The model\u0027s function lives in the variance tail, and every tool that ranks directions by variance silently throws it away. The result replicates in six models across three families, up to 7B, where a single direction holds 17 percent of all variance and costs 0.06 nats to remove.",
+      "description": "Two directions carry 90 percent of the variance in GPT-2\u0027s last hidden layer. Delete both and the model barely notices: 0.018 nats. Keep 99 percent of the variance instead, and perplexity explodes from 29 to 269. The model\u0027s function lives in the variance tail, and every tool that ranks directions by variance throws it away. The result replicates in six models across three families, up to 7B, where a single direction holds 17 percent of all variance and costs 0.06 nats to remove.",
       "datePublished": "2026-08-20T12:00:00Z",
       "dateModified": "2026-08-20T12:00:00Z",
       "image": "https://quemy.info/og/2026-08-23-function-lives-where-variance-doesnt.png",
@@ -245,8 +245,8 @@ Every one of these tools assumes that big directions matter and small ones
 are noise. The measurement below says the assumption fails where it counts:
 in a language model’s hidden state, the directions that carry the answer
 are small, and the huge ones are almost inert.</p>
-<p>One word needs pinning down first: function. By the function of a hidden
-state we mean what the model computes from it. In this article that is
+<p>Before the measurements, one word needs pinning down. By the function
+of a hidden state we mean what the model computes from it. In this article that is
 one concrete thing: the probability distribution over the next token
 that the head reads out of the state. When we say the function lives in
 some directions, we mean the readout actually depends on them: change
@@ -280,26 +280,25 @@ destroyed.</p>
 <p>The second row is the most important. Ninety percent of the variance is gone,
 and the text reads fine. The third row keeps 99 percent of the variance and
 kills every content word, while the function words survive. Variance
-measures size, and size is not the same thing as use.</p>
+measures how big a direction is, not whether the model uses it.</p>
 <p>The two dominant directions themselves are not news. They are the rogue
 dimensions and narrow cones documented across contextual models
 (<a href="https://arxiv.org/abs/1909.00512">Ethayarajh, 2019</a>,
 <a href="https://arxiv.org/abs/2109.04404">Timkey and van Schijndel, 2021</a>).
 What is new is the direct measurement of what they carry.</p>
-<p>Three details for the careful reader, because each rules out an easy
-explanation. First, the principal directions come from centered PCA: we
+<p>The bookkeeping matters here, because it rules out the easy
+explanations. The principal directions come from centered PCA: we
 subtract the mean state before computing them, so the top directions
-carry real variance, not the constant offset. Second, deleting a
-direction means mean-ablation: along that direction, every state is
-moved back to the average state. Third, the state we intervene on is the
-one the unembedding actually reads, after GPT-2’s final LayerNorm.
-Nothing stands between the intervention and the logits, so normalization
-cannot quietly undo our deletions. In particular, the 90 percent
-concentration is a property of the already-normalized state. LayerNorm
-had its chance, and these directions survived it.</p>
+carry real variance, not the constant offset. Deleting a direction means
+mean-ablation: along that direction, every state is moved back to the
+average state. And the state we intervene on is the one the unembedding
+actually reads, after GPT-2’s final LayerNorm. Nothing stands between
+the intervention and the logits, so normalization cannot quietly undo
+our deletions. LayerNorm in particular cannot explain the result: the 90
+percent concentration is measured after normalization.</p>
 <h3 id="the-ruler-that-works-a-fisher-metric-through-the-heads-jacobian">The ruler that works: a Fisher metric through the head’s Jacobian<a class="headerlink" href="#the-ruler-that-works-a-fisher-metric-through-the-heads-jacobian" title="Permanent link">¶</a></h3>
-<p>If variance is the wrong ruler, what is the right one? Ask the model.
-Everything GPT-2 does with a layer-11 state <span class="arithmatex">\(h\)</span>, a vector of 768 numbers,
+<p>If variance is the wrong ruler, the right one has to come from the
+model itself. Everything GPT-2 does with a layer-11 state <span class="arithmatex">\(h\)</span>, a vector of 768 numbers,
 passes through the head: logits <span class="arithmatex">\(\ell = W_U h\)</span>, then probabilities
 <span class="arithmatex">\(p = \mathrm{softmax}(\ell)\)</span>. This is exact rather than shorthand: <span class="arithmatex">\(h\)</span>
 is the state after the final LayerNorm, so the head’s Jacobian really is
@@ -320,7 +319,7 @@ any budget <span class="arithmatex">\(k\)</span>.</p>
 minimizes the squared length <span class="arithmatex">\(\lVert \delta \rVert^2\)</span>, which treats all
 768 directions as equally important. Under a budget of <span class="arithmatex">\(k\)</span> coordinates,
 that objective spends the budget where the states spread the most. For
-linear charts the optimum is exactly PCA: keep the top-variance
+linear charts the optimum is PCA: keep the top-variance
 directions, and the error that remains is the sum of the variances of
 the directions you dropped. Minimizing squared error and maximizing
 captured variance are the same act. That is how a method ends up chasing
@@ -531,7 +530,7 @@ on the original state:
 the KL divergence, to second order. So the ordinary recipe, pointed at
 transformed data, minimizes the right thing: how far the compressed
 state’s answers drift from the intact model’s answers. The “task-weighted
-chart” measured later in this article is built exactly this way. It uses
+chart” measured later in this article is built this way. It uses
 the same fitting procedure as a reconstruction chart, run in the metric
 <span class="arithmatex">\(G\)</span> instead of the plain one.</p>
 <p>Which part of <span class="arithmatex">\(G\)</span> does the work? The metric has two ingredients: the
@@ -541,7 +540,7 @@ becomes <span class="arithmatex">\(W_U^\top W_U\)</span>. That version measures 
 logits, all 50,257 of them counted equally. It sounds reasonable and it
 fails: charts trained under it at k = 32 land at perplexity 512 (spread
 61 across seeds), far behind the Fisher chart’s 184 (spread 17). The
-reason is saturation. At any given position,
+failure comes from softmax saturation. At any given position,
 almost every token in the vocabulary has probability near zero. Moving a
 dead token’s logit changes nothing in what the model says, yet the plain
 metric spends the chart’s capacity on exactly those directions. The
@@ -555,11 +554,11 @@ chart, to 221.</p>
 <span class="arithmatex">\(G\)</span> is large, then pushing the state along a top direction of <span class="arithmatex">\(G\)</span> must
 change what the model says next. Pushing along a top-variance direction
 must change almost nothing, however big that direction looks. Steering
-tests exactly this.</p>
+runs that test.</p>
 <p>In GPT-2 the hidden state is a residual stream: one vector <span class="arithmatex">\(h\)</span> of 768
 numbers that every block reads from and writes to by addition,
 <span class="arithmatex">\(h \leftarrow h + \mathrm{block}(h)\)</span>. The state we study is that stream
-after the last block and after the final normalization: exactly the
+after the last block and after the final normalization: the very
 vector the head reads. Steering means writing into it ourselves. Pick a
 unit direction <span class="arithmatex">\(u\)</span> and replace the state by</p>
 <div class="arithmatex">\[
@@ -572,17 +571,16 @@ and the steered output <span class="arithmatex">\(p(h')\)</span>, averaged over 
 kind and 640 positions of held-out text. Every push has the same length
 <span class="arithmatex">\(\varepsilon\)</span>, 5 percent of the typical size of a state, so all
 directions compete on equal footing. Only the direction <span class="arithmatex">\(u\)</span> changes.</p>
-<p>Three choices of <span class="arithmatex">\(u\)</span>, one number each. A random direction moves the
+<p>We compare three choices of <span class="arithmatex">\(u\)</span>. A random direction moves the
 output by 0.56 nats. That is the baseline. The two top-variance
 directions, which carry 90 percent of the variance, move it by 0.12
 nats, five times less than random. The top directions of <span class="arithmatex">\(G\)</span> move it by
 <strong>6.0 nats: more than ten times the baseline, and fifty times the
 variance directions</strong>.</p>
-<p>The ordering is the finding. The metric’s directions steer the model
-hard, as predicted. The variance directions are quieter than directions
-picked blindly. If the next-word computation read what those big
-directions store, a push along them would show up in the output. It does
-not.</p>
+<p>What matters is the ordering. The metric’s directions steer the model
+hard, as predicted, while the variance directions land below blind
+guessing. If the next-word computation read what those big directions
+store, a push along them would show up in the output, and it does not.</p>
 <p>One could object that the ordering is baked in: the top directions of
 <span class="arithmatex">\(G\)</span> maximize the very quadratic form that approximates KL at small
 steps. So we also pushed four times harder, far past where the quadratic
@@ -787,9 +785,8 @@ the head reads loudest. Set the probe vertical and compare the readouts.
 The head-alone prediction is close to zero. The true movement is
 hundreds of times larger, and the metric pulled back through the block
 predicts it correctly.</p>
-<p>Does the trick work in the real model? Two checks say yes.</p>
-<p>First, a correctness test. To see what it proves, look at how the
-estimator works. Factor the head metric as
+<p>The construction can be checked against the real model. To see what the
+check proves, look at how the estimator works. Factor the head metric as
 <span class="arithmatex">\(G = A^\top A\)</span>, with <span class="arithmatex">\(A\)</span> its matrix square root. <span class="arithmatex">\(A\)</span> is computed once
 from data and then held fixed, so the backward pass treats it as a
 constant. Draw a random vector
@@ -803,7 +800,7 @@ layer-<span class="arithmatex">\(L\)</span> state. That single backward pass ret
  = J^\top G\, J ,
 \]</div>
 <p>because <span class="arithmatex">\(\mathbb{E}\lbrack u\, u^\top \rbrack\)</span> is the identity. The
-randomness cancels exactly in expectation. Nothing about the network is
+randomness cancels in expectation. Nothing about the network is
 approximated, so the only error left is that we average finitely many
 probes. The last layer turns this into a test. There the tail is empty
 and <span class="arithmatex">\(J\)</span> is the identity, so the average must come back as the analytic
@@ -811,10 +808,10 @@ and <span class="arithmatex">\(J\)</span> is the identity, so the average must c
 all. We ran the full probe machinery anyway and compared the two
 matrices as a whole. They agree to within 2.5 percent, and that gap is
 most likely pure sampling noise.</p>
-<p>Second, the payoff. At any other depth, the only thing that changes is
-which blocks the backward pass walks through. We trained charts under
-this per-layer metric at eleven depths of GPT-2. At every one of them,
-they beat every linear baseline.</p>
+<p>The metric also earns its keep. At any other depth, the only thing that
+changes is which blocks the backward pass walks through. We trained
+charts under this per-layer metric at eleven depths of GPT-2, and they
+beat every linear baseline at each one.</p>
 <h3 id="where-the-function-actually-lives">Where the function actually lives<a class="headerlink" href="#where-the-function-actually-lives" title="Permanent link">¶</a></h3>
 <p>If two directions hold the variance, how many hold the function? We measure
 it directly: project the hidden state onto its best k dimensions,
@@ -967,7 +964,7 @@ render();
 </div>
 <figcaption style="text-align:center; font-size:0.85em; color:#64748b; margin-top:8px; font-style:italic;"><strong>Interactive.</strong> Press play or drag k: one dimension budget, two verdicts. The top panel is the variance story, zoomed into its last two percent: 98.5 percent captured by a single direction, saturated by k = 2. The bottom panel is the function story on the same k axis: how much worse than intact the model reads through k dimensions, for the best linear map (grey), the Fisher chart (blue), and plain variance ranking (red dot). The cursor ties the two panels together at your k.</figcaption>
 </figure>
-<p>Three things to notice. The red curve saturates immediately: by any
+<p>The red curve saturates immediately: by any
 variance accounting, the state is “fully summarized” at a handful of
 dimensions. The function curves say otherwise. Even the best linear
 read, the optimal projection under the head’s own logit metric, is
@@ -979,23 +976,21 @@ map at 8.1, the Fisher-metric chart at 6.3.</p>
 <p>A small autoencoder pushes the same budget further still. Train a
 generic network of about 800 thousand parameters on the same
 Fisher-whitened target and it reaches 2.7 times intact at k = 32. The three seeds land within one
-perplexity point of each other. That number carries two lessons.
-First, <strong>the advantage belongs to the metric</strong>: any reasonable learner
-handed the right target beats every linear chart by a wide margin. We
-use IGL charts for two reasons. They separate the metric that defines
-the target from the geometry that represents it, and their nested
-coordinates measure the requirement at every budget from one fitted
-chart. Second, nonlinearity pays at tight budgets. Thirty-two
+perplexity point of each other. The main lesson is that <strong>the advantage
+belongs to the metric</strong>: any reasonable learner handed the right target
+beats every linear chart by a wide margin. We use IGL charts because
+they separate the metric that defines the target from the geometry that
+represents it, and because one fitted chart reads out at every budget.
+Nonlinearity also pays at tight budgets. Thirty-two
 linear dimensions cap at 8.1 times intact even when chosen optimally,
 because a linear map can only pick a subspace. Thirty-two nonlinear
 coordinates reach 2.7, because they can bend around the state’s
 structure. Our dictionary chart sits between the two at 6.3: it gives up
 part of the nonlinear gain in exchange for coordinates that are nested
-by importance and readable at any budget. Function is spread wide, and
-it is found by asking what the answers care about, never by asking what
-is big.</p>
-<p>How does a requirement of 384 dimensions sit with the literature on
-intrinsic dimension? Geometric estimators read GPT-2’s states at a local
+by importance and readable at any budget. The function is spread across many directions, and finding them means
+asking what the answers care about rather than what is big.</p>
+<p>A requirement of 384 dimensions has to be squared with the literature
+on intrinsic dimension. Geometric estimators read GPT-2’s states at a local
 dimension of roughly 5 to 13, consistent with what intrinsic-dimension
 studies report across large transformers
 (<a href="https://arxiv.org/abs/2302.00294">Valeriani et al., 2023</a>). There is
@@ -1004,7 +999,7 @@ measure what a readout needs. The same resolution covers the famous
 result that fine-tuning needs surprisingly few parameters
 (<a href="https://arxiv.org/abs/2012.13255">Aghajanyan et al., 2021</a>): the
 fine-tuning objective is one more functional, with its own, much smaller
-requirement. Each number is a correct answer to a different question.</p>
+requirement. Both numbers are right, because they answer different questions.</p>
 <p>These averages hide a sharp split between tokens. The dimension a
 single token needs is bimodal: about a third of tokens survive an
 8-dimension budget, while 39 percent need more than 128, and almost
@@ -1024,15 +1019,16 @@ where rare tokens live in higher-dimensional neighborhoods. Here it shows
 up again in the running activations, as a cost. Why rare tokens pay this
 cost is a question for a separate article.</p>
 <h3 id="six-models-three-families-one-picture">Six models, three families, one picture<a class="headerlink" href="#six-models-three-families-one-picture" title="Permanent link">¶</a></h3>
-<p>Does this depend on GPT-2’s famous quirks? No. The same measurement runs on
-six models from three families, from 70 million to 7 billion parameters.</p>
+<p>None of this depends on GPT-2’s famous quirks. The same measurement
+runs on six models from three families, from 70 million to 7 billion
+parameters.</p>
 <p>
 <figure><img src="images/2026-08-23-function-lives-where-variance-doesnt/dissociation_scatter.png"/><figcaption>For six models: where 90 percent of the variance sits (horizontal) against how much of the width the function needs (vertical). Every model sits far above the diagonal: function needs 70 to 90 percent of the width regardless of where the variance went. Qwen’s collapsed middle layer is marked: the variance concentrates there, and the function still lives elsewhere.</figcaption>
 </figure>
 </p>
-<p>Each family parks its variance in a different place. GPT-2 concentrates
-it in the last layer. Qwen concentrates it in the middle layers. Pythia
-never concentrates it at all. Wherever the pile sits, it is an accident
+<p>Each family parks its variance in a different place: GPT-2 piles it
+into the last layer, Qwen into the middle layers, and Pythia never
+concentrates it anywhere. Wherever the pile sits, it is an accident
 of architecture, not a fact about language. The functional requirement
 is the invariant: in every model, reading the state near-intact takes 70
 to 90 percent of the width. And scale does not soften the dissociation,
@@ -1040,16 +1036,15 @@ it sharpens it. In Qwen2.5-7B, the largest model we measured, a single
 direction carries 17 percent of all activation variance, and deleting it
 costs 0.06 nats.</p>
 <h3 id="what-to-take-away">What to take away<a class="headerlink" href="#what-to-take-away" title="Permanent link">¶</a></h3>
-<p>Three findings. In GPT-2’s last hidden layer, the directions holding 90
+<p>In GPT-2’s last hidden layer, the directions holding 90
 percent of the variance are causally inert, and the function lives in
 the 1 percent variance tail. The right ruler is the model’s own Fisher
 metric, and under it the same training recipe recovers far more function
 at every budget. Neither fact is a quirk of one model: the dissociation
 replicates in six models from three families up to 7 billion parameters,
 and the metric’s advantage in all five models where we measured it.</p>
-<p>The lesson in one line: <strong>if you summarize a model’s internals by
-variance, you are measuring its storage, not its computation.</strong> Three
-practical rules follow.</p>
+<p>The lesson: <strong>if you summarize a model’s internals by variance, you
+are measuring its storage, not its computation.</strong> In practice:</p>
 <ul>
 <li>Never report “percent of variance kept” as a measure of fidelity. Here
   the two diverge by an order of magnitude.</li>
