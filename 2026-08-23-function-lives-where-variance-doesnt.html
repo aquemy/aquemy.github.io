@@ -245,8 +245,7 @@ Every one of these tools assumes that big directions matter and small ones
 are noise. The measurement below says the assumption fails where it counts:
 in a language model’s hidden state, the directions that carry the answer
 are small, and the huge ones are almost inert.</p>
-<p>Before the measurements, one word needs pinning down. By the function
-of a hidden state we mean what the model computes from it. In this article that is
+<p>By the function of a hidden state we mean what the model computes from it. In this article that is
 one concrete thing: the probability distribution over the next token
 that the head reads out of the state. When we say the function lives in
 some directions, we mean the readout actually depends on them: change
@@ -256,8 +255,8 @@ different number of directions. Reading the model’s own uncertainty, for
 example, turns out to be a far smaller ask than reproducing its full
 next-token distribution. Everything in this article grades against the
 full distribution, the model’s actual output.</p>
-<p>A standard summary can point at the wrong thing entirely. We met one case
-already: the
+<p>Standard summaries can point at the wrong thing entirely, and we met
+one case already: the
 <a href="2026-08-13-embedding-dimension-illusion.html">dimension of an embedding table</a>,
 where the usual global estimate overstates the real, local dimension 2 to
 5 times. This article is another example where standard analysis fails.
@@ -281,21 +280,18 @@ destroyed.</p>
 and the text reads fine. The third row keeps 99 percent of the variance and
 kills every content word, while the function words survive. Variance
 measures how big a direction is, not whether the model uses it.</p>
-<p>The two dominant directions themselves are not news. They are the rogue
-dimensions and narrow cones documented across contextual models
+<p>The two dominant directions themselves are the rogue dimensions and
+narrow cones documented across contextual models
 (<a href="https://arxiv.org/abs/1909.00512">Ethayarajh, 2019</a>,
 <a href="https://arxiv.org/abs/2109.04404">Timkey and van Schijndel, 2021</a>).
-What is new is the direct measurement of what they carry.</p>
-<p>The bookkeeping matters here, because it rules out the easy
-explanations. The principal directions come from centered PCA: we
-subtract the mean state before computing them, so the top directions
-carry real variance, not the constant offset. Deleting a direction means
-mean-ablation: along that direction, every state is moved back to the
-average state. And the state we intervene on is the one the unembedding
-actually reads, after GPT-2’s final LayerNorm. Nothing stands between
-the intervention and the logits, so normalization cannot quietly undo
-our deletions. LayerNorm in particular cannot explain the result: the 90
-percent concentration is measured after normalization.</p>
+What nobody had measured is what they carry.</p>
+<p>Before anyone objects: the PCA is centered, so the top directions carry
+actual variance and not the mean offset. Deleting a direction moves
+every state back to its average value along that direction. And we
+intervene on the vector the unembedding reads, after GPT-2’s final
+LayerNorm, so no normalization sits between the intervention and the
+logits. The 90 percent concentration is measured on the normalized
+state.</p>
 <h3 id="the-ruler-that-works-a-fisher-metric-through-the-heads-jacobian">The ruler that works: a Fisher metric through the head’s Jacobian<a class="headerlink" href="#the-ruler-that-works-a-fisher-metric-through-the-heads-jacobian" title="Permanent link">¶</a></h3>
 <p>If variance is the wrong ruler, the right one has to come from the
 model itself. Everything GPT-2 does with a layer-11 state <span class="arithmatex">\(h\)</span>, a vector of 768 numbers,
@@ -533,12 +529,13 @@ state’s answers drift from the intact model’s answers. The “task-weighted
 chart” measured later in this article is built this way. It uses
 the same fitting procedure as a reconstruction chart, run in the metric
 <span class="arithmatex">\(G\)</span> instead of the plain one.</p>
-<p>Which part of <span class="arithmatex">\(G\)</span> does the work? The metric has two ingredients: the
+<p>An ablation shows which part of <span class="arithmatex">\(G\)</span> does the work. The metric has two
+ingredients: the
 head’s Jacobian <span class="arithmatex">\(W_U\)</span>, and the softmax factor
 <span class="arithmatex">\(\mathrm{diag}(p) - p\,p^\top\)</span>. Remove the softmax factor and the metric
 becomes <span class="arithmatex">\(W_U^\top W_U\)</span>. That version measures how much a step moves the
-logits, all 50,257 of them counted equally. It sounds reasonable and it
-fails: charts trained under it at k = 32 land at perplexity 512 (spread
+logits, all 50,257 of them counted equally. Charts trained under it at
+k = 32 land at perplexity 512 (spread
 61 across seeds), far behind the Fisher chart’s 184 (spread 17). The
 failure comes from softmax saturation. At any given position,
 almost every token in the vocabulary has probability near zero. Moving a
@@ -581,7 +578,7 @@ variance directions</strong>.</p>
 hard, as predicted, while the variance directions land below blind
 guessing. If the next-word computation read what those big directions
 store, a push along them would show up in the output, and it does not.</p>
-<p>One could object that the ordering is baked in: the top directions of
+<p>You could object that the ordering is baked in: the top directions of
 <span class="arithmatex">\(G\)</span> maximize the very quadratic form that approximates KL at small
 steps. So we also pushed four times harder, far past where the quadratic
 approximation holds. The three numbers become 45.2, 11.5, and 1.7 nats.
@@ -785,8 +782,9 @@ the head reads loudest. Set the probe vertical and compare the readouts.
 The head-alone prediction is close to zero. The true movement is
 hundreds of times larger, and the metric pulled back through the block
 predicts it correctly.</p>
-<p>The construction can be checked against the real model. To see what the
-check proves, look at how the estimator works. Factor the head metric as
+<p>The construction can be checked against the real model, and the check
+is convincing because of how the estimator is built. Factor the head
+metric as
 <span class="arithmatex">\(G = A^\top A\)</span>, with <span class="arithmatex">\(A\)</span> its matrix square root. <span class="arithmatex">\(A\)</span> is computed once
 from data and then held fixed, so the backward pass treats it as a
 constant. Draw a random vector
@@ -808,7 +806,7 @@ and <span class="arithmatex">\(J\)</span> is the identity, so the average must c
 all. We ran the full probe machinery anyway and compared the two
 matrices as a whole. They agree to within 2.5 percent, and that gap is
 most likely pure sampling noise.</p>
-<p>The metric also earns its keep. At any other depth, the only thing that
+<p>At any other depth, the only thing that
 changes is which blocks the backward pass walks through. We trained
 charts under this per-layer metric at eleven depths of GPT-2, and they
 beat every linear baseline at each one.</p>
@@ -1031,8 +1029,8 @@ into the last layer, Qwen into the middle layers, and Pythia never
 concentrates it anywhere. Wherever the pile sits, it is an accident
 of architecture, not a fact about language. The functional requirement
 is the invariant: in every model, reading the state near-intact takes 70
-to 90 percent of the width. And scale does not soften the dissociation,
-it sharpens it. In Qwen2.5-7B, the largest model we measured, a single
+to 90 percent of the width. The dissociation only sharpens with scale.
+In Qwen2.5-7B, the largest model we measured, a single
 direction carries 17 percent of all activation variance, and deleting it
 costs 0.06 nats.</p>
 <h3 id="what-to-take-away">What to take away<a class="headerlink" href="#what-to-take-away" title="Permanent link">¶</a></h3>
