@@ -192,13 +192,18 @@
                         <h4><i class="fas fa-shapes"></i> Geometry &amp; PDE for ML</h4>
                         <p>Intrinsic Green's Learning and its extensions. The main line is the invited journal paper on <b>inverse field reconstruction</b> from scattered samples, together with its companion on how many coordinates a task actually needs. Around it: an SPD-manifold (AIRM) framework for cross-subject motor-imagery BCI, geometric readouts for language-model embeddings, and MHALM, my entry to the OpenAI Parameter Golf challenge, a geometric multi-kernel language model trained under a 16&nbsp;MB / 10-minute budget.</p>
                         <p class="tl-line"><span class="tl-label">Papers</span><a href="#pub-igl-mlst">IGL for sparse field reconstruction</a> <span class="tl-meta">(in prep, invited to MLST)</span> · <a href="#pub-igl-dimensions">How many coordinates does a task need?</a> <span class="tl-meta">(in prep)</span> · <a href="https://openreview.net/forum?id=Y6RpdS98l8" target="_blank" rel="noopener" class="ext-link">Intrinsic Green's Learning</a> <span class="tl-meta">(ICLR 2026)</span> · <a href="#pub-igl-airm">IGL on the SPD manifold</a> <span class="tl-meta">(in prep)</span> · <a href="#pub-riemannian">Riemannian geometry for LM embeddings</a> <span class="tl-meta">(under review)</span> · <a href="#pub-igl-wic">IGL for contextual word embeddings</a> <span class="tl-meta">(in prep)</span></p>
-                        <p class="tl-line"><span class="tl-label">Ongoing</span>Singularity-aware IGL: the kernel absorbs manifold singularities through integral smoothing while the encoder records them as Jacobian degeneracy, so the tangent map detects what the reconstruction hides. <span class="tl-muted">(targeting NeurReps 2026)</span></p>
+                        <p class="tl-line"><span class="tl-label">Ongoing</span>Singularity-aware IGL: the kernel absorbs manifold singularities through integral smoothing while the encoder records them as Jacobian degeneracy, so the tangent map detects what the reconstruction hides. <span class="tl-muted">(ongoing)</span></p>
                         <p class="tl-line"><span class="tl-label">Writing</span><a href="https://quemy.info/2026-03-21-intrinsic-greens-learning.html" target="_blank" rel="noopener" class="ext-link">Intrinsic Green's Learning</a> · <a href="https://quemy.info/2026-03-22-mhalm-parameter-golf.html" target="_blank" rel="noopener" class="ext-link">MHALM: Parameter Golf</a></p>
                     </div>
                     <div class="thread-item">
                         <h4><i class="fas fa-microscope"></i> Mechanistic Interpretability</h4>
                         <p>Two questions about what interpretability tools can actually see. First, how much of a language model's width its computation really uses: measured with <b>task-weighted charts</b>, coordinate systems fit against a chosen functional under that functional's own metric, which turns distillation into a change of metric. Two directions carry 90% of GPT-2's activation variance and almost none of its function, and dimension turns out to be a property of the functional rather than of the model. Second, when the common practice of reading an MLP through its strongest connections is faithful: the <b>decoupling index κ</b> of the gating matrix certifies, layer by layer, whether that binarized reading agrees with the magnitude-aware one.</p>
-                        <p class="tl-line"><span class="tl-label">Papers</span><a href="#pub-charts">Function Lives Where Variance Doesn't</a> <span class="tl-meta">(submitted, BlackboxNLP Workshop @ EMNLP)</span> · <a href="#pub-kappa">When is binarized MLP analysis faithful?</a> <span class="tl-meta">(in prep, BlackboxNLP Workshop @ EMNLP)</span></p>
+                        <p class="tl-line"><span class="tl-label">Papers</span><a href="#pub-charts">Function Lives Where Variance Doesn't</a> <span class="tl-meta">(under review, BlackboxNLP Workshop @ EMNLP)</span> · <a href="#pub-kappa">When is binarized MLP analysis faithful?</a> <span class="tl-meta">(in prep, BlackboxNLP Workshop @ EMNLP)</span></p>
+                    </div>
+                    <div class="thread-item">
+                        <h4><i class="fas fa-water"></i> The Geometry of Depth</h4>
+                        <p>What the vocabulary does as it is carried through a network. Pooling every position by the token it predicts turns depth into a <b>flow</b>, and the flow can be given an equation of motion: a Langevin fit whose drift is nonlinear, does not descend its own log-density, and preserves a token's angular rank across all thirteen layers while shuffling its norm. Asking instead whether the network moves that cloud <b>as cheaply as it could</b> puts the last layer on the optimal-transport map and the first nowhere near it. A third strand is about the measuring instrument rather than the model: a hub of short rows near the origin of the embedding table inflates what nearest-neighbour estimators report as intrinsic dimension, and removing it flattens a published scaling law.</p>
+                        <p class="tl-line"><span class="tl-label">Papers</span><a href="#pub-depth-flow">The depth flow is nonlinear</a> <span class="tl-meta">(under review, NeurReps 2026)</span> · <a href="#pub-hub-dimension">A hub of short rows inflates intrinsic dimension</a> <span class="tl-meta">(under review, NeurReps 2026)</span> · <a href="#pub-ot-depth">Measuring optimal transport in transformer depth</a> <span class="tl-meta">(under review, GDDL Workshop @ NeurIPS 2026)</span></p>
                     </div>
                     <div class="thread-item">
                         <h4><i class="fas fa-check-double"></i> Machine-Checked Mathematics</h4>
@@ -247,7 +252,7 @@
                     <li>
                         <p class="pub-title">“Function Lives Where Variance Doesn't: Task-Weighted Charts of a Language Model's Computation”</p>
                         <p class="pub-authors">Alexandre Quemy</p>
-                        <p class="pub-venue">BlackboxNLP Workshop @ EMNLP 2026, 2026<span class="status-badge">Submitted</span></p>
+                        <p class="pub-venue">BlackboxNLP Workshop @ EMNLP 2026, 2026<span class="status-badge">Under review</span></p>
                         
                         
                     </li>
@@ -255,6 +260,36 @@
                 
                     
                 
+                    
+                
+                    
+                    <li>
+                        <p class="pub-title">“The Depth Flow of Token Representations Is Nonlinear and Does Not Descend Its Own Density”</p>
+                        <p class="pub-authors">Alexandre Quemy</p>
+                        <p class="pub-venue">NeurReps Workshop @ NeurIPS 2026, 2026<span class="status-badge">Under review</span></p>
+                        <p class="pub-note">Fits the vocabulary's motion through depth as a Langevin flow: the drift is nonlinear, it does not descend the log-density, and a token keeps its angular rank across all thirteen layers while its norm rank is shuffled.</p>
+                        
+                    </li>
+                    
+                
+                    
+                    <li>
+                        <p class="pub-title">“A Hub of Short Rows Inflates Intrinsic Dimension Estimation of Token Embeddings”</p>
+                        <p class="pub-authors">Alexandre Quemy</p>
+                        <p class="pub-venue">NeurReps Workshop @ NeurIPS 2026, 2026<span class="status-badge">Under review</span></p>
+                        <p class="pub-note">A cluster of short rows near the origin biases nearest-neighbour intrinsic-dimension estimators. Removing it collapses the reported dimension of Pythia's embedding table from 27-122 down to 10-17 at every model size.</p>
+                        
+                    </li>
+                    
+                
+                    
+                    <li>
+                        <p class="pub-title">“Measuring Optimal Transport in Transformer Depth”</p>
+                        <p class="pub-authors">Alexandre Quemy</p>
+                        <p class="pub-venue">GDDL Workshop @ NeurIPS 2026, 2026<span class="status-badge">Under review</span></p>
+                        <p class="pub-note">Asks whether a trained network moves its token cloud the way optimal transport would. At the last layer both Pythia models follow the optimal-transport map, at the first layer they do not, and the agreement grows with training.</p>
+                        
+                    </li>
                     
                 
                     
@@ -441,7 +476,7 @@
                             <div class="flex-1 list-item-hover" id="pub-charts" style="scroll-margin-top: 6rem;">
                                 <p class="pub-title">“Function Lives Where Variance Doesn't: Task-Weighted Charts of a Language Model's Computation”</p>
                                 <p class="pub-authors">Alexandre Quemy</p>
-                                <p class="pub-venue">BlackboxNLP Workshop @ EMNLP 2026<span class="status-badge">Submitted</span></p>
+                                <p class="pub-venue">BlackboxNLP Workshop @ EMNLP 2026<span class="status-badge">Under review</span></p>
                                 
                                 
                             </div>
@@ -456,7 +491,7 @@
                             <div class="flex-1 list-item-hover" id="pub-quantum-eeg" style="scroll-margin-top: 6rem;">
                                 <p class="pub-title">“Benchmarking Quantum Classifiers for Resting-State EEG”</p>
                                 <p class="pub-authors">Grégoire Cattan, Alexandre Quemy, Ulvi Movsum-zada</p>
-                                <p class="pub-venue">Scientific Reports<span class="status-badge">Submitted</span></p>
+                                <p class="pub-venue">Scientific Reports<span class="status-badge">Under review</span></p>
                                 
                                 
                             </div>
@@ -473,6 +508,51 @@
                                 <p class="pub-authors">Szczepan Konior, Alexandre Quemy, Przemysław Klocek, Bartłomiej Sobieski, Grégoire Cattan</p>
                                 <p class="pub-venue">GroundLM Workshop<span class="status-badge">Under review</span></p>
                                 
+                                
+                            </div>
+                        </div>
+                        
+                    
+                        
+                        <div class="flex items-start gap-x-6">
+                            <div class="year-badge">
+                                 
+                            </div>
+                            <div class="flex-1 list-item-hover" id="pub-depth-flow" style="scroll-margin-top: 6rem;">
+                                <p class="pub-title">“The Depth Flow of Token Representations Is Nonlinear and Does Not Descend Its Own Density”</p>
+                                <p class="pub-authors">Alexandre Quemy</p>
+                                <p class="pub-venue">NeurReps Workshop @ NeurIPS 2026<span class="status-badge">Under review</span></p>
+                                <p class="pub-note">Fits the vocabulary's motion through depth as a Langevin flow: the drift is nonlinear, it does not descend the log-density, and a token keeps its angular rank across all thirteen layers while its norm rank is shuffled.</p>
+                                
+                            </div>
+                        </div>
+                        
+                    
+                        
+                        <div class="flex items-start gap-x-6">
+                            <div class="year-badge">
+                                 
+                            </div>
+                            <div class="flex-1 list-item-hover" id="pub-hub-dimension" style="scroll-margin-top: 6rem;">
+                                <p class="pub-title">“A Hub of Short Rows Inflates Intrinsic Dimension Estimation of Token Embeddings”</p>
+                                <p class="pub-authors">Alexandre Quemy</p>
+                                <p class="pub-venue">NeurReps Workshop @ NeurIPS 2026<span class="status-badge">Under review</span></p>
+                                <p class="pub-note">A cluster of short rows near the origin biases nearest-neighbour intrinsic-dimension estimators. Removing it collapses the reported dimension of Pythia's embedding table from 27-122 down to 10-17 at every model size.</p>
+                                
+                            </div>
+                        </div>
+                        
+                    
+                        
+                        <div class="flex items-start gap-x-6">
+                            <div class="year-badge">
+                                 
+                            </div>
+                            <div class="flex-1 list-item-hover" id="pub-ot-depth" style="scroll-margin-top: 6rem;">
+                                <p class="pub-title">“Measuring Optimal Transport in Transformer Depth”</p>
+                                <p class="pub-authors">Alexandre Quemy</p>
+                                <p class="pub-venue">GDDL Workshop @ NeurIPS 2026<span class="status-badge">Under review</span></p>
+                                <p class="pub-note">Asks whether a trained network moves its token cloud the way optimal transport would. At the last layer both Pythia models follow the optimal-transport map, at the first layer they do not, and the agreement grows with training.</p>
                                 
                             </div>
                         </div>
@@ -626,6 +706,12 @@
                     
                 
                     
+                    
+                        
+                    
+                        
+                    
+                        
                     
                         
                     
@@ -830,6 +916,12 @@
                         
                     
                         
+                    
+                        
+                    
+                        
+                    
+                        
                         <div class="flex items-start gap-x-6">
                             <div class="year-badge">
                                 2022
@@ -890,6 +982,12 @@
                     
                 
                     
+                    
+                        
+                    
+                        
+                    
+                        
                     
                         
                     
@@ -1102,6 +1200,12 @@
                         
                     
                         
+                    
+                        
+                    
+                        
+                    
+                        
                         <div class="flex items-start gap-x-6">
                             <div class="year-badge">
                                 2020
@@ -1248,6 +1352,12 @@
                         
                     
                         
+                    
+                        
+                    
+                        
+                    
+                        
                         <div class="flex items-start gap-x-6">
                             <div class="year-badge">
                                 2019
@@ -1313,6 +1423,12 @@
                     
                 
                     
+                    
+                        
+                    
+                        
+                    
+                        
                     
                         
                     
@@ -1515,6 +1631,12 @@
                         
                     
                         
+                    
+                        
+                    
+                        
+                    
+                        
                         <div class="flex items-start gap-x-6">
                             <div class="year-badge">
                                 2017
@@ -1545,6 +1667,12 @@
                     
                 
                     
+                    
+                        
+                    
+                        
+                    
+                        
                     
                         
                     
