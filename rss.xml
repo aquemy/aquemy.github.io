@@ -70,6 +70,20 @@
       <description>This blog post is the part 2 of the tutorial on the Signature Model approach to function calling. The following interactive tutorial is embedded directly…</description>
     </item>
     <item>
+      <title>Function Calling in LLMs: A Signature Model Approach</title>
+      <link>https://quemy.info/2025-15-06-signature-function-models.html</link>
+      <guid isPermaLink="true">https://quemy.info/2025-15-06-signature-function-models.html</guid>
+      <pubDate>Sun, 15 Jun 2025 00:00:00 +0000</pubDate>
+      <description>This blog post is an introduction to the Signature Model approach to function calling. The following repository contains a collection of tutorials…</description>
+    </item>
+    <item>
+      <title>Signature Model Tutorial Part 4 - SFM and Dependency Resolution</title>
+      <link>https://quemy.info/2025-15-06-tutorial-fsm-4.html</link>
+      <guid isPermaLink="true">https://quemy.info/2025-15-06-tutorial-fsm-4.html</guid>
+      <pubDate>Sun, 15 Jun 2025 00:00:00 +0000</pubDate>
+      <description>This blog post is the part 4 of the tutorial on the Signature Model approach to function calling. The following interactive tutorial is embedded directly…</description>
+    </item>
+    <item>
       <title>Signature Model Tutorial Part 3 - Introduction to the Signature Model</title>
       <link>https://quemy.info/2025-15-06-tutorial-fsm-3.html</link>
       <guid isPermaLink="true">https://quemy.info/2025-15-06-tutorial-fsm-3.html</guid>
@@ -82,20 +96,6 @@
       <guid isPermaLink="true">https://quemy.info/2025-15-06-tutorial-fsm-1.html</guid>
       <pubDate>Sun, 15 Jun 2025 00:00:00 +0000</pubDate>
       <description>This blog post is the part 1 of the tutorial on the Signature Model approach to function calling. The following interactive tutorial is embedded directly…</description>
-    </item>
-    <item>
-      <title>Signature Model Tutorial Part 4 - SFM and Dependency Resolution</title>
-      <link>https://quemy.info/2025-15-06-tutorial-fsm-4.html</link>
-      <guid isPermaLink="true">https://quemy.info/2025-15-06-tutorial-fsm-4.html</guid>
-      <pubDate>Sun, 15 Jun 2025 00:00:00 +0000</pubDate>
-      <description>This blog post is the part 4 of the tutorial on the Signature Model approach to function calling. The following interactive tutorial is embedded directly…</description>
-    </item>
-    <item>
-      <title>Function Calling in LLMs: A Signature Model Approach</title>
-      <link>https://quemy.info/2025-15-06-signature-function-models.html</link>
-      <guid isPermaLink="true">https://quemy.info/2025-15-06-signature-function-models.html</guid>
-      <pubDate>Sun, 15 Jun 2025 00:00:00 +0000</pubDate>
-      <description>This blog post is an introduction to the Signature Model approach to function calling. The following repository contains a collection of tutorials…</description>
     </item>
     <item>
       <title>Stop using "Correlation is not causation" and maybe stop using correlation</title>
@@ -161,18 +161,18 @@
       <description>Le billet qui suit est une tentative de mettre en exergue l’omniprésence des mathématiques et l’utilisation des mathématiques dans nos sociétés. J’essaye…</description>
     </item>
     <item>
-      <title>Island Model with ParadisEO: advanced island model manipulations</title>
-      <link>https://quemy.info/2013-11-23-island-model-with-paradiseo-advanced-island-model-manipulations.html</link>
-      <guid isPermaLink="true">https://quemy.info/2013-11-23-island-model-with-paradiseo-advanced-island-model-manipulations.html</guid>
-      <pubDate>Sat, 23 Nov 2013 00:00:00 +0000</pubDate>
-      <description>This article presents how to manage advanced mecanisms supplied by the island model. In the first part we will present the custom topology and stochastic…</description>
-    </item>
-    <item>
       <title>Island Model with ParadisEO: heterogeneous island model</title>
       <link>https://quemy.info/2013-11-23-island-model-with-paradiseo-heterogeneous-island-model.html</link>
       <guid isPermaLink="true">https://quemy.info/2013-11-23-island-model-with-paradiseo-heterogeneous-island-model.html</guid>
       <pubDate>Sat, 23 Nov 2013 00:00:00 +0000</pubDate>
       <description>Depending on the problem, one might want to create a model that contains different types of algorithms such as Evolutionary Algorithms or Particle Swarm…</description>
+    </item>
+    <item>
+      <title>Island Model with ParadisEO: advanced island model manipulations</title>
+      <link>https://quemy.info/2013-11-23-island-model-with-paradiseo-advanced-island-model-manipulations.html</link>
+      <guid isPermaLink="true">https://quemy.info/2013-11-23-island-model-with-paradiseo-advanced-island-model-manipulations.html</guid>
+      <pubDate>Sat, 23 Nov 2013 00:00:00 +0000</pubDate>
+      <description>This article presents how to manage advanced mecanisms supplied by the island model. In the first part we will present the custom topology and stochastic…</description>
     </item>
     <item>
       <title>Island Model with ParadisEO: components and basics</title>
