@@ -1,14 +1,41 @@
 document.addEventListener('DOMContentLoaded', function() {
-    
-    // --- Particle Animation Initializer ---
-    function initParticles() {
-        if (document.getElementById('particles-js') && typeof particlesJS !== 'undefined') {
-            const isDarkMode = document.documentElement.classList.contains('dark');
-            const config = isDarkMode ? particlesDarkConfig : particlesLightConfig;
-            particlesJS('particles-js', config);
-        }
+    // Research threads as tabs. A hash pointing at a panel or inside one opens that panel.
+    const tabList = document.querySelector('.tab-list');
+    if (tabList) {
+        const tabs = Array.from(tabList.querySelectorAll('.tab'));
+        const panels = tabs.map(t => document.getElementById(t.dataset.tab));
+        const show = (i) => {
+            tabs.forEach((t, k) => { t.setAttribute('aria-selected', k === i); t.tabIndex = k === i ? 0 : -1; });
+            panels.forEach((p, k) => { p.hidden = k !== i; });
+        };
+        const fromHash = () => {
+            const target = location.hash && document.getElementById(location.hash.slice(1));
+            if (!target) return false;
+            const i = panels.findIndex(p => p === target || p.contains(target));
+            if (i < 0) return false;
+            show(i);
+            return true;
+        };
+        tabs.forEach((t, i) => t.addEventListener('click', () => show(i)));
+        tabList.addEventListener('keydown', (e) => {
+            const i = tabs.findIndex(t => t === document.activeElement);
+            if (i < 0) return;
+            const n = e.key === 'ArrowRight' ? (i + 1) % tabs.length : e.key === 'ArrowLeft' ? (i - 1 + tabs.length) % tabs.length : -1;
+            if (n >= 0) { show(n); tabs[n].focus(); e.preventDefault(); }
+        });
+        if (!fromHash()) show(0);
+        window.addEventListener('hashchange', fromHash);
     }
-
+    // A hash pointing inside a closed fold opens it.
+    const openFold = () => {
+        const target = location.hash && document.getElementById(location.hash.slice(1));
+        if (!target) return;
+        const fold = target.closest('details.fold');
+        if (fold) { fold.open = true; target.scrollIntoView(); }
+    };
+    openFold();
+    window.addEventListener('hashchange', openFold);
+    
     // --- Theme Toggler ---
     const themeToggleBtn = document.getElementById('theme-toggle');
     const lightIcon = document.getElementById('theme-toggle-light-icon');
@@ -17,8 +44,7 @@ document.addEventListener('DOMContentLoaded', function() {
     function applyTheme() {
         const isDark = document.documentElement.classList.contains('dark');
         if (darkIcon) darkIcon.classList.toggle('hidden', !isDark);
-        if (lightIcon) lightIcon.classList.toggle('hidden', isDark);
-        initParticles(); 
+        if (lightIcon) lightIcon.classList.toggle('hidden', isDark); 
     };
     
     applyTheme();
@@ -31,57 +57,6 @@ document.addEventListener('DOMContentLoaded', function() {
         });
     }
 
-    // --- Typing Animation ---
-    const subtitleEl = document.getElementById('typing-subtitle');
-    if (subtitleEl) {
-        const text = "I research and build at the intersection of Artificial Intelligence, Mathematics, and Software Engineering.";
-        let i = 0;
-        subtitleEl.innerHTML = " ";
-        function typeWriter() {
-            if (i < text.length) {
-                subtitleEl.innerHTML = text.substring(0, i + 1) + '<span class="blinking-cursor">|</span>';
-                i++;
-                setTimeout(typeWriter, 20);
-            } else {
-                 subtitleEl.innerHTML = text + '<span class="blinking-cursor">|</span>';
-            }
-        }
-        setTimeout(typeWriter, 600);
-    }
-
-    // --- Agitated Particle Effect ---
-    const profilePic = document.getElementById('profile-picture');
-    if (profilePic) {
-        let isAnimating = false;
-        profilePic.addEventListener('click', () => {
-            if (isAnimating || !window.pJSDom || !window.pJSDom[0]) return;
-            isAnimating = true;
-
-            const pJS = window.pJSDom[0].pJS;
-            const originalSpeed = pJS.particles.move.speed;
-            const originalRandom = pJS.particles.move.random;
-            const originalOutMode = pJS.particles.move.out_mode;
-            const originalLines = pJS.particles.line_linked.enable;
-
-            pJS.particles.move.speed = 20;
-            pJS.particles.move.random = true;
-            pJS.particles.move.out_mode = 'bounce';
-            pJS.particles.line_linked.enable = false;
-            
-            setTimeout(() => {
-                if (window.pJSDom && window.pJSDom[0]) {
-                    const pJS_current = window.pJSDom[0].pJS;
-                    pJS_current.particles.move.speed = originalSpeed;
-                    pJS_current.particles.move.random = originalRandom;
-                    pJS_current.particles.move.out_mode = originalOutMode;
-                    pJS_current.particles.line_linked.enable = originalLines;
-                }
-                isAnimating = false;
-            }, 2000);
-        });
-    }
-
-    // --- On-Scroll Animations for sections ---
     const animatedElements = document.querySelectorAll('.scroll-fade-in');
     if (animatedElements.length > 0) {
         const scrollObserver = new IntersectionObserver((entries) => {
